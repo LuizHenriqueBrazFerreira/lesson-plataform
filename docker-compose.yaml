@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  db:
+    container_name: platform_database
+    image: mysql:8.0.23
+    platform: linux/x86_64
+    restart: always
+    ports:
+      - 3306:3306
+    env_file:
+      - BackEnd/.env
+    networks:
+      - platform_net
+  backend:
+    build: BackEnd
+    user: node
+    container_name: platform_backend
+    tty: true
+    stdin_open: true
+    command: start:dev
+    restart: always
+    working_dir: /backend
+    volumes:
+      - ./BackEnd:/backend
+    depends_on:
+      - db
+    ports:
+      - 3001:3001
+    env_file:
+      - BackEnd/.env
+    networks:
+      - platform_net
+  frontend:
+    build: FrontEnd
+    user: node
+    container_name: platform_frontend
+    working_dir: /frontend
+    volumes:
+      - ./FrontEnd:/frontend
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
+    networks:
+      - platform_net
+
+networks:
+  platform_net:
+    driver: bridge

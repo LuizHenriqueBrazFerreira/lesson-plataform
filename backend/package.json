@@ -2,11 +2,45 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon src/server.ts",
+    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
+    "test": "mocha -r ts-node/register tests/**/**/*.test.ts --exit -t 60000 --exit",
+    "prestart": "npm run db:reset",
+    "predev": "npm run db:reset",
+    "db:create": "npx sequelize-cli db:create",
+    "db:reset": "npm run build && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.9.2",
+    "nodemon": "^3.1.0",
+    "sequelize": "^6.37.1",
+    "sequelize-cli": "^6.6.2",
+    "tsc": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/chai": "4.3.0",
+    "@types/chai-http": "4.2.0",
+    "@types/mocha": "9.1.0",
+    "@types/node": "16.11",
+    "@types/sinon": "10.0.11",
+    "@types/sinon-chai": "3.2.9",
+    "chai": "4.3.6",
+    "chai-http": "4.3.0",
+    "eslint": "6.8.0",
+    "eslint-config-trybe-backend": "1.0.1",
+    "mocha": "9.2.1",
+    "nyc": "15.1.0",
+    "path": "^0.12.7",
+    "sinon": "13.0.1",
+    "sinon-chai": "3.7.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
 }
