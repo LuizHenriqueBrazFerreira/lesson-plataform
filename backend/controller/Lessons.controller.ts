@@ -10,4 +10,13 @@ const requestAllLessons = async (_req: Request, res: Response):Promise<Response>
   return res.status(200).json(data)
 }
 
-export default {requestAllLessons}
+const requestDeleteLesson = async (req: Request, res: Response) => {
+  const {title} = req.body;
+
+  const {status, data} = await LessonsService.deleteLesson({title})
+
+  if(status !== 'DELETED') return res.status(mapStatusHttp(status)).json(data)
+  return res.status(204).end();
+}
+
+export default {requestAllLessons, requestDeleteLesson}

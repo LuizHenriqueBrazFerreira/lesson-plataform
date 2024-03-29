@@ -12,4 +12,14 @@ const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
   }
 }
 
-export default {getAllLessons}
+const deleteLesson = async ({title}: any):Promise<ServiceResponse<null>> => {
+  const lessonExist = await LessonsModel.findOne({where: {title}}) as LessonsDB | null
+
+  if (!lessonExist) return {status: 'NOT_FOUND', data: {message: 'Lesson not found'}}
+  
+  await LessonsModel.destroy({where: {title}})
+
+  return {status: 'DELETED', data: null}
+}
+
+export default {getAllLessons, deleteLesson}
