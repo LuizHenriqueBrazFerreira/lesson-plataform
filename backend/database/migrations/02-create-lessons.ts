@@ -18,11 +18,16 @@ export default {
         allowNull:false,
         type: DataTypes.STRING
       },
-      image: {
-        allowNull: false,
-        type: DataTypes.STRING,
-      },
+      image: DataTypes.STRING,
       link: {
+        allowNull: false,
+        type: DataTypes.STRING
+      },
+      topic: {
+        allowNull: false,
+        type: DataTypes.STRING
+      },
+      subTopic: {
         allowNull: false,
         type: DataTypes.STRING
       }
