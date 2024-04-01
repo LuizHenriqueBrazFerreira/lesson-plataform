@@ -7,7 +7,7 @@ export default {
       id: {
         primaryKey: true,
         allowNull:false,
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         autoIncrement: true
       },
       title: {
