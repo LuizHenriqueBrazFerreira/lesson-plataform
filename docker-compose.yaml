@@ -9,11 +9,11 @@ services:
     ports:
       - 3306:3306
     env_file:
-      - BackEnd/.env
+      - ./backend/.env
     networks:
       - platform_net
   backend:
-    build: BackEnd
+    build: backend
     user: node
     container_name: platform_backend
     tty: true
@@ -22,22 +22,22 @@ services:
     restart: always
     working_dir: /backend
     volumes:
-      - ./BackEnd:/backend
+      - ./backend:/backend
     depends_on:
       - db
     ports:
       - 3001:3001
     env_file:
-      - BackEnd/.env
+      - ./backend/.env
     networks:
       - platform_net
   frontend:
-    build: FrontEnd
+    build: frontend
     user: node
     container_name: platform_frontend
     working_dir: /frontend
     volumes:
-      - ./FrontEnd:/frontend
+      - ./frontend:/frontend
     depends_on:
       - backend
     ports:
