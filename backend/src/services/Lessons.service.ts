@@ -2,7 +2,6 @@ import LessonsModel from "../../database/models/Lessons.model";
 import {LessonsDB} from '../../types/Database'
 import { ServiceResponse } from "../../types/Service.response";
 import {Lesson} from '../../types/Data.types'
-import { where } from "sequelize";
 
 const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
   try {

@@ -1,7 +1,7 @@
-import LessonsService from "../src/services/Lessons.service";
+import LessonsService from "../services/Lessons.service";
 import { Request, Response } from "express";
-import mapStatusHttp from "../utils/mapHttp";
-import { LessonsDB } from "../types/Database";
+import mapStatusHttp from "../../utils/mapHttp";
+import { LessonsDB } from "../../types/Database";
 
 const requestAllLessons = async (_req: Request, res: Response):Promise<Response> => {
   const {status, data} = await LessonsService.getAllLessons()

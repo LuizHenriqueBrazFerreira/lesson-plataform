@@ -1,3 +1,4 @@
 import lessonRouter from "./lessons.routes";
+import userRouter from './User.routes'
 
-export default {lessonRouter}
+export default {lessonRouter, userRouter}
