@@ -1,6 +1,6 @@
 function Header() {
   return (
-    <header>
+    <header className="">
       <img src="/src/assets/logo.png" alt="FSMSSS logo" />
     </header>
   );
