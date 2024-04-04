@@ -1,6 +1,6 @@
 function Header() {
   return (
-    <header className="">
+    <header className="px-[60px] py-[22px]">
       <img src="/src/assets/logo.png" alt="FSMSSS logo" />
     </header>
   );
