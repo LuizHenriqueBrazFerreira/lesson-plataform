@@ -38,13 +38,13 @@ function Login() {
             labelText="E-mail"
             value={ email }
             onChange={ (e) => setEmail(e.target.value) }
-            className="bg-neutral-200 rounded-md w-full	h-10 p-2 my-3"
+            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
           />
           <Input
             labelText="Senha"
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
-            className="bg-neutral-200 rounded-md w-full	h-10 p-2 my-3"
+            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
           />
           <Button
             type="submit"
