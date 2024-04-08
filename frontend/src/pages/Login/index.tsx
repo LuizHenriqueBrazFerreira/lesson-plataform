@@ -2,7 +2,7 @@ import { FormEvent, useState } from 'react';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
-const api = process.env.API_URL || 'http:localhost:3000';
+// const api = process.env.API_USER || 'http:localhost:3001/users';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ function Login() {
     event.preventDefault();
 
     try {
-      const response = await fetch(api, {
+      const response = await fetch('http:localhost:3001/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
