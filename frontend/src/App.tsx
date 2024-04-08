@@ -6,12 +6,11 @@ import Footer from './components/Footer';
 import CreateAccount from './pages/CreateAccount';
 
 function App() {
-
   return (
     <div>
       <Header />
       <Routes>
-        <Route path="/" element={ 'Página inicial' } />
+        <Route path="/" element="Página inicial" />
         <Route path="/login" element={ <Login /> } />
         <Route path="/create-account" element={ <CreateAccount /> } />
         <Route path="*" element={ <NotFound /> } />
@@ -21,4 +20,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
