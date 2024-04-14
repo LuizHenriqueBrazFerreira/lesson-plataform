@@ -31,7 +31,7 @@ const LessonsModel:LessonsSequelizeCreator = db.define('Lessons', {
     type: DataTypes.STRING
   }
 }, {
-  tableName: 'lessons',
+  tableName: 'Lessons',
   underscored: true,
   timestamps: false
 })

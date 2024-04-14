@@ -1,5 +1,5 @@
 import {DataTypes, Model, QueryInterface} from 'sequelize';
-import {LessonsDB} from '../../types/Database'
+import { LessonsDB } from '../../types/Database'
 
 export default {
   up(queryInterface:QueryInterface) {

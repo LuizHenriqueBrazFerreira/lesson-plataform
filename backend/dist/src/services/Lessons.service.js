@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Lessons_model_1 = __importDefault(require("../../database/models/Lessons.model"));
+const Lessons_model_1 = __importDefault(require("../database/models/Lessons.model"));
 const getAllLessons = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allLessons = yield Lessons_model_1.default.findAll();

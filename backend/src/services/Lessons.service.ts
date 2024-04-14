@@ -1,7 +1,7 @@
-import LessonsModel from "../../database/models/Lessons.model";
-import {LessonsDB} from '../../types/Database'
-import { ServiceResponse } from "../../types/Service.response";
-import {Lesson} from '../../types/Data.types'
+import LessonsModel from "../database/models/Lessons.model";
+import {LessonsDB} from '../types/Database'
+import { ServiceResponse } from "../types/Service.response";
+import {Lesson} from '../types/Data.types'
 
 const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
   try {

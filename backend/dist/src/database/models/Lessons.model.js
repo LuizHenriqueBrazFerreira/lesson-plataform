@@ -5,27 +5,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("./index"));
-const UserModel = index_1.default.define('Users', {
-    name: {
-        allowNull: false,
-        type: sequelize_1.DataTypes.STRING,
-    },
-    email: {
-        unique: true,
+const LessonsModel = index_1.default.define('Lessons', {
+    title: {
         allowNull: false,
         type: sequelize_1.DataTypes.STRING
     },
-    password: {
-        type: sequelize_1.DataTypes.STRING,
-        allowNull: false
+    content: {
+        allowNull: false,
+        type: sequelize_1.DataTypes.STRING
     },
-    role: {
+    image: sequelize_1.DataTypes.STRING,
+    link: {
+        allowNull: false,
+        type: sequelize_1.DataTypes.STRING
+    },
+    topic: {
+        allowNull: false,
+        type: sequelize_1.DataTypes.STRING
+    },
+    subTopic: {
         allowNull: false,
         type: sequelize_1.DataTypes.STRING
     }
 }, {
-    tableName: 'Users',
+    tableName: 'Lessons',
     underscored: true,
     timestamps: false
 });
-exports.default = UserModel;
+exports.default = LessonsModel;
