@@ -12,19 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
-exports.default = {
-    up: (queryInterface) => __awaiter(void 0, void 0, void 0, function* () {
-        return queryInterface.bulkInsert('Users', [{
-                id: 1,
-                name: 'fsmsss',
-                email: 'fsmsss@gmail.com',
-                password: bcryptjs_1.default.hashSync('Fsmsss2023!!', SALT_ROUNDS),
-                role: 'ADMIN'
-            }]);
-    }),
-    down: (queryInterface) => __awaiter(void 0, void 0, void 0, function* () {
-        return queryInterface.bulkDelete('Users', {});
-    })
-};
+const User_service_1 = __importDefault(require("../services/User.service"));
+const mapHttp_1 = __importDefault(require("../utils/mapHttp"));
+const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userData = req.body;
+    const { status, data } = yield User_service_1.default.createUser(userData);
+    res.status((0, mapHttp_1.default)(status)).json(data);
+});
+const requestUserByEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    const { status, data } = yield User_service_1.default.findByEmail(email);
+    return res.status((0, mapHttp_1.default)(status)).json(data);
+});
+exports.default = { registerUser, requestUserByEmail };

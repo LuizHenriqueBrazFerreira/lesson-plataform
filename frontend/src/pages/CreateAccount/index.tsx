@@ -1,8 +1,9 @@
 import { FormEvent, useState } from 'react';
+import axios from 'axios';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
-// const api = process.env.API_USER || 'http:localhost:3001/users';
+const apiUser = import.meta.env.VITE_REACT_API_USER || 'http://localhost:3001/create-account';
 
 function CreateAccount() {
   const [name, setName] = useState('');
@@ -18,27 +19,12 @@ function CreateAccount() {
       return;
     }
 
-    if (name === '') {
-      console.error('O campo nome é obrigatório');
-      return;
-    }
-
-    if (email === '') {
-      console.error('O campo e-mail é obrigatório');
-      return;
-    }
-
     try {
-      const response = await fetch('http:localhost:3001/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-      console.log(response);
-      const data = await response.json();
-      console.log(data); // Aqui você pode fazer algo com a resposta, como redirecionar o usuário para a próxima página
+      const response = await axios.post(apiUser, { name,
+        email,
+        password,
+        role: 'STUDENT' });
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }

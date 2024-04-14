@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Lessons_service_1 = __importDefault(require("../src/services/Lessons.service"));
+const Lessons_service_1 = __importDefault(require("../services/Lessons.service"));
 const mapHttp_1 = __importDefault(require("../utils/mapHttp"));
 const requestAllLessons = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { status, data } = yield Lessons_service_1.default.getAllLessons();

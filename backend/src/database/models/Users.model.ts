@@ -27,7 +27,7 @@ const UserModel:UserSequelizeCreator = db.define('Users', {
     type: DataTypes.STRING
   }
 }, {
-  tableName: 'users',
+  tableName: 'Users',
   underscored:true,
   timestamps: false
 })

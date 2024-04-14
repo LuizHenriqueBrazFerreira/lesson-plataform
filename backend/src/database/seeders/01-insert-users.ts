@@ -1,7 +1,7 @@
 import {QueryInterface} from 'sequelize'
 import bcrypt from 'bcryptjs'
 
-const SALT_ROUNDS = process.env.SALT_ROUNDS || 10
+const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
 export default {
   up: async(queryInterface:QueryInterface) => {

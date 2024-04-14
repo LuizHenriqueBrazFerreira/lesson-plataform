@@ -1,8 +1,9 @@
 import { FormEvent, useState } from 'react';
+import axios from 'axios';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
-// const api = process.env.API_USER || 'http:localhost:3001/users';
+const apiUser = import.meta.env.VITE_REACT_API_LOGIN || 'http://localhost:3001/login';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -12,15 +13,8 @@ function Login() {
     event.preventDefault();
 
     try {
-      const response = await fetch('http:localhost:3001/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      console.log(data); // Aqui você pode fazer algo com a resposta, como redirecionar o usuário para a próxima página
+      const response = await axios.post(apiUser, { email, password });
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }

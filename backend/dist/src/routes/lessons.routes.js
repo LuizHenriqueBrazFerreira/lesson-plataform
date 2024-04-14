@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Lessons_controller_1 = __importDefault(require("../src/controller/Lessons.controller"));
+const Lessons_controller_1 = __importDefault(require("../controller/Lessons.controller"));
 const express_1 = require("express");
 const lessonRouter = (0, express_1.Router)();
 lessonRouter.get('/lessons', Lessons_controller_1.default.requestAllLessons);

@@ -1,4 +1,4 @@
-import LessonsController from "../src/controller/Lessons.controller";
+import LessonsController from '../controller/Lessons.controller';
 import {Router} from 'express'
 
 const lessonRouter = Router()
