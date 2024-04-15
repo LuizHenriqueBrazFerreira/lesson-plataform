@@ -4,6 +4,7 @@ import {
 } from 'react';
 // import axios from 'axios';
 // import Button from '../../components/Button';
+import { Link } from 'react-router-dom';
 
 // const apiUser = import.meta.env.VITE_REACT_API_COURSES || 'http://localhost:3001/courses';
 const courseExample1 = 'Sistemas Universais das Proteções Sociais';
@@ -63,7 +64,11 @@ function StudentCourses() {
             <h2
               className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
             >
-              {course}
+              <Link
+                to={ `http://localhost:3001/courses/${course}` }
+              >
+                {course}
+              </Link>
             </h2>
           </section>
         ))
