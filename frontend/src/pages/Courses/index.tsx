@@ -65,7 +65,7 @@ function StudentCourses() {
               className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
             >
               <Link
-                to={ `http://localhost:3001/courses/${course}` }
+                to={ `http://localhost:3001/courses/${index}` } // Podemos usar o nome também
               >
                 {course}
               </Link>
