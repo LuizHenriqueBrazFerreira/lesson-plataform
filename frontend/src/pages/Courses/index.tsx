@@ -42,24 +42,22 @@ function StudentCourses() {
             bg-white h-[90%] w-1/3 p-14 rounded-md"
             key={ index }
           >
-            <div className="flex flex-row">
-              <h4>
-                Curso
-                <svg
-                  className="w-6 h-6 text-gray-800 dark:text-black"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m13 19-6-5-6 5V2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17Z"
-                  />
-                </svg>
-              </h4>
+            <div className="flex justify-between items-center">
+              <h4>Curso</h4>
+              <svg
+                className="w-6 h-6 text-gray-800 dark:text-black"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m13 19-6-5-6 5V2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17Z"
+                />
+              </svg>
             </div>
 
             <h2
