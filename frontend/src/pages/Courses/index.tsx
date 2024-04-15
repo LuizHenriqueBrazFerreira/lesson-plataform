@@ -18,6 +18,7 @@ function StudentCourses() {
     courses,
     // setCourses,
   ] = useState<string[]>(initialState.courses);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -32,6 +33,10 @@ function StudentCourses() {
   //   fetchData();
   // }, []);
 
+  const toggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+  };
+
   return (
     <div>
       <h1 className="text-center mt-20">Meus Cursos</h1>
@@ -43,22 +48,41 @@ function StudentCourses() {
             bg-white h-[90%] w-1/3 p-14 rounded-md"
             key={ index }
           >
-            <div className="flex justify-between items-center">
+            <div
+              className="flex justify-between items-center bg-orange-300"
+            >
               <h4>Curso</h4>
-              <svg
-                className="w-6 h-6 text-gray-800 dark:text-black"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m13 19-6-5-6 5V2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17Z"
-                />
-              </svg>
+              {isBookmarked ? (
+                <svg
+                  className="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 14 20"
+                  onClick={ toggleBookmark }
+                >
+                  <path
+                    d="M13 20a1 1 0 0 1-.64-.231L7 15.3l-5.36 4.469A1 1 0 0 1 0
+                    19V2a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v17a1 1 0 0 1-1 1Z"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 20"
+                  onClick={ toggleBookmark }
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m13 19-6-5-6 5V2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17Z"
+                  />
+                </svg>
+              )}
             </div>
 
             <h2
