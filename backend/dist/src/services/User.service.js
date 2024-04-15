@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Users_model_1 = __importDefault(require("../database/models/Users.model"));
+const jwt_1 = require("../utils/jwt");
+const validateLogin_1 = require("../middlewares/validateLogin");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, email, password, role }) {
@@ -22,19 +24,25 @@ const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, em
         return { status: 'CREATED', data: newUser.dataValues };
     }
     catch (error) {
-        return { status: 'ERROR', data: { message: 'Falha ao criar o usuário' } };
+        return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar o usuário' } };
     }
 });
-const findByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+const findByEmail = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userExists = yield Users_model_1.default.findOne({ where: { email } });
         if (!userExists)
             return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado' } };
-        return { status: 'SUCCESSFUL', data: userExists.dataValues };
+        const isCorrectPassword = (0, validateLogin_1.validatePassword)(password, userExists.dataValues.password);
+        const isCorrectEmail = (0, validateLogin_1.validateEmail)(email, userExists.dataValues.email);
+        if (!isCorrectPassword || !isCorrectEmail) {
+            return { status: 'UNAUTHORIZED', data: { message: 'E-mail ou senha incorretos' } };
+        }
+        const token = (0, jwt_1.createToken)({ email, password });
+        return { status: 'SUCCESSFUL', data: { token } };
     }
     catch (error) {
         console.log(error);
-        return { status: 'ERROR', data: { message: error } };
+        return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
     }
 });
 exports.default = { createUser, findByEmail };

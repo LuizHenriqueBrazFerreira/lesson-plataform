@@ -1,30 +1,46 @@
-import { FormEvent, useState } from 'react';
-import axios from 'axios';
+import { MouseEvent, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-
-const apiUser = import.meta.env.VITE_REACT_API_LOGIN || 'http://localhost:3001/login';
+import { requestLogin, setToken } from '../../services/requests';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLogged, setIsLogged] = useState(false);
+  const [failedTryLogin, setFailedTryLogin] = useState(false);
 
-  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+  const login = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(apiUser, { email, password });
-      console.log(response.data);
+      const data = await requestLogin('/login', { email, password });
+
+      const { token } = data;
+
+      setToken(token);
+
+      localStorage.setItem('token', token);
+
+      setIsLogged(true);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+
+      setFailedTryLogin(true);
+      setIsLogged(false);
     }
   };
+
+  useEffect(() => {
+    setFailedTryLogin(false);
+  }, [email, password]);
+
+  if (isLogged) return <Navigate to="/" />;
 
   return (
     <div className="bg-bg-image-login bg-cover w-screen h-[75vh]">
       <div className="bg-bg-login w-full h-full flex justify-center items-center">
         <form
-          onSubmit={ handleLogin }
           className="flex flex-col justify-evenly bg-white h-[90%] w-1/3 p-14 rounded-md"
         >
           <h1 className="text-4xl text-btn-orange">Entrar</h1>
@@ -40,7 +56,20 @@ function Login() {
             onChange={ (e) => setPassword(e.target.value) }
             className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
           />
+          {
+            (failedTryLogin)
+              ? (
+                <p>
+                  {
+                    `O endereço de e-mail ou a senha não estão corretos.
+                    Por favor, tente novamente.`
+                  }
+                </p>
+              )
+              : null
+          }
           <Button
+            onClick={ (event) => login(event) }
             type="submit"
             className="bg-btn-orange text-white w-2/3 h-10 self-center rounded-md"
           >

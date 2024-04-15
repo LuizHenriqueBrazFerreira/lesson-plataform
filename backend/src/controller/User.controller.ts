@@ -14,7 +14,7 @@ const registerUser = async (req: Request, res: Response) => {
 const requestUserByEmail = async (req: Request, res: Response) => {
   const {email, password} = req.body;
 
-  const {status, data} = await UserService.findByEmail(email);
+  const {status, data} = await UserService.findByEmail(email, password);
 
  return res.status(mapStatusHTTP(status)).json(data)
 }

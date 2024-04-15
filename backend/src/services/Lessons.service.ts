@@ -9,7 +9,7 @@ const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
     const filteredLessons = allLessons.map((lesson) => lesson.dataValues)
     return {status: 'SUCCESSFUL', data: filteredLessons }
   } catch (error) {
-    return {status: 'ERROR', data: {message: 'Erro na requisição'}}
+    return {status: 'INTERNAL_SERVER_ERROR', data: {message: 'Erro na requisição'}}
   }
 }
 
@@ -20,7 +20,7 @@ const deleteLesson = async ({title}: any):Promise<ServiceResponse<null>> => {
   
   await LessonsModel.destroy({where: {title}})
 
-  return {status: 'DELETED', data: null}
+  return {status: 'NO_CONTENT', data: null}
 }
 
 const updateLesson = async ({id,content,image,link,subTopic,title,topic}:Lesson):Promise<ServiceResponse<LessonsDB>> => {
