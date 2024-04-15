@@ -16,7 +16,7 @@ const requestDeleteLesson = async (req: Request, res: Response): Promise<Respons
 
   const {status, data} = await LessonsService.deleteLesson({title})
 
-  if(status !== 'DELETED') return res.status(mapStatusHttp(status)).json(data)
+  if(status !== 'NO_CONTENT') return res.status(mapStatusHttp(status)).json(data)
   return res.status(204).end();
 }
 

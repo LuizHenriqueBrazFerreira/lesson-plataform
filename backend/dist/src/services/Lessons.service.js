@@ -20,7 +20,7 @@ const getAllLessons = () => __awaiter(void 0, void 0, void 0, function* () {
         return { status: 'SUCCESSFUL', data: filteredLessons };
     }
     catch (error) {
-        return { status: 'ERROR', data: { message: 'Erro na requisição' } };
+        return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Erro na requisição' } };
     }
 });
 const deleteLesson = (_a) => __awaiter(void 0, [_a], void 0, function* ({ title }) {
@@ -28,7 +28,7 @@ const deleteLesson = (_a) => __awaiter(void 0, [_a], void 0, function* ({ title 
     if (!lessonExist)
         return { status: 'NOT_FOUND', data: { message: 'Lesson not found' } };
     yield Lessons_model_1.default.destroy({ where: { title } });
-    return { status: 'DELETED', data: null };
+    return { status: 'NO_CONTENT', data: null };
 });
 const updateLesson = (_b) => __awaiter(void 0, [_b], void 0, function* ({ id, content, image, link, subTopic, title, topic }) {
     const lessonExist = yield Lessons_model_1.default.findByPk(id);

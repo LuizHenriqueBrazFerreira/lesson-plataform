@@ -21,7 +21,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 const requestUserByEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    const { status, data } = yield User_service_1.default.findByEmail(email);
+    const { status, data } = yield User_service_1.default.findByEmail(email, password);
     return res.status((0, mapHttp_1.default)(status)).json(data);
 });
 exports.default = { registerUser, requestUserByEmail };

@@ -1,7 +1,18 @@
-type ServiceResponseErrorStatus = 'NOT_FOUND' | 'BAD_REQUEST' | 'UNAUTHORIZED' | 'ERROR'
+export type ServiceMessage = { message: string };
 
-type ServiceResponseError = { status:ServiceResponseErrorStatus, data: {message:string} }
+type StatusTypes =
+'BAD_REQUEST' |
+'NOT_FOUND' |
+'UNAUTHORIZED' |
+'CONFLICT' |
+'UNPROCESSABLE_ENTITY' |
+'SUCCESSFUL' |
+'CREATED' |
+'NO_CONTENT' |
+'FORBIDDEN' |
+'INTERNAL_SERVER_ERROR';
 
-type ServiceResponseSuccess<T> = { status: 'SUCCESSFUL' | 'CREATED' | 'DELETED', data: T }
-
-export type ServiceResponse<T> = ServiceResponseError | ServiceResponseSuccess<T>
+export type ServiceResponse<T> = {
+  status: StatusTypes,
+  data: ServiceMessage | T | string,
+};
