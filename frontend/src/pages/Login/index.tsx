@@ -78,7 +78,7 @@ function Login() {
             onFocus={ () => setShowEye(true) }
           />
           <Button
-            className="w-[3rem] absolute z-[100]
+            className="w-[2rem] absolute z-[100]
             translate-x-[-3.5rem] translate-y-[0.5rem]"
             onClick={ (e) => handleShowPassword(e) }
           >
