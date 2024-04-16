@@ -17,7 +17,7 @@ const jwt_1 = require("../utils/jwt");
 const validateLogin_1 = require("../middlewares/validateLogin");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
-const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ name, email, password, role }) {
+const createUser = ({ name, email, password, role }) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
         const newUser = yield Users_model_1.default.create({ name, email, password: hashedPassword, role });

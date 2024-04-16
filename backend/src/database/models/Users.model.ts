@@ -24,7 +24,8 @@ const UserModel:UserSequelizeCreator = db.define('Users', {
   },
   role: {
     allowNull:false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    defaultValue: 'STUDENT'
   }
 }, {
   tableName: 'Users',

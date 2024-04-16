@@ -23,14 +23,14 @@ const getAllLessons = () => __awaiter(void 0, void 0, void 0, function* () {
         return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Erro na requisição' } };
     }
 });
-const deleteLesson = (_a) => __awaiter(void 0, [_a], void 0, function* ({ title }) {
+const deleteLesson = ({ title }) => __awaiter(void 0, void 0, void 0, function* () {
     const lessonExist = yield Lessons_model_1.default.findOne({ where: { title } });
     if (!lessonExist)
         return { status: 'NOT_FOUND', data: { message: 'Lesson not found' } };
     yield Lessons_model_1.default.destroy({ where: { title } });
     return { status: 'NO_CONTENT', data: null };
 });
-const updateLesson = (_b) => __awaiter(void 0, [_b], void 0, function* ({ id, content, image, link, subTopic, title, topic }) {
+const updateLesson = ({ id, content, image, link, subTopic, title, topic }) => __awaiter(void 0, void 0, void 0, function* () {
     const lessonExist = yield Lessons_model_1.default.findByPk(id);
     if (!lessonExist)
         return { status: 'NOT_FOUND', data: { message: 'lesson not found' } };
@@ -38,7 +38,7 @@ const updateLesson = (_b) => __awaiter(void 0, [_b], void 0, function* ({ id, co
     const updatedLesson = yield Lessons_model_1.default.findOne({ where: { id } });
     return { status: 'SUCCESSFUL', data: updatedLesson };
 });
-const createLesson = (_c) => __awaiter(void 0, [_c], void 0, function* ({ title, content, image, link, topic, subTopic }) {
+const createLesson = ({ title, content, image, link, topic, subTopic }) => __awaiter(void 0, void 0, void 0, function* () {
     const newLesson = yield Lessons_model_1.default.create({ title, content, image, link, topic, subTopic });
     return { status: 'SUCCESSFUL', data: newLesson.dataValues };
 });

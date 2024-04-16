@@ -7,16 +7,10 @@ export default function AdminPage() {
     <>
       <div>
         <h2>Aulas</h2>
-        <LessonList>
-          <button
-            onClick={ () => { <Navigate to="/admin/manage" />; } }
-          >
-            Gerenciar aula
-          </button>
-        </LessonList>
+        <LessonList />
       </div>
       <div>
-        <h3>Criar nova aula</h3>
+        <button>Criar nova aula</button>
         <Lesson newLesson />
       </div>
       <section>

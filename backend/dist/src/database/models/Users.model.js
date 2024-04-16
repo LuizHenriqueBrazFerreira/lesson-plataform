@@ -21,7 +21,8 @@ const UserModel = index_1.default.define('Users', {
     },
     role: {
         allowNull: false,
-        type: sequelize_1.DataTypes.STRING
+        type: sequelize_1.DataTypes.STRING,
+        defaultValue: 'STUDENT'
     }
 }, {
     tableName: 'Users',

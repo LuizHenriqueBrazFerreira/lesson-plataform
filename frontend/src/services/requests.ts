@@ -18,4 +18,16 @@ export const requestLogin = async (endpoint: string, body: any) => {
   return data;
 };
 
+export const requestUpdateLesson = async (endpoint:string, body:any) => {
+  const { data } = await api.put(endpoint, body);
+
+  return data;
+};
+
+export const requestCreateLesson = async (endpoint:string, body:any) => {
+  const { data } = await api.post(endpoint, body);
+
+  return data;
+};
+
 export default api;
