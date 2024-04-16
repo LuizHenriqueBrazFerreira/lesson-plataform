@@ -24,7 +24,7 @@ const createUser = async ({ name, email, password, role }: UserData) => {
 
     if (isUserValid) return { status: isUserValid.status, data: isUserValid.data };
 
-    if (user) return { status: 'CONFLICT', data: { message: 'E-mail já cadastrado' } };
+    if (user) return { status: 'CONFLICT', data: { message: 'E-mail já cadastrado.' } };
 
     const hashedPassword = bcrypt.hashSync(password, SALT_ROUNDS);
 
@@ -42,25 +42,20 @@ const createUser = async ({ name, email, password, role }: UserData) => {
 
 const findByEmail = async (email: string, password: string) => {
   try {
-    if (!email || !password) return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos' } };
+    if (!email || !password) return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos.' } };
     
+    let isCorrectPassword;
+
     const userExists = await UserModel.findOne({ where: { email } });
-    
-    if (!userExists) return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado' } };
 
-    const isCorrectPassword = validatePassword(password, userExists.dataValues.password);
-
-    const isCorrectEmail = validateEmail(email, userExists.dataValues.email);
-
-    if (!isCorrectPassword || !isCorrectEmail) {
-      return { status: 'UNAUTHORIZED', data: { message: 'E-mail ou senha incorretos' } };
+    if (userExists){
+      isCorrectPassword = validatePassword(password, userExists.dataValues.password);
     }
-  
-
-
+    
+    if (!userExists || !isCorrectPassword) return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
     const token = createToken({ email, password });
 
-    return { status: 'SUCCESSFUL', data: { token, role: userExists.dataValues.role } };
+    return { status: 'SUCCESSFUL', data: { token, role: userExists?.dataValues.role } };
   } catch (error: any) {
     console.log(error);
     
