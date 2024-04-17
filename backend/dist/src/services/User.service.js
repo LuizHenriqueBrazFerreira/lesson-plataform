@@ -15,12 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Users_model_1 = __importDefault(require("../database/models/Users.model"));
 const jwt_1 = require("../utils/jwt");
 const validateLogin_1 = require("../middlewares/validateLogin");
+const sendEmail_1 = require("../utils/sendEmail");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 const createUser = ({ name, email, password, role }) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
         const newUser = yield Users_model_1.default.create({ name, email, password: hashedPassword, role });
+        const token = (0, jwt_1.createToken)({ email, password });
+        yield (0, sendEmail_1.sendEmail)(email, token);
         return { status: 'CREATED', data: newUser.dataValues };
     }
     catch (error) {
