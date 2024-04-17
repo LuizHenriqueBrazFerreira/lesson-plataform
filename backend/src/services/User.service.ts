@@ -34,7 +34,7 @@ const createUser = async ({ name, email, password, role }: UserData) => {
 
     await sendEmail(email, token);
 
-    return { status: 'CREATED', data: newUser.dataValues };
+    return { status: 'CREATED', data: { message: 'Usuário criado com sucesso.' }};
   } catch (error) {
     return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar o usuário' } };
   }

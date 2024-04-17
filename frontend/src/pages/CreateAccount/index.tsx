@@ -1,4 +1,4 @@
-import { FormEvent, MouseEvent, useEffect, useState } from 'react';
+import { FormEvent, MouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from '../../components/Button';
@@ -16,10 +16,6 @@ function CreateAccount() {
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    setMessage('');
-  }, []);
-
   const navigate = useNavigate();
 
   const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
@@ -36,12 +32,10 @@ function CreateAccount() {
         password,
         role: 'STUDENT' });
 
-      const { status, data } = response.data;
+      const { data } = response;
 
-      if (status !== 'CREATED') {
-        setMessage(data.message);
-        navigate('/');
-      }
+      setMessage(data.message);
+      // navigate('/');
     } catch (error: any) {
       // Verifique se o erro é um AxiosError
       if (error.isAxiosError) {
@@ -109,7 +103,10 @@ function CreateAccount() {
           className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
           onFocus={ () => setShowEye(true) }
         />
-        { message && <p className="text-red-500">{ message }</p> }
+        { message && message === 'Usuário criado com sucesso.' ? (
+          <p className="text-green-500">{ message }</p>) : (
+            <p className="text-red-500">{ message }</p>
+        )}
         <Button
           className="bg-btn-orange text-white w-2/3 h-10 self-center my-3 rounded-md"
         >
