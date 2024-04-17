@@ -54,15 +54,17 @@ const validateToken = (req) => {
     }
 };
 exports.validateToken = validateToken;
-const validateUser = (req) => {
-    const { email, password } = req.body;
+const validateUser = (email, password) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !password) {
-        return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos' } };
+        return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos.' } };
     }
     const validMail = regex.test(email);
-    if (!validMail || password.length < 7) {
-        return { status: 'UNAUTHORIZED', data: { message: 'Senha ou e-mail inválidos' } };
+    if (!validMail) {
+        return { status: 'UNAUTHORIZED', data: { message: 'E-mail inválido.' } };
+    }
+    if (password.length < 8) {
+        return { status: 'UNAUTHORIZED', data: { message: 'Senha deve ter pelo menos 8 caracteres.' } };
     }
     return null;
 };

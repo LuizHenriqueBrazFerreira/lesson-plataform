@@ -20,11 +20,17 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 const createUser = ({ name, email, password, role }) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const user = yield Users_model_1.default.findOne({ where: { email } });
+        const isUserValid = (0, validateLogin_1.validateUser)(email, password);
+        if (isUserValid)
+            return { status: isUserValid.status, data: isUserValid.data };
+        if (user)
+            return { status: 'CONFLICT', data: { message: 'E-mail já cadastrado.' } };
         const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
         const newUser = yield Users_model_1.default.create({ name, email, password: hashedPassword, role });
         const token = (0, jwt_1.createToken)({ email, password });
         yield (0, sendEmail_1.sendEmail)(email, token);
-        return { status: 'CREATED', data: newUser.dataValues };
+        return { status: 'CREATED', data: { message: 'Usuário criado com sucesso.' } };
     }
     catch (error) {
         return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar o usuário' } };
@@ -32,16 +38,17 @@ const createUser = ({ name, email, password, role }) => __awaiter(void 0, void 0
 });
 const findByEmail = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (!email || !password)
+            return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos.' } };
+        let isCorrectPassword;
         const userExists = yield Users_model_1.default.findOne({ where: { email } });
-        if (!userExists)
-            return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado' } };
-        const isCorrectPassword = (0, validateLogin_1.validatePassword)(password, userExists.dataValues.password);
-        const isCorrectEmail = (0, validateLogin_1.validateEmail)(email, userExists.dataValues.email);
-        if (!isCorrectPassword || !isCorrectEmail) {
-            return { status: 'UNAUTHORIZED', data: { message: 'E-mail ou senha incorretos' } };
+        if (userExists) {
+            isCorrectPassword = (0, validateLogin_1.validatePassword)(password, userExists.dataValues.password);
         }
+        if (!userExists || !isCorrectPassword)
+            return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
         const token = (0, jwt_1.createToken)({ email, password });
-        return { status: 'SUCCESSFUL', data: { token } };
+        return { status: 'SUCCESSFUL', data: { token, role: userExists === null || userExists === void 0 ? void 0 : userExists.dataValues.role } };
     }
     catch (error) {
         console.log(error);
