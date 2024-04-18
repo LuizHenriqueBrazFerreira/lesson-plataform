@@ -79,7 +79,7 @@ function Login() {
           />
           <Button
             className="w-[2rem] absolute z-[100]
-            translate-x-[-3.5rem] translate-y-[0.5rem]"
+            translate-x-[-2.5rem] translate-y-[1rem]"
             onClick={ (e) => handleShowPassword(e) }
           >
             {showEye ? (
