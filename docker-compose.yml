@@ -25,17 +25,17 @@ services:
       db:
         condition: service_healthy
     environment:
-      - API_PORT=${API_PORT}
-      - JWT_SECRET=${JWT_SECRET}
-      - SALT_ROUNDS=${SALT_ROUNDS}
-      - NODE_ENV=${NODE_ENV}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_HOST=${MYSQL_HOST}
-      - MYSQL_PORT=${MYSQL_PORT}
-      - EMAIL_USER=${EMAIL_USER}
-      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - API_PORT:${API_PORT}
+      - JWT_SECRET:${JWT_SECRET}
+      - SALT_ROUNDS:${SALT_ROUNDS}
+      - NODE_ENV:${NODE_ENV}
+      - MYSQL_DATABASE:${MYSQL_DATABASE}
+      - MYSQL_ROOT_USER:${MYSQL_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD:${MYSQL_ROOT_PASSWORD}
+      - MYSQL_HOST:${MYSQL_HOST}
+      - MYSQL_PORT:${MYSQL_PORT}
+      - EMAIL_USER:${EMAIL_USER}
+      - EMAIL_PASSWORD:${EMAIL_PASSWORD}
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"] # Caso utilize outra porta interna para o back, altere ela aqui também
       timeout: 10s

@@ -27,26 +27,19 @@ const smtpTransport = nodemailer_1.default.createTransport({
     }
 });
 const sendEmail = (email, token) => __awaiter(void 0, void 0, void 0, function* () {
-    // try {
-    //   await smtpTransport.sendMail({
-    //     from: userEmail,
-    //     to: email,
-    //     subject: 'Confirmação de Cadastro',
-    //     text: 'Email de teste',
-    //     html: `<h1>Teste</h1>
-    //     <p>Teste de envio de email</p>
-    //     <a href="http://localhost:3000/confirm/${token}">Clique aqui para confirmar seu cadastro</a>`
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    smtpTransport.verify((error, success) => {
-        if (error) {
-            console.log('Erro ao verificar a conexão SMTP:', error);
-        }
-        else {
-            console.log('Conexão SMTP verificada com sucesso!');
-        }
-    });
+    try {
+        yield smtpTransport.sendMail({
+            from: userEmail,
+            to: email,
+            subject: 'Confirmação de Cadastro',
+            text: 'Email de teste',
+            html: `<h1>Teste</h1>
+      <p>Teste de envio de email</p>
+      <a href="http://localhost:3000/confirm/${token}">Clique aqui para confirmar seu cadastro</a>`
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
 });
 exports.sendEmail = sendEmail;
