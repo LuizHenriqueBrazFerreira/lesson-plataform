@@ -1,11 +1,11 @@
 import { FormEvent, MouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import LoginBackground from '../../components/LoginBackground';
-
-const apiUser = import.meta.env.VITE_REACT_API_USER || 'http://localhost:3001/create-account';
+import { requestPost } from '../../services/requests';
 
 function CreateAccount() {
   const [name, setName] = useState('');
@@ -16,32 +16,66 @@ function CreateAccount() {
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
 
+  const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
+
+  const handleResendEmail = async () => {
+    try {
+      const data = await requestPost('/resend-email', { email });
+
+      setMessage(data.message);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      setMessage('As senhas não coincidem');
-      return;
+      return setMessage('As senhas não coincidem');
     }
 
     try {
-      const response = await axios.post(apiUser, { name,
+      const data = await requestPost('/create-account', { name,
         email,
         password,
         role: 'STUDENT' });
 
-      const { data } = response;
-
       setMessage(data.message);
-      // navigate('/');
+      if (data.message === 'Usuário criado com sucesso.') {
+        MySwal.fire({
+          imageUrl: '/src/assets/email.png',
+          title: 'Clique no link em seu e-mail!',
+          html:
+  <p>
+    Clique no link que enviamos para
+    <strong>
+      {' '}
+      {email}
+    </strong>
+    {' '}
+    para verificar sua conta. Se não receber um email dentro de 15 minutos,
+    cheque sua caixa de spam ou tente
+    {' '}
+    <button
+      className="underline hover:text-blue-500 active:text-black"
+      onClick={ handleResendEmail }
+    >
+      reenviar o email.
+    </button>
+  </p>,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEnterKey: false,
+          showCloseButton: true,
+          width: '40%',
+        });
+      }
     } catch (error: any) {
-      // Verifique se o erro é um AxiosError
       if (error.isAxiosError) {
         setMessage(error.response.data.message);
       } else {
-        // Caso contrário, logue o erro como está
         console.log('Erro desconhecido:', error);
       }
     }
@@ -58,7 +92,7 @@ function CreateAccount() {
         onSubmit={ handleRegister }
         className="flex flex-col justify-evenly bg-white w-1/3 p-14 rounded-md h-[90%]"
       >
-        <h1 className="text-4xl text-btn-orange mb-3">Cadastre-se</h1>
+        <h1 className="text-4xl text-btn-orange mb-3 font-semibold">Cadastre-se</h1>
         <Input
           labelText="Nome Completo"
           value={ name }
@@ -66,7 +100,7 @@ function CreateAccount() {
           className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
         />
         <Input
-          labelText="E-mail"
+          labelText="Email"
           type="email"
           value={ email }
           onChange={ (event) => setEmail(event.target.value) }
@@ -101,14 +135,14 @@ function CreateAccount() {
           value={ confirmPassword }
           onChange={ (e) => setConfirmPassword(e.target.value) }
           className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
-          onFocus={ () => setShowEye(true) }
         />
-        { message && message === 'Usuário criado com sucesso.' ? (
-          <p className="text-green-500">{ message }</p>) : (
-            <p className="text-red-500">{ message }</p>
-        )}
+        { message === 'E-mail reenviado com sucesso.'
+        || message === 'Usuário criado com sucesso.'
+          ? <p className="text-green-500">{ message }</p>
+          : <p className="text-red-500">{ message }</p>}
         <Button
-          className="bg-btn-orange text-white w-2/3 h-10 self-center my-3 rounded-md"
+          className="bg-btn-orange text-white
+          w-2/3 h-10 self-center my-3 rounded-md font-semibold"
         >
           Cadastrar
         </Button>
@@ -116,7 +150,8 @@ function CreateAccount() {
         <Button
           onClick={ () => navigate('/login') }
           className="bg-white border-solid border-2
-            border-btn-orange text-btn-orange w-2/3 h-10 self-center my-3 rounded-md"
+            border-btn-orange text-btn-orange
+            w-2/3 h-10 self-center my-3 rounded-md font-semibold"
         >
           Entrar
         </Button>

@@ -27,7 +27,12 @@ export default {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'STUDENT'
-      }
+      },
+      confirmEmailToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: 'confirm_email_token'
+      },
     })
   },
 

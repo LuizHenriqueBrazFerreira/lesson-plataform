@@ -1,8 +1,10 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { requestLogin, setToken } from '../../services/requests';
+import { requestPost, setToken } from '../../services/requests';
 import LoginBackground from '../../components/LoginBackground';
 
 function Login() {
@@ -12,17 +14,21 @@ function Login() {
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
 
+  const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const login = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     try {
-      const data = await requestLogin('/login', { email, password });
-
-      const { token, role } = data;
-
-      console.log(data);
+      const { token, role } = await requestPost('/login', { email, password });
 
       setToken(token);
 
@@ -33,7 +39,7 @@ function Login() {
       if (role === 'ADMIN') {
         navigate('/admin');
       } else {
-        navigate('/');
+        navigate('/courses');
       }
     } catch (error: any) {
       console.log(error);
@@ -47,26 +53,51 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      navigate('/');
-    }
-    setMessage('');
-  }, [navigate]);
+  const handleForgotPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    MySwal.fire({
+      title: 'Redefinir senha',
+      html: (
+        <div>
+          <p>
+            Insira o email cadastrado em sua conta e
+            {' '}
+            enviaremos um link para redefinir sua senha.
+          </p>
+          <Input
+            labelText=""
+            type="email"
+            value={ email }
+            onChange={ (e) => setEmail(e.target.value) }
+            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
+          />
+        </div>
+      ),
+      width: '30%',
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        requestPost('/forgot-password', { email });
+      }
+    });
+  };
 
   return (
     <LoginBackground>
       <form
-        className="flex flex-col justify-evenly bg-white h-[90%] w-1/3 p-14 rounded-md"
+        className="flex flex-col justify-evenly bg-white h-[90%]
+        w-1/3 p-14 rounded-md"
       >
-        <h1 className="text-4xl text-btn-orange">Entrar</h1>
+        <h1 className="text-4xl text-btn-orange font-semibold">Entrar</h1>
         <Input
-          labelText="E-mail"
+          labelText="Email"
           type="email"
           value={ email }
           onChange={ (e) => setEmail(e.target.value) }
-          className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
+          className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3 text-xl"
         />
         <div>
           <Input
@@ -74,7 +105,7 @@ function Login() {
             type={ showPassword ? 'text' : 'password' }
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
-            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
+            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3 text-xl"
             onFocus={ () => setShowEye(true) }
           />
           <Button
@@ -95,16 +126,23 @@ function Login() {
         <Button
           onClick={ (event) => login(event) }
           type="submit"
-          className="bg-btn-orange text-white w-2/3 h-10 self-center rounded-md"
+          className="bg-btn-orange text-white
+          w-2/3 h-10 self-center rounded-md font-semibold"
         >
           Entrar
         </Button>
-        <a href="a" className="self-center underline">Esqueceu sua senha?</a>
+        <Button
+          className="self-center underline"
+          onClick={ handleForgotPassword }
+        >
+          Esqueceu sua senha?
+        </Button>
         <p className="self-center">Ainda não tem uma conta?</p>
         <Button
           onClick={ () => navigate('/create-account') }
           className="bg-white border-solid border-2
-            border-btn-orange text-btn-orange w-2/3 h-10 self-center rounded-md"
+            border-btn-orange text-btn-orange
+            w-2/3 h-10 self-center rounded-md font-semibold"
         >
           Cadastre-se
         </Button>

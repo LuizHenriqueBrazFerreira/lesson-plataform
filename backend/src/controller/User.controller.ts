@@ -19,4 +19,36 @@ const requestUserByEmail = async (req: Request, res: Response) => {
  return res.status(mapStatusHTTP(status)).json(data)
 }
 
-export default {registerUser, requestUserByEmail}
+const confirmEmail = async (req: Request, res: Response) => {
+  const {token} = req.body;
+
+  const {status, data} = await UserService.confirmEmail(token);
+
+  return res.status(mapStatusHTTP(status)).json(data);
+}
+
+const resendEmail = async (req: Request, res: Response) => {
+  const {email} = req.body;
+
+  const {status, data} = await UserService.resendEmail(email);
+
+  return res.status(mapStatusHTTP(status)).json(data);
+}
+
+const forgotPassword = async (req: Request, res: Response) => {
+  const {email} = req.body;
+
+  const {status, data} = await UserService.forgotPassword(email);
+
+  return res.status(mapStatusHTTP(status)).json(data);
+}
+
+const resetPassword = async (req: Request, res: Response) => {
+  const {token, password} = req.body;
+
+  const {status, data} = await UserService.resetPassword(token, password);
+
+  return res.status(mapStatusHTTP(status)).json(data);
+}
+
+export default {registerUser, requestUserByEmail, confirmEmail, resendEmail, forgotPassword, resetPassword}

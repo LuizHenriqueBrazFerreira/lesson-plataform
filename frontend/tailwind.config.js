@@ -14,7 +14,10 @@ export default {
         'bg-image-login': "url('/src/assets/background.png')",
         'eye': "url('/src/assets/eye.png')",
         'eye-slash': "url('/src/assets/eye-slash.png')",
-      }
+      },
+      fontSize: {
+        '4xl': '2.5rem',
+      },
     },
   },
   plugins: [],
