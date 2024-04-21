@@ -27,7 +27,12 @@ exports.default = {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
                 defaultValue: 'STUDENT'
-            }
+            },
+            confirmEmailToken: {
+                type: sequelize_1.DataTypes.STRING,
+                allowNull: true,
+                field: 'confirm_email_token'
+            },
         });
     },
     down(queryInterface) {

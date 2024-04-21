@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateEmail = exports.validateUser = exports.validateToken = exports.validatePassword = void 0;
+exports.validateConfirmEmailToken = exports.validateEmail = exports.validateUser = exports.validateToken = exports.validatePassword = void 0;
 const bcrypt = __importStar(require("bcryptjs"));
 const jwt_1 = require("../utils/jwt");
 const validatePassword = (password, dbPassword) => bcrypt
@@ -69,3 +69,11 @@ const validateUser = (email, password) => {
     return null;
 };
 exports.validateUser = validateUser;
+const validateConfirmEmailToken = (emailToken, email) => {
+    const isConfirmedEmail = bcrypt.compareSync(email, emailToken !== null && emailToken !== void 0 ? emailToken : '');
+    if (!emailToken || !isConfirmedEmail) {
+        return false;
+    }
+    return true;
+};
+exports.validateConfirmEmailToken = validateConfirmEmailToken;

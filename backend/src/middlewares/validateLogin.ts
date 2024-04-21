@@ -5,13 +5,6 @@ import { verifyToken } from '../utils/jwt';
 const validatePassword = (password: string, dbPassword: string): boolean => bcrypt
   .compareSync(password, dbPassword);
 
-const validateEmail = (email: string, dbEmail: string): boolean => {
-  if (email === dbEmail) {
-    return true;
-  }
-  return false;
-};
-
 const validateToken = (req: Request) => {
   const { authorization } = req.headers;
 
@@ -54,4 +47,16 @@ const validateUser = (email: string, password: string) => {
   return null;
 };
 
-export { validatePassword, validateToken, validateUser, validateEmail };
+
+const validateConfirmEmailToken = (emailToken: string | null, email: string) => {
+  const isConfirmedEmail = bcrypt.compareSync(email, emailToken ?? '' );
+
+  if (!emailToken || !isConfirmedEmail) {
+    return false;
+  }
+
+  return true;
+};
+  
+
+export { validatePassword, validateToken, validateUser, validateConfirmEmailToken };

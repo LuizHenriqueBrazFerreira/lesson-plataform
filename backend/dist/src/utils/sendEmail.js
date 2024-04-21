@@ -14,8 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const userEmail = process.env.EMAIL_USER;
+const userEmail = process.env.EMAIL_USER || 'ensinofsmsss@gmail.com';
 const userPassword = process.env.EMAIL_PASSWORD;
+const baseurl = process.env.FRONTEND_URL || 'http://localhost:3000';
 const smtpTransport = nodemailer_1.default.createTransport({
     service: 'gmail',
     host: 'smtp.gmail.com',
@@ -26,16 +27,22 @@ const smtpTransport = nodemailer_1.default.createTransport({
         pass: userPassword
     }
 });
-const sendEmail = (email, token) => __awaiter(void 0, void 0, void 0, function* () {
+const sendEmail = (email, token, name) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield smtpTransport.sendMail({
-            from: userEmail,
+            from: {
+                name: 'Ensino - FSMSSS',
+                address: userEmail
+            },
             to: email,
-            subject: 'Confirmação de Cadastro',
-            text: 'Email de teste',
-            html: `<h1>Teste</h1>
-      <p>Teste de envio de email</p>
-      <a href="http://localhost:3000/confirm/${token}">Clique aqui para confirmar seu cadastro</a>`
+            subject: 'CONFIRME SEU CADASTRO',
+            html: `
+      <div style="margin: 0 auto; width: fit-content;">
+        <img src="https://storage.googleapis.com/atados-v3/user-uploaded/images/32c816d9-4f08-463e-8676-200895084434.png" alt="Logo" style="display: block; margin: 0 auto; width: 202px; height: 68px;">
+        <h1>Olá, ${name}!</h1>
+        <p>Seja bem-vindo à plataforma de ensino da FSMSSS. Clique no link abaixo para verificar o seu e-mail e concluir a configuração da sua conta.</p>
+        <a href="${baseurl}/confirm/${token}">Clique aqui para confirmar seu cadastro</a>
+      </div>`
         });
     }
     catch (error) {

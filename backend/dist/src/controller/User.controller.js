@@ -24,4 +24,14 @@ const requestUserByEmail = (req, res) => __awaiter(void 0, void 0, void 0, funct
     const { status, data } = yield User_service_1.default.findByEmail(email, password);
     return res.status((0, mapHttp_1.default)(status)).json(data);
 });
-exports.default = { registerUser, requestUserByEmail };
+const confirmEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { token } = req.body;
+    const { status, data } = yield User_service_1.default.confirmEmail(token);
+    return res.status((0, mapHttp_1.default)(status)).json(data);
+});
+const resendEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body;
+    const { status, data } = yield User_service_1.default.resendEmail(email);
+    return res.status((0, mapHttp_1.default)(status)).json(data);
+});
+exports.default = { registerUser, requestUserByEmail, confirmEmail, resendEmail };
