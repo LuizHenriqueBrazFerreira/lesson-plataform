@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import Button from '../../components/Button';
-import Input from '../../components/Input';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import GreyInput from '../../components/GreyInput';
 import { requestPost, setToken } from '../../services/requests';
 import LoginBackground from '../../components/LoginBackground';
+import FormBackground from '../../components/FormBackground';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -24,7 +27,7 @@ function Login() {
     }
   }, [navigate]);
 
-  const login = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleLogin = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     try {
@@ -42,9 +45,10 @@ function Login() {
         navigate('/courses');
       }
     } catch (error: any) {
-      console.log(error);
-
-      setMessage(error.response.data.message);
+      if (error.isAxiosError) {
+        console.log(error.response);
+        setMessage(error.response.data.message);
+      }
     }
   };
 
@@ -57,55 +61,46 @@ function Login() {
     event.preventDefault();
 
     MySwal.fire({
+      imageUrl: '/src/assets/reset-password.png',
       title: 'Redefinir senha',
       html: (
-        <div>
-          <p>
-            Insira o email cadastrado em sua conta e
-            {' '}
-            enviaremos um link para redefinir sua senha.
-          </p>
-          <Input
-            labelText=""
-            type="email"
-            value={ email }
-            onChange={ (e) => setEmail(e.target.value) }
-            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
-          />
-        </div>
+        <p>
+          Insira o email cadastrado em sua conta e
+          {' '}
+          enviaremos um link para redefinir sua senha.
+        </p>
       ),
+      input: 'email',
+      inputValue: '',
+      inputAutoTrim: true,
       width: '30%',
       showCancelButton: true,
       confirmButtonText: 'Enviar',
+      confirmButtonColor: '#e06915',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        requestPost('/forgot-password', { email });
+        requestPost('/forgot-password', { email: result.value });
       }
     });
   };
 
   return (
     <LoginBackground>
-      <form
-        className="flex flex-col justify-evenly bg-white h-[90%]
-        w-1/3 p-14 rounded-md"
-      >
-        <h1 className="text-4xl text-btn-orange font-semibold">Entrar</h1>
-        <Input
+      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+        <h1 className="text-xl lg:text-4xl text-btn-orange font-semibold">Entrar</h1>
+        <GreyInput
           labelText="Email"
           type="email"
           value={ email }
           onChange={ (e) => setEmail(e.target.value) }
-          className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3 text-xl"
         />
         <div>
-          <Input
+          <GreyInput
             labelText="Senha"
             type={ showPassword ? 'text' : 'password' }
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
-            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3 text-xl"
             onFocus={ () => setShowEye(true) }
           />
           <Button
@@ -123,14 +118,12 @@ function Login() {
           </Button>
         </div>
         { message && <p className="text-red-500">{ message }</p> }
-        <Button
-          onClick={ (event) => login(event) }
+        <OrangeButton
+          onClick={ (event) => handleLogin(event) }
           type="submit"
-          className="bg-btn-orange text-white
-          w-2/3 h-10 self-center rounded-md font-semibold"
         >
           Entrar
-        </Button>
+        </OrangeButton>
         <Button
           className="self-center underline"
           onClick={ handleForgotPassword }
@@ -138,15 +131,12 @@ function Login() {
           Esqueceu sua senha?
         </Button>
         <p className="self-center">Ainda não tem uma conta?</p>
-        <Button
+        <WhiteButton
           onClick={ () => navigate('/create-account') }
-          className="bg-white border-solid border-2
-            border-btn-orange text-btn-orange
-            w-2/3 h-10 self-center rounded-md font-semibold"
         >
           Cadastre-se
-        </Button>
-      </form>
+        </WhiteButton>
+      </FormBackground>
     </LoginBackground>
   );
 }

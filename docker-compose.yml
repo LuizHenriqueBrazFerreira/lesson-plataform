@@ -39,8 +39,8 @@ services:
       - MYSQL_PORT=${MYSQL_PORT}
       - EMAIL_USER=${EMAIL_USER}
       - EMAIL_PASSWORD=${EMAIL_PASSWORD}
-      - ADMN_EMAIL=${ADMN_EMAIL}
-      - ADMN_PASSWORD=${ADMN_PASSWORD}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - FRONTEND_URL=${FRONTEND_URL}
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"] # Caso utilize outra porta interna para o back, altere ela aqui também

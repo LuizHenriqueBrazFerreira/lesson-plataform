@@ -6,11 +6,12 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="px-[60px] py-[22px] flex justify-between font-['Nunito']">
+    <header className="px-5 py-6 lg:px-14 flex justify-between font-['Nunito']">
       <Button onClick={ () => navigate('/') }>
         <img
           src="/src/assets/logo.png"
           alt="FSMSSS logo"
+          className="w-28 lg:w-full"
         />
       </Button>
       { pathname === '/' && (

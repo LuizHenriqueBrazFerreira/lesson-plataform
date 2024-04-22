@@ -18,4 +18,9 @@ export const requestPost = async (endpoint: string, body: any) => {
   return data;
 };
 
+export const requestUpdate = async (endpoint: string, body: any) => {
+  const { data } = await api.put(endpoint, body);
+  return data;
+};
+
 export default api;

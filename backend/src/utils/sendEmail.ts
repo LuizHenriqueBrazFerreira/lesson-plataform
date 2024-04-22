@@ -52,7 +52,7 @@ export const sendForgotPasswordEmail = async (email: string, token: string, name
         <h1>Olá, ${name}!</h1>
         <p>Você solicitou a redefinição de senha. Clique no link abaixo para criar uma nova senha.</p>
         <a href="${baseurl}/reset-password/${token}">Clique aqui para redefinir sua senha</a>
-        p>Se você não solicitou a redefinição de senha, ignore este e-mail.</p>
+        <p>Se você não solicitou a redefinição de senha, ignore este e-mail.</p>
       </div>`
     });
   } catch (error) {

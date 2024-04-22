@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import LoginBackground from '../../components/LoginBackground';
-import { requestPost } from '../../services/requests';
+import { requestUpdate } from '../../services/requests';
 
 function ConfirmEmail() {
   const { token } = useParams();
@@ -11,7 +11,7 @@ function ConfirmEmail() {
   useEffect(() => {
     const confirmEmail = async () => {
       try {
-        const data = await requestPost('/confirm', { token });
+        const data = await requestUpdate('/confirm', { token });
 
         setMessage(data.message);
         setTimeout(() => {
@@ -28,7 +28,7 @@ function ConfirmEmail() {
 
   return (
     <LoginBackground>
-      <div className="bg-white h-[90%] w-2/3 p-14 rounded-md text-center">
+      <div className="bg-white h-[90%] w-2/3 p-14 rounded-lg text-center">
         <h1 className="text-4xl">Obrigado por confirmar seu email!</h1>
         {message && <p>{message}</p>}
       </div>

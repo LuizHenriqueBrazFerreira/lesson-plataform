@@ -34,4 +34,14 @@ const resendEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const { status, data } = yield User_service_1.default.resendEmail(email);
     return res.status((0, mapHttp_1.default)(status)).json(data);
 });
-exports.default = { registerUser, requestUserByEmail, confirmEmail, resendEmail };
+const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body;
+    const { status, data } = yield User_service_1.default.forgotPassword(email);
+    return res.status((0, mapHttp_1.default)(status)).json(data);
+});
+const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { token, password } = req.body;
+    const { status, data } = yield User_service_1.default.resetPassword(token, password);
+    return res.status((0, mapHttp_1.default)(status)).json(data);
+});
+exports.default = { registerUser, requestUserByEmail, confirmEmail, resendEmail, forgotPassword, resetPassword };
