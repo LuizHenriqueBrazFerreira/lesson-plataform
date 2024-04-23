@@ -7,12 +7,18 @@ type PayloadType = {
   email: string,
 };
 
+type EmailTokenPayload = {
+  email: string,
+};
+
 const JWT_CONFIG: SignOptions = {
   algorithm: 'HS256',
 };
 
 const createToken = (payload: PayloadType): string => jwt.sign(payload, JWT_SECRET, JWT_CONFIG);
 
-const verifyToken = (token: string): PayloadType => jwt.verify(token, JWT_SECRET) as PayloadType;
+const createEmailToken = (payload: EmailTokenPayload): string => jwt.sign(payload, JWT_SECRET, JWT_CONFIG);
 
-export { createToken, verifyToken, JWT_SECRET };
+const verifyToken = (token: string): PayloadType | EmailTokenPayload => jwt.verify(token, JWT_SECRET) as PayloadType | EmailTokenPayload;
+
+export { createToken, verifyToken, createEmailToken, JWT_SECRET };

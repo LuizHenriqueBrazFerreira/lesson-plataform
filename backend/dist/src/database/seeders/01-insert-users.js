@@ -13,15 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jwt_1 = require("../../utils/jwt");
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 exports.default = {
     up: (queryInterface) => __awaiter(void 0, void 0, void 0, function* () {
         return queryInterface.bulkInsert('Users', [{
                 id: 1,
                 name: 'fsmsss',
-                email: 'fsmsss@gmail.com',
-                password: bcryptjs_1.default.hashSync('Fsmsss2023!!', SALT_ROUNDS),
-                role: 'ADMIN'
+                email: ADMIN_EMAIL,
+                password: bcryptjs_1.default.hashSync(ADMIN_PASSWORD, SALT_ROUNDS),
+                role: 'ADMIN',
+                confirm_email_token: (0, jwt_1.createEmailToken)({ email: ADMIN_EMAIL })
             }]);
     }),
     down: (queryInterface) => __awaiter(void 0, void 0, void 0, function* () {

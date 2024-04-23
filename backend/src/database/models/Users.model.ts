@@ -24,8 +24,12 @@ const UserModel:UserSequelizeCreator = db.define('Users', {
   },
   role: {
     allowNull:false,
+    type: DataTypes.STRING
+  },
+  confirmEmailToken: {
+    allowNull: true,
     type: DataTypes.STRING,
-    defaultValue: 'STUDENT'
+    field: 'confirm_email_token'
   }
 }, {
   tableName: 'Users',

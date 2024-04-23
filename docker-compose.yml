@@ -17,7 +17,6 @@ services:
     build: ./backend
     ports:
       - 3001:3001
-    working_dir: /backend
     # Caso queira que o container esteja atualizado durante o desenvolvimento, sem que você precise ficar fazendo down e up dos containers, descomente as 3 linhas abaixo
     command: dev 
     volumes: 
@@ -25,16 +24,24 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+    env_file:
+      - .env
     environment:
-      - API_PORT=3001
-      - JWT_SECRET=password
-      - SALT_ROUNDS=10
-      - NODE_ENV=development
-      - MYSQL_DATABASE=fsmsss_database
-      - MYSQL_ROOT_USER=root
-      - MYSQL_ROOT_PASSWORD=fsmsss_password
-      - MYSQL_HOST=db
-      - MYSQL_PORT=3306
+      - API_PORT=${API_PORT}
+      - JWT_SECRET=${JWT_SECRET}
+      - SALT_ROUNDS=${SALT_ROUNDS}
+      - NODE_ENV=${NODE_ENV}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - FRONTEND_URL=${FRONTEND_URL}
     healthcheck:
       test: ["CMD", "lsof", "-t", "-i:3001"] # Caso utilize outra porta interna para o back, altere ela aqui também
       timeout: 10s

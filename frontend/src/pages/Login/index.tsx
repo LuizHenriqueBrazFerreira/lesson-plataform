@@ -1,91 +1,136 @@
 import { MouseEvent, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
+import { requestPost, setToken } from '../../services/requests';
 import Button from '../../components/Button';
-import Input from '../../components/Input';
-import { requestLogin, setToken } from '../../services/requests';
+import EyeButton from '../../components/EyeButton';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import GreyInput from '../../components/GreyInput';
+import LoginBackground from '../../components/LoginBackground';
+import FormBackground from '../../components/FormBackground';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLogged, setIsLogged] = useState(false);
-  const [failedTryLogin, setFailedTryLogin] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showEye, setShowEye] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const login = async (event: MouseEvent<HTMLButtonElement>) => {
+  const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
+
+  const handleLogin = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     try {
-      const data = await requestLogin('/login', { email, password });
-
-      const { token } = data;
+      const { token, role } = await requestPost('/login', { email, password });
 
       setToken(token);
 
       localStorage.setItem('token', token);
 
-      setIsLogged(true);
-    } catch (error) {
-      console.log(error);
+      localStorage.setItem('role', role);
 
-      setFailedTryLogin(true);
-      setIsLogged(false);
+      if (role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/courses');
+      }
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.log(error.response);
+        setMessage(error.response.data.message);
+      }
     }
   };
 
-  useEffect(() => {
-    setFailedTryLogin(false);
-  }, [email, password]);
+  const handleShowPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setShowPassword(!showPassword);
+  };
 
-  if (isLogged) return <Navigate to="/" />;
+  const handleForgotPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    MySwal.fire({
+      imageUrl: '/src/assets/reset-password.png',
+      title: 'Redefinir senha',
+      html: (
+        <p>
+          Insira o email cadastrado em sua conta e
+          {' '}
+          enviaremos um link para redefinir sua senha.
+        </p>
+      ),
+      input: 'email',
+      inputValue: '',
+      inputAutoTrim: true,
+      width: '30%',
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      confirmButtonColor: '#e06915',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        requestPost('/forgot-password', { email: result.value });
+      }
+    });
+  };
 
   return (
-    <div className="bg-bg-image-login bg-cover w-screen h-[75vh]">
-      <div className="bg-bg-login w-full h-full flex justify-center items-center">
-        <form
-          className="flex flex-col justify-evenly bg-white h-[90%] w-1/3 p-14 rounded-md"
-        >
-          <h1 className="text-4xl text-btn-orange">Entrar</h1>
-          <Input
-            labelText="E-mail"
-            value={ email }
-            onChange={ (e) => setEmail(e.target.value) }
-            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
-          />
-          <Input
+    <LoginBackground>
+      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+        <h1 className="text-xl lg:text-4xl text-btn-orange font-semibold">Entrar</h1>
+        <GreyInput
+          labelText="Email"
+          type="email"
+          value={ email }
+          onChange={ (e) => setEmail(e.target.value) }
+        />
+        <div>
+          <GreyInput
             labelText="Senha"
+            type={ showPassword ? 'text' : 'password' }
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
-            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
+            onFocus={ () => setShowEye(true) }
           />
-          {
-            (failedTryLogin)
-              ? (
-                <p>
-                  {
-                    `O endereço de e-mail ou a senha não estão corretos.
-                    Por favor, tente novamente.`
-                  }
-                </p>
-              )
-              : null
-          }
-          <Button
-            onClick={ (event) => login(event) }
-            type="submit"
-            className="bg-btn-orange text-white w-2/3 h-10 self-center rounded-md"
-          >
-            Entrar
-          </Button>
-          <a href="a" className="self-center underline">Esqueceu sua senha?</a>
-          <p className="self-center">Ainda não tem uma conta?</p>
-          <Button
-            className="bg-white border-solid border-2
-            border-btn-orange text-btn-orange w-2/3 h-10 self-center rounded-md"
-          >
-            Cadastre-se
-          </Button>
-        </form>
-      </div>
-    </div>
+          <EyeButton
+            onClick={ (event) => handleShowPassword(event) }
+            showEye={ showEye }
+            showPassword={ showPassword }
+          />
+        </div>
+        { message && <p className="text-red-500">{ message }</p> }
+        <OrangeButton
+          onClick={ (event) => handleLogin(event) }
+          type="submit"
+        >
+          Entrar
+        </OrangeButton>
+        <Button
+          className="self-center underline"
+          onClick={ handleForgotPassword }
+        >
+          Esqueceu sua senha?
+        </Button>
+        <p className="self-center">Ainda não tem uma conta?</p>
+        <WhiteButton
+          onClick={ () => navigate('/create-account') }
+        >
+          Cadastre-se
+        </WhiteButton>
+      </FormBackground>
+    </LoginBackground>
   );
 }
 

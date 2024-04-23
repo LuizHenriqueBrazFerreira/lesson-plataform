@@ -21,8 +21,12 @@ const UserModel = index_1.default.define('Users', {
     },
     role: {
         allowNull: false,
+        type: sequelize_1.DataTypes.STRING
+    },
+    confirmEmailToken: {
+        allowNull: true,
         type: sequelize_1.DataTypes.STRING,
-        defaultValue: 'STUDENT'
+        field: 'confirm_email_token'
     }
 }, {
     tableName: 'Users',
