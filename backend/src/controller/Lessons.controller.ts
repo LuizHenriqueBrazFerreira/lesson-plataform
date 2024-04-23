@@ -33,9 +33,18 @@ const requestUpdateLesson = async (req:Request, res: Response):Promise<Response>
 const requestCreateLesson = async (req: Request, res: Response):Promise<Response> => {
   const lessonData = req.body;
   const {data} = await LessonsService.createLesson(lessonData)
+  console.log(data);
+  
 
   return res.status(201).json(data)
 
 }
 
-export default {requestAllLessons, requestDeleteLesson, requestUpdateLesson, requestCreateLesson}
+const requestLessonById = async (req: Request, res: Response): Promise<Response> => {
+  const id = Number(req.params.id)
+
+  const {data} = await LessonsService.getLessonById(id)
+  return res.status(200).json(data)
+}
+
+export default {requestAllLessons, requestDeleteLesson, requestUpdateLesson, requestCreateLesson, requestLessonById}

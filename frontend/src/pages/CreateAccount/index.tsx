@@ -25,8 +25,8 @@ function CreateAccount() {
         password,
         role: 'STUDENT' });
       console.log(response.data);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error.isAxiosError) console.error(error);
     }
   };
 

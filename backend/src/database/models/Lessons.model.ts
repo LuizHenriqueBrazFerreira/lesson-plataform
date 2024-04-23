@@ -19,7 +19,6 @@ const LessonsModel:LessonsSequelizeCreator = db.define('Lessons', {
   },
   image: DataTypes.STRING,
   link: {
-    allowNull: false,
     type: DataTypes.STRING
   },
   topic: {
@@ -28,7 +27,8 @@ const LessonsModel:LessonsSequelizeCreator = db.define('Lessons', {
   },
   subTopic: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    field: 'sub_topic'
   }
 }, {
   tableName: 'Lessons',

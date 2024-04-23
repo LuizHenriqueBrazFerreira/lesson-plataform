@@ -38,8 +38,9 @@ const updateLesson = ({ id, content, image, link, subTopic, title, topic }) => _
     const updatedLesson = yield Lessons_model_1.default.findOne({ where: { id } });
     return { status: 'SUCCESSFUL', data: updatedLesson };
 });
-const createLesson = ({ title, content, image, link, topic, subTopic }) => __awaiter(void 0, void 0, void 0, function* () {
-    const newLesson = yield Lessons_model_1.default.create({ title, content, image, link, topic, subTopic });
+const createLesson = ({ title, content, image, topic, subTopic }) => __awaiter(void 0, void 0, void 0, function* () {
+    const newLesson = yield Lessons_model_1.default.create({ title, content, image, topic, subTopic });
+    console.log(newLesson.dataValues);
     return { status: 'SUCCESSFUL', data: newLesson.dataValues };
 });
 exports.default = { getAllLessons, deleteLesson, updateLesson, createLesson };

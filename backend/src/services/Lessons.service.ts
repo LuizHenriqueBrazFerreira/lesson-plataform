@@ -2,6 +2,7 @@ import LessonsModel from "../database/models/Lessons.model";
 import {LessonsDB} from '../types/Database'
 import { ServiceResponse } from "../types/Service.response";
 import {Lesson} from '../types/Data.types'
+import { log } from "console";
 
 const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
   try {
@@ -32,10 +33,18 @@ const updateLesson = async ({id,content,image,link,subTopic,title,topic}:Lesson)
   return {status: 'SUCCESSFUL', data: updatedLesson}
 }
 
-const createLesson = async ({title, content, image, link, topic, subTopic}:Lesson):Promise<ServiceResponse<LessonsDB>> => {
-  const newLesson = await LessonsModel.create({title, content, image, link, topic, subTopic})
-
+const createLesson = async ({title, content, image, topic, subTopic}:Lesson):Promise<ServiceResponse<LessonsDB>> => {
+  const newLesson = await LessonsModel.create({title, content, image, topic, subTopic})
+  
   return {status: 'SUCCESSFUL', data: newLesson.dataValues}
 }
 
-export default {getAllLessons, deleteLesson, updateLesson, createLesson}
+const getLessonById = async(id:number):Promise<ServiceResponse<LessonsDB>> => {
+    const lessonFromDB = await LessonsModel.findByPk(id)
+    
+    if(!lessonFromDB) return {status: 'NOT_FOUND', data: {message: 'Lesson not found'}}
+    return {status: 'SUCCESSFUL', data: lessonFromDB.dataValues}
+
+}
+
+export default {getAllLessons, deleteLesson, updateLesson, createLesson, getLessonById}

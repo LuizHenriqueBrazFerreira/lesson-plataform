@@ -6,15 +6,15 @@ import { requestData } from '../../services/requests';
 function LessonList() {
   const [lessonList, setLessonList] = useState<Lessons[]>([]);
   useEffect(() => {
-    try {
-      const lessonsFromDB = requestData('/lessons');
-      console.log(lessonsFromDB);
+    const requestLessons = async () => {
+      const lessonsFromDB = await requestData('/lessons');
 
-      setLessonList(lessonList);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [lessonList]);
+      setLessonList(lessonsFromDB);
+
+      console.log(lessonList);
+    };
+    requestLessons();
+  }, [setLessonList]);
 
   return (
     <div>
@@ -32,7 +32,7 @@ function LessonList() {
           <h4>{content}</h4>
           <img src={ image } alt="lesson-img" />
           <button
-            onClick={ () => { <Navigate to={ `/admin/manage/${id}` } />; } }
+            onClick={ () => { <Navigate to={ `/admin/manager/${id}` } />; } }
           >
             Gerenciar aula
           </button>

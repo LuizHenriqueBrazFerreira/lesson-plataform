@@ -26,6 +26,7 @@ export const requestUpdateLesson = async (endpoint:string, body:any) => {
 
 export const requestCreateLesson = async (endpoint:string, body:any) => {
   const { data } = await api.post(endpoint, body);
+  console.log(data);
 
   return data;
 };

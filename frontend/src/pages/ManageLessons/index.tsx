@@ -1,10 +1,11 @@
 import Lesson from '../../components/Lesson';
+import LoginBackground from '../../components/LoginBackground';
 
 function ManageLessons() {
   return (
-    <div>
+    <LoginBackground>
       <Lesson newLesson={ false } />
-    </div>
+    </LoginBackground>
   );
 }
 

@@ -20,7 +20,6 @@ export default {
       },
       image: DataTypes.STRING,
       link: {
-        allowNull: false,
         type: DataTypes.STRING
       },
       topic: {
@@ -29,7 +28,8 @@ export default {
       },
       subTopic: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        field: 'sub_topic'
       }
     })
   },
