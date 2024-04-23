@@ -29,7 +29,8 @@ const createUser = ({ name, email, password, role }) => __awaiter(void 0, void 0
         const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
         yield Users_model_1.default.create({ name, email, password: hashedPassword, role });
         const confirmEmailToken = (0, jwt_1.createEmailToken)({ email });
-        yield (0, sendEmail_1.sendEmail)(email, confirmEmailToken, name);
+        const firstName = name.split(' ')[0];
+        yield (0, sendEmail_1.sendConfirmEmail)(email, confirmEmailToken, firstName);
         return { status: 'CREATED', data: { message: 'Usuário criado com sucesso.' } };
     }
     catch (error) {
@@ -75,11 +76,41 @@ const resendEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
         if (!user)
             return { status: 'NOT_FOUND', data: { message: 'E-mail não encontrado.' } };
         const confirmEmailToken = (0, jwt_1.createEmailToken)({ email });
-        yield (0, sendEmail_1.sendEmail)(email, confirmEmailToken, user.dataValues.name);
+        const name = user.dataValues.name.split(' ')[0];
+        yield (0, sendEmail_1.sendConfirmEmail)(email, confirmEmailToken, name);
         return { status: 'SUCCESSFUL', data: { message: 'E-mail reenviado com sucesso.' } };
     }
     catch (error) {
         return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
     }
 });
-exports.default = { createUser, findByEmail, confirmEmail, resendEmail };
+const forgotPassword = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const user = yield Users_model_1.default.findOne({ where: { email } });
+        if (!user)
+            return { status: 'NOT_FOUND', data: { message: 'E-mail não encontrado.' } };
+        const forgotPasswordToken = (_a = user.dataValues.confirmEmailToken) !== null && _a !== void 0 ? _a : '';
+        const name = user.dataValues.name.split(' ')[0];
+        yield (0, sendEmail_1.sendForgotPasswordEmail)(email, forgotPasswordToken, name);
+        return { status: 'SUCCESSFUL', data: { message: 'E-mail enviado com sucesso.' } };
+    }
+    catch (error) {
+        return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+    }
+});
+const resetPassword = (emailToken, password) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email } = (0, jwt_1.verifyToken)(emailToken);
+        const user = yield Users_model_1.default.findOne({ where: { email } });
+        if (!user)
+            return { status: 'NOT_FOUND', data: { message: 'E-mail não encontrado.' } };
+        const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
+        yield Users_model_1.default.update({ password: hashedPassword }, { where: { email } });
+        return { status: 'SUCCESSFUL', data: { message: 'Senha alterada com sucesso.' } };
+    }
+    catch (error) {
+        return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+    }
+});
+exports.default = { createUser, findByEmail, confirmEmail, resendEmail, forgotPassword, resetPassword };

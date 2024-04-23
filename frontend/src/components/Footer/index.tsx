@@ -1,7 +1,11 @@
 function Footer() {
   return (
-    <footer className="px-[60px] py-[22px]">
-      <img src="/src/assets/baudouin.png" alt="" />
+    <footer className="px-5 py-6 lg:px-14">
+      <img
+        className="w-28 lg:w-full"
+        src="/src/assets/baudouin.png"
+        alt="King Baudouin Foundation's Logo"
+      />
     </footer>
   );
 }

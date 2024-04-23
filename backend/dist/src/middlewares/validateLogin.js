@@ -23,19 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateConfirmEmailToken = exports.validateEmail = exports.validateUser = exports.validateToken = exports.validatePassword = void 0;
+exports.validateConfirmEmailToken = exports.validateUser = exports.validateToken = exports.validatePassword = void 0;
 const bcrypt = __importStar(require("bcryptjs"));
 const jwt_1 = require("../utils/jwt");
 const validatePassword = (password, dbPassword) => bcrypt
     .compareSync(password, dbPassword);
 exports.validatePassword = validatePassword;
-const validateEmail = (email, dbEmail) => {
-    if (email === dbEmail) {
-        return true;
-    }
-    return false;
-};
-exports.validateEmail = validateEmail;
 const validateToken = (req) => {
     const { authorization } = req.headers;
     if (!authorization) {
@@ -69,11 +62,8 @@ const validateUser = (email, password) => {
     return null;
 };
 exports.validateUser = validateUser;
-const validateConfirmEmailToken = (emailToken, email) => {
-    const isConfirmedEmail = bcrypt.compareSync(email, emailToken !== null && emailToken !== void 0 ? emailToken : '');
-    if (!emailToken || !isConfirmedEmail) {
-        return false;
-    }
-    return true;
+const validateConfirmEmailToken = (emailToken, userEmail) => {
+    const { email } = (0, jwt_1.verifyToken)(emailToken !== null && emailToken !== void 0 ? emailToken : '');
+    return email === userEmail;
 };
 exports.validateConfirmEmailToken = validateConfirmEmailToken;

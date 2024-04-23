@@ -48,14 +48,10 @@ const validateUser = (email: string, password: string) => {
 };
 
 
-const validateConfirmEmailToken = (emailToken: string | null, email: string) => {
-  const isConfirmedEmail = bcrypt.compareSync(email, emailToken ?? '' );
+const validateConfirmEmailToken = (emailToken: string | null, userEmail: string) => {
+  const { email } = verifyToken(emailToken ?? '');
 
-  if (!emailToken || !isConfirmedEmail) {
-    return false;
-  }
-
-  return true;
+  return email === userEmail;
 };
   
 

@@ -1,10 +1,13 @@
 import { useState, MouseEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import LoginBackground from '../../components/LoginBackground';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
-import { requestPost } from '../../services/requests';
 import { validatePassword } from '../../utils/validations';
+import { requestUpdate } from '../../services/requests';
+import LoginBackground from '../../components/LoginBackground';
+import FormBackground from '../../components/FormBackground';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import GreyInput from '../../components/GreyInput';
+import EyeButton from '../../components/EyeButton';
 
 function ResetPassword() {
   const [password, setPassword] = useState('');
@@ -31,7 +34,7 @@ function ResetPassword() {
     }
 
     try {
-      const data = await requestPost('/reset-password', { token, password });
+      const data = await requestUpdate('/reset-password', { token, password });
       setMessage(data.message);
     } catch (error: any) {
       if (error.isAxiosError) {
@@ -42,64 +45,47 @@ function ResetPassword() {
 
   return (
     <LoginBackground>
-      <form
-        className="flex flex-col bg-white h-[90%] w-1/3 p-14 rounded-md"
-      >
-        <div>
-          <h1
-            className="text-4xl
+      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+        <h1
+          className="text-xl lg:text-4xl
           text-btn-orange mb-3 font-semibold"
-          >
-            Crie uma nova senha
-          </h1>
-          <Input
+        >
+          Crie uma nova senha
+        </h1>
+        <div>
+          <GreyInput
             labelText="Nova senha"
             type={ showPassword ? 'text' : 'password' }
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
-            className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
             onFocus={ () => setShowEye(true) }
           />
-          <Button
-            className="w-[2rem] absolute z-[100]
-            translate-x-[-2.5rem] translate-y-[1rem]"
-            onClick={ (e) => handleShowPassword(e) }
-          >
-            {showEye ? (
-              <img
-                className="opacity-30"
-                src={ showPassword ? '/src/assets/eye.svg' : '/src/assets/eye-slash.svg' }
-                alt="show password"
-              />
-            ) : ''}
-          </Button>
+          <EyeButton
+            onClick={ (event) => handleShowPassword(event) }
+            showEye={ showEye }
+            showPassword={ showPassword }
+          />
         </div>
-        <Input
+        <GreyInput
           labelText="Confirme sua senha"
           type={ showPassword ? 'text' : 'password' }
           value={ confirmPassword }
           onChange={ (e) => setConfirmPassword(e.target.value) }
-          className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
         />
         {message === 'Senha alterada com sucesso.'
           ? <p className="text-green-500">{message}</p>
           : <p className="text-red-500">{message}</p>}
-        <Button
-          className="bg-btn-orange text-white w-2/3
-          h-10 self-center my-3 rounded-md font-semibold"
+        <OrangeButton
           onClick={ handleResetPassword }
         >
-          Cadastrar nova senha
-        </Button>
-        <Button
+          Cadastrar
+        </OrangeButton>
+        <WhiteButton
           onClick={ () => navigate('/login') }
-          className="bg-white border-solid border-2
-            border-btn-orange text-btn-orange
-            w-2/3 h-10 self-center my-3 rounded-md font-semibold"
         >
           Entrar
-        </Button>
-      </form>
+        </WhiteButton>
+      </FormBackground>
     </LoginBackground>
   );
 }

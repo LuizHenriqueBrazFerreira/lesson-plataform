@@ -6,9 +6,9 @@ const userRouter = Router()
 
 userRouter.post('/create-account', UserController.registerUser)
 userRouter.post('/login', UserController.requestUserByEmail)
-userRouter.post('/confirm', UserController.confirmEmail)
+userRouter.put('/confirm', UserController.confirmEmail)
 userRouter.post('/resend-email', UserController.resendEmail)
 userRouter.post('/forgot-password', UserController.forgotPassword)
-userRouter.post('/reset-password', UserController.resetPassword)
+userRouter.put('/reset-password', UserController.resetPassword)
 
-export default userRouter
+export default userRouter;
