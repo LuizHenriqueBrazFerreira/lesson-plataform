@@ -32,7 +32,9 @@ const createUser = async ({ name, email, password, role }: UserData) => {
 
     const confirmEmailToken = createEmailToken({ email });
 
-    await sendConfirmEmail(email, confirmEmailToken, name);
+    const firstName = name.split(' ')[0];
+
+    await sendConfirmEmail(email, confirmEmailToken, firstName);
 
     return { status: 'CREATED', data: { message: 'Usuário criado com sucesso.' }};
   } catch (error) {
@@ -57,6 +59,7 @@ const findByEmail = async (email: string, password: string) => {
     if (!isConfirmedEmail) return { status: 'BAD_REQUEST', data: { message: 'Por favor, confirme seu e-mail.' } };
     
     if (!userExists || !isCorrectPassword) return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
+    
     const token = createToken({ email, password });
 
     return { status: 'SUCCESSFUL', data: { token, role: userExists.dataValues.role } };
@@ -87,7 +90,9 @@ const resendEmail = async (email: string) => {
 
     const confirmEmailToken = createEmailToken({ email });
 
-    await sendConfirmEmail(email, confirmEmailToken, user.dataValues.name);
+    const name = user.dataValues.name.split(' ')[0];
+
+    await sendConfirmEmail(email, confirmEmailToken, name);
 
     return { status: 'SUCCESSFUL', data: { message: 'E-mail reenviado com sucesso.' } };
   } catch (error: any) {
@@ -103,7 +108,9 @@ const forgotPassword = async (email: string) => {
 
     const forgotPasswordToken = user.dataValues.confirmEmailToken ?? '';
 
-    await sendForgotPasswordEmail(email, forgotPasswordToken, user.dataValues.name);
+    const name = user.dataValues.name.split(' ')[0];
+
+    await sendForgotPasswordEmail(email, forgotPasswordToken, name);
 
     return { status: 'SUCCESSFUL', data: { message: 'E-mail enviado com sucesso.' } };
   } catch (error: any) {

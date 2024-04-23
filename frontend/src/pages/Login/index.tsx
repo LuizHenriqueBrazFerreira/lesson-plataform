@@ -1,12 +1,13 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
+import { requestPost, setToken } from '../../services/requests';
 import Button from '../../components/Button';
+import EyeButton from '../../components/EyeButton';
 import OrangeButton from '../../components/OrangeButton';
 import WhiteButton from '../../components/WhiteButton';
 import GreyInput from '../../components/GreyInput';
-import { requestPost, setToken } from '../../services/requests';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
 
@@ -103,19 +104,11 @@ function Login() {
             onChange={ (e) => setPassword(e.target.value) }
             onFocus={ () => setShowEye(true) }
           />
-          <Button
-            className="w-[2rem] absolute z-[100]
-            translate-x-[-2.5rem] translate-y-[1rem]"
-            onClick={ (e) => handleShowPassword(e) }
-          >
-            {showEye ? (
-              <img
-                className="opacity-30"
-                src={ showPassword ? '/src/assets/eye.svg' : '/src/assets/eye-slash.svg' }
-                alt="show password"
-              />
-            ) : ''}
-          </Button>
+          <EyeButton
+            onClick={ (event) => handleShowPassword(event) }
+            showEye={ showEye }
+            showPassword={ showPassword }
+          />
         </div>
         { message && <p className="text-red-500">{ message }</p> }
         <OrangeButton
