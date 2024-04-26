@@ -47,16 +47,17 @@ const findByEmail = async (email: string, password: string) => {
     if (!email || !password) return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos.' } };
     
     let isCorrectPassword;
-    let isConfirmedEmail;
 
     const userExists = await UserModel.findOne({ where: { email } });
 
     if (userExists){
       isCorrectPassword = validatePassword(password, userExists.dataValues.password);
-      isConfirmedEmail = validateConfirmEmailToken(userExists.dataValues.confirmEmailToken, email);
+
+      const isConfirmedEmail = validateConfirmEmailToken(userExists.dataValues.confirmEmailToken, email);
+      
+      if (!isConfirmedEmail) return { status: 'BAD_REQUEST', data: { message: 'Por favor, confirme seu e-mail.' } };
     }
 
-    if (!isConfirmedEmail) return { status: 'BAD_REQUEST', data: { message: 'Por favor, confirme seu e-mail.' } };
     
     if (!userExists || !isCorrectPassword) return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
     

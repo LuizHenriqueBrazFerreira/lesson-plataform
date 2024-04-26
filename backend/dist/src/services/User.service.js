@@ -42,14 +42,13 @@ const findByEmail = (email, password) => __awaiter(void 0, void 0, void 0, funct
         if (!email || !password)
             return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos.' } };
         let isCorrectPassword;
-        let isConfirmedEmail;
         const userExists = yield Users_model_1.default.findOne({ where: { email } });
         if (userExists) {
             isCorrectPassword = (0, validateLogin_1.validatePassword)(password, userExists.dataValues.password);
-            isConfirmedEmail = (0, validateLogin_1.validateConfirmEmailToken)(userExists.dataValues.confirmEmailToken, email);
+            const isConfirmedEmail = (0, validateLogin_1.validateConfirmEmailToken)(userExists.dataValues.confirmEmailToken, email);
+            if (!isConfirmedEmail)
+                return { status: 'BAD_REQUEST', data: { message: 'Por favor, confirme seu e-mail.' } };
         }
-        if (!isConfirmedEmail)
-            return { status: 'BAD_REQUEST', data: { message: 'Por favor, confirme seu e-mail.' } };
         if (!userExists || !isCorrectPassword)
             return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
         const token = (0, jwt_1.createToken)({ email, password });

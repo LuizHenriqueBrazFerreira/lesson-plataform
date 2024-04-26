@@ -10,6 +10,7 @@ import WhiteButton from '../../components/WhiteButton';
 import GreyInput from '../../components/GreyInput';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
+import SpiningLoading from '../../components/SpiningLoading';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
@@ -32,6 +34,8 @@ function Login() {
     event.preventDefault();
 
     try {
+      setIsLoading(true);
+
       const { token, role } = await requestPost('/login', { email, password });
 
       setToken(token);
@@ -48,6 +52,7 @@ function Login() {
     } catch (error: any) {
       if (error.isAxiosError) {
         console.log(error.response);
+        setIsLoading(false);
         setMessage(error.response.data.message);
       }
     }
@@ -74,7 +79,6 @@ function Login() {
       input: 'email',
       inputValue: '',
       inputAutoTrim: true,
-      width: '30%',
       showCancelButton: true,
       confirmButtonText: 'Enviar',
       confirmButtonColor: '#e06915',
@@ -88,7 +92,7 @@ function Login() {
 
   return (
     <LoginBackground>
-      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+      <FormBackground>
         <h1 className="text-xl lg:text-4xl text-btn-orange font-semibold">Entrar</h1>
         <GreyInput
           labelText="Email"
@@ -115,10 +119,12 @@ function Login() {
           onClick={ (event) => handleLogin(event) }
           type="submit"
         >
+          { isLoading ? <SpiningLoading /> : '' }
           Entrar
         </OrangeButton>
         <Button
-          className="self-center underline"
+          className="self-center underline
+          active:text-blue-500 hover:text-blue-700"
           onClick={ handleForgotPassword }
         >
           Esqueceu sua senha?

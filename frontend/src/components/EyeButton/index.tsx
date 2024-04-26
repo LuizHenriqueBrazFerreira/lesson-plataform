@@ -10,7 +10,7 @@ function EyeButton({ showEye = false, showPassword = false, ...rest }: ButtonPro
   return (
     <Button
       className="w-[2rem] absolute z-[100]
-    translate-x-[-2.5rem] translate-y-[1rem]"
+    translate-x-[-2.5rem] translate-y-[0.7rem] lg:translate-y-[1rem]"
       { ...rest }
     >
       {showEye ? (

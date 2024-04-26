@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -9,6 +9,7 @@ import WhiteButton from '../../components/WhiteButton';
 import GreyInput from '../../components/GreyInput';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
+import SpiningLoading from '../../components/SpiningLoading';
 
 function CreateAccount() {
   const [name, setName] = useState('');
@@ -18,9 +19,17 @@ function CreateAccount() {
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleResendEmail = async () => {
     try {
@@ -40,6 +49,8 @@ function CreateAccount() {
     }
 
     try {
+      setIsLoading(true);
+
       const data = await requestPost('/create-account', { name,
         email,
         password,
@@ -72,11 +83,12 @@ function CreateAccount() {
           allowOutsideClick: false,
           allowEnterKey: false,
           showCloseButton: true,
-          width: '40%',
         });
       }
+      setIsLoading(false);
     } catch (error: any) {
       if (error.isAxiosError) {
+        setIsLoading(false);
         setMessage(error.response.data.message);
       } else {
         console.log('Erro desconhecido:', error);
@@ -91,7 +103,7 @@ function CreateAccount() {
 
   return (
     <LoginBackground>
-      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+      <FormBackground>
         <h1
           className="text-xl lg:text-4xl text-btn-orange mb-3 font-semibold"
         >
@@ -135,6 +147,7 @@ function CreateAccount() {
         <OrangeButton
           onClick={ (event) => handleRegister(event) }
         >
+          { isLoading ? <SpiningLoading /> : '' }
           Cadastrar
         </OrangeButton>
         <p className="self-center">Já possui uma conta?</p>

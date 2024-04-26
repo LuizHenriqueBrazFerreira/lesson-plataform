@@ -45,7 +45,7 @@ function ResetPassword() {
 
   return (
     <LoginBackground>
-      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+      <FormBackground>
         <h1
           className="text-xl lg:text-4xl
           text-btn-orange mb-3 font-semibold"
