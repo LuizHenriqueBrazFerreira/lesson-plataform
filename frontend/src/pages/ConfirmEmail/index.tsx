@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Spinner } from '@material-tailwind/react';
 import LoginBackground from '../../components/LoginBackground';
 import { requestUpdate } from '../../services/requests';
 
@@ -28,9 +29,17 @@ function ConfirmEmail() {
 
   return (
     <LoginBackground>
-      <div className="bg-white h-[90%] w-2/3 p-14 rounded-lg text-center">
+      <div
+        className="flex flex-col justify-center items-center bg-white h-[90%] w-[60%] p-14
+        rounded-lg"
+      >
         <h1 className="text-4xl">Obrigado por confirmar seu email!</h1>
-        {message && <p>{message}</p>}
+        {message && <p className="text-green-500 text-3xl">{ message }</p>}
+        <Spinner
+          className="h-20 w-20"
+          color="orange"
+          size="xl"
+        />
       </div>
     </LoginBackground>
   );

@@ -1,19 +1,23 @@
 import { ButtonHTMLAttributes } from 'react';
+import { Button } from '@material-tailwind/react';
 
 type ButtonProps = {
-  children: React.ReactNode
+  children: React.ReactNode,
+  moreClasses?: string;
+  isLoading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function WhiteButton({ children, ...rest }: ButtonProps) {
+export default function WhiteButton({ children,
+  moreClasses = '', isLoading = false, ...rest }: ButtonProps) {
   return (
-    <button
-      className="bg-white border-solid border-2 border-btn-orange text-btn-orange
-            w-32 lg:w-60 h-6 lg:h-12 self-center my-3 rounded-md font-semibold
-            hover:bg-btn-orange hover:text-white transition duration-300 ease-in-out
-            active:bg-orange-700 focus:outline-none"
+    <Button
+      className={ `bg-white border-solid border-2 border-btn-orange text-btn-orange
+    w-32 lg:w-60 h-6 lg:h-12 self-center my-3 rounded-md font-semibold
+    flex items-center justify-center ${moreClasses}` }
+      loading={ isLoading }
       { ...rest }
     >
       {children}
-    </button>
+    </Button>
   );
 }

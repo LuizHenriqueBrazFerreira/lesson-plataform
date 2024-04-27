@@ -9,7 +9,6 @@ import WhiteButton from '../../components/WhiteButton';
 import GreyInput from '../../components/GreyInput';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
-import SpiningLoading from '../../components/SpiningLoading';
 
 function CreateAccount() {
   const [name, setName] = useState('');
@@ -146,8 +145,8 @@ function CreateAccount() {
           : <p className="text-red-500">{ message }</p>}
         <OrangeButton
           onClick={ (event) => handleRegister(event) }
+          isLoading={ isLoading }
         >
-          { isLoading ? <SpiningLoading /> : '' }
           Cadastrar
         </OrangeButton>
         <p className="self-center">Já possui uma conta?</p>

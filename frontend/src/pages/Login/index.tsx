@@ -10,7 +10,6 @@ import WhiteButton from '../../components/WhiteButton';
 import GreyInput from '../../components/GreyInput';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
-import SpiningLoading from '../../components/SpiningLoading';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -118,8 +117,8 @@ function Login() {
         <OrangeButton
           onClick={ (event) => handleLogin(event) }
           type="submit"
+          isLoading={ isLoading }
         >
-          { isLoading ? <SpiningLoading /> : '' }
           Entrar
         </OrangeButton>
         <Button
