@@ -12,9 +12,9 @@ const requestAllLessons = async (_req: Request, res: Response):Promise<Response>
 }
 
 const requestDeleteLesson = async (req: Request, res: Response): Promise<Response> => {
-  const {title} = req.body;
+  const id = Number(req.params.id);
 
-  const {status, data} = await LessonsService.deleteLesson({title})
+  const {status, data} = await LessonsService.deleteLesson(id)
 
   if(status !== 'NO_CONTENT') return res.status(mapStatusHttp(status)).json(data)
   return res.status(204).end();

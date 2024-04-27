@@ -14,12 +14,12 @@ const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
   }
 }
 
-const deleteLesson = async ({title}: any):Promise<ServiceResponse<null>> => {
-  const lessonExist = await LessonsModel.findOne({where: {title}}) as LessonsDB | null
+const deleteLesson = async (id: number):Promise<ServiceResponse<null>> => {
+  const lessonExist = await LessonsModel.findOne({where: {id}}) as LessonsDB | null
 
   if (!lessonExist) return {status: 'NOT_FOUND', data: {message: 'Lesson not found'}}
   
-  await LessonsModel.destroy({where: {title}})
+  await LessonsModel.destroy({where: {id}})
 
   return {status: 'NO_CONTENT', data: null}
 }

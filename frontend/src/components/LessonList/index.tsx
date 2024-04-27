@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Carousel } from '@material-tailwind/react';
 import { Lessons } from '../../types/lessons';
 import { requestData } from '../../services/requests';
+import RootContext from '../../context/main';
 
 function LessonList() {
-  const [lessonList, setLessonList] = useState<Lessons[]>([]);
+  const { lesson, changeLesson } = useContext(RootContext);
+  const [lessonList, setLessonList] = useState<Lessons[]>([] as Lessons[]);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const requestLessons = async () => {
       const lessonsFromDB = await requestData('/lessons');
@@ -14,10 +19,21 @@ function LessonList() {
       console.log(lessonList);
     };
     requestLessons();
-  }, [setLessonList]);
+  }, []);
+
+  const handleClick = (
+    id: any,
+    lessons: Lessons,
+  ) => {
+    changeLesson(lessons);
+    navigate(`/admin/manager/${id}`);
+    // console.log(`context => ${lesson}`);
+
+    // console.log('voce chamou aqui');
+  };
 
   return (
-    <div>
+    <Carousel className="rounded-md">
       {lessonList.map(({ title,
         content,
         image,
@@ -25,20 +41,29 @@ function LessonList() {
         topic,
         id,
       }) => (
-        <div key={ `${title}${Math.floor(Math.random() * 500 ** 2)}${topic}` }>
-          <h2>{title}</h2>
-          <h4>{topic}</h4>
-          <h5>{subTopic}</h5>
-          <h4>{content}</h4>
-          <img src={ image } alt="lesson-img" />
+        <div
+          key={ `${title}${Math.floor(Math.random() * 500 ** 2)}${topic}` }
+          className="m-2 w-[400px] h-[170px] border-black
+          border rounded-lg text-center bg-bg-login p-1 justify-center"
+        >
+          <h2 className="m-[1px] text-base text-white">{title}</h2>
+          <h4 className="m-[1px] text-base text-white">{topic}</h4>
+          <h5 className="m-[1px] text-base text-white">{subTopic}</h5>
+          <h4 className="m-[1px] text-base text-white">{content}</h4>
           <button
-            onClick={ () => { <Navigate to={ `/admin/manager/${id}` } />; } }
+            onClick={ () => handleClick(
+              id,
+              { title, content, image, topic, subTopic, id },
+            ) }
+            className="bg-orange-400 p-1 mb-1 rounded-md text-slate-50 font-light
+            text-base"
           >
             Gerenciar aula
           </button>
         </div>
       ))}
-    </div>
+    </Carousel>
+
   );
 }
 

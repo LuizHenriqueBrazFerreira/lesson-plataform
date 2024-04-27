@@ -10,23 +10,26 @@ import ForgotPassword from './pages/ResetPassword';
 import Homepage from './pages/Homepage';
 import AdminPage from './pages/AdminPage';
 import ManageLessons from './pages/ManageLessons';
+import RootProvider from './context';
 
 function App() {
   return (
     <div>
-      <Header />
-      <Routes>
-        <Route path="/" element={ <Homepage /> } />
-        <Route path="/login" element={ <Login /> } />
-        <Route path="/create-account" element={ <CreateAccount /> } />
-        <Route path="/courses" element={ <StudentCourses /> } />
-        <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
-        <Route path="/reset-password/:token" element={ <ForgotPassword /> } />
-        <Route path="/admin" element={ <AdminPage /> } />
-        <Route path="/admin/manager/:id" element={ <ManageLessons /> } />
-        <Route path="*" element={ <NotFound /> } />
-      </Routes>
-      <Footer />
+      <RootProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={ <Homepage /> } />
+          <Route path="/login" element={ <Login /> } />
+          <Route path="/create-account" element={ <CreateAccount /> } />
+          <Route path="/courses" element={ <StudentCourses /> } />
+          <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
+          <Route path="/reset-password/:token" element={ <ForgotPassword /> } />
+          <Route path="/admin" element={ <AdminPage /> } />
+          <Route path="/admin/manager/:id" element={ <ManageLessons /> } />
+          <Route path="*" element={ <NotFound /> } />
+        </Routes>
+        <Footer />
+      </RootProvider>
     </div>
   );
 }
