@@ -10,6 +10,7 @@ type ButtonProps = {
 export default function OrangeButton({ children,
   moreClasses = '', isLoading = false, ...rest }: ButtonProps) {
   return (
+    // @ts-expect-error - material-tailwind @types/react bug
     <Button
       className={ `w-32 lg:w-60 h-6 lg:h-12 bg-btn-orange
     self-center my-3 rounded-md font-semibold 

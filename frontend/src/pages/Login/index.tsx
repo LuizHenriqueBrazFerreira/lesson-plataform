@@ -2,6 +2,7 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
+import { Input } from '@material-tailwind/react';
 import { requestPost, setToken } from '../../services/requests';
 import Button from '../../components/Button';
 import EyeButton from '../../components/EyeButton';
@@ -93,13 +94,20 @@ function Login() {
     <LoginBackground>
       <FormBackground>
         <h1 className="text-xl lg:text-4xl text-btn-orange font-semibold">Entrar</h1>
-        <GreyInput
+        {/* <GreyInput
           labelText="Email"
           type="email"
           value={ email }
           onChange={ (e) => setEmail(e.target.value) }
+        /> */}
+        <Input
+          value={ email }
+          size="lg"
+          type="email"
+          onChange={ (e) => setEmail(e.target.value) }
+          label="Email"
         />
-        <div>
+        {/* <div>
           <GreyInput
             labelText="Senha"
             type={ showPassword ? 'text' : 'password' }
@@ -112,7 +120,20 @@ function Login() {
             showEye={ showEye }
             showPassword={ showPassword }
           />
-        </div>
+        </div> */}
+        <Input
+          value={ password }
+          size="lg"
+          type={ showPassword ? 'text' : 'password' }
+          onChange={ (e) => setPassword(e.target.value) }
+          onFocus={ () => setShowEye(true) }
+          label="Senha"
+          icon={ <EyeButton
+            onClick={ (event) => handleShowPassword(event) }
+            showEye={ showEye }
+            showPassword={ showPassword }
+          /> }
+        />
         { message && <p className="text-red-500">{ message }</p> }
         <OrangeButton
           onClick={ (event) => handleLogin(event) }

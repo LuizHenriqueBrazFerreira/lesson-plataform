@@ -38,6 +38,7 @@ function ConfirmEmail() {
         <Spinner
           className="h-20 w-20"
           color="orange"
+          // @ts-expect-error - material-tailwind @types/react bug
           size="xl"
         />
       </div>
