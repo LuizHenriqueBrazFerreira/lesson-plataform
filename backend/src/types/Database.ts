@@ -3,7 +3,8 @@ export type UserDB = {
   name: string,
   email: string,
   password: string,
-  role: 'ADMIN' | 'STUDENT'
+  role: 'ADMIN' | 'STUDENT',
+  confirmEmailToken: string | null
 };
 
 export type LessonsDB = {
@@ -11,7 +12,7 @@ export type LessonsDB = {
   title: string,
   content: string,
   image: string,
-  link: string,
+  link?: string,
   topic:string,
   subTopic: string
 };

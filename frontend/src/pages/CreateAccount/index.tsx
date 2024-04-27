@@ -1,80 +1,149 @@
-import { FormEvent, useState } from 'react';
-import axios from 'axios';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
+import { MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { requestPost } from '../../services/requests';
+import EyeButton from '../../components/EyeButton';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import GreyInput from '../../components/GreyInput';
 import LoginBackground from '../../components/LoginBackground';
-
-const apiUser = import.meta.env.VITE_REACT_API_USER || 'http://localhost:3001/create-account';
+import FormBackground from '../../components/FormBackground';
 
 function CreateAccount() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showEye, setShowEye] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
+  const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
+
+  const handleResendEmail = async () => {
+    try {
+      const data = await requestPost('/resend-email', { email });
+
+      setMessage(data.message);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  const handleRegister = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      console.error('As senhas não coincidem');
-      return;
+      return setMessage('As senhas não coincidem');
     }
 
     try {
-      const response = await axios.post(apiUser, { name,
+      const data = await requestPost('/create-account', { name,
         email,
         password,
         role: 'STUDENT' });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+
+      setMessage(data.message);
+      if (data.message === 'Usuário criado com sucesso.') {
+        MySwal.fire({
+          imageUrl: '/src/assets/email.png',
+          title: 'Clique no link em seu e-mail!',
+          html:
+  <p>
+    Clique no link que enviamos para
+    <strong>
+      {' '}
+      {email}
+    </strong>
+    {' '}
+    para verificar sua conta. Se não receber um email dentro de 15 minutos,
+    cheque sua caixa de spam ou tente
+    {' '}
+    <button
+      className="underline hover:text-blue-500 active:text-black"
+      onClick={ handleResendEmail }
+    >
+      reenviar o email.
+    </button>
+  </p>,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEnterKey: false,
+          showCloseButton: true,
+          width: '40%',
+        });
+      }
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        setMessage(error.response.data.message);
+      } else {
+        console.log('Erro desconhecido:', error);
+      }
     }
+  };
+
+  const handleShowPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setShowPassword(!showPassword);
   };
 
   return (
     <LoginBackground>
-      <form
-        onSubmit={ handleRegister }
-        className="flex flex-col justify-evenly bg-white w-1/3 p-14 rounded-md"
-      >
-        <h1 className="text-4xl text-btn-orange mb-3">Cadastre-se</h1>
-        <Input
+      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+        <h1
+          className="text-xl lg:text-4xl text-btn-orange mb-3 font-semibold"
+        >
+          Cadastre-se
+        </h1>
+        <GreyInput
           labelText="Nome Completo"
           value={ name }
           onChange={ (event) => setName(event.target.value) }
-          className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
         />
-        <Input
-          labelText="E-mail"
+        <GreyInput
+          labelText="Email"
+          type="email"
           value={ email }
           onChange={ (event) => setEmail(event.target.value) }
-          className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
         />
-        <Input
-          labelText="Senha"
-          value={ password }
-          onChange={ (event) => setPassword(event.target.value) }
-          className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
-        />
-        <Input
+        <div>
+          <GreyInput
+            labelText="Senha"
+            type={ showPassword ? 'text' : 'password' }
+            value={ password }
+            onChange={ (e) => setPassword(e.target.value) }
+            onFocus={ () => setShowEye(true) }
+          />
+          <EyeButton
+            onClick={ (event) => handleShowPassword(event) }
+            showEye={ showEye }
+            showPassword={ showPassword }
+          />
+        </div>
+        <GreyInput
           labelText="Confirme sua senha"
+          type={ showPassword ? 'text' : 'password' }
           value={ confirmPassword }
-          onChange={ (event) => setConfirmPassword(event.target.value) }
-          className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
+          onChange={ (e) => setConfirmPassword(e.target.value) }
         />
-        <Button
-          className="bg-btn-orange text-white w-2/3 h-10 self-center my-3 rounded-md"
+        { message === 'E-mail reenviado com sucesso.'
+        || message === 'Usuário criado com sucesso.'
+          ? <p className="text-green-500">{ message }</p>
+          : <p className="text-red-500">{ message }</p>}
+        <OrangeButton
+          onClick={ (event) => handleRegister(event) }
         >
           Cadastrar
-        </Button>
+        </OrangeButton>
         <p className="self-center">Já possui uma conta?</p>
-        <Button
-          className="bg-white border-solid border-2
-            border-btn-orange text-btn-orange w-2/3 h-10 self-center my-3 rounded-md"
+        <WhiteButton
+          onClick={ () => navigate('/login') }
         >
           Entrar
-        </Button>
-      </form>
+        </WhiteButton>
+      </FormBackground>
     </LoginBackground>
   );
 }

@@ -5,5 +5,5 @@ export type Lesson = {
   topic: string,
   subTopic: string,
   image: string,
-  link: string
+  link?: string
 }
