@@ -21,8 +21,8 @@ const requestAllLessons = (_req, res) => __awaiter(void 0, void 0, void 0, funct
     return res.status(200).json(data);
 });
 const requestDeleteLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title } = req.body;
-    const { status, data } = yield Lessons_service_1.default.deleteLesson({ title });
+    const id = Number(req.params.id);
+    const { status, data } = yield Lessons_service_1.default.deleteLesson(id);
     if (status !== 'NO_CONTENT')
         return res.status((0, mapHttp_1.default)(status)).json(data);
     return res.status(204).end();

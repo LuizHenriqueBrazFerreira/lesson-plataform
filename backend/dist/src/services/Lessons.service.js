@@ -23,11 +23,11 @@ const getAllLessons = () => __awaiter(void 0, void 0, void 0, function* () {
         return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Erro na requisição' } };
     }
 });
-const deleteLesson = ({ title }) => __awaiter(void 0, void 0, void 0, function* () {
-    const lessonExist = yield Lessons_model_1.default.findOne({ where: { title } });
+const deleteLesson = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const lessonExist = yield Lessons_model_1.default.findOne({ where: { id } });
     if (!lessonExist)
         return { status: 'NOT_FOUND', data: { message: 'Lesson not found' } };
-    yield Lessons_model_1.default.destroy({ where: { title } });
+    yield Lessons_model_1.default.destroy({ where: { id } });
     return { status: 'NO_CONTENT', data: null };
 });
 const updateLesson = ({ id, content, image, link, subTopic, title, topic }) => __awaiter(void 0, void 0, void 0, function* () {

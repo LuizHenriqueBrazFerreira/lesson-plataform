@@ -83,17 +83,17 @@ function StudentCourses() {
                   />
                 </svg>
               )}
+              <h2
+                className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
+              >
+                <Link
+                  to={ `http://localhost:3002/courses/${index}/modules` } // Podemos usar o nome também
+                >
+                  {course}
+                </Link>
+              </h2>
             </div>
 
-            <h2
-              className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
-            >
-              <Link
-                to={ `http://localhost:3001/courses/${index}` } // Podemos usar o nome também
-              >
-                {course}
-              </Link>
-            </h2>
           </section>
         ))
       }

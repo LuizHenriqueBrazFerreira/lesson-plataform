@@ -9,6 +9,8 @@ import ConfirmEmail from './pages/ConfirmEmail';
 import ForgotPassword from './pages/ResetPassword';
 import Homepage from './pages/Homepage';
 import AdminPage from './pages/AdminPage';
+import CourseModules from './pages/CouseModules';
+import DinamicModules from './pages/ModulesLessons';
 import ManageLessons from './pages/ManageLessons';
 import RootProvider from './context';
 
@@ -22,6 +24,8 @@ function App() {
           <Route path="/login" element={ <Login /> } />
           <Route path="/create-account" element={ <CreateAccount /> } />
           <Route path="/courses" element={ <StudentCourses /> } />
+          <Route path="/courses/:id/modules" element={ <CourseModules /> } />
+          <Route path="/courses/:id/modules/:id" element={ <DinamicModules /> } />
           <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
           <Route path="/reset-password/:token" element={ <ForgotPassword /> } />
           <Route path="/admin" element={ <AdminPage /> } />
