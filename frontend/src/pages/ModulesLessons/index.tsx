@@ -48,7 +48,7 @@ const mockCourse: Course = {
   ],
 };
 
-function DinamicCourses() {
+function DinamicModules() {
   const { id } = useParams<{ id: string }>();
   const [course] = useState<Course>(mockCourse);
   const module: Module | undefined = course.modules
@@ -89,4 +89,4 @@ function DinamicCourses() {
   );
 }
 
-export default DinamicCourses;
+export default DinamicModules;
