@@ -2,6 +2,7 @@ import LessonsModel from "../database/models/Lessons.model";
 import {LessonsDB} from '../types/Database'
 import { ServiceResponse } from "../types/Service.response";
 import {Lesson} from '../types/Data.types'
+import { log } from "console";
 
 const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
   try {
@@ -13,12 +14,12 @@ const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
   }
 }
 
-const deleteLesson = async ({title}: any):Promise<ServiceResponse<null>> => {
-  const lessonExist = await LessonsModel.findOne({where: {title}}) as LessonsDB | null
+const deleteLesson = async (id: number):Promise<ServiceResponse<null>> => {
+  const lessonExist = await LessonsModel.findOne({where: {id}}) as LessonsDB | null
 
   if (!lessonExist) return {status: 'NOT_FOUND', data: {message: 'Lesson not found'}}
   
-  await LessonsModel.destroy({where: {title}})
+  await LessonsModel.destroy({where: {id}})
 
   return {status: 'NO_CONTENT', data: null}
 }
@@ -32,10 +33,18 @@ const updateLesson = async ({id,content,image,link,subTopic,title,topic}:Lesson)
   return {status: 'SUCCESSFUL', data: updatedLesson}
 }
 
-const createLesson = async ({title, content, image, link, topic, subTopic}:Lesson):Promise<ServiceResponse<LessonsDB>> => {
-  const newLesson = await LessonsModel.create({title, content, image, link, topic, subTopic})
-
+const createLesson = async ({title, content, image, topic, subTopic}:Lesson):Promise<ServiceResponse<LessonsDB>> => {
+  const newLesson = await LessonsModel.create({title, content, image, topic, subTopic})
+  
   return {status: 'SUCCESSFUL', data: newLesson.dataValues}
 }
 
-export default {getAllLessons, deleteLesson, updateLesson, createLesson}
+const getLessonById = async(id:number):Promise<ServiceResponse<LessonsDB>> => {
+    const lessonFromDB = await LessonsModel.findByPk(id)
+    
+    if(!lessonFromDB) return {status: 'NOT_FOUND', data: {message: 'Lesson not found'}}
+    return {status: 'SUCCESSFUL', data: lessonFromDB.dataValues}
+
+}
+
+export default {getAllLessons, deleteLesson, updateLesson, createLesson, getLessonById}

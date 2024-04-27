@@ -16,7 +16,6 @@ const LessonsModel = index_1.default.define('Lessons', {
     },
     image: sequelize_1.DataTypes.STRING,
     link: {
-        allowNull: false,
         type: sequelize_1.DataTypes.STRING
     },
     topic: {
@@ -25,7 +24,8 @@ const LessonsModel = index_1.default.define('Lessons', {
     },
     subTopic: {
         allowNull: false,
-        type: sequelize_1.DataTypes.STRING
+        type: sequelize_1.DataTypes.STRING,
+        field: 'sub_topic'
     }
 }, {
     tableName: 'Lessons',

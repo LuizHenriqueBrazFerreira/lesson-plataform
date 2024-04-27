@@ -12,7 +12,7 @@ export type LessonsDB = {
   title: string,
   content: string,
   image: string,
-  link: string,
+  link?: string,
   topic:string,
   subTopic: string
 };
