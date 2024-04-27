@@ -7,7 +7,8 @@ const Lessons_controller_1 = __importDefault(require("../controller/Lessons.cont
 const express_1 = require("express");
 const lessonRouter = (0, express_1.Router)();
 lessonRouter.get('/lessons', Lessons_controller_1.default.requestAllLessons);
-lessonRouter.delete('/lessons', Lessons_controller_1.default.requestDeleteLesson);
+lessonRouter.delete('/lessons/:id', Lessons_controller_1.default.requestDeleteLesson);
 lessonRouter.put('/lessons/:id', Lessons_controller_1.default.requestUpdateLesson);
-lessonRouter.get('/lessons', Lessons_controller_1.default.requestCreateLesson);
+lessonRouter.post('/lessons', Lessons_controller_1.default.requestCreateLesson);
+lessonRouter.get('/lesosns/:id', Lessons_controller_1.default.requestLessonById);
 exports.default = lessonRouter;

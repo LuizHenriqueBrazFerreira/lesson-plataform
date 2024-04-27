@@ -37,6 +37,12 @@ const requestUpdateLesson = (req, res) => __awaiter(void 0, void 0, void 0, func
 const requestCreateLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lessonData = req.body;
     const { data } = yield Lessons_service_1.default.createLesson(lessonData);
+    console.log(data);
     return res.status(201).json(data);
 });
-exports.default = { requestAllLessons, requestDeleteLesson, requestUpdateLesson, requestCreateLesson };
+const requestLessonById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = Number(req.params.id);
+    const { data } = yield Lessons_service_1.default.getLessonById(id);
+    return res.status(200).json(data);
+});
+exports.default = { requestAllLessons, requestDeleteLesson, requestUpdateLesson, requestCreateLesson, requestLessonById };

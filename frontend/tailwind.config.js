@@ -3,6 +3,10 @@ const withMT = require("@material-tailwind/react/utils/withMT");
 const colors = require('tailwindcss/colors')
 
 module.exports = withMT({
+const withMT = require("@material-tailwind/react/utils/withMT");
+const colors = require('tailwindcss/colors')
+
+module.exports = withMT({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -10,6 +14,7 @@ module.exports = withMT({
   theme: {
     extend: {
       colors: {
+        ...colors,
         ...colors,
         'btn-orange': '#e06915',
         'bg-login': 'rgba(214, 40, 31, 0.6)',
@@ -25,5 +30,5 @@ module.exports = withMT({
     },
   },
   plugins: [],
-});
+});)
 

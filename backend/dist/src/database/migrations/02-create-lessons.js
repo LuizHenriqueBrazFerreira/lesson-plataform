@@ -20,7 +20,6 @@ exports.default = {
             },
             image: sequelize_1.DataTypes.STRING,
             link: {
-                allowNull: false,
                 type: sequelize_1.DataTypes.STRING
             },
             topic: {
@@ -29,7 +28,8 @@ exports.default = {
             },
             subTopic: {
                 allowNull: false,
-                type: sequelize_1.DataTypes.STRING
+                type: sequelize_1.DataTypes.STRING,
+                field: 'sub_topic'
             }
         });
     },
