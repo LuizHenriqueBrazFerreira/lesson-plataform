@@ -1,40 +1,57 @@
-import {Model, ModelDefined, DataTypes, Optional} from 'sequelize'
-import db from './index'
-import {UserDB} from '../../types/Database'
+import { DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
+import db from './index';
 
-type UserInputFields = Optional<UserDB, 'id'>
+class UsersSequelize extends Model<InferAttributes<UsersSequelize>,
+InferCreationAttributes<UsersSequelize>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare email: string;
+  declare password: string;
+  declare role: 'ADMIN' | 'STUDENT';
+  declare confirmEmailToken: string | null;
+}
 
-type UserSequelizeCreator = ModelDefined<UserDB, UserInputFields>
-
-export type UserSequelizeModel = Model<UserDB, UserInputFields>
-
-const UserModel:UserSequelizeCreator = db.define('Users', {
-  name: {
-    allowNull:false,
+UsersSequelize.init({
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+ name: {
     type: DataTypes.STRING,
+    allowNull: false,
   },
   email: {
-    unique: true,
+    type: DataTypes.STRING,
     allowNull: false,
-    type: DataTypes.STRING
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull:false
   },
   role: {
-    allowNull:false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'STUDENT'
   },
   confirmEmailToken: {
-    allowNull: true,
     type: DataTypes.STRING,
+    allowNull: true,
     field: 'confirm_email_token'
-  }
+  },
 }, {
-  tableName: 'Users',
-  underscored:true,
-  timestamps: false
-})
+  sequelize: db,
+  modelName: 'Users',
+  timestamps: false,
+});
 
-export default UserModel;
+
+
+export default UsersSequelize;

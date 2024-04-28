@@ -10,6 +10,15 @@ exports.default = {
                 type: sequelize_1.DataTypes.INTEGER,
                 autoIncrement: true
             },
+            moduleId: {
+                allowNull: false,
+                type: sequelize_1.DataTypes.INTEGER,
+                field: 'module_id',
+                references: {
+                    model: 'Modules',
+                    key: 'id'
+                }
+            },
             title: {
                 allowNull: false,
                 type: sequelize_1.DataTypes.STRING,
@@ -19,18 +28,11 @@ exports.default = {
                 type: sequelize_1.DataTypes.STRING
             },
             image: sequelize_1.DataTypes.STRING,
-            link: {
-                type: sequelize_1.DataTypes.STRING
+            link: sequelize_1.DataTypes.STRING,
+            watched: {
+                type: sequelize_1.DataTypes.BOOLEAN,
+                defaultValue: false
             },
-            topic: {
-                allowNull: false,
-                type: sequelize_1.DataTypes.STRING
-            },
-            subTopic: {
-                allowNull: false,
-                type: sequelize_1.DataTypes.STRING,
-                field: 'sub_topic'
-            }
         });
     },
     down(queryInterface) {

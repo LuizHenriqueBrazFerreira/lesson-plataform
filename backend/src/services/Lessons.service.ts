@@ -1,50 +1,67 @@
-import LessonsModel from "../database/models/Lessons.model";
-import {LessonsDB} from '../types/Database'
-import { ServiceResponse } from "../types/Service.response";
-import {Lesson} from '../types/Data.types'
-import { log } from "console";
+import { ILessonsService } from '../interfaces/ILessons';
+import LessonsModel from '../models/LessonsModel';
 
-const getAllLessons = async ():Promise<ServiceResponse<LessonsDB[]>> => {
-  try {
-    const allLessons = await LessonsModel.findAll();
-    const filteredLessons = allLessons.map((lesson) => lesson.dataValues)
-    return {status: 'SUCCESSFUL', data: filteredLessons }
-  } catch (error) {
-    return {status: 'INTERNAL_SERVER_ERROR', data: {message: 'Erro na requisição'}}
+class LessonsService implements ILessonsService {
+  private model = new LessonsModel();
+
+  async createLesson(moduleId: number, title: string, content: string, image: string, link: string) {
+    try {
+      const lesson = await this.model.createLesson(moduleId, title, content, image, link);
+
+      return { status: 'SUCCESSFUL', data: lesson };
+    }
+    catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar Lições' } };
+    }
   }
-}
 
-const deleteLesson = async (id: number):Promise<ServiceResponse<null>> => {
-  const lessonExist = await LessonsModel.findOne({where: {id}}) as LessonsDB | null
+  async getLessons() {
+    try {
+      const lessons = await this.model.getLessons();
 
-  if (!lessonExist) return {status: 'NOT_FOUND', data: {message: 'Lesson not found'}}
-  
-  await LessonsModel.destroy({where: {id}})
+      return { status: 'SUCCESSFUL', data: lessons };
+    }
+    catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+    }
+  }
 
-  return {status: 'NO_CONTENT', data: null}
-}
+  async getLessonById(id: number) {
+    try {
+      const lesson = await this.model.getLessonById(id);
 
-const updateLesson = async ({id,content,image,link,subTopic,title,topic}:Lesson):Promise<ServiceResponse<LessonsDB>> => {
-  const lessonExist = await LessonsModel.findByPk(id)
-  if(!lessonExist) return {status: 'NOT_FOUND', data: {message: 'lesson not found'}}
-  await LessonsModel.update({ title, content, image, link, topic, subTopic }, { where: { id } });
-  
-  const updatedLesson = await LessonsModel.findOne({where: {id}}) as unknown as LessonsDB
-  return {status: 'SUCCESSFUL', data: updatedLesson}
-}
+      if (!lesson) {
+        return { status: 'NOT_FOUND', data: { message: 'Lições não encontradas' } };
+      }
 
-const createLesson = async ({title, content, image, topic, subTopic}:Lesson):Promise<ServiceResponse<LessonsDB>> => {
-  const newLesson = await LessonsModel.create({title, content, image, topic, subTopic})
-  
-  return {status: 'SUCCESSFUL', data: newLesson.dataValues}
-}
+      return { status: 'SUCCESSFUL', data: lesson };
+    }
+    catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+    }
+  }
 
-const getLessonById = async(id:number):Promise<ServiceResponse<LessonsDB>> => {
-    const lessonFromDB = await LessonsModel.findByPk(id)
-    
-    if(!lessonFromDB) return {status: 'NOT_FOUND', data: {message: 'Lesson not found'}}
-    return {status: 'SUCCESSFUL', data: lessonFromDB.dataValues}
+  async updateLessonById(id: number, moduleId: number, title: string, content: string, image: string, link: string) {
+    try {
+      const lesson = await this.model.updateLessonById(id, moduleId, title, content, image, link);
 
-}
+      return { status: 'SUCCESSFUL', data: lesson };
+    }
+    catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao atualizar Lições' } };
+    }
+  }
 
-export default {getAllLessons, deleteLesson, updateLesson, createLesson, getLessonById}
+  async deleteLessonById(id: number) {
+    try {
+      const lesson = await this.model.deleteLessonById(id);
+
+      return { status: 'SUCCESSFUL', data: lesson };
+    }
+    catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao deletar Lições' } };
+    }
+  }
+}   
+
+export default LessonsService;

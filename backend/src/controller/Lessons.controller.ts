@@ -1,50 +1,49 @@
 import LessonsService from "../services/Lessons.service";
 import { Request, Response } from "express";
 import mapStatusHttp from "../utils/mapHttp";
-import { LessonsDB } from "../types/Database";
+import { ILessonsController } from '../interfaces/ILessons';
 
-const requestAllLessons = async (_req: Request, res: Response):Promise<Response> => {
-  const {status, data} = await LessonsService.getAllLessons()
+class LessonsController implements ILessonsController {
+  private service = new LessonsService();
 
-  if (status !== 'SUCCESSFUL') return res.status(mapStatusHttp(status)).json(data)
+  async createLesson(req: Request, res: Response) {
+    const { moduleId, title, content, image, link } = req.body;
 
-  return res.status(200).json(data)
+    const response = await this.service.createLesson(moduleId, title, content, image, link);
+
+    return res.status(mapStatusHttp(response.status)).json(response);
+  }
+
+  async getLessons(req: Request, res: Response) {
+    const response = await this.service.getLessons();
+
+    return res.status(mapStatusHttp(response.status)).json(response);
+  }
+
+  async getLessonById(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const response = await this.service.getLessonById(Number(id));
+
+    return res.status(mapStatusHttp(response.status)).json(response);
+  }
+
+  async updateLessonById(req: Request, res: Response) {
+    const { id } = req.params;
+    const { moduleId, title, content, image, link } = req.body;
+
+    const response = await this.service.updateLessonById(Number(id), moduleId, title, content, image, link);
+
+    return res.status(mapStatusHttp(response.status)).json(response);
+  }
+
+  async deleteLessonById(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const response = await this.service.deleteLessonById(Number(id));
+
+    return res.status(mapStatusHttp(response.status)).json(response);
+  }
 }
 
-const requestDeleteLesson = async (req: Request, res: Response): Promise<Response> => {
-  const id = Number(req.params.id);
-
-  const {status, data} = await LessonsService.deleteLesson(id)
-
-  if(status !== 'NO_CONTENT') return res.status(mapStatusHttp(status)).json(data)
-  return res.status(204).end();
-}
-
-const requestUpdateLesson = async (req:Request, res: Response):Promise<Response> => {
-  const lessonData = req.body;
-
-  const {status, data} = await LessonsService.updateLesson(lessonData)
-
-  if (status !== 'SUCCESSFUL') return res.status(mapStatusHttp(status)).json(data)
-
-  return res.status(204).json(data)
-}
-
-const requestCreateLesson = async (req: Request, res: Response):Promise<Response> => {
-  const lessonData = req.body;
-  const {data} = await LessonsService.createLesson(lessonData)
-  console.log(data);
-  
-
-  return res.status(201).json(data)
-
-}
-
-const requestLessonById = async (req: Request, res: Response): Promise<Response> => {
-  const id = Number(req.params.id)
-
-  const {data} = await LessonsService.getLessonById(id)
-  return res.status(200).json(data)
-}
-
-export default {requestAllLessons, requestDeleteLesson, requestUpdateLesson, requestCreateLesson, requestLessonById}
+export default LessonsController;

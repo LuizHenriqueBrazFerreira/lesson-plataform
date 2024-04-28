@@ -12,36 +12,53 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_service_1 = __importDefault(require("../services/User.service"));
 const mapHttp_1 = __importDefault(require("../utils/mapHttp"));
-const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userData = req.body;
-    const { status, data } = yield User_service_1.default.createUser(userData);
-    res.status((0, mapHttp_1.default)(status)).json(data);
-});
-const requestUserByEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
-    const { status, data } = yield User_service_1.default.findByEmail(email, password);
-    return res.status((0, mapHttp_1.default)(status)).json(data);
-});
-const confirmEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { token } = req.body;
-    const { status, data } = yield User_service_1.default.confirmEmail(token);
-    return res.status((0, mapHttp_1.default)(status)).json(data);
-});
-const resendEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.body;
-    const { status, data } = yield User_service_1.default.resendEmail(email);
-    return res.status((0, mapHttp_1.default)(status)).json(data);
-});
-const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.body;
-    const { status, data } = yield User_service_1.default.forgotPassword(email);
-    return res.status((0, mapHttp_1.default)(status)).json(data);
-});
-const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { token, password } = req.body;
-    const { status, data } = yield User_service_1.default.resetPassword(token, password);
-    return res.status((0, mapHttp_1.default)(status)).json(data);
-});
-exports.default = { registerUser, requestUserByEmail, confirmEmail, resendEmail, forgotPassword, resetPassword };
+const User_service_1 = __importDefault(require("../services/User.service"));
+class UsersController {
+    constructor() {
+        this.userService = new User_service_1.default();
+    }
+    registerUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userData = req.body;
+            const { status, data } = yield this.userService.createUser(userData);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
+    requestUserByEmail(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email, password } = req.body;
+            const { status, data } = yield this.userService.findByEmail(email, password);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
+    confirmEmail(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { token } = req.body;
+            const { status, data } = yield this.userService.confirmEmail(token);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
+    resendEmail(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email } = req.body;
+            const { status, data } = yield this.userService.resendEmail(email);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
+    forgotPassword(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email } = req.body;
+            const { status, data } = yield this.userService.forgotPassword(email);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
+    resetPassword(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { token, password } = req.body;
+            const { status, data } = yield this.userService.resetPassword(token, password);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
+}
+exports.default = UsersController;

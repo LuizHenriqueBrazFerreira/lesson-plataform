@@ -3,34 +3,30 @@ import { Card, CardBody } from '@material-tailwind/react';
 import { BookmarkIcon as BookmarkSolid } from '@heroicons/react/24/solid';
 import { BookmarkIcon } from '@heroicons/react/24/outline';
 import CoursesBackground from '../../components/CoursesBackground';
-import { requestData } from '../../services/requests';
+import { requestData, requestUpdate } from '../../services/requests';
+import lessonsMock from './mock';
 import Button from '../../components/Button';
 
-const courseExample1 = 'Sistemas Universais das Proteções Sociais';
-const courseExample2 = 'Sistemas de Proteção Social na América Latina';
-const courseExample3 = 'Sistemas de Proteção Social na Europa';
-
 function StudentCourses() {
-  const initialState = {
-    courses: [courseExample1, courseExample2, courseExample3] };
-  const [courses, setCourses] = useState<string[]>(initialState.courses);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+  const [courses, setCourses] = useState(lessonsMock);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const response = await axios.get(apiUser);
-  //       setCourses(response.data);
-  //     } catch (error) {
-  //       console.error('Erro ao buscar cursos:', error);
-  //     }
-  //   }
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await requestData('/lessons');
+        setCourses(data);
+      } catch (error: any) {
+        if (error.isAxiosError) {
+          console.error(error.response.data.message);
+        }
+      }
+    }
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
-  const toggleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
+  const handleBookmark = async (id: number, bookmarked: boolean) => {
+    await requestUpdate(`/lessons/${id}`, { bookmarked: !bookmarked });
   };
 
   return (
@@ -53,11 +49,11 @@ function StudentCourses() {
                 <CardBody className="flex flex-col">
                   <div className="flex justify-between mb-10">
                     <h2 className="text-2xl font-semibold text-btn-orange">Curso</h2>
-                    {isBookmarked ? <BookmarkSolid className="size-6" />
+                    {course.bookmarked ? <BookmarkSolid className="size-6" />
                       : <BookmarkIcon className="size-6" />}
                   </div>
                   <div className="text-3xl">
-                    {course}
+                    {course.title}
                   </div>
                 </CardBody>
               </Card>

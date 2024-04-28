@@ -12,40 +12,68 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Lessons_model_1 = __importDefault(require("../database/models/Lessons.model"));
-const getAllLessons = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const allLessons = yield Lessons_model_1.default.findAll();
-        const filteredLessons = allLessons.map((lesson) => lesson.dataValues);
-        return { status: 'SUCCESSFUL', data: filteredLessons };
+const LessonsModel_1 = __importDefault(require("../models/LessonsModel"));
+class LessonsService {
+    constructor() {
+        this.model = new LessonsModel_1.default();
     }
-    catch (error) {
-        return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Erro na requisição' } };
+    createLesson(moduleId, title, content, image, link) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const lesson = yield this.model.createLesson(moduleId, title, content, image, link);
+                return { status: 'SUCCESSFUL', data: lesson };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar Lições' } };
+            }
+        });
     }
-});
-const deleteLesson = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const lessonExist = yield Lessons_model_1.default.findOne({ where: { id } });
-    if (!lessonExist)
-        return { status: 'NOT_FOUND', data: { message: 'Lesson not found' } };
-    yield Lessons_model_1.default.destroy({ where: { id } });
-    return { status: 'NO_CONTENT', data: null };
-});
-const updateLesson = ({ id, content, image, link, subTopic, title, topic }) => __awaiter(void 0, void 0, void 0, function* () {
-    const lessonExist = yield Lessons_model_1.default.findByPk(id);
-    if (!lessonExist)
-        return { status: 'NOT_FOUND', data: { message: 'lesson not found' } };
-    yield Lessons_model_1.default.update({ title, content, image, link, topic, subTopic }, { where: { id } });
-    const updatedLesson = yield Lessons_model_1.default.findOne({ where: { id } });
-    return { status: 'SUCCESSFUL', data: updatedLesson };
-});
-const createLesson = ({ title, content, image, topic, subTopic }) => __awaiter(void 0, void 0, void 0, function* () {
-    const newLesson = yield Lessons_model_1.default.create({ title, content, image, topic, subTopic });
-    return { status: 'SUCCESSFUL', data: newLesson.dataValues };
-});
-const getLessonById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const lessonFromDB = yield Lessons_model_1.default.findByPk(id);
-    if (!lessonFromDB)
-        return { status: 'NOT_FOUND', data: { message: 'Lesson not found' } };
-    return { status: 'SUCCESSFUL', data: lessonFromDB.dataValues };
-});
-exports.default = { getAllLessons, deleteLesson, updateLesson, createLesson, getLessonById };
+    getLessons() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const lessons = yield this.model.getLessons();
+                return { status: 'SUCCESSFUL', data: lessons };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+            }
+        });
+    }
+    getLessonById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const lesson = yield this.model.getLessonById(id);
+                if (!lesson) {
+                    return { status: 'NOT_FOUND', data: { message: 'Lições não encontradas' } };
+                }
+                return { status: 'SUCCESSFUL', data: lesson };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+            }
+        });
+    }
+    updateLessonById(id, moduleId, title, content, image, link) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const lesson = yield this.model.updateLessonById(id, moduleId, title, content, image, link);
+                return { status: 'SUCCESSFUL', data: lesson };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao atualizar Lições' } };
+            }
+        });
+    }
+    deleteLessonById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const lesson = yield this.model.deleteLessonById(id);
+                return { status: 'SUCCESSFUL', data: lesson };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao deletar Lições' } };
+            }
+        });
+    }
+}
+exports.default = LessonsService;

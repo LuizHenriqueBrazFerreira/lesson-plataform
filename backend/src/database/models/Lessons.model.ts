@@ -1,39 +1,62 @@
-import {Model, ModelDefined, Optional, DataTypes} from 'sequelize'
-import db from './index'
-import {LessonsDB} from '../../types/Database'
+import { DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
+import db from './index';
+import ModulesSequelize from './Modules.model';
 
-type LessonsWithoutInputs = Optional<LessonsDB, 'id'>
+class LessonsSequelize extends Model<InferAttributes<LessonsSequelize>,
+InferCreationAttributes<LessonsSequelize>> {
+  declare id: CreationOptional<number>;
+  declare moduleId: number;
+  declare title: string;
+  declare content: string;
+  declare image: string;
+  declare link: string;
+  declare watched: CreationOptional<boolean>;
+}
 
-type LessonsSequelizeCreator = ModelDefined<LessonsDB, LessonsWithoutInputs>
-
-export type LessonsSequelizeModel = Model<LessonsDB, LessonsWithoutInputs>
-
-const LessonsModel:LessonsSequelizeCreator = db.define('Lessons', {
-  title: {
+LessonsSequelize.init({
+  id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    type: DataTypes.STRING
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  moduleId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    field: 'module_id',
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   content: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  image: DataTypes.STRING,
-  link: {
-    type: DataTypes.STRING
-  },
-  topic: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  subTopic: {
-    allowNull: false,
     type: DataTypes.STRING,
-    field: 'sub_topic'
-  }
+    allowNull: false,
+  },
+  image: {
+    type: DataTypes.STRING,
+  },
+  link: {
+    type: DataTypes.STRING,
+  },
+  watched: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 }, {
-  tableName: 'Lessons',
-  underscored: true,
-  timestamps: false
-})
+  sequelize: db,
+  modelName: 'Lessons',
+  timestamps: false,
+});
 
-export default LessonsModel;
+LessonsSequelize.belongsTo(ModulesSequelize, {
+  foreignKey: 'module_id',
+  targetKey: 'id',
+});
+
+export default LessonsSequelize;

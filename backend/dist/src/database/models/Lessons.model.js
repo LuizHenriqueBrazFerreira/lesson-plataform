@@ -5,31 +5,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("./index"));
-const LessonsModel = index_1.default.define('Lessons', {
-    title: {
+const Modules_model_1 = __importDefault(require("./Modules.model"));
+class LessonsSequelize extends sequelize_1.Model {
+}
+LessonsSequelize.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
-        type: sequelize_1.DataTypes.STRING
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    moduleId: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+        field: 'module_id',
+    },
+    title: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
     },
     content: {
-        allowNull: false,
-        type: sequelize_1.DataTypes.STRING
-    },
-    image: sequelize_1.DataTypes.STRING,
-    link: {
-        type: sequelize_1.DataTypes.STRING
-    },
-    topic: {
-        allowNull: false,
-        type: sequelize_1.DataTypes.STRING
-    },
-    subTopic: {
-        allowNull: false,
         type: sequelize_1.DataTypes.STRING,
-        field: 'sub_topic'
-    }
+        allowNull: false,
+    },
+    image: {
+        type: sequelize_1.DataTypes.STRING,
+    },
+    link: {
+        type: sequelize_1.DataTypes.STRING,
+    },
+    watched: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
 }, {
-    tableName: 'Lessons',
-    underscored: true,
-    timestamps: false
+    sequelize: index_1.default,
+    modelName: 'Lessons',
+    timestamps: false,
 });
-exports.default = LessonsModel;
+LessonsSequelize.belongsTo(Modules_model_1.default, {
+    foreignKey: 'module_id',
+    targetKey: 'id',
+});
+exports.default = LessonsSequelize;
