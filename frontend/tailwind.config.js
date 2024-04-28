@@ -13,6 +13,7 @@ module.exports = withMT({
         ...colors,
         'btn-orange': '#e06915',
         'bg-login': 'rgba(214, 40, 31, 0.6)',
+        'courses-gray': 'rgb(232, 232, 232)'
       },
       backgroundImage: {
         'image-login': "url('/src/assets/background.png')",
