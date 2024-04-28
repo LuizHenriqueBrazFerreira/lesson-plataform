@@ -2,7 +2,7 @@ import {
   useState,
   // useEffect,
 } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Course, Module } from '../../types/courseType';
 
 const mockCourse: Course = {
@@ -48,8 +48,8 @@ const mockCourse: Course = {
   ],
 };
 
-function DinamicModules() {
-  const { id } = useParams<{ id: string }>();
+function DinamicLessons() {
+  const { lessonId, id } = useParams<{ lessonId: string, id: string }>();
   const [course] = useState<Course>(mockCourse);
   const module: Module | undefined = course.modules
     .find((m) => m.id.toString() === id);
@@ -71,31 +71,25 @@ function DinamicModules() {
         </h2>
       </section>
       <main className="bg-white h-[90%] w-1/3 p-14 rounded-md">
-        <h3>Aulas</h3>
-        <section>
-          {course.modules.map((modules) => (
-            modules.lessons.map((lesson) => (
-              <Link
-                key={ lesson.id }
-                to={ `http://localhost:3002/courses/${course.id}/modules/${modules.id}/lessons/${lesson.id}` }
-              >
-                <section
-                  key={ lesson.id }
-                >
-                  <h2>
-                    {lesson.title}
-                  </h2>
-                  <p>
-                    {lesson.content}
-                  </p>
-                </section>
-              </Link>
-            ))
-          ))}
-        </section>
+        {module.lessons.map((lesson) => {
+          if (lesson.id.toString() === lessonId) {
+            return (
+              <div key={ lesson.id }>
+                <h2>{lesson.title}</h2>
+                <p>{lesson.content}</p>
+                <video controls>
+                  <track kind="captions" srcLang="pt" label="Português" />
+                  <source src={ lesson.link } type="video/mp4" />
+                  Seu navegador não suporta o elemento de vídeo.
+                </video>
+              </div>
+            );
+          }
+          return null;
+        })}
       </main>
     </div>
   );
 }
 
-export default DinamicModules;
+export default DinamicLessons;
