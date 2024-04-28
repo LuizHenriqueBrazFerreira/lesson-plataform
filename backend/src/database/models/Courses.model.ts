@@ -5,6 +5,8 @@ import { DataTypes,
   CreationOptional,
 } from 'sequelize';
 import db from './index';
+import UserCoursesSequelize from './UserCourses.model';
+import ModulesSequelize from './Modules.model';
 
 
 class CoursesSequelize extends Model<InferAttributes<CoursesSequelize>,
@@ -28,6 +30,16 @@ CoursesSequelize.init({
   sequelize: db,
   modelName: 'Courses',
   timestamps: false,
+});
+
+CoursesSequelize.hasMany(UserCoursesSequelize, {
+  foreignKey: 'courseId',
+  sourceKey: 'id',
+});
+
+CoursesSequelize.hasMany(ModulesSequelize, {
+  foreignKey: 'courseId',
+  sourceKey: 'id',
 });
 
 export default CoursesSequelize;

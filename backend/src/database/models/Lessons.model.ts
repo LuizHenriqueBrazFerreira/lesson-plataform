@@ -55,7 +55,7 @@ LessonsSequelize.init({
 });
 
 LessonsSequelize.belongsTo(ModulesSequelize, {
-  foreignKey: 'module_id',
+  foreignKey: 'moduleId',
   targetKey: 'id',
 });
 

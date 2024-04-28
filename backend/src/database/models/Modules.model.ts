@@ -6,6 +6,7 @@ import { DataTypes,
 } from 'sequelize';
 import db from './index';
 import CoursesSequelize from './Courses.model';
+import LessonsSequelize from './Lessons.model';
 
 
 class ModulesSequelize extends Model<InferAttributes<ModulesSequelize>,
@@ -38,8 +39,13 @@ ModulesSequelize.init({
 });
 
 ModulesSequelize.belongsTo(CoursesSequelize, {
-  foreignKey: 'course_id',
+  foreignKey: 'courseId',
   targetKey: 'id',
 }); 
+
+ModulesSequelize.hasMany(LessonsSequelize, {
+  foreignKey: 'moduleId',
+  sourceKey: 'id',
+});
 
 export default ModulesSequelize;

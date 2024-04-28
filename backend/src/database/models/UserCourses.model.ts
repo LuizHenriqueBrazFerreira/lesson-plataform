@@ -44,12 +44,12 @@ UserCoursesSequelize.init({
 });
 
 UserCoursesSequelize.belongsTo(CoursesSequelize, {
-  foreignKey: 'course_id',
+  foreignKey: 'courseId',
   targetKey: 'id',
 });
 
 UserCoursesSequelize.belongsTo(UsersSequelize, {
-  foreignKey: 'user_id',
+  foreignKey: 'userId',
   targetKey: 'id',
 });
 
