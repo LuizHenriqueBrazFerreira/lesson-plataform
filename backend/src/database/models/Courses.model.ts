@@ -32,14 +32,4 @@ CoursesSequelize.init({
   timestamps: false,
 });
 
-CoursesSequelize.hasMany(UserCoursesSequelize, {
-  foreignKey: 'courseId',
-  sourceKey: 'id',
-});
-
-CoursesSequelize.hasMany(ModulesSequelize, {
-  foreignKey: 'courseId',
-  sourceKey: 'id',
-});
-
 export default CoursesSequelize;

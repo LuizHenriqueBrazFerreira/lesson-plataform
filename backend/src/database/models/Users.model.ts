@@ -53,9 +53,4 @@ UsersSequelize.init({
   timestamps: false,
 });
 
-UsersSequelize.hasMany(UserCoursesSequelize, {
-  foreignKey: 'userId',
-  sourceKey: 'id',
-});
-
 export default UsersSequelize;

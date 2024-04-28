@@ -43,6 +43,17 @@ UserCoursesSequelize.init({
   timestamps: false,
 });
 
+UsersSequelize.hasMany(UserCoursesSequelize, {
+  foreignKey: 'userId',
+  sourceKey: 'id',
+});
+
+CoursesSequelize.hasMany(UserCoursesSequelize, {
+  foreignKey: 'courseId',
+  sourceKey: 'id',
+});
+
+
 UserCoursesSequelize.belongsTo(CoursesSequelize, {
   foreignKey: 'courseId',
   targetKey: 'id',

@@ -38,14 +38,15 @@ ModulesSequelize.init({
   timestamps: false,
 });
 
+CoursesSequelize.hasMany(ModulesSequelize, {
+  foreignKey: 'courseId',
+  sourceKey: 'id',
+});
+
 ModulesSequelize.belongsTo(CoursesSequelize, {
   foreignKey: 'courseId',
   targetKey: 'id',
 }); 
 
-ModulesSequelize.hasMany(LessonsSequelize, {
-  foreignKey: 'moduleId',
-  sourceKey: 'id',
-});
 
 export default ModulesSequelize;

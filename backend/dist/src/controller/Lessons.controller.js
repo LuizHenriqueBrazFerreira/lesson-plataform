@@ -25,7 +25,7 @@ class LessonsController {
             return res.status((0, mapHttp_1.default)(response.status)).json(response);
         });
     }
-    getLessons(req, res) {
+    getLessons(_req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.service.getLessons();
             return res.status((0, mapHttp_1.default)(response.status)).json(response);

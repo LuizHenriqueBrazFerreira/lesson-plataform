@@ -35,12 +35,20 @@ UserCoursesSequelize.init({
     modelName: 'UserCourses',
     timestamps: false,
 });
+Users_model_1.default.hasMany(UserCoursesSequelize, {
+    foreignKey: 'userId',
+    sourceKey: 'id',
+});
+Courses_model_1.default.hasMany(UserCoursesSequelize, {
+    foreignKey: 'courseId',
+    sourceKey: 'id',
+});
 UserCoursesSequelize.belongsTo(Courses_model_1.default, {
-    foreignKey: 'course_id',
+    foreignKey: 'courseId',
     targetKey: 'id',
 });
 UserCoursesSequelize.belongsTo(Users_model_1.default, {
-    foreignKey: 'user_id',
+    foreignKey: 'userId',
     targetKey: 'id',
 });
 exports.default = UserCoursesSequelize;

@@ -43,8 +43,12 @@ LessonsSequelize.init({
     modelName: 'Lessons',
     timestamps: false,
 });
+Modules_model_1.default.hasMany(LessonsSequelize, {
+    foreignKey: 'moduleId',
+    sourceKey: 'id',
+});
 LessonsSequelize.belongsTo(Modules_model_1.default, {
-    foreignKey: 'module_id',
+    foreignKey: 'moduleId',
     targetKey: 'id',
 });
 exports.default = LessonsSequelize;
