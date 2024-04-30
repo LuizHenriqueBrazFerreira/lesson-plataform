@@ -17,9 +17,9 @@ class UserCoursesModel {
     constructor() {
         this.model = UserCourses_model_1.default;
     }
-    createUserCourse({ userId, courseId, progress = 0, bookmarked = false }) {
+    createUserCourse({ userId, courseTitle, courseId, progress = 0, bookmarked = false }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userCourse = yield this.model.create({ userId, courseId, progress, bookmarked });
+            const userCourse = yield this.model.create({ userId, courseTitle, courseId, progress, bookmarked });
             return userCourse;
         });
     }

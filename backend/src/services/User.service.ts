@@ -57,7 +57,7 @@ class UsersService implements IUserService {
       
       const token = createToken({ email, password });
   
-      return { status: 'SUCCESSFUL', data: { token, role: userExists.dataValues.role } };
+      return { status: 'SUCCESSFUL', data: { token, role: userExists.dataValues.role, id: userExists.dataValues.id } };
     } catch (error: any) {
       console.log(error);
       

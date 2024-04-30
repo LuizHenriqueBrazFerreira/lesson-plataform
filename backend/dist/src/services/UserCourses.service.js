@@ -18,10 +18,10 @@ class UserCoursesService {
         this.userCoursesModel = userCoursesModel;
     }
     ;
-    createUserCourse({ userId, courseId, progress = 0, bookmarked = false }) {
+    createUserCourse({ userId, courseTitle, courseId, progress = 0, bookmarked = false }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userCourse = yield this.userCoursesModel.createUserCourse({ userId, courseId, progress, bookmarked });
+                const userCourse = yield this.userCoursesModel.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked });
                 return { status: 'CREATED', data: userCourse };
             }
             catch (error) {

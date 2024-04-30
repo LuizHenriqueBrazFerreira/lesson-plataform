@@ -39,13 +39,14 @@ export interface IUserController {
 
 export interface IUserCourses {
   userId: number;
+  courseTitle: string;
   courseId: number;
   progress?: number;
   bookmarked?: boolean;
 }
 
 export interface IUserCoursesModel {
-  createUserCourse({ userId, courseId, progress, bookmarked }: IUserCourses): Promise<UserCoursesSequelize>;
+  createUserCourse({ userId, courseTitle, courseId, progress, bookmarked }: IUserCourses): Promise<UserCoursesSequelize>;
   findCoursesByUserId(userId: number): Promise<UserCoursesSequelize[]>;
   updateUserCourse(key:string, value: string, userId: number, courseId: number): Promise<number>;
 }

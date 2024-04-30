@@ -20,8 +20,8 @@ class UserCoursesController {
     }
     createUserCourse(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { userId, courseId, progress, bookmarked } = req.body;
-            const response = yield this.userCoursesService.createUserCourse({ userId, courseId, progress, bookmarked });
+            const { userId, courseTitle, courseId, progress, bookmarked } = req.body;
+            const response = yield this.userCoursesService.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked });
             return res.status((0, mapHttp_1.default)(response.status)).json(response.data);
         });
     }

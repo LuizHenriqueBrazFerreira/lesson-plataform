@@ -1,12 +1,16 @@
 import { QueryInterface } from 'sequelize';
+import UsersSequelize from '../models/Users.model';
+import UserCoursesSequelize from '../models/UserCourses.model';
 
 export default {
   up: async (queryInterface: QueryInterface) => {
     // Inserir cursos
     await queryInterface.bulkInsert('Courses', [
-      { title: 'Curso 1' },
-      { title: 'Curso 2' },
-      { title: 'Curso 3' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5' },
     ]);
 
     // Inserir módulos
@@ -33,6 +37,32 @@ await queryInterface.bulkInsert('Lessons', [
   { title: 'Lição 2', module_id: 5, content: 'Conteúdo da lição 10', image: 'url_da_imagem_10', link: 'url_do_link_10' },
   { title: 'Lição 1', module_id: 6, content: 'Conteúdo da lição 11', image: 'url_da_imagem_11', link: 'url_do_link_11' },
   { title: 'Lição 2', module_id: 6, content: 'Conteúdo da lição 12', image: 'url_da_imagem_12', link: 'url_do_link_12' },
+]);
+// Inserir usuários com cursos
+const user1 = await UsersSequelize.create({
+  name: 'Usuário 1',
+  email: 'usuario1@email.com',
+  password: 'senha1',
+  role: 'STUDENT',
+});
+
+await UserCoursesSequelize.bulkCreate([
+  { userId: user1.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 100, bookmarked: false },
+  { userId: user1.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2', courseId: 2, progress: 20, bookmarked: false },
+]);
+
+const user2 = await UsersSequelize.create({
+  name: 'Usuário 2',
+  email: 'usuario2@email.com',
+  password: 'senha2',
+  role: 'STUDENT',
+});
+
+await UserCoursesSequelize.bulkCreate([
+  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 100, bookmarked: false },
+  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', courseId: 3, progress: 50, bookmarked: false },
+  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', courseId: 4, progress: 15, bookmarked: false },
+  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', courseId: 5, progress: 0, bookmarked: false },
 ]);
   },
 

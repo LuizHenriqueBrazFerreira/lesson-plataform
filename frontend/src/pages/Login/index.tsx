@@ -36,7 +36,7 @@ function Login() {
     try {
       setIsLoading(true);
 
-      const { token, role } = await requestPost('/login', { email, password });
+      const { token, role, id } = await requestPost('/login', { email, password });
 
       setToken(token);
 
@@ -44,10 +44,12 @@ function Login() {
 
       localStorage.setItem('role', role);
 
+      localStorage.setItem('id', id);
+
       if (role === 'ADMIN') {
         navigate('/admin');
       } else {
-        navigate('/courses');
+        navigate(`/courses/${id}`);
       }
     } catch (error: any) {
       if (error.isAxiosError) {

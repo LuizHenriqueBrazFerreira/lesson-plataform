@@ -9,7 +9,7 @@ function CoursesBackground({ children }: Children) {
      bg-courses-gray flex flex-col justify-center items-center"
     >
       <main
-        className="w-[81rem] h-[90%] bg-white
+        className="lg:w-[81rem] h-[90%] overflow-auto bg-white
       flex flex-col px-[2rem] py-[3rem] rounded-2xl"
       >
         { children }

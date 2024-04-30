@@ -12,6 +12,11 @@ export default {
           model: 'Users',
           key: 'id'
       }},
+      courseTitle: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        field: 'course_title'
+      },
       courseId: {
         allowNull: false,
         type: DataTypes.INTEGER,
@@ -27,7 +32,7 @@ export default {
       },
       bookmarked: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.BOOLEAN,
         defaultValue: false
       },
     })

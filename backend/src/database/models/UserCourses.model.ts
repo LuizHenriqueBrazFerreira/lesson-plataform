@@ -11,6 +11,7 @@ import UsersSequelize from './Users.model';
 class UserCoursesSequelize extends Model<InferAttributes<UserCoursesSequelize>,
 InferCreationAttributes<UserCoursesSequelize>> {
   declare userId: number;
+  declare courseTitle: string;
   declare courseId: number;
   declare progress: number;
   declare bookmarked: boolean;
@@ -22,10 +23,17 @@ UserCoursesSequelize.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
+    field: 'user_id',
+  },
+  courseTitle: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    field: 'course_title',
   },
   courseId: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    field: 'course_id',
   },
   progress: {
     type: DataTypes.INTEGER,

@@ -4,9 +4,9 @@ import UserCoursesModel from '../models/UserCoursesModel';
 class UserCoursesService implements IUserCoursesService {
   constructor(private userCoursesModel = new UserCoursesModel()) {};
 
-  async createUserCourse({ userId, courseId, progress = 0, bookmarked = false }: IUserCourses) {
+  async createUserCourse({ userId, courseTitle, courseId, progress = 0, bookmarked = false }: IUserCourses) {
     try {
-      const userCourse = await this.userCoursesModel.createUserCourse({ userId, courseId, progress, bookmarked });
+      const userCourse = await this.userCoursesModel.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked });
 
       return {status: 'CREATED', data: userCourse}
     }

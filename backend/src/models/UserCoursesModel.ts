@@ -4,8 +4,8 @@ import UserCoursesSequelize from '../database/models/UserCourses.model';
 class UserCoursesModel implements IUserCoursesModel {
   private model = UserCoursesSequelize;
 
-  async createUserCourse({ userId, courseId, progress = 0, bookmarked = false }: IUserCourses) {
-    const userCourse = await this.model.create({ userId, courseId, progress, bookmarked });
+  async createUserCourse({ userId, courseTitle, courseId, progress = 0, bookmarked = false }: IUserCourses) {
+    const userCourse = await this.model.create({ userId, courseTitle, courseId, progress, bookmarked });
 
     return userCourse;
   }

@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import Button from '../Button';
+import NavBar from '../NavBar';
 
 function Header() {
   const { pathname } = useLocation();
@@ -7,21 +7,24 @@ function Header() {
 
   return (
     <header className="px-5 py-6 lg:px-14 flex justify-between font-['Nunito']">
-      <Button onClick={ () => navigate('/') }>
+      <button onClick={ () => navigate('/') }>
         <img
           src="/src/assets/logo.png"
           alt="FSMSSS logo"
           className="w-28 lg:w-full"
         />
-      </Button>
+      </button>
       { pathname === '/' && (
-        <Button
+        <button
           onClick={ () => navigate('/login') }
           className="bg-btn-orange text-white rounded-md w-28 h-16 text-2xl font-semibold"
         >
           Entrar
-        </Button>
+        </button>
       )}
+      { pathname !== '/' && pathname !== '/login' ? (
+        <NavBar />
+      ) : null}
     </header>
   );
 }

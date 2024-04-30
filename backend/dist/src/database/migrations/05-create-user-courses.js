@@ -13,6 +13,11 @@ exports.default = {
                     key: 'id'
                 }
             },
+            courseTitle: {
+                allowNull: false,
+                type: sequelize_1.DataTypes.STRING,
+                field: 'course_title'
+            },
             courseId: {
                 allowNull: false,
                 type: sequelize_1.DataTypes.INTEGER,
@@ -29,7 +34,7 @@ exports.default = {
             },
             bookmarked: {
                 allowNull: false,
-                type: sequelize_1.DataTypes.STRING,
+                type: sequelize_1.DataTypes.BOOLEAN,
                 defaultValue: false
             },
         });

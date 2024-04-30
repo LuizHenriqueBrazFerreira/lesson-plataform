@@ -15,10 +15,17 @@ UserCoursesSequelize.init({
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        field: 'user_id',
+    },
+    courseTitle: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        field: 'course_title',
     },
     courseId: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
+        field: 'course_id',
     },
     progress: {
         type: sequelize_1.DataTypes.INTEGER,
