@@ -7,10 +7,10 @@ import { UserCourses } from '../../types/courseType';
 type CourseCardProps = {
   course: UserCourses;
   index: number;
-  handleBookmark: (id: number, bookmarked: boolean) => void;
+  handleBookmark?: (id: number, bookmarked: boolean) => void;
 };
 
-function CourseCard({ course, index, handleBookmark }: CourseCardProps) {
+function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProps) {
   const navigate = useNavigate();
 
   return (

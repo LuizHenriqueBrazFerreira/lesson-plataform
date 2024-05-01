@@ -7,7 +7,7 @@ import {
 } from '@material-tailwind/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
-const id = localStorage.getItem('id');
+const userId = localStorage.getItem('userId');
 
 const navList = (
   <ul
@@ -21,7 +21,7 @@ const navList = (
       className="p-1 font-medium"
     >
       <a
-        href={ `${import.meta.env.VITE_REACT_FRONT_URL}/courses/${id}` }
+        href={ `${import.meta.env.VITE_REACT_FRONT_URL}/courses/${userId}` }
         className="flex items-center
        hover:text-blue-500 transition-colors"
       >
@@ -35,7 +35,7 @@ const navList = (
       className="p-1 font-medium"
     >
       <a
-        href={ `${import.meta.env.VITE_REACT_FRONT_URL}/courses/saved/${id}`}
+        href={ `${import.meta.env.VITE_REACT_FRONT_URL}/courses/saved/${userId}`}
         className="flex items-center hover:text-blue-500 transition-colors"
       >
         Cursos Salvos
@@ -48,7 +48,7 @@ const navList = (
       className="p-1 font-medium"
     >
       <a
-        href={ `${import.meta.env.VITE_REACT_FRONT_URL}/profile/${id}` }
+        href={ `${import.meta.env.VITE_REACT_FRONT_URL}/profile/${userId}` }
         className="flex items-center hover:text-blue-500 transition-colors"
       >
         Meu Perfil

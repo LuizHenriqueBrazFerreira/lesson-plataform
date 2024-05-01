@@ -44,7 +44,7 @@ function Login() {
 
       localStorage.setItem('role', role);
 
-      localStorage.setItem('id', id);
+      localStorage.setItem('userId', id);
 
       if (role === 'ADMIN') {
         navigate('/admin');
