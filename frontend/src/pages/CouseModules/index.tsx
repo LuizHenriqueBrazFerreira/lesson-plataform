@@ -1,95 +1,60 @@
-import {
-  useState,
-  // useEffect,
-} from 'react';
-import { Link } from 'react-router-dom';
-import { Course } from '../../types/courseType';
-
-const mockCourse: Course = {
-  id: 0,
-  title: 'Geopolítica Brasileira',
-  modules: [
-    {
-      id: 0,
-      content: 'Conteúdo do Módulo 1',
-      lessons: [
-        {
-          id: 0,
-          title: 'Aula001',
-          content: 'Conteúdo da Aula 1 do Módulo 1',
-          link: 'https://www.example.com/aula001',
-        },
-        {
-          id: 1,
-          title: 'Aula002',
-          content: 'Conteúdo da Aula 2 do Módulo 1',
-          link: 'https://www.example.com/aula002',
-        },
-      ],
-    },
-    {
-      id: 1,
-      content: 'Conteúdo do Módulo 2',
-      lessons: [
-        {
-          id: 0,
-          title: 'Aula001',
-          content: 'Conteúdo da Aula 1 do Módulo 2',
-          link: 'https://www.example.com/aula001',
-        },
-        {
-          id: 1,
-          title: 'Aula002',
-          content: 'Conteúdo da Aula 2 do Módulo 2',
-          link: 'https://www.example.com/aula002',
-        },
-      ],
-    },
-  ],
-};
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import CoursesBackground from '../../components/CoursesBackground';
+import ModuleCard from '../../components/ModuleCard';
+import { requestData } from '../../services/requests';
 
 function CourseModules() {
-  const [course] = useState(mockCourse);
+  const [modules, setModules] = useState([]);
+
+  const { id } = useParams();
+
+  const localStorageId = localStorage.getItem('userId');
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await requestData(`/modules/${id}`);
+        setModules(data);
+      } catch (error: any) {
+        if (error.isAxiosError) {
+          console.error(error.response.data);
+        }
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
-    <div>
-      <section
-        className="bg-bg-login w-full h-full flex justify-center items-center"
-      >
-        <h2>
-          Curso
-          <br />
-          {course.title}
-        </h2>
-      </section>
-      <main
-        className="flex flex-col justify-center items-center
-        space-y-8 bg-white h-[90%] w-1/3 p-14 rounded-md"
-      >
+    <CoursesBackground>
+      <div className="self-start">
+        <h1
+          className="text-xl lg:text-4xl
+            text-btn-orange font-bold"
+        >
+          Módulos
+        </h1>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2">
         {
-          course.modules.map((module, index) => (
-            <section
-              className="g-bg-login w-full h-full
-              flex justify-center items-center bg-orange-300"
+          modules.map((module, index) => (
+            <ModuleCard
               key={ index }
-            >
-              <h2
-                className="bg-neutral-200 rounded-md w-full h-10 p-2 my-3"
-              >
-                <Link
-                  to={ `http://localhost:3002/courses/${index}/modules/${index}` } // Podemos usar o nome também
-                >
-                  { `Módulo ${index + 1}` }
-                  <br />
-                  { `${module.content}` }
-                </Link>
-              </h2>
-
-            </section>
+              module={ module }
+            />
           ))
         }
-      </main>
-    </div>
+      </div>
+      <Link
+        to={ `/courses/${localStorageId}` }
+        className="text-white bg-btn-orange
+          rounded-full py-2 px-4 mt-4
+          text-center font-bold"
+      >
+        Voltar
+      </Link>
+    </CoursesBackground>
   );
 }
 

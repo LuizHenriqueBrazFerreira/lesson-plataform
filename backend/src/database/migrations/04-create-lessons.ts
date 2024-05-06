@@ -1,5 +1,5 @@
 import {DataTypes, Model, QueryInterface} from 'sequelize';
-import { LessonsDB } from '../../types/Database'
+import { LessonsDB } from '../../interfaces/Database'
 
 export default {
   up(queryInterface:QueryInterface) {
@@ -10,6 +10,15 @@ export default {
         type: DataTypes.INTEGER,
         autoIncrement: true
       },
+      moduleId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        field: 'module_id',
+        references: {
+          model: 'Modules',
+          key: 'id'
+        }
+      },
       title: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -19,18 +28,11 @@ export default {
         type: DataTypes.STRING
       },
       image: DataTypes.STRING,
-      link: {
-        type: DataTypes.STRING
+      link: DataTypes.STRING,
+      watched: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       },
-      topic: {
-        allowNull: false,
-        type: DataTypes.STRING
-      },
-      subTopic: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        field: 'sub_topic'
-      }
     })
   },
   down(queryInterface: QueryInterface) {

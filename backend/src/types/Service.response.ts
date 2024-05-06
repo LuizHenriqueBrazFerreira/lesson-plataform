@@ -13,6 +13,6 @@ type StatusTypes =
 'INTERNAL_SERVER_ERROR';
 
 export type ServiceResponse<T> = {
-  status: StatusTypes,
+  status: StatusTypes | string,
   data: ServiceMessage | T | string,
 };

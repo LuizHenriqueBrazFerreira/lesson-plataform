@@ -11,4 +11,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(routes_1.default.lessonRouter);
 app.use(routes_1.default.userRouter);
+app.use(routes_1.default.courseRouter);
+app.use(routes_1.default.moduleRouter);
+app.use(routes_1.default.userCoursesRouter);
 exports.default = app;

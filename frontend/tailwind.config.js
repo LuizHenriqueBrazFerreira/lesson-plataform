@@ -13,9 +13,10 @@ module.exports = withMT({
         ...colors,
         'btn-orange': '#e06915',
         'bg-login': 'rgba(214, 40, 31, 0.6)',
+        'courses-gray': 'rgb(232, 232, 232)'
       },
       backgroundImage: {
-        'bg-image-login': "url('/src/assets/background.png')",
+        'image-login': "url('/src/assets/background.png')",
         'eye': "url('/src/assets/eye.png')",
         'eye-slash': "url('/src/assets/eye-slash.png')",
       },
@@ -25,5 +26,5 @@ module.exports = withMT({
     },
   },
   plugins: [],
-})
+});
 

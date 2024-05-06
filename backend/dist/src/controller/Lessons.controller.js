@@ -14,35 +14,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Lessons_service_1 = __importDefault(require("../services/Lessons.service"));
 const mapHttp_1 = __importDefault(require("../utils/mapHttp"));
-const requestAllLessons = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { status, data } = yield Lessons_service_1.default.getAllLessons();
-    if (status !== 'SUCCESSFUL')
-        return res.status((0, mapHttp_1.default)(status)).json(data);
-    return res.status(200).json(data);
-});
-const requestDeleteLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = Number(req.params.id);
-    const { status, data } = yield Lessons_service_1.default.deleteLesson(id);
-    if (status !== 'NO_CONTENT')
-        return res.status((0, mapHttp_1.default)(status)).json(data);
-    return res.status(204).end();
-});
-const requestUpdateLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const lessonData = req.body;
-    const { status, data } = yield Lessons_service_1.default.updateLesson(lessonData);
-    if (status !== 'SUCCESSFUL')
-        return res.status((0, mapHttp_1.default)(status)).json(data);
-    return res.status(204).json(data);
-});
-const requestCreateLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const lessonData = req.body;
-    const { data } = yield Lessons_service_1.default.createLesson(lessonData);
-    console.log(data);
-    return res.status(201).json(data);
-});
-const requestLessonById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = Number(req.params.id);
-    const { data } = yield Lessons_service_1.default.getLessonById(id);
-    return res.status(200).json(data);
-});
-exports.default = { requestAllLessons, requestDeleteLesson, requestUpdateLesson, requestCreateLesson, requestLessonById };
+class LessonsController {
+    constructor() {
+        this.service = new Lessons_service_1.default();
+    }
+    createLesson(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { moduleId, title, content, image, link } = req.body;
+            const response = yield this.service.createLesson(moduleId, title, content, image, link);
+            return res.status((0, mapHttp_1.default)(response.status)).json(response);
+        });
+    }
+    getLessons(_req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.service.getLessons();
+            return res.status((0, mapHttp_1.default)(response.status)).json(response);
+        });
+    }
+    getLessonById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const response = yield this.service.getLessonById(Number(id));
+            return res.status((0, mapHttp_1.default)(response.status)).json(response);
+        });
+    }
+    updateLessonById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const { moduleId, title, content, image, link } = req.body;
+            const response = yield this.service.updateLessonById(Number(id), moduleId, title, content, image, link);
+            return res.status((0, mapHttp_1.default)(response.status)).json(response);
+        });
+    }
+    deleteLessonById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const response = yield this.service.deleteLessonById(Number(id));
+            return res.status((0, mapHttp_1.default)(response.status)).json(response);
+        });
+    }
+}
+exports.default = LessonsController;

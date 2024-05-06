@@ -5,32 +5,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("./index"));
-const UserModel = index_1.default.define('Users', {
-    name: {
+class UsersSequelize extends sequelize_1.Model {
+}
+UsersSequelize.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    name: {
         type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
     },
     email: {
-        unique: true,
+        type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-        type: sequelize_1.DataTypes.STRING
+        unique: true,
     },
     password: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
     role: {
+        type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-        type: sequelize_1.DataTypes.STRING
+        defaultValue: 'STUDENT'
     },
     confirmEmailToken: {
-        allowNull: true,
         type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
         field: 'confirm_email_token'
-    }
+    },
 }, {
-    tableName: 'Users',
-    underscored: true,
-    timestamps: false
+    sequelize: index_1.default,
+    modelName: 'Users',
+    timestamps: false,
 });
-exports.default = UserModel;
+exports.default = UsersSequelize;

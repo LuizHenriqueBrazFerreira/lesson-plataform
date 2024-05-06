@@ -1,54 +1,59 @@
 import { Request, Response } from "express";
-import UserService from "../services/User.service";
 import mapStatusHTTP from "../utils/mapHttp";
+import UsersService from '../services/User.service';
+import { IUserController } from '../interfaces/IUsers';
 
-const registerUser = async (req: Request, res: Response) => {
-  const userData = req.body;
+class UsersController implements IUserController{
+  private userService = new UsersService()
 
-  const {status, data} = await UserService.createUser(userData);
+  async registerUser(req: Request, res: Response) {
+    const userData = req.body;
   
-
-  res.status(mapStatusHTTP(status)).json(data);
+    const {status, data} = await this.userService.createUser(userData);
+    
+  
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+  
+  async requestUserByEmail(req: Request, res: Response) {
+    const {email, password} = req.body;
+  
+    const {status, data} = await this.userService.findByEmail(email, password);
+  
+   return res.status(mapStatusHTTP(status)).json(data)
+  }
+  
+  async confirmEmail(req: Request, res: Response) {
+    const {token} = req.body;
+  
+    const {status, data} = await this.userService.confirmEmail(token);
+  
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+  
+  async resendEmail(req: Request, res: Response){
+    const {email} = req.body;
+  
+    const {status, data} = await this.userService.resendEmail(email);
+  
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+  
+  async forgotPassword(req: Request, res: Response) {
+    const {email} = req.body;
+  
+    const {status, data} = await this.userService.forgotPassword(email);
+  
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+  
+  async resetPassword(req: Request, res: Response) {
+    const {token, password} = req.body;
+  
+    const {status, data} = await this.userService.resetPassword(token, password);
+  
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }
 
-const requestUserByEmail = async (req: Request, res: Response) => {
-  const {email, password} = req.body;
-
-  const {status, data} = await UserService.findByEmail(email, password);
-
- return res.status(mapStatusHTTP(status)).json(data)
-}
-
-const confirmEmail = async (req: Request, res: Response) => {
-  const {token} = req.body;
-
-  const {status, data} = await UserService.confirmEmail(token);
-
-  return res.status(mapStatusHTTP(status)).json(data);
-}
-
-const resendEmail = async (req: Request, res: Response) => {
-  const {email} = req.body;
-
-  const {status, data} = await UserService.resendEmail(email);
-
-  return res.status(mapStatusHTTP(status)).json(data);
-}
-
-const forgotPassword = async (req: Request, res: Response) => {
-  const {email} = req.body;
-
-  const {status, data} = await UserService.forgotPassword(email);
-
-  return res.status(mapStatusHTTP(status)).json(data);
-}
-
-const resetPassword = async (req: Request, res: Response) => {
-  const {token, password} = req.body;
-
-  const {status, data} = await UserService.resetPassword(token, password);
-
-  return res.status(mapStatusHTTP(status)).json(data);
-}
-
-export default {registerUser, requestUserByEmail, confirmEmail, resendEmail, forgotPassword, resetPassword}
+export default UsersController;

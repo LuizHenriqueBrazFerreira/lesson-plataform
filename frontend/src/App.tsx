@@ -24,7 +24,7 @@ function App() {
           <Route path="/" element={ <Homepage /> } />
           <Route path="/login" element={ <Login /> } />
           <Route path="/create-account" element={ <CreateAccount /> } />
-          <Route path="/courses" element={ <StudentCourses /> } />
+          <Route path="/courses/:userId" element={ <StudentCourses /> } />
           <Route path="/courses/:id/modules" element={ <CourseModules /> } />
           <Route path="/courses/:id/modules/:moduleId" element={ <DinamicModules /> } />
           <Route

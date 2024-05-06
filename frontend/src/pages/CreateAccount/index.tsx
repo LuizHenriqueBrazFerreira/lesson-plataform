@@ -1,11 +1,13 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { Input, Typography } from '@material-tailwind/react';
 import { requestPost } from '../../services/requests';
 import EyeButton from '../../components/EyeButton';
 import OrangeButton from '../../components/OrangeButton';
 import WhiteButton from '../../components/WhiteButton';
+import WarnigIcon from '../../components/WarningIcon';
 import GreyInput from '../../components/GreyInput';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
@@ -18,9 +20,17 @@ function CreateAccount() {
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleResendEmail = async () => {
     try {
@@ -40,6 +50,8 @@ function CreateAccount() {
     }
 
     try {
+      setIsLoading(true);
+
       const data = await requestPost('/create-account', { name,
         email,
         password,
@@ -72,11 +84,12 @@ function CreateAccount() {
           allowOutsideClick: false,
           allowEnterKey: false,
           showCloseButton: true,
-          width: '40%',
         });
       }
+      setIsLoading(false);
     } catch (error: any) {
       if (error.isAxiosError) {
+        setIsLoading(false);
         setMessage(error.response.data.message);
       } else {
         console.log('Erro desconhecido:', error);
@@ -91,24 +104,38 @@ function CreateAccount() {
 
   return (
     <LoginBackground>
-      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+      <FormBackground>
         <h1
           className="text-xl lg:text-4xl text-btn-orange mb-3 font-semibold"
         >
           Cadastre-se
         </h1>
-        <GreyInput
+        {/* <GreyInput
           labelText="Nome Completo"
           value={ name }
           onChange={ (event) => setName(event.target.value) }
+        /> */}
+        <Input
+          value={ name }
+          size="lg"
+          type="text"
+          onChange={ (e) => setName(e.target.value) }
+          label="Nome Completo"
         />
-        <GreyInput
+        {/* <GreyInput
           labelText="Email"
           type="email"
           value={ email }
           onChange={ (event) => setEmail(event.target.value) }
+        /> */}
+        <Input
+          value={ email }
+          size="lg"
+          type="email"
+          onChange={ (e) => setEmail(e.target.value) }
+          label="Email"
         />
-        <div>
+        {/* <div>
           <GreyInput
             labelText="Senha"
             type={ showPassword ? 'text' : 'password' }
@@ -121,12 +148,44 @@ function CreateAccount() {
             showEye={ showEye }
             showPassword={ showPassword }
           />
+        </div> */}
+        <div>
+          <Input
+            value={ password }
+            size="lg"
+            type={ showPassword ? 'text' : 'password' }
+            onChange={ (e) => setPassword(e.target.value) }
+            onFocus={ () => setShowEye(true) }
+            label="Senha"
+            icon={ <EyeButton
+              onClick={ (event) => handleShowPassword(event) }
+              showEye={ showEye }
+              showPassword={ showPassword }
+            /> }
+          />
+          { showEye && (
+            <Typography
+              variant="small"
+              color="gray"
+              className="mt-2 flex items-center gap-1 font-normal"
+            >
+              <WarnigIcon />
+              A senha deve ter no mínimo 8 caracteres
+            </Typography>
+          )}
         </div>
-        <GreyInput
+        {/* <GreyInput
           labelText="Confirme sua senha"
           type={ showPassword ? 'text' : 'password' }
           value={ confirmPassword }
           onChange={ (e) => setConfirmPassword(e.target.value) }
+        /> */}
+        <Input
+          value={ confirmPassword }
+          size="lg"
+          type={ showPassword ? 'text' : 'password' }
+          onChange={ (e) => setConfirmPassword(e.target.value) }
+          label="Confirme sua senha"
         />
         { message === 'E-mail reenviado com sucesso.'
         || message === 'Usuário criado com sucesso.'
@@ -134,6 +193,7 @@ function CreateAccount() {
           : <p className="text-red-500">{ message }</p>}
         <OrangeButton
           onClick={ (event) => handleRegister(event) }
+          isLoading={ isLoading }
         >
           Cadastrar
         </OrangeButton>
