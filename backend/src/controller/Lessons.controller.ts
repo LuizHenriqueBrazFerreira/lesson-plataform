@@ -7,9 +7,9 @@ class LessonsController implements ILessonsController {
   private service = new LessonsService();
 
   async createLesson(req: Request, res: Response) {
-    const { moduleId, title, content, image, link } = req.body;
+    const { moduleTitle, title, content, image, link } = req.body;
 
-    const response = await this.service.createLesson(moduleId, title, content, image, link);
+    const response = await this.service.createLesson(moduleTitle, title, content, image, link);
 
     return res.status(mapStatusHttp(response.status)).json(response);
   }

@@ -14,8 +14,7 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
     title: '',
     content: '',
     image: '',
-    course: '',
-    module: '',
+    moduleTitle: '',
   };
 
   const navigate = useNavigate();
@@ -57,7 +56,7 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
 
   return (
     <form onSubmit={ (e) => { e.preventDefault(); } } className="text-center w-[250px]">
-      <label htmlFor="title" className="text-xl  ">Título</label>
+      <label htmlFor="title" className="text-xl  ">Título da aula</label>
       <input
         type="text"
         name="title"
@@ -78,22 +77,13 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
         onChange={ (event) => handleChange(event) }
       />
 
-      <label htmlFor="course" className="text-xl  ">Curso</label>
-      <input
-        type="text"
-        name="course"
-        id="course"
-        value={ lessonData.course }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
-        onChange={ (event) => handleChange(event) }
-      />
-
       <label htmlFor="module" className="text-xl  ">Módulo</label>
       <input
         type="text"
         name="module"
         id="module"
-        value={ lessonData.module }
+        required
+        value={ lessonData.moduleTitle }
         className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
         onChange={ (event) => handleChange(event) }
       />

@@ -21,7 +21,7 @@ export interface ILessonsModel {
 }
 
 export interface ILessonsService {
-  createLesson(moduleId: number, title: string, content: string, image: string, link: string): Promise<ServiceResponse<ILessons>>;
+  createLesson(moduleTitle: string, title: string, content: string, image: string, link: string): Promise<ServiceResponse<ILessons>>;
   getLessons(): Promise<ServiceResponse<ILessons[]>>;
   getLessonById(id: number): Promise<ServiceResponse<ILessons>>;
   updateLessonById(id: number, moduleId: number, title: string, content: string, image: string, link: string): Promise<ServiceResponse<[affectedCount: number]>>;

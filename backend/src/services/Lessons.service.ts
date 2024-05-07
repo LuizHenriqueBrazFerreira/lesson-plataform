@@ -1,11 +1,17 @@
 import { ILessonsService } from '../interfaces/ILessons';
 import LessonsModel from '../models/LessonsModel';
+import ModulesModel from '../models/ModulesModel';
 
 class LessonsService implements ILessonsService {
   private model = new LessonsModel();
-
-  async createLesson(moduleId: number, title: string, content: string, image: string, link: string) {
+  private _moduleModel = new ModulesModel()
+  async createLesson(moduleTitle: string, title: string, content: string, image: string, link: string) {
     try {
+      const moduleExists = await this._moduleModel.getModuleByTitle(moduleTitle);
+
+      if (!moduleExists) throw new Error('Módulo não encontrado');
+      
+      const moduleId = moduleExists.id;
       const lesson = await this.model.createLesson(moduleId, title, content, image, link);
 
       return { status: 'SUCCESSFUL', data: lesson };
