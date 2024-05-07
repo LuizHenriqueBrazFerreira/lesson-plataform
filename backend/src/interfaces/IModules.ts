@@ -17,7 +17,7 @@ export interface IModulesModel {
 }
 
 export interface IModulesService {
-  createModule(courseId: number, title: string): Promise<ServiceResponse<IModules>>;
+  createModule(courseTitle: string, title: string): Promise<ServiceResponse<IModules>>;
   getModules(): Promise<ServiceResponse<IModules[]>>;
   getModuleById(id: number): Promise<ServiceResponse<ModulesSequelize[] | null>>;
   updateModuleById(id: number, courseId: number, title: string): Promise<ServiceResponse<[affectedCount: number]>>;

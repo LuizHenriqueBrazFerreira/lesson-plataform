@@ -22,6 +22,12 @@ class CoursesModel implements ICoursesModel {
     return course;
   }
 
+  async getCourseByTitle(courseTitle: string) {
+    const course = await this.model.findOne({ where: { title: courseTitle } });
+
+    return course;
+  }
+
   async updateCourseById(id: number, title: string) {
     const course = await this.model.update({ title }, { where: { id } });
 

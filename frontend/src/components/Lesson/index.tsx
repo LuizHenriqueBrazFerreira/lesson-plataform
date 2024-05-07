@@ -14,8 +14,8 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
     title: '',
     content: '',
     image: '',
-    topic: '',
-    subTopic: '',
+    course: '',
+    module: '',
   };
 
   const navigate = useNavigate();
@@ -62,6 +62,7 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
         type="text"
         name="title"
         id="title"
+        required
         value={ lessonData.title }
         className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
         onChange={ (event) => handleChange(event) }
@@ -77,22 +78,22 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
         onChange={ (event) => handleChange(event) }
       />
 
-      <label htmlFor="topic" className="text-xl  ">Tópico</label>
+      <label htmlFor="course" className="text-xl  ">Curso</label>
       <input
         type="text"
-        name="topic"
-        id="topic"
-        value={ lessonData.topic }
+        name="course"
+        id="course"
+        value={ lessonData.course }
         className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
         onChange={ (event) => handleChange(event) }
       />
 
-      <label htmlFor="subtopic" className="text-xl  ">Sub-tópico</label>
+      <label htmlFor="module" className="text-xl  ">Módulo</label>
       <input
         type="text"
-        name="subTopic"
-        id="subtopic"
-        value={ lessonData.subTopic }
+        name="module"
+        id="module"
+        value={ lessonData.module }
         className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
         onChange={ (event) => handleChange(event) }
       />

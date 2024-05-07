@@ -3,6 +3,6 @@ export type Lessons = {
   title: string,
   content: string,
   image: string,
-  topic: string,
-  subTopic:string
+  course: string,
+  module:string
 };

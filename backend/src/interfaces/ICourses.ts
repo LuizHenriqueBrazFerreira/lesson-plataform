@@ -11,6 +11,7 @@ export interface ICoursesModel {
   createCourse(title: string): Promise<ICourses>;
   getCourses(): Promise<ICourses[]>;
   getCourseById(id: number): Promise<CoursesSequelize | null>;
+  getCourseByTitle(courseTitle: string): Promise<CoursesSequelize | null>;
   updateCourseById(id: number, title: string): Promise<[affectedCount: number]>;
   deleteCourseById(id: number): Promise<number>;
 }
