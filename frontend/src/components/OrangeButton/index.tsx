@@ -1,17 +1,24 @@
+import { Button } from '@material-tailwind/react';
 import { ButtonHTMLAttributes } from 'react';
 
 type ButtonProps = {
-  children: React.ReactNode
+  children: React.ReactNode,
+  moreClasses?: string;
+  isLoading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function OrangeButton({ children, ...rest }: ButtonProps) {
+export default function OrangeButton({ children,
+  moreClasses = '', isLoading = false, ...rest }: ButtonProps) {
   return (
-    <button
-      className="bg-btn-orange text-white
-          w-32 lg:w-60 h-6 lg:h-12 self-center my-3 rounded-md font-semibold"
+    // @ts-expect-error - material-tailwind @types/react bug
+    <Button
+      className={ `w-32 lg:w-60 h-6 lg:h-12 bg-btn-orange
+    self-center my-3 rounded-md font-semibold 
+    flex items-center justify-center ${moreClasses}` }
+      loading={ isLoading }
       { ...rest }
     >
       {children}
-    </button>
+    </Button>
   );
 }

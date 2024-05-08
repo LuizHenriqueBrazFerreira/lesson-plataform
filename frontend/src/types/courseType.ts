@@ -11,8 +11,15 @@ export type Module = {
   lessons: Lesson[];
 };
 
-export type Course = {
+export type Courses = {
   id: number;
   title: string;
-  modules: Module[];
+};
+
+export type UserCourses = {
+  courseId: number;
+  courseTitle: string;
+  userId: number;
+  progress: number;
+  bookmarked: boolean;
 };

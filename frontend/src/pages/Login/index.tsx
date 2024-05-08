@@ -2,6 +2,7 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
+import { Input } from '@material-tailwind/react';
 import { requestPost, setToken } from '../../services/requests';
 import Button from '../../components/Button';
 import EyeButton from '../../components/EyeButton';
@@ -17,6 +18,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
@@ -32,7 +34,9 @@ function Login() {
     event.preventDefault();
 
     try {
-      const { token, role } = await requestPost('/login', { email, password });
+      setIsLoading(true);
+
+      const { token, role, id } = await requestPost('/login', { email, password });
 
       setToken(token);
 
@@ -40,14 +44,17 @@ function Login() {
 
       localStorage.setItem('role', role);
 
+      localStorage.setItem('userId', id);
+
       if (role === 'ADMIN') {
         navigate('/admin');
       } else {
-        navigate('/courses');
+        navigate(`/courses/${id}`);
       }
     } catch (error: any) {
       if (error.isAxiosError) {
         console.log(error.response);
+        setIsLoading(false);
         setMessage(error.response.data.message);
       }
     }
@@ -74,7 +81,6 @@ function Login() {
       input: 'email',
       inputValue: '',
       inputAutoTrim: true,
-      width: '30%',
       showCancelButton: true,
       confirmButtonText: 'Enviar',
       confirmButtonColor: '#e06915',
@@ -88,15 +94,22 @@ function Login() {
 
   return (
     <LoginBackground>
-      <FormBackground moreClasses="justify-evenly text-xs lg:text-base">
+      <FormBackground>
         <h1 className="text-xl lg:text-4xl text-btn-orange font-semibold">Entrar</h1>
-        <GreyInput
+        {/* <GreyInput
           labelText="Email"
           type="email"
           value={ email }
           onChange={ (e) => setEmail(e.target.value) }
+        /> */}
+        <Input
+          value={ email }
+          size="lg"
+          type="email"
+          onChange={ (e) => setEmail(e.target.value) }
+          label="Email"
         />
-        <div>
+        {/* <div>
           <GreyInput
             labelText="Senha"
             type={ showPassword ? 'text' : 'password' }
@@ -109,16 +122,31 @@ function Login() {
             showEye={ showEye }
             showPassword={ showPassword }
           />
-        </div>
+        </div> */}
+        <Input
+          value={ password }
+          size="lg"
+          type={ showPassword ? 'text' : 'password' }
+          onChange={ (e) => setPassword(e.target.value) }
+          onFocus={ () => setShowEye(true) }
+          label="Senha"
+          icon={ <EyeButton
+            onClick={ (event) => handleShowPassword(event) }
+            showEye={ showEye }
+            showPassword={ showPassword }
+          /> }
+        />
         { message && <p className="text-red-500">{ message }</p> }
         <OrangeButton
           onClick={ (event) => handleLogin(event) }
           type="submit"
+          isLoading={ isLoading }
         >
           Entrar
         </OrangeButton>
         <Button
-          className="self-center underline"
+          className="self-center underline
+          active:text-blue-500 hover:text-blue-700"
           onClick={ handleForgotPassword }
         >
           Esqueceu sua senha?

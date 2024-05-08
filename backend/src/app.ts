@@ -8,5 +8,8 @@ app.use(cors());
 app.use(express.json())
 app.use(routes.lessonRouter)
 app.use(routes.userRouter)
+app.use(routes.courseRouter)
+app.use(routes.moduleRouter)
+app.use(routes.userCoursesRouter)
 
 export default app;
