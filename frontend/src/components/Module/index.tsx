@@ -12,20 +12,22 @@ function Module() {
   };
 
   return (
-    <>
-      <label htmlFor="title">Título do módulo</label>
+    <div className="inline-flex flex-col text-center justify-center absolute top-[130px]">
+
+      <label htmlFor="title" className="text-xl text-black ">Título do módulo</label>
       <input
         type="text"
         name="title"
         id="title"
         value={ moduleData.title }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
+        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center
+        "
         onChange={ (event) => handleChange(event) }
       />
-      <label htmlFor="title">Título do curso</label>
+      <label htmlFor="course" className="text-xl text-black ">Título do curso</label>
       <input
         type="text"
-        name="course"
+        name="courseTitle"
         id="course"
         value={ moduleData.courseTitle }
         className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
@@ -33,11 +35,13 @@ function Module() {
       />
       <button
         onClick={ () => requestPost('/modules', moduleData) }
+        className=" bg-white border-solid border-2
+          border-btn-orange text-btn-orange w-[140px] h-10 self-center rounded-md"
       >
         Cadastrar Módulo
       </button>
 
-    </>
+    </div>
   );
 }
 

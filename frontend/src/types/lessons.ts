@@ -3,5 +3,6 @@ export type Lessons = {
   title: string,
   content: string,
   image: string,
-  moduleTitle:string
+  moduleTitle:string,
+  link: string
 };

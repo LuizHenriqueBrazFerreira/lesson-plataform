@@ -13,13 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const LessonsModel_1 = __importDefault(require("../models/LessonsModel"));
+const ModulesModel_1 = __importDefault(require("../models/ModulesModel"));
 class LessonsService {
     constructor() {
         this.model = new LessonsModel_1.default();
+        this._moduleModel = new ModulesModel_1.default();
     }
-    createLesson(moduleId, title, content, image, link) {
+    createLesson(moduleTitle, title, content, image, link) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const moduleExists = yield this._moduleModel.getModuleByTitle(moduleTitle);
+                if (!moduleExists)
+                    throw new Error('Módulo não encontrado');
+                const moduleId = moduleExists.id;
                 const lesson = yield this.model.createLesson(moduleId, title, content, image, link);
                 return { status: 'SUCCESSFUL', data: lesson };
             }

@@ -10,8 +10,13 @@ function Course() {
   };
 
   return (
-    <>
-      <label htmlFor="title">Título do curso</label>
+    <div className="inline-flex flex-col relative items-center top-[150px] right-[]">
+      <label
+        htmlFor="title"
+        className="text-black text-xl"
+      >
+        Título do curso
+      </label>
       <input
         type="text"
         name="course"
@@ -22,11 +27,13 @@ function Course() {
       />
       <button
         onClick={ () => requestPost('/courses', courseData) }
+        className=" bg-white border-solid border-2
+          border-btn-orange text-btn-orange w-[125px] h-10 self-center rounded-md"
       >
-        Cadastrar Módulo
+        Cadastrar curso
       </button>
 
-    </>
+    </div>
   );
 }
 

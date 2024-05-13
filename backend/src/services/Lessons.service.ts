@@ -47,8 +47,13 @@ class LessonsService implements ILessonsService {
     }
   }
 
-  async updateLessonById(id: number, moduleId: number, title: string, content: string, image: string, link: string) {
+  async updateLessonById(id: number, moduleTitle: string, title: string, content: string, image: string, link: string) {
     try {
+      const moduleExists = await this._moduleModel.getModuleByTitle(moduleTitle);
+
+      if (!moduleExists) throw new Error('Módulo não encontrado');
+      
+      const moduleId = moduleExists.id;
       const lesson = await this.model.updateLessonById(id, moduleId, title, content, image, link);
 
       return { status: 'SUCCESSFUL', data: lesson };

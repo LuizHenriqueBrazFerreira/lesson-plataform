@@ -35,6 +35,12 @@ class CoursesModel {
             return course;
         });
     }
+    getCourseByTitle(courseTitle) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const course = yield this.model.findOne({ where: { title: courseTitle } });
+            return course;
+        });
+    }
     updateCourseById(id, title) {
         return __awaiter(this, void 0, void 0, function* () {
             const course = yield this.model.update({ title }, { where: { id } });
