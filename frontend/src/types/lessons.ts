@@ -6,3 +6,10 @@ export type Lessons = {
   moduleTitle:string,
   link: string
 };
+
+export type Status = {
+  course: boolean,
+  module: boolean,
+  lesson: boolean
+  active: boolean
+};

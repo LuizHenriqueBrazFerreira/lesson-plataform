@@ -35,7 +35,7 @@ const navList = (
       className="p-1 font-medium"
     >
       <a
-        href={ `${import.meta.env.VITE_REACT_FRONT_URL}/courses/saved/${userId}`}
+        href={ `${import.meta.env.VITE_REACT_FRONT_URL}/courses/saved/${userId}` }
         className="flex items-center hover:text-blue-500 transition-colors"
       >
         Cursos Salvos

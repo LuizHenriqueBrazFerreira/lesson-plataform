@@ -58,7 +58,14 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
   }
 
   return (
-    <form onSubmit={ (e) => { e.preventDefault(); } } className="text-center w-[250px]">
+    <form
+      onSubmit={ (e) => { e.preventDefault(); } }
+      className="text-center lg:w-[450px]
+      flex flex-row flex-wrap w-[300px] h-[100px] lg:h-[576px]
+      gap-2 justify-center items-center p-1 rounded-md lg:flex-col
+      "
+    >
+
       <label htmlFor="title" className="text-xl  ">Título da aula</label>
       <input
         type="text"
@@ -66,7 +73,7 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
         id="title"
         required
         value={ lessonData.title }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[4px] text-center"
+        className="bg-neutral-200  rounded-md w-1/2 h-10 p-1 my-[4px] text-center"
         onChange={ (event) => handleChange(event) }
       />
 
@@ -75,8 +82,8 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
         name="content"
         id="content"
         value={ lessonData.content }
-        className="bg-neutral-200  rounded-md w-full p-1 my-[4px] text-center
-        resize-none h-[100px]"
+        className="bg-neutral-200  rounded-md w-1/2 p-1 my-[4px] text-center
+        resize-none lg:h-[100px]"
         onChange={ (event) => handleChange(event) }
       />
 
@@ -87,7 +94,7 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
         id="moduleTitle"
         required
         value={ lessonData.moduleTitle }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[4px] text-center"
+        className="bg-neutral-200  rounded-md w-1/2 h-10 p-1 my-[4px] text-center"
         onChange={ (event) => handleChange(event) }
       />
 
@@ -97,7 +104,7 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
         name="image"
         id="image"
         value={ lessonData.image }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[4px] text-center"
+        className="bg-neutral-200  rounded-md w-1/2 h-10 p-1 my-[4px] text-center"
         onChange={ (event) => handleChange(event) }
       />
 
@@ -107,9 +114,10 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
         name="link"
         id="link"
         value={ lessonData.link }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[4px] text-center"
+        className="bg-neutral-200  rounded-md w-1/2 h-10 p-1 my-[4px] text-center"
         onChange={ (event) => handleChange(event) }
       />
+
       <button
         onClick={ handleClick }
         className="bg-white border-solid border-2

@@ -43,8 +43,8 @@ function LessonList() {
       }) => (
         <div
           key={ `${title}${Math.floor(Math.random() * 500 ** 2)}${moduleTitle}` }
-          className="m-2 w-[400px] h-[170px] border-black
-          border rounded-lg text-center bg-bg-login p-1 justify-center"
+          className="m-2 w-[94%] h-[170px] border-black
+          border rounded-lg text-center bg-bg-login p-1 "
         >
           <h2 className="m-[1px] text-base text-white">{title}</h2>
           <h5 className="m-[1px] text-base text-white">{moduleTitle}</h5>

@@ -2,12 +2,11 @@ import Course from '../Course';
 
 function CreateCourse() {
   return (
-    <div className="inline-flex">
-      <section
-        className="inline-flex justify-center absolute top-[19%] right-[10%] w-1/4 "
-      >
-        <Course />
-      </section>
+    <div
+      className="absolute left-[35%] top-[100%] justify-center
+     lg:absolute lg:top-[49%] lg:left-[66%] w-auto"
+    >
+      <Course />
     </div>
   );
 }

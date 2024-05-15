@@ -59,9 +59,13 @@ class LessonsService {
             }
         });
     }
-    updateLessonById(id, moduleId, title, content, image, link) {
+    updateLessonById(id, moduleTitle, title, content, image, link) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const moduleExists = yield this._moduleModel.getModuleByTitle(moduleTitle);
+                if (!moduleExists)
+                    throw new Error('Módulo não encontrado');
+                const moduleId = moduleExists.id;
                 const lesson = yield this.model.updateLessonById(id, moduleId, title, content, image, link);
                 return { status: 'SUCCESSFUL', data: lesson };
             }

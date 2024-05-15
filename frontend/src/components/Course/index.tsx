@@ -10,7 +10,7 @@ function Course() {
   };
 
   return (
-    <div className="inline-flex flex-col relative items-center top-[150px] right-[]">
+    <div className="flex flex-col items-center">
       <label
         htmlFor="title"
         className="text-black text-xl"
@@ -22,7 +22,7 @@ function Course() {
         name="course"
         id="course"
         value={ courseData }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
+        className="bg-neutral-200  rounded-md w-[180px] h-10 p-1 my-[10px] text-center"
         onChange={ (event) => handleChange(event) }
       />
       <button
