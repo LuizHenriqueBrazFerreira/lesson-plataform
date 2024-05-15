@@ -12,10 +12,10 @@ type NewLessonProps = {
 function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonProps) {
   const initialForm = {
     title: '',
-    content: '',
-    image: '',
-    topic: '',
-    subTopic: '',
+    content: 'content',
+    image: 'image',
+    moduleTitle: '',
+    link: 'link',
   };
 
   const navigate = useNavigate();
@@ -28,7 +28,8 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
     if (Object.values(lessonFromDB).length !== 0) setLessonData(lessonFromDB);
   }, []);
 
-  function handleChange({ target }:React.ChangeEvent<HTMLInputElement>) {
+  function handleChange({ target }:
+  React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { value, name } = target;
 
     const lesson = { ...lessonData, [name]: value };
@@ -45,6 +46,7 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
 
         console.log(response);
       }
+      console.log(lessonData);
 
       const response = await requestUpdateLesson(`/lessons/${id}`, lessonData);
       console.log(response.data);
@@ -56,54 +58,63 @@ function Lesson({ newLesson = true, lessonFromDB = {} as Lessons }: NewLessonPro
   }
 
   return (
-    <form onSubmit={ (e) => { e.preventDefault(); } } className="text-center w-[250px]">
-      <label htmlFor="title" className="text-xl  ">Título</label>
+    <form
+      onSubmit={ (e) => { e.preventDefault(); } }
+      className="text-center lg:w-[450px]
+      flex flex-row flex-wrap w-[300px] h-[100px] lg:h-[576px]
+      gap-2 justify-center items-center p-1 rounded-md lg:flex-col
+      "
+    >
+
+      <label htmlFor="title" className="text-xl  ">Título da aula</label>
       <input
         type="text"
         name="title"
         id="title"
+        required
         value={ lessonData.title }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
+        className="bg-neutral-200  rounded-md w-1/2 h-10 p-1 my-[4px] text-center"
         onChange={ (event) => handleChange(event) }
       />
 
       <label htmlFor="content" className="text-xl  ">Conteúdo</label>
-      <input
-        type="text"
+      <textarea
         name="content"
         id="content"
         value={ lessonData.content }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
+        className="bg-neutral-200  rounded-md w-1/2 p-1 my-[4px] text-center
+        resize-none lg:h-[100px]"
         onChange={ (event) => handleChange(event) }
       />
 
-      <label htmlFor="topic" className="text-xl  ">Tópico</label>
+      <label htmlFor="moduleTitle" className="text-xl  ">Módulo</label>
       <input
         type="text"
-        name="topic"
-        id="topic"
-        value={ lessonData.topic }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
+        name="moduleTitle"
+        id="moduleTitle"
+        required
+        value={ lessonData.moduleTitle }
+        className="bg-neutral-200  rounded-md w-1/2 h-10 p-1 my-[4px] text-center"
         onChange={ (event) => handleChange(event) }
       />
 
-      <label htmlFor="subtopic" className="text-xl  ">Sub-tópico</label>
-      <input
-        type="text"
-        name="subTopic"
-        id="subtopic"
-        value={ lessonData.subTopic }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
-        onChange={ (event) => handleChange(event) }
-      />
-
-      <label htmlFor="image" className="text-xl  ">Link da video-aula</label>
+      <label htmlFor="image" className="text-xl  ">Imagem</label>
       <input
         type="text"
         name="image"
         id="image"
         value={ lessonData.image }
-        className="bg-neutral-200  rounded-md w-full h-10 p-1 my-[10px] text-center"
+        className="bg-neutral-200  rounded-md w-1/2 h-10 p-1 my-[4px] text-center"
+        onChange={ (event) => handleChange(event) }
+      />
+
+      <label htmlFor="link" className="text-xl  ">Link da video aula</label>
+      <input
+        type="text"
+        name="link"
+        id="link"
+        value={ lessonData.link }
+        className="bg-neutral-200  rounded-md w-1/2 h-10 p-1 my-[4px] text-center"
         onChange={ (event) => handleChange(event) }
       />
 

@@ -1,11 +1,18 @@
 import { IModulesService } from '../interfaces/IModules';
+import CoursesModel from '../models/CoursesModel';
 import ModulesModel from '../models/ModulesModel';
 
 class ModulesService implements IModulesService {
   private modulesModel = new ModulesModel();
+  private _coursesModel = new CoursesModel()
 
-  async createModule(courseId: number, title: string) {
+  async createModule(courseTitle: string, title: string) {
     try {
+      const courseExists = await this._coursesModel.getCourseByTitle(courseTitle);
+
+      if(!courseExists) throw new Error('Curso não encontrado.');
+      
+      const courseId = courseExists.id;
       const module = await this.modulesModel.createModule(courseId, title);
 
       return { status: 'CREATED', data: module}

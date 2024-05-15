@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import NavBar from '../NavBar';
+import AdminBar from '../AdminBar';
 
 function Header() {
   const { pathname } = useLocation();
@@ -25,6 +26,8 @@ function Header() {
       { pathname !== '/' && pathname !== '/login' ? (
         <NavBar />
       ) : null}
+
+      { pathname === '/admin' && (<AdminBar />)}
     </header>
   );
 }
