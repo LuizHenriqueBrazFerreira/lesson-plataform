@@ -20,8 +20,8 @@ class ModulesController {
     }
     createModule(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { courseId, title } = req.body;
-            const { status, data } = yield this.modulesService.createModule(courseId, title);
+            const { courseTitle, title } = req.body;
+            const { status, data } = yield this.modulesService.createModule(courseTitle, title);
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }

@@ -20,8 +20,8 @@ class LessonsController {
     }
     createLesson(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { moduleId, title, content, image, link } = req.body;
-            const response = yield this.service.createLesson(moduleId, title, content, image, link);
+            const { moduleTitle, title, content, image, link } = req.body;
+            const response = yield this.service.createLesson(moduleTitle, title, content, image, link);
             return res.status((0, mapHttp_1.default)(response.status)).json(response);
         });
     }
@@ -41,8 +41,8 @@ class LessonsController {
     updateLessonById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const { moduleId, title, content, image, link } = req.body;
-            const response = yield this.service.updateLessonById(Number(id), moduleId, title, content, image, link);
+            const { moduleTitle, title, content, image, link } = req.body;
+            const response = yield this.service.updateLessonById(Number(id), moduleTitle, title, content, image, link);
             return res.status((0, mapHttp_1.default)(response.status)).json(response);
         });
     }

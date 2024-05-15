@@ -7,9 +7,9 @@ class ModulesController implements IModulesController {
   constructor(private modulesService = new ModulesService()) {}
 
   async createModule(req: Request, res: Response) {
-    const { courseId, title } = req.body;
+    const { courseTitle, title } = req.body;
 
-    const { status, data } = await this.modulesService.createModule(courseId, title);
+    const { status, data } = await this.modulesService.createModule(courseTitle, title);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }

@@ -14,7 +14,7 @@ function LessonList() {
     const requestLessons = async () => {
       const lessonsFromDB = await requestData('/lessons');
 
-      setLessonList(lessonsFromDB);
+      setLessonList(lessonsFromDB.data);
 
       console.log(lessonList);
     };
@@ -37,23 +37,23 @@ function LessonList() {
       {lessonList.map(({ title,
         content,
         image,
-        subTopic,
-        topic,
+        moduleTitle,
+        link,
         id,
       }) => (
         <div
-          key={ `${title}${Math.floor(Math.random() * 500 ** 2)}${topic}` }
-          className="m-2 w-[400px] h-[170px] border-black
-          border rounded-lg text-center bg-bg-login p-1 justify-center"
+          key={ `${title}${Math.floor(Math.random() * 500 ** 2)}${moduleTitle}` }
+          className="m-2 w-[94%] h-[170px] border-black
+          border rounded-lg text-center bg-bg-login p-1 "
         >
           <h2 className="m-[1px] text-base text-white">{title}</h2>
-          <h4 className="m-[1px] text-base text-white">{topic}</h4>
-          <h5 className="m-[1px] text-base text-white">{subTopic}</h5>
+          <h5 className="m-[1px] text-base text-white">{moduleTitle}</h5>
           <h4 className="m-[1px] text-base text-white">{content}</h4>
+          <img src={ image } alt="nameImg" />
           <button
             onClick={ () => handleClick(
               id,
-              { title, content, image, topic, subTopic, id },
+              { title, content, image, moduleTitle, link, id },
             ) }
             className="bg-orange-400 p-1 mb-1 rounded-md text-slate-50 font-light
             text-base"

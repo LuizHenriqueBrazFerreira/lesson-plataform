@@ -3,6 +3,13 @@ export type Lessons = {
   title: string,
   content: string,
   image: string,
-  topic: string,
-  subTopic:string
+  moduleTitle:string,
+  link: string
+};
+
+export type Status = {
+  course: boolean,
+  module: boolean,
+  lesson: boolean
+  active: boolean
 };

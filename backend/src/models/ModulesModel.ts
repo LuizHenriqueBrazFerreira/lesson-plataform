@@ -22,6 +22,12 @@ class ModulesModel implements IModulesModel {
     return modules;
   }
 
+  async getModuleByTitle(title: string) {
+    const module = await this.model.findOne({ where: { title } });
+
+    return module;
+  }
+
   async updateModuleById(id: number, courseId: number, title: string) {
     const module = await this.model.update({ courseId, title }, { where: { id } });
 

@@ -12,14 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const CoursesModel_1 = __importDefault(require("../models/CoursesModel"));
 const ModulesModel_1 = __importDefault(require("../models/ModulesModel"));
 class ModulesService {
     constructor() {
         this.modulesModel = new ModulesModel_1.default();
+        this._coursesModel = new CoursesModel_1.default();
     }
-    createModule(courseId, title) {
+    createModule(courseTitle, title) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const courseExists = yield this._coursesModel.getCourseByTitle(courseTitle);
+                if (!courseExists)
+                    throw new Error('Curso não encontrado.');
+                const courseId = courseExists.id;
                 const module = yield this.modulesModel.createModule(courseId, title);
                 return { status: 'CREATED', data: module };
             }
