@@ -1,12 +1,12 @@
 import { useState, MouseEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Input } from '@material-tailwind/react';
 import { validatePassword } from '../../utils/validations';
 import { requestUpdate } from '../../services/requests';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
 import OrangeButton from '../../components/OrangeButton';
 import WhiteButton from '../../components/WhiteButton';
-import GreyInput from '../../components/GreyInput';
 import EyeButton from '../../components/EyeButton';
 
 function ResetPassword() {
@@ -52,22 +52,22 @@ function ResetPassword() {
         >
           Crie uma nova senha
         </h1>
-        <div>
-          <GreyInput
-            labelText="Nova senha"
-            type={ showPassword ? 'text' : 'password' }
-            value={ password }
-            onChange={ (e) => setPassword(e.target.value) }
-            onFocus={ () => setShowEye(true) }
-          />
-          <EyeButton
+        <Input
+          value={ password }
+          size="lg"
+          type={ showPassword ? 'text' : 'password' }
+          onChange={ (e) => setPassword(e.target.value) }
+          onFocus={ () => setShowEye(true) }
+          label="Nova senha"
+          icon={ <EyeButton
             onClick={ (event) => handleShowPassword(event) }
             showEye={ showEye }
             showPassword={ showPassword }
-          />
-        </div>
-        <GreyInput
-          labelText="Confirme sua senha"
+          /> }
+        />
+        <Input
+          size="lg"
+          label="Confirme sua senha"
           type={ showPassword ? 'text' : 'password' }
           value={ confirmPassword }
           onChange={ (e) => setConfirmPassword(e.target.value) }

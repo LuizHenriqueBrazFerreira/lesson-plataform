@@ -31,8 +31,8 @@ class ModulesModel {
     }
     getModuleById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const module = yield this.model.findByPk(id);
-            return module;
+            const modules = yield this.model.findAll({ where: { courseId: id } });
+            return modules;
         });
     }
     updateModuleById(id, courseId, title) {
