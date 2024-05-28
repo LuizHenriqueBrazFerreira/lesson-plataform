@@ -5,7 +5,7 @@ import { requestData, requestUpdate } from '../services/requests';
 import { UserCourses } from '../types/courseType';
 import CourseCard from '../components/CourseCard';
 
-function StudentCourses() {
+function BookmarkedCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
   const [hasCourses, setHasCourses] = useState(true);
 
@@ -24,7 +24,7 @@ function StudentCourses() {
       try {
         const data = await requestData(`/user-courses/${userId}`);
         setCourses(data);
-        setHasCourses(data.length > 0);
+        setHasCourses(data.some((course: UserCourses) => course.bookmarked));
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data.message);
@@ -55,18 +55,20 @@ function StudentCourses() {
           className="text-xl lg:text-4xl
            text-btn-orange font-bold"
         >
-          Meus Cursos
+          Cursos Salvos
         </h1>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-w-fit">
         { hasCourses ? (
           courses.map((course, index) => (
-            <CourseCard
-              key={ index }
-              course={ course }
-              index={ index }
-              handleBookmark={ handleBookmark }
-            />
+            course.bookmarked ? (
+              <CourseCard
+                key={ index }
+                course={ course }
+                index={ index }
+                handleBookmark={ handleBookmark }
+              />
+            ) : (null)
           ))
         )
           : (
@@ -74,7 +76,7 @@ function StudentCourses() {
               className="text-xl lg:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
-              Você ainda não possui cursos
+              Você não possui cursos salvos
             </h1>
           )}
       </div>
@@ -82,4 +84,4 @@ function StudentCourses() {
   );
 }
 
-export default StudentCourses;
+export default BookmarkedCourses;
