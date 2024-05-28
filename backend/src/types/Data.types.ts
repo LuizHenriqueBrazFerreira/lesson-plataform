@@ -13,10 +13,10 @@ export type Lesson = {
   email: string;
   password: string;
   role: 'ADMIN' | 'STUDENT';
-  confirmEmailToken?: string;
+  confirmEmailToken?: string | null;
 }
 
 export type LoginResponse = {
   token: string;
-  role: 'ADMIN' | 'STUDENT';
+  user: UserData;
 }

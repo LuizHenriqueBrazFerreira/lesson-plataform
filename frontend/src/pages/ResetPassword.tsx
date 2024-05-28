@@ -53,11 +53,13 @@ function ResetPassword() {
           Crie uma nova senha
         </h1>
         <Input
+          crossOrigin={ undefined }
           value={ password }
           size="lg"
           type={ showPassword ? 'text' : 'password' }
           onChange={ (e) => setPassword(e.target.value) }
           onFocus={ () => setShowEye(true) }
+          onBlur={ () => setShowEye(false) }
           label="Nova senha"
           icon={ <EyeButton
             onClick={ (event) => handleShowPassword(event) }
@@ -66,6 +68,7 @@ function ResetPassword() {
           /> }
         />
         <Input
+          crossOrigin={ undefined }
           size="lg"
           label="Confirme sua senha"
           type={ showPassword ? 'text' : 'password' }

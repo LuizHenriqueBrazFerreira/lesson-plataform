@@ -58,7 +58,7 @@ class UsersService {
                 if (!userExists || !isCorrectPassword)
                     return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
                 const token = (0, jwt_1.createToken)({ email, password });
-                return { status: 'SUCCESSFUL', data: { token, role: userExists.dataValues.role, id: userExists.dataValues.id } };
+                return { status: 'SUCCESSFUL', data: { token, user: userExists.dataValues } };
             }
             catch (error) {
                 console.log(error);
@@ -124,6 +124,36 @@ class UsersService {
             }
             catch (error) {
                 return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+            }
+        });
+    }
+    findProfileData(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.userModel.findByEmail(email);
+                if (!user)
+                    return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado.' } };
+                return { status: 'SUCCESSFUL', data: user.dataValues };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+            }
+        });
+    }
+    updateProfileData(oldEmail, email, name, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.userModel.findByEmail(email);
+                if (!user)
+                    return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado.' } };
+                const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
+                yield this.userModel.updateUser('name', name, email);
+                yield this.userModel.updateUser('password', hashedPassword, email);
+                yield this.userModel.updateUser('email', email, oldEmail);
+                return { status: 'SUCCESSFUL', data: { message: 'Perfil atualizado com sucesso!' } };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Erro ao atualizar perfil.' } };
             }
         });
     }

@@ -14,6 +14,8 @@ import DinamicModules from './pages/ModulesLessons';
 import DinamicLessons from './pages/Lessons';
 import ManageLessons from './pages/ManageLessons';
 import RootProvider from './context';
+import BookmarkedCourses from './pages/BookmarkedCourses';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -25,12 +27,14 @@ function App() {
           <Route path="/login" element={ <Login /> } />
           <Route path="/create-account" element={ <CreateAccount /> } />
           <Route path="/courses/:userId" element={ <StudentCourses /> } />
+          <Route path="/bookmarked/:userId" element={ <BookmarkedCourses /> } />
           <Route path="/courses/:id/modules" element={ <CourseModules /> } />
           <Route path="/courses/:id/modules/:moduleId" element={ <DinamicModules /> } />
           <Route
             path="/courses/:id/modules/:moduleId/lessons/:lessonId"
             element={ <DinamicLessons /> }
           />
+          <Route path="/profile/:userId" element={ <Profile /> } />
           <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
           <Route path="/reset-password/:token" element={ <ForgotPassword /> } />
           <Route path="/admin" element={ <AdminPage /> } />

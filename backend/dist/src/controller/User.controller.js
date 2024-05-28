@@ -60,5 +60,19 @@ class UsersController {
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
+    requestProfileData(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email } = req.body;
+            const { status, data } = yield this.userService.findProfileData(email);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
+    updateProfileData(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { oldEmail, email, name, password } = req.body;
+            const { status, data } = yield this.userService.updateProfileData(oldEmail, email, name, password);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
 }
 exports.default = UsersController;

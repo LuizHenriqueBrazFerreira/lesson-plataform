@@ -14,6 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Users_model_1 = __importDefault(require("../models/Users.model"));
 const UserCourses_model_1 = __importDefault(require("../models/UserCourses.model"));
+const jwt_1 = require("../../utils/jwt");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 exports.default = {
     up: (queryInterface) => __awaiter(void 0, void 0, void 0, function* () {
         // Inserir cursos
@@ -52,8 +55,9 @@ exports.default = {
         const user1 = yield Users_model_1.default.create({
             name: 'Usuário 1',
             email: 'usuario1@email.com',
-            password: 'senha1',
+            password: bcryptjs_1.default.hashSync('senha1', SALT_ROUNDS),
             role: 'STUDENT',
+            confirmEmailToken: (0, jwt_1.createEmailToken)({ email: 'usuario1@email.com' })
         });
         yield UserCourses_model_1.default.bulkCreate([
             { userId: user1.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 100, bookmarked: false },
@@ -62,8 +66,9 @@ exports.default = {
         const user2 = yield Users_model_1.default.create({
             name: 'Usuário 2',
             email: 'usuario2@email.com',
-            password: 'senha2',
+            password: bcryptjs_1.default.hashSync('senha2', SALT_ROUNDS),
             role: 'STUDENT',
+            confirmEmailToken: (0, jwt_1.createEmailToken)({ email: 'usuario2@email.com' })
         });
         yield UserCourses_model_1.default.bulkCreate([
             { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 100, bookmarked: false },

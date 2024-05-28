@@ -1,5 +1,6 @@
 // import { Navigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LessonList from '../components/LessonList';
 // import Lesson from '../../components/Lesson';
 import LoginBackground from '../components/LoginBackground';
@@ -9,6 +10,15 @@ import CreateCourse from '../components/CreateCourse';
 import RootContext from '../context/main';
 
 export default function AdminPage() {
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (!token) {
+  //     navigate('/login');
+  //   }
+  // }, []);
+
   const { status } = useContext(RootContext);
 
   return (
