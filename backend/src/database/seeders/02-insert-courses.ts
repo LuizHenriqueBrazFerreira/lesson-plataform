@@ -1,6 +1,10 @@
 import { QueryInterface } from 'sequelize';
 import UsersSequelize from '../models/Users.model';
 import UserCoursesSequelize from '../models/UserCourses.model';
+import { createEmailToken } from '../../utils/jwt';
+import bcrypt from 'bcryptjs'
+
+const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
 export default {
   up: async (queryInterface: QueryInterface) => {
@@ -42,8 +46,9 @@ await queryInterface.bulkInsert('Lessons', [
 const user1 = await UsersSequelize.create({
   name: 'Usuário 1',
   email: 'usuario1@email.com',
-  password: 'senha1',
+  password: bcrypt.hashSync('senha1', SALT_ROUNDS),
   role: 'STUDENT',
+  confirmEmailToken: createEmailToken({ email: 'usuario1@email.com' })
 });
 
 await UserCoursesSequelize.bulkCreate([
@@ -54,8 +59,9 @@ await UserCoursesSequelize.bulkCreate([
 const user2 = await UsersSequelize.create({
   name: 'Usuário 2',
   email: 'usuario2@email.com',
-  password: 'senha2',
+  password: bcrypt.hashSync('senha2', SALT_ROUNDS),
   role: 'STUDENT',
+  confirmEmailToken: createEmailToken({ email: 'usuario2@email.com' })
 });
 
 await UserCoursesSequelize.bulkCreate([

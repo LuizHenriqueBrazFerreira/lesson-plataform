@@ -12,15 +12,12 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 
   const [status, setStatus] = useState<Status>(initialStatus);
   const [lesson, setLesson] = useState<Lessons>({} as Lessons);
-  console.log(lesson);
 
   const changeLesson = (lessonData: Lessons) => {
     setLesson(lessonData);
   };
 
   const changeStatus = (statusData: Status) => {
-    console.log(statusData);
-
     setStatus(statusData);
   };
 

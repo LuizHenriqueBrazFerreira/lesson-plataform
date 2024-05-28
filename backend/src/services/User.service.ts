@@ -57,7 +57,7 @@ class UsersService implements IUserService {
       
       const token = createToken({ email, password });
   
-      return { status: 'SUCCESSFUL', data: { token, role: userExists.dataValues.role, id: userExists.dataValues.id } };
+      return { status: 'SUCCESSFUL', data: { token, user: userExists.dataValues } };
     } catch (error: any) {
       console.log(error);
       
@@ -128,6 +128,39 @@ class UsersService implements IUserService {
       return { status: 'SUCCESSFUL', data: { message: 'Senha alterada com sucesso.' } };
     } catch (error: any) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+    }
+  }
+
+  async findProfileData(email: string) {
+    try {
+      const user = await this.userModel.findByEmail(email);
+  
+      if (!user) return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado.' } };
+  
+      return { status: 'SUCCESSFUL', data: user.dataValues };
+    } catch (error: any) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+    }
+  }
+
+  async updateProfileData(oldEmail: string, email: string, name: string, password: string) {
+    try {
+      const user = await this.userModel.findByEmail(email);
+  
+      if (!user) return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado.' } };
+  
+      if (password.length > 8) {
+        const hashedPassword = bcrypt.hashSync(password, SALT_ROUNDS);
+        await this.userModel.updateUser('password', hashedPassword, email);
+      }
+  
+      await this.userModel.updateUser('name', name, email);
+
+      await this.userModel.updateUser('email', email, oldEmail);
+  
+      return { status: 'SUCCESSFUL', data: { message: 'Perfil atualizado com sucesso!' } };
+    } catch (error: any) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Erro ao atualizar perfil.' } };
     }
   }
 }

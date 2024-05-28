@@ -27,8 +27,9 @@ function CreateAccount() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const id = localStorage.getItem('userId');
     if (token) {
-      navigate('/');
+      navigate(`/courses/${id}`);
     }
   }, [navigate]);
 
@@ -116,6 +117,7 @@ function CreateAccount() {
           onChange={ (event) => setName(event.target.value) }
         /> */}
         <Input
+          crossOrigin={ undefined }
           value={ name }
           size="lg"
           type="text"
@@ -129,6 +131,7 @@ function CreateAccount() {
           onChange={ (event) => setEmail(event.target.value) }
         /> */}
         <Input
+          crossOrigin={ undefined }
           value={ email }
           size="lg"
           type="email"
@@ -151,11 +154,13 @@ function CreateAccount() {
         </div> */}
         <div>
           <Input
+            crossOrigin={ undefined }
             value={ password }
             size="lg"
             type={ showPassword ? 'text' : 'password' }
             onChange={ (e) => setPassword(e.target.value) }
             onFocus={ () => setShowEye(true) }
+            onBlur={ () => setShowEye(false) }
             label="Senha"
             icon={ <EyeButton
               onClick={ (event) => handleShowPassword(event) }
@@ -181,6 +186,7 @@ function CreateAccount() {
           onChange={ (e) => setConfirmPassword(e.target.value) }
         /> */}
         <Input
+          crossOrigin={ undefined }
           value={ confirmPassword }
           size="lg"
           type={ showPassword ? 'text' : 'password' }

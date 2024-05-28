@@ -25,8 +25,9 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const id = localStorage.getItem('userId');
     if (token) {
-      navigate('/');
+      navigate(`/courses/${id}`);
     }
   }, [navigate]);
 
@@ -36,20 +37,22 @@ function Login() {
     try {
       setIsLoading(true);
 
-      const { token, role, id } = await requestPost('/login', { email, password });
+      const { token, user } = await requestPost('/login', { email, password });
 
       setToken(token);
 
       localStorage.setItem('token', token);
 
-      localStorage.setItem('role', role);
+      localStorage.setItem('role', user.role);
 
-      localStorage.setItem('userId', id);
+      localStorage.setItem('userId', user.id);
 
-      if (role === 'ADMIN') {
+      localStorage.setItem('userEmail', user.email);
+
+      if (user.role === 'ADMIN') {
         navigate('/admin');
       } else {
-        navigate(`/courses/${id}`);
+        navigate(`/courses/${user.id}`);
       }
     } catch (error: any) {
       if (error.isAxiosError) {
@@ -103,6 +106,7 @@ function Login() {
           onChange={ (e) => setEmail(e.target.value) }
         /> */}
         <Input
+          crossOrigin={ undefined }
           value={ email }
           size="lg"
           type="email"
@@ -129,7 +133,9 @@ function Login() {
           type={ showPassword ? 'text' : 'password' }
           onChange={ (e) => setPassword(e.target.value) }
           onFocus={ () => setShowEye(true) }
+          onBlur={ () => setShowEye(false) }
           label="Senha"
+          crossOrigin={ undefined }
           icon={ <EyeButton
             onClick={ (event) => handleShowPassword(event) }
             showEye={ showEye }

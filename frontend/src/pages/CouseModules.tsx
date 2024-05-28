@@ -15,6 +15,12 @@ function CourseModules() {
   const localStorageId = localStorage.getItem('userId');
 
   useEffect(() => {
+    // const token = localStorage.getItem('token');
+
+    // if (!token) {
+    //   navigate('/login');
+    // }
+
     async function fetchData() {
       try {
         const data = await requestData(`/modules/${id}`);
