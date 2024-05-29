@@ -19,10 +19,10 @@ class UsersModel {
     constructor() {
         this.model = Users_model_1.default;
     }
-    createUser({ name, email, password, role }) {
+    createUser({ name, email, password, role, country, organization = '' }) {
         return __awaiter(this, void 0, void 0, function* () {
             const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
-            const user = yield this.model.create({ name, email, password: hashedPassword, role });
+            const user = yield this.model.create({ name, email, password: hashedPassword, role, country, organization });
             return user;
         });
     }

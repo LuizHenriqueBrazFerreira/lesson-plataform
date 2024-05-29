@@ -6,15 +6,13 @@ import OrangeButton from '../components/OrangeButton';
 import EyeButton from '../components/EyeButton';
 import { requestPost, requestUpdate } from '../services/requests';
 import WarnigIcon from '../components/WarningIcon';
+import { UserType, initialUserState } from '../types/userTypes';
 
 function Profile() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [user, setUser] = useState<UserType>(initialUserState);
   const [oldEmail, setOldEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -32,10 +30,16 @@ function Profile() {
     async function fetchData() {
       try {
         const data = await requestPost('/profile', { email: userEmail });
-        console.log(data);
 
-        setName(data.name);
-        setEmail(data.email);
+        setUser({
+          name: data.name,
+          email: data.email,
+          password: '',
+          confirmPassword: '',
+          country: data.country,
+          organization: data.organization,
+        });
+
         setOldEmail(data.email);
       } catch (error: any) {
         if (error.isAxiosError) {
@@ -52,22 +56,49 @@ function Profile() {
     setShowPassword(!showPassword);
   };
 
+  const handleChange = (event: any) => {
+    event.preventDefault();
+
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   const handleUpdateProfile = async () => {
-    if (password !== confirmPassword) {
+    if (user.password !== user.confirmPassword) {
       return setMessage('As senhas não coincidem.');
     }
 
     setIsLoading(true);
 
     try {
-      await requestUpdate('/profile', {
+      const data = await requestUpdate('/profile', {
         oldEmail,
-        email,
-        name,
-        password,
+        email: user.email,
+        name: user.name,
+        password: user.password,
       });
+
+      localStorage.setItem('userEmail', user.email);
+
+      setUser({
+        ...user,
+        password: '',
+        confirmPassword: '',
+      });
+
       setIsLoading(false);
+
       setIsDisabled(true);
+
+      setMessage(data.message);
+
+      setOldEmail(user.email);
+
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
     } catch (error: any) {
       setIsLoading(false);
       if (error.isAxiosError) {
@@ -95,31 +126,54 @@ function Profile() {
         />
         <Input
           crossOrigin={ undefined }
+          name="name"
           size="lg"
           type="text"
           label="Nome"
-          value={ name }
+          value={ user.name }
           disabled={ isDisabled }
-          onChange={ (e) => setName(e.target.value) }
+          onChange={ handleChange }
         />
         <Input
           crossOrigin={ undefined }
+          name="email"
           size="lg"
           type="email"
           label="Email"
-          value={ email }
+          value={ user.email }
           disabled={ isDisabled }
-          onChange={ (e) => setEmail(e.target.value) }
+          onChange={ handleChange }
+        />
+        <Input
+          crossOrigin={ undefined }
+          name="country"
+          size="lg"
+          type="text"
+          label="País"
+          value={ user.country }
+          disabled={ isDisabled }
+          onChange={ handleChange }
+        />
+        <Input
+          crossOrigin={ undefined }
+          name="organization"
+          size="lg"
+          type="text"
+          label="Organização"
+          value={ user.organization }
+          disabled={ isDisabled }
+          onChange={ handleChange }
         />
         <div>
           <Input
             crossOrigin={ undefined }
+            name="password"
             size="lg"
             type={ showPassword ? 'text' : 'password' }
             label="Senha"
-            value={ password }
+            value={ user.password }
             disabled={ isDisabled }
-            onChange={ (e) => setPassword(e.target.value) }
+            onChange={ handleChange }
             onFocus={ () => setShowEye(true) }
             onBlur={ () => setShowEye(false) }
             icon={ <EyeButton
@@ -141,12 +195,13 @@ function Profile() {
         </div>
         <Input
           crossOrigin={ undefined }
+          name="confirmPassword"
           size="lg"
           type={ showPassword ? 'text' : 'password' }
           label="Confirmar Senha"
-          value={ confirmPassword }
+          value={ user.confirmPassword }
           disabled={ isDisabled }
-          onChange={ (e) => setConfirmPassword(e.target.value) }
+          onChange={ handleChange }
           onFocus={ () => setShowEye(true) }
           icon={ <EyeButton
             onClick={ (event) => handleShowPassword(event) }

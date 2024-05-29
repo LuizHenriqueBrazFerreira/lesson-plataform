@@ -8,11 +8,11 @@ const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) 
 class UsersModel implements IUserModel {
   private model = UsersSequelize;
 
-  async createUser({ name, email, password, role }: UserData) {
+  async createUser({ name, email, password, role, country, organization = '' }: UserData) {
 
     const hashedPassword = bcrypt.hashSync(password, SALT_ROUNDS);
 
-    const user = await this.model.create({ name, email, password: hashedPassword, role });
+    const user = await this.model.create({ name, email, password: hashedPassword, role, country, organization});
 
     return user;
   }

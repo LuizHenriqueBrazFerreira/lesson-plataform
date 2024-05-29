@@ -33,6 +33,15 @@ export default {
         allowNull: true,
         field: 'confirm_email_token'
       },
+      country: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      organization: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '',
+      }
     })
   },
 

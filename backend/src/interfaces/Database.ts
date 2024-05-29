@@ -3,6 +3,8 @@ export interface UserDB {
   name: string,
   email: string,
   password: string,
+  country: string,
+  organization?: string,
   role: 'ADMIN' | 'STUDENT',
   confirmEmailToken: string | null
 };

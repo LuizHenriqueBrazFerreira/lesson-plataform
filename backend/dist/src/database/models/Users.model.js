@@ -27,6 +27,15 @@ UsersSequelize.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false
     },
+    country: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false
+    },
+    organization: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '',
+    },
     role: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,

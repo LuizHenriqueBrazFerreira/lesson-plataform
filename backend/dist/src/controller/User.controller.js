@@ -69,8 +69,8 @@ class UsersController {
     }
     updateProfileData(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { oldEmail, email, name, password } = req.body;
-            const { status, data } = yield this.userService.updateProfileData(oldEmail, email, name, password);
+            const { oldEmail, email, name, password, country, organization } = req.body;
+            const { status, data } = yield this.userService.updateProfileData(oldEmail, email, name, password, country, organization);
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }

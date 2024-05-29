@@ -24,6 +24,8 @@ exports.default = {
                 name: 'fsmsss',
                 email: ADMIN_EMAIL,
                 password: bcryptjs_1.default.hashSync(ADMIN_PASSWORD, SALT_ROUNDS),
+                country: 'Brasil',
+                organization: 'FSMSSS',
                 role: 'ADMIN',
                 confirm_email_token: (0, jwt_1.createEmailToken)({ email: ADMIN_EMAIL })
             }]);

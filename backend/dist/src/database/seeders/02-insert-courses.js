@@ -56,6 +56,8 @@ exports.default = {
             name: 'Usuário 1',
             email: 'usuario1@email.com',
             password: bcryptjs_1.default.hashSync('senha1', SALT_ROUNDS),
+            country: 'Brasil',
+            organization: '',
             role: 'STUDENT',
             confirmEmailToken: (0, jwt_1.createEmailToken)({ email: 'usuario1@email.com' })
         });
@@ -67,6 +69,8 @@ exports.default = {
             name: 'Usuário 2',
             email: 'usuario2@email.com',
             password: bcryptjs_1.default.hashSync('senha2', SALT_ROUNDS),
+            country: 'Brasil',
+            organization: '',
             role: 'STUDENT',
             confirmEmailToken: (0, jwt_1.createEmailToken)({ email: 'usuario2@email.com' })
         });

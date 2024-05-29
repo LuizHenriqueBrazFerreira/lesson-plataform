@@ -11,7 +11,7 @@ import Homepage from './pages/Homepage';
 import AdminPage from './pages/AdminPage';
 import CourseModules from './pages/CouseModules';
 import DinamicModules from './pages/ModulesLessons';
-import DinamicLessons from './pages/Lessons';
+import Lessons from './pages/Lessons';
 import ManageLessons from './pages/ManageLessons';
 import RootProvider from './context';
 import BookmarkedCourses from './pages/BookmarkedCourses';
@@ -32,9 +32,9 @@ function App() {
           <Route path="/courses/:id/modules/:moduleId" element={ <DinamicModules /> } />
           <Route
             path="/courses/:id/modules/:moduleId/lessons/:lessonId"
-            element={ <DinamicLessons /> }
+            element={ <Lessons /> }
           />
-          <Route path="/profile/:userId" element={ <Profile /> } />
+          <Route path="/profile" element={ <Profile /> } />
           <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
           <Route path="/reset-password/:token" element={ <ForgotPassword /> } />
           <Route path="/admin" element={ <AdminPage /> } />
