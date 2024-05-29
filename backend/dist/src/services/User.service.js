@@ -22,7 +22,7 @@ class UsersService {
     constructor() {
         this.userModel = new UsersModel_1.default();
     }
-    createUser({ name, email, password, role }) {
+    createUser({ name, email, password, role, country, organization = '' }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield this.userModel.findByEmail(email);
@@ -31,7 +31,7 @@ class UsersService {
                     return { status: isUserValid.status, data: isUserValid.data };
                 if (user)
                     return { status: 'CONFLICT', data: { message: 'E-mail já cadastrado.' } };
-                yield this.userModel.createUser({ name, email, password, role });
+                yield this.userModel.createUser({ name, email, password, role, country, organization });
                 const confirmEmailToken = (0, jwt_1.createEmailToken)({ email });
                 const firstName = name.split(' ')[0];
                 yield (0, sendEmail_1.sendConfirmEmail)(email, confirmEmailToken, firstName);
@@ -140,16 +140,24 @@ class UsersService {
             }
         });
     }
-    updateProfileData(oldEmail, email, name, password) {
+    updateProfileData(oldEmail, email, name, password, country, organization) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield this.userModel.findByEmail(email);
+                const user = yield this.userModel.findByEmail(oldEmail);
                 if (!user)
                     return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado.' } };
-                const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
-                yield this.userModel.updateUser('name', name, email);
-                yield this.userModel.updateUser('password', hashedPassword, email);
+                if (password.length > 8) {
+                    const hashedPassword = bcryptjs_1.default.hashSync(password, SALT_ROUNDS);
+                    yield this.userModel.updateUser('password', hashedPassword, oldEmail);
+                }
+                yield this.userModel.updateUser('country', country, oldEmail);
+                yield this.userModel.updateUser('organization', organization, oldEmail);
+                yield this.userModel.updateUser('name', name, oldEmail);
                 yield this.userModel.updateUser('email', email, oldEmail);
+                if (oldEmail !== email) {
+                    const confirmEmailToken = (0, jwt_1.createEmailToken)({ email });
+                    yield this.userModel.updateUser('confirmEmailToken', confirmEmailToken, email);
+                }
                 return { status: 'SUCCESSFUL', data: { message: 'Perfil atualizado com sucesso!' } };
             }
             catch (error) {

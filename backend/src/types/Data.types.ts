@@ -12,6 +12,8 @@ export type Lesson = {
   name: string;
   email: string;
   password: string;
+  country: string;
+  organization?: string;
   role: 'ADMIN' | 'STUDENT';
   confirmEmailToken?: string | null;
 }

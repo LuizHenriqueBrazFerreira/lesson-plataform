@@ -23,3 +23,8 @@ export type UserCourses = {
   progress: number;
   bookmarked: boolean;
 };
+
+export const initialCourseState: Courses = {
+  id: 0,
+  title: '',
+};

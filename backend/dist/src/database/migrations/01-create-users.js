@@ -33,6 +33,15 @@ exports.default = {
                 allowNull: true,
                 field: 'confirm_email_token'
             },
+            country: {
+                type: sequelize_1.DataTypes.STRING,
+                allowNull: false
+            },
+            organization: {
+                type: sequelize_1.DataTypes.STRING,
+                allowNull: false,
+                defaultValue: '',
+            }
         });
     },
     down(queryInterface) {
