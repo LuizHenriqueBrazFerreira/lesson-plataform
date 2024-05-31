@@ -175,7 +175,6 @@ function Profile() {
             disabled={ isDisabled }
             onChange={ handleChange }
             onFocus={ () => setShowEye(true) }
-            onBlur={ () => setShowEye(false) }
             icon={ <EyeButton
               onClick={ (event) => handleShowPassword(event) }
               showEye={ showEye }

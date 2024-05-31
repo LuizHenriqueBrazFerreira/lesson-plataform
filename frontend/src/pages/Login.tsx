@@ -133,7 +133,6 @@ function Login() {
           type={ showPassword ? 'text' : 'password' }
           onChange={ (e) => setPassword(e.target.value) }
           onFocus={ () => setShowEye(true) }
-          onBlur={ () => setShowEye(false) }
           label="Senha"
           crossOrigin={ undefined }
           icon={ <EyeButton
