@@ -31,7 +31,7 @@ function App() {
           <Route path="/courses/:id/modules" element={ <CourseModules /> } />
           <Route path="/courses/:id/modules/:moduleId" element={ <DinamicModules /> } />
           <Route
-            path="/courses/:id/modules/:moduleId/lessons/:lessonId"
+            path="/courses/:id/modules/:moduleId/lessons"
             element={ <Lessons /> }
           />
           <Route path="/profile" element={ <Profile /> } />

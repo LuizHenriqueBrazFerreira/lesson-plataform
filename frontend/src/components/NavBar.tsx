@@ -51,7 +51,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}/profile/${userId}` }
+        href={ `${frontURL}/profile` }
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
         Meu Perfil
