@@ -47,6 +47,8 @@ const user1 = await UsersSequelize.create({
   name: 'Usuário 1',
   email: 'usuario1@email.com',
   password: bcrypt.hashSync('senha1', SALT_ROUNDS),
+  country: 'Brasil',
+  organization: '',
   role: 'STUDENT',
   confirmEmailToken: createEmailToken({ email: 'usuario1@email.com' })
 });
@@ -60,6 +62,8 @@ const user2 = await UsersSequelize.create({
   name: 'Usuário 2',
   email: 'usuario2@email.com',
   password: bcrypt.hashSync('senha2', SALT_ROUNDS),
+  country: 'Brasil',
+  organization: '',
   role: 'STUDENT',
   confirmEmailToken: createEmailToken({ email: 'usuario2@email.com' })
 });

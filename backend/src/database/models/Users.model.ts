@@ -13,6 +13,8 @@ InferCreationAttributes<UsersSequelize>> {
   declare name: string;
   declare email: string;
   declare password: string;
+  declare country: string;
+  declare organization: string;
   declare role: 'ADMIN' | 'STUDENT';
   declare confirmEmailToken: string | null;
 }
@@ -36,6 +38,15 @@ UsersSequelize.init({
   password: {
     type: DataTypes.STRING,
     allowNull:false
+  },
+  country: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  organization: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
   },
   role: {
     type: DataTypes.STRING,

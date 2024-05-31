@@ -57,6 +57,20 @@ const navList = (
         Meu Perfil
       </a>
     </Typography>
+    <Typography
+      as="li"
+      variant="small"
+      color="blue-gray"
+      className="p-1 font-medium text-xl"
+    >
+      <a
+        href={ `${frontURL}` }
+        className="flex items-center justify-center hover:text-blue-500 transition-colors"
+        onClick={ () => localStorage.clear() }
+      >
+        Sair
+      </a>
+    </Typography>
   </ul>
 );
 
