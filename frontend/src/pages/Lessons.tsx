@@ -13,7 +13,6 @@ function Lessons() {
   const navigate = useNavigate();
 
   const { moduleId } = useParams();
-  const id = Number(moduleId);
 
   useEffect(() => {
     // const token = localStorage.getItem('token');
@@ -24,7 +23,7 @@ function Lessons() {
 
     async function fetchData() {
       try {
-        const moduleData = await requestData(`modules/${moduleId}`);
+        const moduleData = await requestData(`module/${moduleId}`);
         const lessonsData = await requestData(`modules/${moduleId}/lessons`);
         setModule(moduleData);
         setLessons(lessonsData);
