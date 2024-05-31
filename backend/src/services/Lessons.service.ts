@@ -47,6 +47,17 @@ class LessonsService implements ILessonsService {
     }
   }
 
+  async getLessonsByModuleId(moduleId: number) {
+    try {
+      const lessons = await this.model.getLessonsByModuleId(moduleId);
+
+      return { status: 'SUCCESSFUL', data: lessons };
+    }
+    catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+    }
+  }
+
   async updateLessonById(id: number, moduleTitle: string, title: string, content: string, image: string, link: string) {
     try {
       const moduleExists = await this._moduleModel.getModuleByTitle(moduleTitle);
