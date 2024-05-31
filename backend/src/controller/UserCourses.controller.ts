@@ -9,25 +9,25 @@ class UserCoursesController implements IUserCoursesController {
   async createUserCourse(req: Request, res: Response) {
     const { userId, courseTitle, courseId, progress, bookmarked } = req.body;
 
-    const response = await this.userCoursesService.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked });
+    const { status, data } = await this.userCoursesService.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked });
 
-    return res.status(mapStatusHTTP(response.status)).json(response.data);
+    return res.status(mapStatusHTTP(status)).json(data);
   }
 
   async requestUserCoursesByUserId(req: Request, res: Response) {
     const { userId } = req.params;
 
-    const response = await this.userCoursesService.findCoursesByUserId(Number(userId));
+    const { status, data } = await this.userCoursesService.findCoursesByUserId(Number(userId));
 
-    return res.status(mapStatusHTTP(response.status)).json(response.data);
+    return res.status(mapStatusHTTP(status)).json(data);
   }
 
   async updateUserCourse(req: Request, res: Response) {
     const { key, value, userId, courseId } = req.body;
 
-    const response = await this.userCoursesService.updateUserCourse(key, value, userId, courseId);
+    const { status, data } = await this.userCoursesService.updateUserCourse(key, value, userId, courseId);
 
-    return res.status(mapStatusHTTP(response.status)).json(response.data);
+    return res.status(mapStatusHTTP(status)).json(data);
   }
 }               
 
