@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// import { DocumentTextIcon } from '@heroicons/react/solid';
+import PdfBar from '../components/PdfBar';
 import { requestData } from '../services/requests';
 import CoursesBackground from '../components/CoursesBackground';
 import { Module, initialModuleState } from '../types/courseType';
@@ -45,6 +45,7 @@ function LessonPage() {
         title={ module.title }
       >
         <div className="self-start">
+          <PdfBar />
           <h1
             className="text-2xl lg:text-4xl
             text-btn-orange font-bold"
@@ -56,15 +57,17 @@ function LessonPage() {
           >
             { lessons.content }
           </h1>
-          <video controls>
-            <source src={ lessons.link } type="video/mp4" />
-            <track kind="captions" src="" srcLang="en" label="English" />
-            Your browser does not support the video tag.
-          </video>
         </div>
+        <video
+          className="h-full w-full rounded-lg"
+          controls
+        >
+          <source src={ lessons.link } type="video/mp4" />
+          <track kind="captions" src="" srcLang="en" label="English" />
+          Your browser does not support the video tag.
+        </video>
       </CoursesBackground>
     </div>
-
   );
 }
 

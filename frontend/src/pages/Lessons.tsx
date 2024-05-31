@@ -14,7 +14,10 @@ function Lessons() {
 
   const navigate = useNavigate();
 
-  const { courseId, moduleId } = useParams();
+  const { moduleId } = useParams();
+
+  const lessonsUrl = `/courses/${module.courseId}
+  /modules/${moduleId}/lessons`;
 
   useEffect(() => {
     // const token = localStorage.getItem('token');
@@ -54,13 +57,13 @@ function Lessons() {
             Aulas
           </h1>
           {
+            // ISSO TUDO VAI SAIR PARA O LESSONCARD
             lessons.map((lesson, index) => (
               <div
                 aria-hidden="true"
                 className="lg:text-3xl font-semibold"
                 onClick={
-                  () => navigate(`/courses/
-                  ${courseId}/modules/${moduleId}/lessons/${lesson.id}`)
+                  () => navigate(`${lessonsUrl}/${lesson.id}`)
                 }
                 key={ index }
               >
