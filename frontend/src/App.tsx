@@ -28,10 +28,13 @@ function App() {
           <Route path="/create-account" element={ <CreateAccount /> } />
           <Route path="/courses/:userId" element={ <StudentCourses /> } />
           <Route path="/bookmarked/:userId" element={ <BookmarkedCourses /> } />
-          <Route path="/courses/:id/modules" element={ <CourseModules /> } />
-          <Route path="/courses/:id/modules/:moduleId" element={ <DinamicModules /> } />
+          <Route path="/courses/:courseId/modules" element={ <CourseModules /> } />
           <Route
-            path="/courses/:id/modules/:moduleId/lessons"
+            path="/courses/:courseId/modules/:moduleId"
+            element={ <DinamicModules /> }
+          />
+          <Route
+            path="/courses/:courseId/modules/:moduleId/lessons"
             element={ <Lessons /> }
           />
           <Route path="/profile" element={ <Profile /> } />

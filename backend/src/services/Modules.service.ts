@@ -41,6 +41,16 @@ class ModulesService implements IModulesService {
     }
   }
 
+  async getModulesByCourseId(courseId: number) {
+    try {
+      const modules = await this.modulesModel.getModulesByCourseId(courseId);
+
+      return { status: 'SUCCESSFUL', data: modules };
+    } catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar módulos.' } };
+    }
+  }
+
   async updateModuleById(id: number, courseId: number, title: string) {
     try {
       const updatedModule = await this.modulesModel.updateModuleById(id, courseId, title);

@@ -12,7 +12,7 @@ function CourseModules() {
 
   const navigate = useNavigate();
 
-  const { id } = useParams();
+  const { courseId } = useParams();
 
   const localStorageId = localStorage.getItem('userId');
 
@@ -25,8 +25,8 @@ function CourseModules() {
 
     async function fetchData() {
       try {
-        const data = await requestData(`/modules/${id}`);
-        const courseData = await requestData(`/courses/${id}`);
+        const data = await requestData(`/modules/${courseId}`);
+        const courseData = await requestData(`/courses/${courseId}`);
         setModules(data);
         setCourse(courseData);
       } catch (error: any) {
