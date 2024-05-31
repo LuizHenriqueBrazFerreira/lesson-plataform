@@ -8,6 +8,8 @@ type ModuleCardProps = {
 function ModuleCard({ module }: ModuleCardProps) {
   const navigate = useNavigate();
 
+  const lessonsUrl = `/courses/${module.courseId}/modules/${module.id}/lessons`;
+
   return (
     <Card
       className="w-80 lg:w-[37rem] lg:h-[17rem] m-4 select-none
@@ -22,7 +24,7 @@ function ModuleCard({ module }: ModuleCardProps) {
           </h2>
         </div>
         <div
-          onClick={ () => navigate(`/courses/${module.courseId}/modules`) }
+          onClick={ () => navigate(lessonsUrl) }
           aria-hidden="true"
           className="lg:text-3xl font-semibold"
         >

@@ -164,7 +164,6 @@ function CreateAccount() {
             type={ showPassword ? 'text' : 'password' }
             onChange={ handleChange }
             onFocus={ () => setShowEye(true) }
-            onBlur={ () => setShowEye(false) }
             label="Senha"
             icon={ <EyeButton
               onClick={ (event) => handleShowPassword(event) }

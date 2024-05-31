@@ -26,7 +26,7 @@ class UsersService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield this.userModel.findByEmail(email);
-                const isUserValid = (0, validateLogin_1.validateUser)(email, password);
+                const isUserValid = (0, validateLogin_1.validateUser)(email, password, name, country);
                 if (isUserValid)
                     return { status: isUserValid.status, data: isUserValid.data };
                 if (user)

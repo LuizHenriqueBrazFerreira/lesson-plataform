@@ -47,10 +47,10 @@ const validateToken = (req) => {
     }
 };
 exports.validateToken = validateToken;
-const validateUser = (email, password) => {
+const validateUser = (email, password, name, country) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !password) {
-        return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos.' } };
+    if (!email || !password || !name || !country) {
+        return { status: 'BAD_REQUEST', data: { message: 'Todos os campos obrigatórios devem estar preenchidos.' } };
     }
     const validMail = regex.test(email);
     if (!validMail) {
