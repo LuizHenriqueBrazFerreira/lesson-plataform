@@ -38,6 +38,13 @@ class ModulesController {
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
+    getModulesByCourseId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { courseId } = req.params;
+            const { status, data } = yield this.modulesService.getModulesByCourseId(Number(courseId));
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
     updateModuleById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;

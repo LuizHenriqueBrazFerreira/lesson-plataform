@@ -56,6 +56,17 @@ class ModulesService {
             }
         });
     }
+    getModulesByCourseId(courseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const modules = yield this.modulesModel.getModulesByCourseId(courseId);
+                return { status: 'SUCCESSFUL', data: modules };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar módulos.' } };
+            }
+        });
+    }
     updateModuleById(id, courseId, title) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

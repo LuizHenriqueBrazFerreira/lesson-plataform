@@ -21,22 +21,22 @@ class UserCoursesController {
     createUserCourse(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { userId, courseTitle, courseId, progress, bookmarked } = req.body;
-            const response = yield this.userCoursesService.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked });
-            return res.status((0, mapHttp_1.default)(response.status)).json(response.data);
+            const { status, data } = yield this.userCoursesService.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked });
+            return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
     requestUserCoursesByUserId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { userId } = req.params;
-            const response = yield this.userCoursesService.findCoursesByUserId(Number(userId));
-            return res.status((0, mapHttp_1.default)(response.status)).json(response.data);
+            const { status, data } = yield this.userCoursesService.findCoursesByUserId(Number(userId));
+            return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
     updateUserCourse(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { key, value, userId, courseId } = req.body;
-            const response = yield this.userCoursesService.updateUserCourse(key, value, userId, courseId);
-            return res.status((0, mapHttp_1.default)(response.status)).json(response.data);
+            const { status, data } = yield this.userCoursesService.updateUserCourse(key, value, userId, courseId);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
 }

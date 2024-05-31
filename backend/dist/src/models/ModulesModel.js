@@ -31,7 +31,13 @@ class ModulesModel {
     }
     getModuleById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const modules = yield this.model.findAll({ where: { courseId: id } });
+            const modules = yield this.model.findOne({ where: { id } });
+            return modules;
+        });
+    }
+    getModulesByCourseId(courseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const modules = yield this.model.findAll({ where: { courseId } });
             return modules;
         });
     }

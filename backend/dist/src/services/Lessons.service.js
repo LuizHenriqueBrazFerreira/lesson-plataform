@@ -59,6 +59,17 @@ class LessonsService {
             }
         });
     }
+    getLessonsByModuleId(moduleId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const lessons = yield this.model.getLessonsByModuleId(moduleId);
+                return { status: 'SUCCESSFUL', data: lessons };
+            }
+            catch (error) {
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+            }
+        });
+    }
     updateLessonById(id, moduleTitle, title, content, image, link) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

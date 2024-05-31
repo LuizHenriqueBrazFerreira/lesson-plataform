@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { FormEvent, MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -49,7 +49,7 @@ function CreateAccount() {
     }
   };
 
-  const handleRegister = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (user.password !== user.confirmPassword) {
@@ -113,7 +113,7 @@ function CreateAccount() {
 
   return (
     <LoginBackground>
-      <FormBackground>
+      <FormBackground onSubmit={ handleRegister }>
         <h1
           className="text-xl lg:text-4xl text-btn-orange mb-3 font-semibold"
         >
@@ -166,6 +166,7 @@ function CreateAccount() {
             onFocus={ () => setShowEye(true) }
             label="Senha"
             icon={ <EyeButton
+              type="button"
               onClick={ (event) => handleShowPassword(event) }
               showEye={ showEye }
               showPassword={ showPassword }
@@ -196,13 +197,14 @@ function CreateAccount() {
           ? <p className="text-green-500">{ message }</p>
           : <p className="text-red-500">{ message }</p>}
         <OrangeButton
-          onClick={ (event) => handleRegister(event) }
+          type="submit"
           isLoading={ isLoading }
         >
           Cadastrar
         </OrangeButton>
         <p className="self-center">Já possui uma conta?</p>
         <WhiteButton
+          type="button"
           onClick={ () => navigate('/login') }
         >
           Entrar
