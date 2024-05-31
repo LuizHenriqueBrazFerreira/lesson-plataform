@@ -28,6 +28,14 @@ class ModulesController implements IModulesController {
     return res.status(mapStatusHTTP(status)).json(data);
   }
 
+  async getModulesByCourseId(req: Request, res: Response) {
+    const { courseId } = req.params;
+
+    const { status, data } = await this.modulesService.getModulesByCourseId(Number(courseId));
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
   async updateModuleById(req: Request, res: Response) {
     const { id } = req.params;
     const { courseId, title } = req.body;
