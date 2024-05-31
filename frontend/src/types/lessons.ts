@@ -1,5 +1,5 @@
 export type LessonsType = {
-  id?:number,
+  id: number,
   moduleId: number,
   title: string,
   content: string,
@@ -13,4 +13,14 @@ export type Status = {
   module: boolean,
   lesson: boolean
   active: boolean
+};
+
+export const InitialLessonsType = {
+  id: 0,
+  moduleId: 0,
+  title: '',
+  content: '',
+  image: '',
+  link: '',
+  watched: false,
 };

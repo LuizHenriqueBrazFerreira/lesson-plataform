@@ -6,6 +6,7 @@ export type Lesson = {
 };
 
 export type Module = {
+  courseId: number;
   moduleId: number;
   title: string;
 };
@@ -29,6 +30,7 @@ export const initialCourseState: Courses = {
 };
 
 export const initialModuleState: Module = {
+  courseId: 0,
   moduleId: 0,
   title: '',
 };

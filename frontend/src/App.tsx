@@ -16,6 +16,7 @@ import ManageLessons from './pages/ManageLessons';
 import RootProvider from './context';
 import BookmarkedCourses from './pages/BookmarkedCourses';
 import Profile from './pages/Profile';
+import LessonPage from './pages/LessonPage';
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
           <Route
             path="/courses/:courseId/modules/:moduleId/lessons"
             element={ <Lessons /> }
+          />
+          <Route
+            path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
+            element={ <LessonPage /> }
           />
           <Route path="/profile" element={ <Profile /> } />
           <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
