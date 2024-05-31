@@ -4,6 +4,7 @@ import { requestData } from '../services/requests';
 import CoursesBackground from '../components/CoursesBackground';
 import { Module, initialModuleState } from '../types/courseType';
 import { LessonsType } from '../types/lessons';
+import LessonsCard from '../components/LessonsCard';
 // import OrangeButton from '../components/OrangeButton';
 
 function Lessons() {
@@ -24,9 +25,10 @@ function Lessons() {
     async function fetchData() {
       try {
         const moduleData = await requestData(`module/${moduleId}`);
-        const lessonsData = await requestData(`modules/${moduleId}/lessons`);
+        const lessonsData = await requestData(`lessons/${moduleId}`);
+        console.log(lessonsData);
         setModule(moduleData);
-        setLessons(lessonsData);
+        setLessons(lessonsData.data);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data);
@@ -50,6 +52,13 @@ function Lessons() {
           >
             Aulas
           </h1>
+          {
+            lessons.map((lesson, index) => (
+              <div key={ index }>
+                <h1>{lesson.content}</h1>
+              </div>
+            ))
+          }
         </div>
       </CoursesBackground>
     </div>
