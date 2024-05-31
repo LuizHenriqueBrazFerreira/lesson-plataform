@@ -22,6 +22,12 @@ class LessonsModel implements ILessonsModel {
     return lesson;
   }
 
+  async getLessonsByModuleId(moduleId: number) {
+    const lesson = await this.model.findAll({ where: { moduleId } });
+
+    return lesson;
+  }
+
   async updateLessonById(id: number, moduleId: number, title: string, content: string, image: string, link: string) {
     const lesson = await this.model.update({ moduleId, title, content, image, link }, { where: { id } });
 

@@ -28,6 +28,14 @@ class LessonsController implements ILessonsController {
     return res.status(mapStatusHttp(response.status)).json(response);
   }
 
+  async getLessonsByModuleId(req: Request, res: Response) {
+    const { moduleId } = req.params;
+
+    const response = await this.service.getLessonsByModuleId(Number(moduleId));
+
+    return res.status(mapStatusHttp(response.status)).json(response);
+  }
+
   async updateLessonById(req: Request, res: Response) {
     const { id } = req.params;
     const { moduleTitle, title, content, image, link } = req.body;
