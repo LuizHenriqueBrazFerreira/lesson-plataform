@@ -9,9 +9,9 @@ type Children = {
 function CoursesBackground({ children, heading = '', title = '' }: Children) {
   const { pathname } = useLocation();
 
-  // Verifica se o pathname contém "//lessons"
+  // Verifica se o pathname contém "/lessons"
   const containsLessons = pathname.includes('/lessons');
-  // Verifica se o pathname contém "//modulos"
+  // Verifica se o pathname contém "/modules"
   const containsModules = pathname.includes('/modules');
 
   return (
@@ -22,7 +22,7 @@ function CoursesBackground({ children, heading = '', title = '' }: Children) {
       {containsLessons || containsModules ? (
         <section
           className="lg:w-[81rem] bg-white rounded-2xl mb-8
-          flex flex-col px-[2rem] py-[1rem] lg:py-[3rem] gap-2 lg:gap-6"
+          flex flex-col px-[2rem] py-[1rem] lg:py-[2rem] gap-2 lg:gap-6"
         >
           <h1
             className="text-2xl lg:text-4xl

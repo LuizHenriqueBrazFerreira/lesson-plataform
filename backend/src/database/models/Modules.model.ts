@@ -41,6 +41,7 @@ ModulesSequelize.init({
 CoursesSequelize.hasMany(ModulesSequelize, {
   foreignKey: 'courseId',
   sourceKey: 'id',
+  as: 'modules',
 });
 
 ModulesSequelize.belongsTo(CoursesSequelize, {

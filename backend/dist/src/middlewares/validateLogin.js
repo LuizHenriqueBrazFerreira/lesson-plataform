@@ -22,30 +22,45 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateConfirmEmailToken = exports.validateUser = exports.validateToken = exports.validatePassword = void 0;
 const bcrypt = __importStar(require("bcryptjs"));
 const jwt_1 = require("../utils/jwt");
+const UsersModel_1 = __importDefault(require("../models/UsersModel"));
+const UserCoursesModel_1 = __importDefault(require("../models/UserCoursesModel"));
 const validatePassword = (password, dbPassword) => bcrypt
     .compareSync(password, dbPassword);
 exports.validatePassword = validatePassword;
-const validateToken = (req) => {
+const validateToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { authorization } = req.headers;
+    const userModel = new UsersModel_1.default();
+    const userCoursesModel = new UserCoursesModel_1.default();
     if (!authorization) {
-        return { status: 'UNAUTHORIZED', data: { message: 'Token não encontrado' } };
+        return res.status(401).json({ message: 'Token não encontrado' });
     }
     const token = authorization.split(' ')[1];
-    try {
-        const tokenInfo = (0, jwt_1.verifyToken)(token);
-        if (tokenInfo) {
-            return true;
-        }
+    const { email } = (0, jwt_1.verifyToken)(token);
+    const user = yield userModel.findByEmail(email);
+    if (!user) {
+        return res.status(401).json({ message: 'Token inválido' });
     }
-    catch (error) {
-        console.log(error);
-        return { status: 'UNAUTHORIZED', data: { message: 'Token deve ser um token válido' } };
-    }
-};
+    const courses = yield userCoursesModel.findCoursesByUserId(user.id);
+    const userData = Object.assign(Object.assign({}, user.dataValues), { courses: courses.map((course) => course.dataValues) });
+    req.user = userData;
+    next();
+});
 exports.validateToken = validateToken;
 const validateUser = (email, password, name, country) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

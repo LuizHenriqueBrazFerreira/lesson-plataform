@@ -32,8 +32,15 @@ class CoursesController {
         });
     }
     getCourseById(req, res) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
+            const courses = (_a = req.user) === null || _a === void 0 ? void 0 : _a.courses;
+            const hasAccess = courses === null || courses === void 0 ? void 0 : courses.some((course) => course.id === Number(id));
+            if (!hasAccess) {
+                const data = { message: 'Você não tem acesso a este curso.' };
+                return res.status((0, mapHttp_1.default)('FORBIDDEN')).json(data);
+            }
             const { status, data } = yield this.coursesService.getCourseById(Number(id));
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });

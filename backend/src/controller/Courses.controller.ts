@@ -14,7 +14,7 @@ class CoursesController implements ICoursesController {
     return res.status(mapStatusHTTP(status)).json(data);
   }
 
-  async getCourses(req: Request, res: Response) {
+  async getCourses(_req: Request, res: Response) {
     const { status, data } = await this.coursesService.getCourses();
 
     return res.status(mapStatusHTTP(status)).json(data);
@@ -22,6 +22,14 @@ class CoursesController implements ICoursesController {
 
   async getCourseById(req: Request, res: Response) {
     const { id } = req.params;
+    const courses = req.user?.courses 
+
+    const hasAccess = courses?.some((course: any) => course.courseId === Number(id));
+
+    if (!hasAccess) {
+      const data = { message: 'Você não tem acesso a este curso.' };
+      return res.status(mapStatusHTTP('FORBIDDEN')).json( data );
+    }
 
     const { status, data } = await this.coursesService.getCourseById(Number(id));
 

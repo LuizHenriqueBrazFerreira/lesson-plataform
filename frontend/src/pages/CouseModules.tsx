@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CoursesBackground from '../components/CoursesBackground';
 import ModuleCard from '../components/ModuleCard';
-import { requestData } from '../services/requests';
+import { requestData, setToken } from '../services/requests';
 import OrangeButton from '../components/OrangeButton';
 import { Courses, initialCourseState } from '../types/courseType';
 
@@ -14,14 +14,14 @@ function CourseModules() {
 
   const { courseId } = useParams();
 
-  const localStorageId = localStorage.getItem('userId');
-
   useEffect(() => {
-    // const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-    // if (!token) {
-    //   navigate('/login');
-    // }
+    if (!token) {
+      return navigate('/login');
+    }
+
+    setToken(token);
 
     async function fetchData() {
       try {
@@ -52,7 +52,7 @@ function CourseModules() {
         }
       </div>
       <OrangeButton
-        onClick={ () => navigate(`/courses/${localStorageId}`) }
+        onClick={ () => navigate('/courses') }
       >
         Voltar
       </OrangeButton>

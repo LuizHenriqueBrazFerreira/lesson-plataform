@@ -57,7 +57,7 @@ class UsersService {
                 }
                 if (!userExists || !isCorrectPassword)
                     return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
-                const token = (0, jwt_1.createToken)({ email, password });
+                const token = (0, jwt_1.createToken)({ email, id: userExists.dataValues.id });
                 return { status: 'SUCCESSFUL', data: { token, user: userExists.dataValues } };
             }
             catch (error) {

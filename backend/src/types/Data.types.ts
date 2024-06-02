@@ -9,6 +9,7 @@ export type Lesson = {
 };
 
  export type UserData = {
+  id?: number;
   name: string;
   email: string;
   password: string;
@@ -21,4 +22,17 @@ export type Lesson = {
 export type LoginResponse = {
   token: string;
   user: UserData;
+}
+
+export type Course = {
+  id: number;
+  title: string;
+}
+
+export type UserCourses = {
+  courseId: number;
+  userId: number;
+  bookmarked: boolean;
+  courseTitle: string;
+  progress: number;
 }

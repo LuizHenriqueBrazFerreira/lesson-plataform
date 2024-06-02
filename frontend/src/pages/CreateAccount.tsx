@@ -24,9 +24,9 @@ function CreateAccount() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const id = localStorage.getItem('userId');
+
     if (token) {
-      navigate(`/courses/${id}`);
+      navigate('/courses');
     }
   }, [navigate]);
 

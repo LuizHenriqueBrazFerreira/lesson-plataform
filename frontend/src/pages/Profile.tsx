@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import CoursesBackground from '../components/CoursesBackground';
 import OrangeButton from '../components/OrangeButton';
 import EyeButton from '../components/EyeButton';
-import { requestPost, requestUpdate } from '../services/requests';
+import { requestPost, requestUpdate, setToken } from '../services/requests';
 import WarnigIcon from '../components/WarningIcon';
 import { UserType, initialUserState } from '../types/userTypes';
 
@@ -20,10 +20,13 @@ function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // const token = localStorage.getItem('token');
-    // if (!token) {
-    //   navigate('/login');
-    // }
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return navigate('/login');
+    }
+
+    setToken(token);
 
     const userEmail = localStorage.getItem('userEmail');
 

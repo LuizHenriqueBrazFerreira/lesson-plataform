@@ -1,23 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import PdfBar from '../components/PdfBar';
 import { requestData, setToken } from '../services/requests';
 import CoursesBackground from '../components/CoursesBackground';
 import { Module, initialModuleState } from '../types/courseType';
-import { LessonsType } from '../types/lessons';
-import LessonsCard from '../components/LessonsCard';
-import ModuleCard from '../components/ModuleCard';
-// import OrangeButton from '../components/OrangeButton';
+import { LessonsType, InitialLessonsType } from '../types/lessons';
 
-function Lessons() {
-  const [lessons, setLessons] = useState<LessonsType[]>([]);
+function LessonPage() {
+  const [lessons, setLessons] = useState<LessonsType>(InitialLessonsType);
   const [module, setModule] = useState<Module>(initialModuleState);
 
   const navigate = useNavigate();
 
-  const { moduleId } = useParams();
-
-  const lessonsUrl = `/courses/${module.courseId}
-  /modules/${moduleId}/lessons`;
+  const { moduleId, lessonId } = useParams();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -31,7 +26,7 @@ function Lessons() {
     async function fetchData() {
       try {
         const moduleData = await requestData(`module/${moduleId}`);
-        const lessonsData = await requestData(`lessons/${moduleId}`);
+        const lessonsData = await requestData(`lesson/${lessonId}`);
         console.log(lessonsData);
         setModule(moduleData);
         setLessons(lessonsData);
@@ -52,34 +47,30 @@ function Lessons() {
         title={ module.title }
       >
         <div className="self-start">
+          <PdfBar />
           <h1
             className="text-2xl lg:text-4xl
             text-btn-orange font-bold"
           >
-            Aulas
+            { lessons.title }
           </h1>
-          {
-            // ISSO TUDO VAI SAIR PARA O LESSONCARD
-            lessons.map((lesson, index) => (
-              <div
-                aria-hidden="true"
-                className="lg:text-3xl font-semibold"
-                onClick={
-                  () => navigate(`${lessonsUrl}/${lesson.id}`)
-                }
-                key={ index }
-              >
-                <ModuleCard
-                  module={ lesson }
-                />
-              </div>
-            ))
-          }
+          <h1
+            className="text-2xl"
+          >
+            { lessons.content }
+          </h1>
         </div>
+        <video
+          className="h-full w-full rounded-lg"
+          controls
+        >
+          <source src={ lessons.link } type="video/mp4" />
+          <track kind="captions" src="" srcLang="en" label="English" />
+          Your browser does not support the video tag.
+        </video>
       </CoursesBackground>
     </div>
-
   );
 }
 
-export default Lessons;
+export default LessonPage;

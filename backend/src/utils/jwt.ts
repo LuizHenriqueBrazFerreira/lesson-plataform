@@ -3,7 +3,7 @@ import jwt, { SignOptions } from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 type PayloadType = {
-  password: string,
+  id: number,
   email: string,
 };
 

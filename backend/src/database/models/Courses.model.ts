@@ -5,9 +5,6 @@ import { DataTypes,
   CreationOptional,
 } from 'sequelize';
 import db from './index';
-import UserCoursesSequelize from './UserCourses.model';
-import ModulesSequelize from './Modules.model';
-
 
 class CoursesSequelize extends Model<InferAttributes<CoursesSequelize>,
 InferCreationAttributes<CoursesSequelize>> {

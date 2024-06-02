@@ -8,7 +8,6 @@ import Button from '../components/Button';
 import EyeButton from '../components/EyeButton';
 import OrangeButton from '../components/OrangeButton';
 import WhiteButton from '../components/WhiteButton';
-import GreyInput from '../components/GreyInput';
 import LoginBackground from '../components/LoginBackground';
 import FormBackground from '../components/FormBackground';
 
@@ -25,9 +24,9 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const id = localStorage.getItem('userId');
+
     if (token) {
-      navigate(`/courses/${id}`);
+      navigate('/courses');
     }
   }, [navigate]);
 
@@ -52,11 +51,11 @@ function Login() {
       if (user.role === 'ADMIN') {
         navigate('/admin');
       } else {
-        navigate(`/courses/${user.id}`);
+        navigate('/courses');
       }
     } catch (error: any) {
       if (error.isAxiosError) {
-        console.log(error.response);
+        console.log(error);
         setIsLoading(false);
         setMessage(error.response.data.message);
       }
