@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Lessons } from '../types/lessons';
+import { LessonsType } from '../types/lessons';
 import { requestCreateLesson, deleteLesson,
   requestUpdateLesson } from '../services/requests';
 

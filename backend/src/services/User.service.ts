@@ -55,7 +55,7 @@ class UsersService implements IUserService {
       
       if (!userExists || !isCorrectPassword) return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
       
-      const token = createToken({ email, password });
+      const token = createToken({ email, id: userExists.dataValues.id});
   
       return { status: 'SUCCESSFUL', data: { token, user: userExists.dataValues } };
     } catch (error: any) {

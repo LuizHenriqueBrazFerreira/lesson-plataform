@@ -16,7 +16,7 @@ class LessonsController implements ILessonsController {
 
   async getLessons(_req: Request, res: Response) {
     const { status, data } = await this.service.getLessons();
-
+   
     return res.status(mapStatusHttp(status)).json(data);
   }
 

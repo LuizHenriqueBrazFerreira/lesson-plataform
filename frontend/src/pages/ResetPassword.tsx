@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
 import { validatePassword } from '../utils/validations';
@@ -24,7 +24,7 @@ function ResetPassword() {
     setShowPassword(!showPassword);
   };
 
-  const handleResetPassword = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleResetPassword = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const passwordError = validatePassword(password, confirmPassword);
@@ -45,7 +45,7 @@ function ResetPassword() {
 
   return (
     <LoginBackground>
-      <FormBackground>
+      <FormBackground onSubmit={ handleResetPassword }>
         <h1
           className="text-xl lg:text-4xl
           text-btn-orange mb-3 font-semibold"
@@ -62,6 +62,7 @@ function ResetPassword() {
           onBlur={ () => setShowEye(false) }
           label="Nova senha"
           icon={ <EyeButton
+            type="button"
             onClick={ (event) => handleShowPassword(event) }
             showEye={ showEye }
             showPassword={ showPassword }
@@ -79,11 +80,12 @@ function ResetPassword() {
           ? <p className="text-green-500">{message}</p>
           : <p className="text-red-500">{message}</p>}
         <OrangeButton
-          onClick={ handleResetPassword }
+          type="submit"
         >
           Cadastrar
         </OrangeButton>
         <WhiteButton
+          type="button"
           onClick={ () => navigate('/login') }
         >
           Entrar

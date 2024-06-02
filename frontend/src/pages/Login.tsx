@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { FormEvent, MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
@@ -8,7 +8,6 @@ import Button from '../components/Button';
 import EyeButton from '../components/EyeButton';
 import OrangeButton from '../components/OrangeButton';
 import WhiteButton from '../components/WhiteButton';
-import GreyInput from '../components/GreyInput';
 import LoginBackground from '../components/LoginBackground';
 import FormBackground from '../components/FormBackground';
 
@@ -25,13 +24,13 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const id = localStorage.getItem('userId');
+
     if (token) {
-      navigate(`/courses/${id}`);
+      navigate('/courses');
     }
   }, [navigate]);
 
-  const handleLogin = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
@@ -52,11 +51,11 @@ function Login() {
       if (user.role === 'ADMIN') {
         navigate('/admin');
       } else {
-        navigate(`/courses/${user.id}`);
+        navigate('/courses');
       }
     } catch (error: any) {
       if (error.isAxiosError) {
-        console.log(error.response);
+        console.log(error);
         setIsLoading(false);
         setMessage(error.response.data.message);
       }
@@ -97,14 +96,8 @@ function Login() {
 
   return (
     <LoginBackground>
-      <FormBackground>
+      <FormBackground onSubmit={ handleLogin }>
         <h1 className="text-xl lg:text-4xl text-btn-orange font-semibold">Entrar</h1>
-        {/* <GreyInput
-          labelText="Email"
-          type="email"
-          value={ email }
-          onChange={ (e) => setEmail(e.target.value) }
-        /> */}
         <Input
           crossOrigin={ undefined }
           value={ email }
@@ -113,20 +106,6 @@ function Login() {
           onChange={ (e) => setEmail(e.target.value) }
           label="Email"
         />
-        {/* <div>
-          <GreyInput
-            labelText="Senha"
-            type={ showPassword ? 'text' : 'password' }
-            value={ password }
-            onChange={ (e) => setPassword(e.target.value) }
-            onFocus={ () => setShowEye(true) }
-          />
-          <EyeButton
-            onClick={ (event) => handleShowPassword(event) }
-            showEye={ showEye }
-            showPassword={ showPassword }
-          />
-        </div> */}
         <Input
           value={ password }
           size="lg"
@@ -136,6 +115,7 @@ function Login() {
           label="Senha"
           crossOrigin={ undefined }
           icon={ <EyeButton
+            type="button"
             onClick={ (event) => handleShowPassword(event) }
             showEye={ showEye }
             showPassword={ showPassword }
@@ -143,13 +123,13 @@ function Login() {
         />
         { message && <p className="text-red-500">{ message }</p> }
         <OrangeButton
-          onClick={ (event) => handleLogin(event) }
           type="submit"
           isLoading={ isLoading }
         >
           Entrar
         </OrangeButton>
         <Button
+          type="button"
           className="self-center underline
           active:text-blue-500 hover:text-blue-700"
           onClick={ handleForgotPassword }
@@ -158,6 +138,7 @@ function Login() {
         </Button>
         <p className="self-center">Ainda não tem uma conta?</p>
         <WhiteButton
+          type="button"
           onClick={ () => navigate('/create-account') }
         >
           Cadastre-se

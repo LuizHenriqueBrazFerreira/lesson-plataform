@@ -27,8 +27,8 @@ function App() {
           <Route path="/" element={ <Homepage /> } />
           <Route path="/login" element={ <Login /> } />
           <Route path="/create-account" element={ <CreateAccount /> } />
-          <Route path="/courses/:userId" element={ <StudentCourses /> } />
-          <Route path="/bookmarked/:userId" element={ <BookmarkedCourses /> } />
+          <Route path="/courses" element={ <StudentCourses /> } />
+          <Route path="/bookmarked" element={ <BookmarkedCourses /> } />
           <Route path="/courses/:courseId/modules" element={ <CourseModules /> } />
           <Route
             path="/courses/:courseId/modules/:moduleId"

@@ -8,16 +8,20 @@ import CreateLesson from '../components/CreateLesson';
 import CreateModule from '../components/CreateModule';
 import CreateCourse from '../components/CreateCourse';
 import RootContext from '../context/main';
+import { setToken } from '../services/requests';
 
 export default function AdminPage() {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (!token) {
-  //     navigate('/login');
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return navigate('/login');
+    }
+
+    setToken(token);
+  }, []);
 
   const { status } = useContext(RootContext);
 

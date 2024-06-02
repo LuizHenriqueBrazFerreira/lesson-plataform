@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { requestData } from '../services/requests';
+import { requestData, setToken } from '../services/requests';
 import CoursesBackground from '../components/CoursesBackground';
 import { Module, initialModuleState } from '../types/courseType';
 import { LessonsType } from '../types/lessons';
@@ -20,11 +20,13 @@ function Lessons() {
   /modules/${moduleId}/lessons`;
 
   useEffect(() => {
-    // const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-    // if (!token) {
-    //   navigate('/login');
-    // }
+    if (!token) {
+      return navigate('/login');
+    }
+
+    setToken(token);
 
     async function fetchData() {
       try {

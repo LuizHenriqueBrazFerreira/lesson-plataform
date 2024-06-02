@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CoursesBackground from '../components/CoursesBackground';
-import { requestData, requestUpdate } from '../services/requests';
+import { requestData, requestUpdate, setToken } from '../services/requests';
 import { UserCourses } from '../types/courseType';
 import CourseCard from '../components/CourseCard';
 
@@ -9,16 +9,18 @@ function BookmarkedCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
   const [hasCourses, setHasCourses] = useState(true);
 
-  const { userId } = useParams();
+  const userId = localStorage.getItem('userId');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-    // if (!token) {
-    //   navigate('/login');
-    // }
+    if (!token) {
+      return navigate('/login');
+    }
+
+    setToken(token);
 
     async function fetchData() {
       try {

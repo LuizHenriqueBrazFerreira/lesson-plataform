@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import PdfBar from '../components/PdfBar';
-import { requestData } from '../services/requests';
+import { requestData, setToken } from '../services/requests';
 import CoursesBackground from '../components/CoursesBackground';
 import { Module, initialModuleState } from '../types/courseType';
 import { LessonsType, InitialLessonsType } from '../types/lessons';
@@ -15,11 +15,13 @@ function LessonPage() {
   const { moduleId, lessonId } = useParams();
 
   useEffect(() => {
-    // const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-    // if (!token) {
-    //   navigate('/login');
-    // }
+    if (!token) {
+      return navigate('/login');
+    }
+
+    setToken(token);
 
     async function fetchData() {
       try {

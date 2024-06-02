@@ -14,22 +14,27 @@ class ModulesController implements IModulesController {
     return res.status(mapStatusHTTP(status)).json(data);
   }
 
-  async getModules(req: Request, res: Response) {
+  async getModules(_req: Request, res: Response) {
     const { status, data } = await this.modulesService.getModules();
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
 
   async getModuleById(req: Request, res: Response) {
-    const { id } = req.params;
+    const { moduleId } = req.params;
 
-    const { status, data } = await this.modulesService.getModuleById(Number(id));
+    const { status, data } = await this.modulesService.getModuleById(Number(moduleId));
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
 
   async getModulesByCourseId(req: Request, res: Response) {
     const { courseId } = req.params;
+    const courses = req.user?.courses.map((course) => course.courseId);
+
+    if (!courses?.includes(Number(courseId))) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
 
     const { status, data } = await this.modulesService.getModulesByCourseId(Number(courseId));
 
@@ -37,10 +42,10 @@ class ModulesController implements IModulesController {
   }
 
   async updateModuleById(req: Request, res: Response) {
-    const { id } = req.params;
+    const { moduleId } = req.params;
     const { courseId, title } = req.body;
 
-    const { status, data } = await this.modulesService.updateModuleById(Number(id), courseId, title);
+    const { status, data } = await this.modulesService.updateModuleById(Number(moduleId), courseId, title);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
