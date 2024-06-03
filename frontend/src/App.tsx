@@ -17,6 +17,7 @@ import RootProvider from './context';
 import BookmarkedCourses from './pages/BookmarkedCourses';
 import Profile from './pages/Profile';
 import LessonPage from './pages/LessonPage';
+import CreateCourse from './pages/CreateCourse';
 
 function App() {
   return (
@@ -46,7 +47,10 @@ function App() {
           <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
           <Route path="/reset-password/:token" element={ <ForgotPassword /> } />
           <Route path="/admin" element={ <AdminPage /> } />
-          <Route path="/admin/manager/:id" element={ <ManageLessons /> } />
+          <Route path="/admin/create" element={ <CreateCourse /> } />
+          <Route path="/admin/edit" element="Editar curso" />
+          <Route path="/admin/students" element="Estudantes" />
+          <Route path="/admin/courses" element="Cursos" />
           <Route path="*" element={ <NotFound /> } />
         </Routes>
         <Footer />

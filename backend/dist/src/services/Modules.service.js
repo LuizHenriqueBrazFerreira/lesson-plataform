@@ -24,7 +24,9 @@ class ModulesService {
             try {
                 const courseExists = yield this._coursesModel.getCourseByTitle(courseTitle);
                 if (!courseExists)
-                    throw new Error('Curso não encontrado.');
+                    return { status: 'NOT_FOUND', data: { message: 'Curso não encontrado.' } };
+                if (!title)
+                    return { status: 'BAD_REQUEST', data: { message: 'Título do módulo é obrigatório.' } };
                 const courseId = courseExists.id;
                 const module = yield this.modulesModel.createModule(courseId, title);
                 return { status: 'CREATED', data: module };

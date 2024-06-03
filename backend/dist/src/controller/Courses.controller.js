@@ -25,7 +25,7 @@ class CoursesController {
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
-    getCourses(req, res) {
+    getCourses(_req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { status, data } = yield this.coursesService.getCourses();
             return res.status((0, mapHttp_1.default)(status)).json(data);
@@ -36,7 +36,7 @@ class CoursesController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             const courses = (_a = req.user) === null || _a === void 0 ? void 0 : _a.courses;
-            const hasAccess = courses === null || courses === void 0 ? void 0 : courses.some((course) => course.id === Number(id));
+            const hasAccess = courses === null || courses === void 0 ? void 0 : courses.some((course) => course.courseId === Number(id));
             if (!hasAccess) {
                 const data = { message: 'Você não tem acesso a este curso.' };
                 return res.status((0, mapHttp_1.default)('FORBIDDEN')).json(data);

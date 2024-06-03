@@ -6,7 +6,7 @@ import { Module, initialModuleState } from '../types/courseType';
 import { LessonsType } from '../types/lessons';
 import LessonsCard from '../components/LessonsCard';
 import ModuleCard from '../components/ModuleCard';
-// import OrangeButton from '../components/OrangeButton';
+import OrangeButton from '../components/OrangeButton';
 
 function Lessons() {
   const [lessons, setLessons] = useState<LessonsType[]>([]);
@@ -47,19 +47,9 @@ function Lessons() {
 
   return (
     <div>
-      <CoursesBackground
-        heading="Módulo"
-        title={ module.title }
-      >
-        <div className="self-start">
-          <h1
-            className="text-2xl lg:text-4xl
-            text-btn-orange font-bold"
-          >
-            Aulas
-          </h1>
+      <CoursesBackground heading="Módulo" title={ module.title }>
+        <div className="grid grid-cols-1 lg:grid-cols-2">
           {
-            // ISSO TUDO VAI SAIR PARA O LESSONCARD
             lessons.map((lesson, index) => (
               <div
                 aria-hidden="true"
@@ -76,6 +66,11 @@ function Lessons() {
             ))
           }
         </div>
+        <OrangeButton
+          onClick={ () => navigate(`/courses/${module.courseId}/modules`) }
+        >
+          Voltar
+        </OrangeButton>
       </CoursesBackground>
     </div>
 

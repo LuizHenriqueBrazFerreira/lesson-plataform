@@ -24,3 +24,11 @@ export const InitialLessonsType = {
   link: '',
   watched: false,
 };
+
+export type LessonPropType = {
+  moduleTitle: string,
+  title: string,
+  content: string,
+  image: string,
+  link: string,
+};

@@ -23,6 +23,7 @@ ModulesSequelize.init({
     title: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
+        unique: true,
     },
 }, {
     sequelize: index_1.default,
@@ -32,6 +33,7 @@ ModulesSequelize.init({
 Courses_model_1.default.hasMany(ModulesSequelize, {
     foreignKey: 'courseId',
     sourceKey: 'id',
+    as: 'modules',
 });
 ModulesSequelize.belongsTo(Courses_model_1.default, {
     foreignKey: 'courseId',

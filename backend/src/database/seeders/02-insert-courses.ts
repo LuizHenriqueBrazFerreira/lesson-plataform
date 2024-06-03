@@ -19,12 +19,21 @@ export default {
 
     // Inserir módulos
     await queryInterface.bulkInsert('Modules', [
-      { title: 'Módulo 1', course_id: 1 },
-      { title: 'Módulo 2', course_id: 1 },
-      { title: 'Módulo 1', course_id: 2 },
-      { title: 'Módulo 2', course_id: 2 },
-      { title: 'Módulo 1', course_id: 3 },
-      { title: 'Módulo 2', course_id: 3 },
+      { title: 'Módulo A', course_id: 1 },
+      { title: 'Módulo B', course_id: 1 },
+      { title: 'Módulo C', course_id: 1 },
+      { title: 'Módulo D', course_id: 2 },
+      { title: 'Módulo E', course_id: 2 },
+      { title: 'Módulo F', course_id: 2 },
+      { title: 'Módulo G', course_id: 3 },
+      { title: 'Módulo H', course_id: 3 },
+      { title: 'Módulo I', course_id: 3 },
+      { title: 'Módulo J', course_id: 4 },
+      { title: 'Módulo K', course_id: 4 },
+      { title: 'Módulo L', course_id: 4 },
+      { title: 'Módulo M', course_id: 5 },
+      { title: 'Módulo N', course_id: 5 },
+      { title: 'Módulo O', course_id: 5 },
     ]);
     
     // Inserir lições

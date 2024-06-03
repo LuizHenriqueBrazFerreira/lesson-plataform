@@ -10,7 +10,9 @@ class ModulesService implements IModulesService {
     try {
       const courseExists = await this._coursesModel.getCourseByTitle(courseTitle);
 
-      if(!courseExists) throw new Error('Curso não encontrado.');
+      if(!courseExists) return { status: 'NOT_FOUND', data: { message: 'Curso não encontrado.' } };
+
+      if(!title) return { status: 'BAD_REQUEST', data: { message: 'Título do módulo é obrigatório.' } };
       
       const courseId = courseExists.id;
       const module = await this.modulesModel.createModule(courseId, title);

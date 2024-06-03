@@ -39,6 +39,8 @@ exports.validateConfirmEmailToken = exports.validateUser = exports.validateToken
 const bcrypt = __importStar(require("bcryptjs"));
 const jwt_1 = require("../utils/jwt");
 const UsersModel_1 = __importDefault(require("../models/UsersModel"));
+const LessonsModel_1 = __importDefault(require("../models/LessonsModel"));
+const ModulesModel_1 = __importDefault(require("../models/ModulesModel"));
 const UserCoursesModel_1 = __importDefault(require("../models/UserCoursesModel"));
 const validatePassword = (password, dbPassword) => bcrypt
     .compareSync(password, dbPassword);
@@ -46,6 +48,8 @@ exports.validatePassword = validatePassword;
 const validateToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { authorization } = req.headers;
     const userModel = new UsersModel_1.default();
+    const lessonsModel = new LessonsModel_1.default();
+    const modulesModel = new ModulesModel_1.default();
     const userCoursesModel = new UserCoursesModel_1.default();
     if (!authorization) {
         return res.status(401).json({ message: 'Token não encontrado' });

@@ -5,11 +5,14 @@ import ModulesModel from '../models/ModulesModel';
 class LessonsService implements ILessonsService {
   private model = new LessonsModel();
   private _moduleModel = new ModulesModel()
+
   async createLesson(moduleTitle: string, title: string, content: string, image: string, link: string) {
     try {
       const moduleExists = await this._moduleModel.getModuleByTitle(moduleTitle);
 
-      if (!moduleExists) throw new Error('Módulo não encontrado');
+      if (!moduleExists) return { status: 'NOT_FOUND', data: { message: 'Módulo não encontrado' } };
+
+      if (!title || !content ) return { status: 'BAD_REQUEST', data: { message: 'Campos obrigatórios não preenchidos' } };
       
       const moduleId = moduleExists.id;
       const lesson = await this.model.createLesson(moduleId, title, content, image, link);

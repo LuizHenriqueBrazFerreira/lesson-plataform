@@ -74,12 +74,12 @@ function BookmarkedCourses() {
           ))
         )
           : (
-            <h1
+            <h2
               className="text-xl lg:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
               Você não possui cursos salvos
-            </h1>
+            </h2>
           )}
       </div>
     </CoursesBackground>

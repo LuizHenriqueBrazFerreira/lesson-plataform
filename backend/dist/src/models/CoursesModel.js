@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Courses_model_1 = __importDefault(require("../database/models/Courses.model"));
+const Lessons_model_1 = __importDefault(require("../database/models/Lessons.model"));
 class CoursesModel {
     constructor() {
         this.model = Courses_model_1.default;
@@ -38,6 +39,31 @@ class CoursesModel {
     getCourseByTitle(courseTitle) {
         return __awaiter(this, void 0, void 0, function* () {
             const course = yield this.model.findOne({ where: { title: courseTitle } });
+            return course;
+        });
+    }
+    getCourseByLessonId(lessonId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const course = yield this.model.findOne({
+                include: [{
+                        association: 'modules',
+                        include: [{
+                                model: Lessons_model_1.default,
+                                where: { id: lessonId },
+                            }],
+                    }],
+            });
+            return course;
+        });
+    }
+    getCourseByModuleId(moduleId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const course = yield this.model.findOne({
+                include: {
+                    association: 'modules',
+                    where: { id: moduleId },
+                },
+            });
             return course;
         });
     }
