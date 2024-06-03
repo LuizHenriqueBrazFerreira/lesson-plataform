@@ -22,6 +22,7 @@ exports.default = {
             title: {
                 allowNull: false,
                 type: sequelize_1.DataTypes.STRING,
+                unique: true
             },
         });
     },

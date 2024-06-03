@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import NavBar from './NavBar';
+import AdminNavBar from './AdminNavBar';
 import AdminBar from './AdminBar';
 
 function Header() {
@@ -7,6 +8,8 @@ function Header() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
+
+  const role = localStorage.getItem('role');
 
   return (
     <header
@@ -28,11 +31,11 @@ function Header() {
           Entrar
         </button>
       ) : null}
-      { token ? (
+      { role === 'STUDENT' ? (
         <NavBar />
       ) : null}
 
-      { pathname === '/admin' && (<AdminBar />)}
+      { role === 'ADMIN' && (<AdminNavBar />)}
     </header>
   );
 }

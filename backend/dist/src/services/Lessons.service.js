@@ -24,7 +24,9 @@ class LessonsService {
             try {
                 const moduleExists = yield this._moduleModel.getModuleByTitle(moduleTitle);
                 if (!moduleExists)
-                    throw new Error('Módulo não encontrado');
+                    return { status: 'NOT_FOUND', data: { message: 'Módulo não encontrado' } };
+                if (!title || !content)
+                    return { status: 'BAD_REQUEST', data: { message: 'Campos obrigatórios não preenchidos' } };
                 const moduleId = moduleExists.id;
                 const lesson = yield this.model.createLesson(moduleId, title, content, image, link);
                 return { status: 'SUCCESSFUL', data: lesson };

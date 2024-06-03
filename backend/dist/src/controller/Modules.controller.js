@@ -25,7 +25,7 @@ class ModulesController {
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
-    getModules(req, res) {
+    getModules(_req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { status, data } = yield this.modulesService.getModules();
             return res.status((0, mapHttp_1.default)(status)).json(data);
@@ -33,23 +33,28 @@ class ModulesController {
     }
     getModuleById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const { status, data } = yield this.modulesService.getModuleById(Number(id));
+            const { moduleId } = req.params;
+            const { status, data } = yield this.modulesService.getModuleById(Number(moduleId));
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
     getModulesByCourseId(req, res) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const { courseId } = req.params;
+            const courses = (_a = req.user) === null || _a === void 0 ? void 0 : _a.courses.map((course) => course.courseId);
+            if (!(courses === null || courses === void 0 ? void 0 : courses.includes(Number(courseId)))) {
+                return res.status(401).json({ message: 'Unauthorized' });
+            }
             const { status, data } = yield this.modulesService.getModulesByCourseId(Number(courseId));
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
     updateModuleById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
+            const { moduleId } = req.params;
             const { courseId, title } = req.body;
-            const { status, data } = yield this.modulesService.updateModuleById(Number(id), courseId, title);
+            const { status, data } = yield this.modulesService.updateModuleById(Number(moduleId), courseId, title);
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }

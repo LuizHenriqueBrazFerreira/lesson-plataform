@@ -41,6 +41,17 @@ class LessonsModel {
             return lesson;
         });
     }
+    getLessonsByCourseId(courseId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const lesson = yield this.model.findAll({
+                include: {
+                    association: 'module',
+                    where: { courseId },
+                },
+            });
+            return lesson;
+        });
+    }
     updateLessonById(id, moduleId, title, content, image, link) {
         return __awaiter(this, void 0, void 0, function* () {
             const lesson = yield this.model.update({ moduleId, title, content, image, link }, { where: { id } });
