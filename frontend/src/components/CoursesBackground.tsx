@@ -15,7 +15,7 @@ function CoursesBackground({ children, heading = '', title = '' }: Children) {
   const containsModules = pathname.includes('/modules');
 
   return (
-    <div
+    <main
       className="w-screen min-h-[85vh] font-['Nunito']
     bg-courses-gray flex flex-col justify-center items-center py-[3rem] px-4"
     >
@@ -35,13 +35,13 @@ function CoursesBackground({ children, heading = '', title = '' }: Children) {
           </h2>
         </section>
       ) : null}
-      <main
+      <section
         className="lg:w-[81rem] bg-white
         flex flex-col grow px-[2rem] py-[3rem] rounded-2xl"
       >
         { children }
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
 

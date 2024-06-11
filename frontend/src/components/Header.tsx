@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import NavBar from './NavBar';
 import AdminNavBar from './AdminNavBar';
-import AdminBar from './AdminBar';
+// import AdminBar from './AdminBar';
 
 function Header() {
   const { pathname } = useLocation();

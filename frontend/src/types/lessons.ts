@@ -32,3 +32,11 @@ export type LessonPropType = {
   image: string,
   link: string,
 };
+
+export const INITIAL_LESSON = {
+  moduleTitle: '',
+  title: '',
+  content: '',
+  image: '',
+  link: '',
+};

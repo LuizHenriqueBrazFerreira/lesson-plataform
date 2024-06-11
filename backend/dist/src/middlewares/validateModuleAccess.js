@@ -14,14 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const CoursesModel_1 = __importDefault(require("../models/CoursesModel"));
 const validateModuleAccess = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c;
     const { moduleId } = req.params;
     const coursesIds = (_a = req.user) === null || _a === void 0 ? void 0 : _a.courses.map((course) => course.courseId);
     const coursesModel = new CoursesModel_1.default();
+    const role = (_b = req.user) === null || _b === void 0 ? void 0 : _b.role;
     const course = yield coursesModel.getCourseByModuleId(Number(moduleId));
-    if (coursesIds === null || coursesIds === void 0 ? void 0 : coursesIds.includes((_b = course === null || course === void 0 ? void 0 : course.id) !== null && _b !== void 0 ? _b : 0)) {
+    if ((coursesIds === null || coursesIds === void 0 ? void 0 : coursesIds.includes((_c = course === null || course === void 0 ? void 0 : course.id) !== null && _c !== void 0 ? _c : 0)) || role === 'ADMIN') {
         return next();
     }
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: 'Acesso ao módulo não autorizado' });
 });
 exports.default = validateModuleAccess;

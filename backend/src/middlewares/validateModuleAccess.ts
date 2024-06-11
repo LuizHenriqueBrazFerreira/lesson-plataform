@@ -5,14 +5,15 @@ const validateModuleAccess = async (req: Request, res: Response, next: NextFunct
   const { moduleId } = req.params;
   const coursesIds = req.user?.courses.map((course) => course.courseId);
   const coursesModel = new CoursesModel();
+  const role = req.user?.role;
 
   const course = await coursesModel.getCourseByModuleId(Number(moduleId));
 
-  if (coursesIds?.includes(course?.id ?? 0)) {
+  if (coursesIds?.includes(course?.id ?? 0) || role === 'ADMIN' ){
     return next();
   }
 
-  return res.status(401).json({ message: 'Unauthorized' });
+  return res.status(401).json({ message: 'Acesso ao módulo não autorizado' });
 };
 
 export default validateModuleAccess;

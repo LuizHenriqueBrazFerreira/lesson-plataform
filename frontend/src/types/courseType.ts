@@ -7,7 +7,7 @@ export type Lesson = {
 
 export type Module = {
   courseId: number;
-  moduleId: number;
+  id: number;
   title: string;
 };
 
@@ -31,6 +31,6 @@ export const initialCourseState: Courses = {
 
 export const initialModuleState: Module = {
   courseId: 0,
-  moduleId: 0,
+  id: 0,
   title: '',
 };
