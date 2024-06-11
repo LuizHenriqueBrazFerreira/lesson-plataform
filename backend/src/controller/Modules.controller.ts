@@ -31,8 +31,9 @@ class ModulesController implements IModulesController {
   async getModulesByCourseId(req: Request, res: Response) {
     const { courseId } = req.params;
     const courses = req.user?.courses.map((course) => course.courseId);
+    const role = req.user?.role;
 
-    if (!courses?.includes(Number(courseId))) {
+    if (!courses?.includes(Number(courseId)) && role !== 'ADMIN') {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 

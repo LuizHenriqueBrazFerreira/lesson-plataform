@@ -29,7 +29,7 @@ function StudentCourses() {
         setHasCourses(data.length > 0);
       } catch (error: any) {
         if (error.isAxiosError) {
-          console.error(error.response.data.message);
+          console.error(error.response.data);
         }
       }
     }

@@ -12,6 +12,7 @@ function AdminCard({ heading, to, description = ' ' }: AdminCardProps) {
 
   return (
     <Card
+      onClick={ () => navigate(`/admin/${to}`) }
       className="w-80 lg:w-[37rem] lg:h-[17rem] m-4 select-none
       cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
     >
@@ -24,7 +25,6 @@ function AdminCard({ heading, to, description = ' ' }: AdminCardProps) {
           </h2>
         </div>
         <div
-          onClick={ () => navigate(`/admin/${to}`) }
           aria-hidden="true"
           className="lg:text-3xl font-semibold"
         >

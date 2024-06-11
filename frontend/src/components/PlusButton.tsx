@@ -10,7 +10,7 @@ function PlusButton({ children, ...rest }: ButtonProps) {
   return (
     <Button
       type="button"
-      className="flex items-center justify-center gap-2"
+      className="flex items-center justify-center gap-2 w-fit self-center"
       { ...rest }
     >
       {children}
