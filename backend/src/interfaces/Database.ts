@@ -37,3 +37,8 @@ export interface UserCoursesDB {
   progress?: number,
   bookmarked?: boolean,
 };
+
+export interface PdfLessonDB {
+  lessonId: number,
+  path: string,
+};
