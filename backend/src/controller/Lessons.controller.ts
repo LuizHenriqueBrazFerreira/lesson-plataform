@@ -8,7 +8,8 @@ class LessonsController implements ILessonsController {
 
   async createLesson(req: Request, res: Response) {
     const { moduleTitle, title, content, image, link } = req.body;
-
+    console.log(typeof title);
+    
     const { status, data } = await this.service.createLesson(moduleTitle, title, content, image, link);
 
     return res.status(mapStatusHttp(status)).json(data);

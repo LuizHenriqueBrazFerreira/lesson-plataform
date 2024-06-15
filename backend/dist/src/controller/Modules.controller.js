@@ -39,11 +39,12 @@ class ModulesController {
         });
     }
     getModulesByCourseId(req, res) {
-        var _a;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             const { courseId } = req.params;
             const courses = (_a = req.user) === null || _a === void 0 ? void 0 : _a.courses.map((course) => course.courseId);
-            if (!(courses === null || courses === void 0 ? void 0 : courses.includes(Number(courseId)))) {
+            const role = (_b = req.user) === null || _b === void 0 ? void 0 : _b.role;
+            if (!(courses === null || courses === void 0 ? void 0 : courses.includes(Number(courseId))) && role !== 'ADMIN') {
                 return res.status(401).json({ message: 'Unauthorized' });
             }
             const { status, data } = yield this.modulesService.getModulesByCourseId(Number(courseId));

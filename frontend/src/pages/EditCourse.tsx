@@ -8,12 +8,14 @@ import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
 import { LessonPropType, LessonsType, INITIAL_LESSON } from '../types/lessons';
-import { requestPost, setToken, requestData } from '../services/requests';
+import { requestUpdate, setToken, requestData, requestPost } from '../services/requests';
 import { Courses, Module } from '../types/courseType';
+import { requestAddLessons, requestUpdateLesson } from '../utils/requestUpdateLesson';
 
 export default function EditCourse() {
-  const [modules, setModules] = useState(['']);
+  const [modules, setModules] = useState([{ id: 0, title: '' }]);
   const [lessons, setLessons] = useState<LessonPropType[]>([INITIAL_LESSON]);
+  const [lessonsDB, setLessonsDB] = useState<LessonPropType[]>([]);
   const [courses, setCourses] = useState<Courses[]>([]);
   const [courseTitle, setCourseTitle] = useState('');
   const [courseId, setCourseId] = useState(0);
@@ -21,6 +23,8 @@ export default function EditCourse() {
   const token = localStorage.getItem('token');
 
   const navigate = useNavigate();
+
+  console.log(modules);
 
   useEffect(() => {
     if (!token) {
@@ -56,12 +60,14 @@ export default function EditCourse() {
 
     const modulesData = await requestData(`/modules/${selectedCourse.id}`);
 
-    const newModules = modulesData.map((module: Module) => module.title);
+    const newModules = modulesData.map((module: Module) => ({ id: module.id,
+      title: module.title }));
     setModules(newModules);
 
     const lessonsPromises = modulesData.map(async (module: Module) => {
       const lessonsData = await requestData(`/lessons/${module.id}`);
       return lessonsData.map((lesson: LessonsType) => ({
+        id: lesson.id,
         moduleTitle: module.title,
         title: lesson.title,
         content: lesson.content,
@@ -72,10 +78,11 @@ export default function EditCourse() {
 
     const newLessons = (await Promise.all(lessonsPromises)).flat();
     setLessons(newLessons);
+    setLessonsDB(newLessons);
   };
-
   const handleAddModule = () => {
-    setModules([...modules, '']);
+    setModules([...modules, { id: modules.length++,
+      title: 'Digite o título do módulo' }]);
   };
 
   const handleAddLesson = () => {
@@ -96,7 +103,7 @@ export default function EditCourse() {
 
   const handleModuleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
     const newModules = [...modules];
-    newModules[index] = event.target.value;
+    newModules[index].title = event.target.value;
     setModules(newModules);
   };
 
@@ -124,61 +131,50 @@ export default function EditCourse() {
     setLessons(newLessons);
   };
 
-  // ESSA FUNÇÃO EU COPIEI DO CREATECOURSE, PARA ATUALIZAR OS CURSOS AO INVÉS DE CRIAR, TEM QUE MUDAR A FUNÇÃO PARA USAR AS ROTAS DE UPDATE
-  // const handleCreateCourse = async (event: React.FormEvent) => {
-  //   event.preventDefault();
+  const handleUpdateCourse = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-  //   if (!token) {
-  //     return navigate('/login');
-  //   }
-  //   setToken(token);
+    if (!token) { return navigate('/login'); }
 
-  //   const courseData = await requestPost('/courses', { title: courseTitle });
+    setToken(token);
+    let courseData = false;
+    let moduleData = false;
+    let lessonData = false;
 
-  //   const modulesData = await Promise.all(modules.map(async (module) => {
-  //     const moduleData = await requestPost(
-  //       '/modules',
-  //       { courseTitle, title: module },
-  //     );
-  //     return moduleData;
-  //   }));
+    await requestUpdate(`/courses/${courseId}`, { title: courseTitle });
+    console.log(modules);
 
-  //   const lessonsData = await Promise.all(lessons.map(async (lesson) => {
-  //     const lessonData = await requestPost(
-  //       '/lessons',
-  //       {
-  //         title: lesson.title,
-  //         content: lesson.content,
-  //         image: lesson.image,
-  //         link: lesson.link,
-  //         moduleTitle: lesson.moduleTitle,
-  //       },
-  //     );
-  //     return lessonData;
-  //   }));
+    await Promise.all(modules.map(async (module) => {
+      await requestUpdate(`/modules/${module.id}`, { courseTitle, title: module.title });
+    }));
+    const updatedLessons = await requestUpdateLesson(lessonsDB, lessons, modules);
+    const addedLessons = await requestAddLessons(lessonsDB, lessons, modules);
+    lessonData = updatedLessons && addedLessons;
 
-  //   if (courseData.title && modulesData.length && lessonsData.length) {
-  //     setMessage('Curso criado com sucesso!');
-  //     setCourseTitle('');
-  //     setModules(['']);
-  //     setLessons([INITIAL_LESSON]);
-  //     setTimeout(() => {
-  //       setMessage('');
-  //     }, 3000);
-  //   }
-  // };
+    courseData = true;
+    moduleData = true;
+
+    // Função que faz o Promise.all rodar para atualizar o banco de dados e/ou adicionar dados
+
+    if (courseData && moduleData && lessonData) {
+      setMessage('Curso alterado com sucesso!');
+      setCourseTitle('Selecione o curso');
+      setModules([{ id: 0, title: 'Digite o título do módulo' }]);
+      setLessons([INITIAL_LESSON]);
+      setTimeout(() => {
+        setMessage('');
+      }, 3000);
+    }
+  };
 
   return (
     <CoursesBackground>
       <div className="self-start">
-        <h1
-          className="text-xl lg:text-4xl
-            text-btn-orange font-bold mb-10"
-        >
+        <h1 className="text-xl lg:text-4xl text-btn-orange font-bold mb-10">
           Editar Curso
         </h1>
       </div>
-      <form className="flex flex-col gap-4" onSubmit={ handleCreateCourse }>
+      <form className="flex flex-col gap-4" onSubmit={ handleUpdateCourse }>
         <Select
           size="lg"
           label="Selecione o curso"
@@ -206,7 +202,7 @@ export default function EditCourse() {
               type="text"
               size="lg"
               label={ `Título do módulo ${index + 1}` }
-              value={ module }
+              value={ module.title }
               onChange={ (event) => handleModuleChange(event, index) }
               icon={ <TrashButton
                 type="button"
@@ -221,7 +217,7 @@ export default function EditCourse() {
         {lessons.map((lesson, index) => (
           <CreateLesson
             key={ index }
-            modules={ modules }
+            modules={ modules.map((module) => module.title) }
             handleLessonsChange={ handleLessonsChange }
             handleRemoveLesson={ handleRemoveLesson }
             index={ index }
