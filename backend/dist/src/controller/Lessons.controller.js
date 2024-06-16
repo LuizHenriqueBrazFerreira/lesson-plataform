@@ -21,6 +21,7 @@ class LessonsController {
     createLesson(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { moduleTitle, title, content, image, link } = req.body;
+            console.log(typeof title);
             const { status, data } = yield this.service.createLesson(moduleTitle, title, content, image, link);
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });

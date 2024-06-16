@@ -12,6 +12,7 @@ userRouter.put('/confirm',  (req: Request, res: Response) => userController.conf
 userRouter.post('/resend-email',  (req: Request, res: Response) => userController.resendEmail(req, res));
 userRouter.post('/forgot-password',  (req: Request, res: Response) => userController.forgotPassword(req, res));
 userRouter.put('/reset-password',  (req: Request, res: Response) => userController.resetPassword(req, res));
+userRouter.post('/support',  (req: Request, res: Response) => userController.sendSupportEmail(req, res));
 userRouter.post('/profile',  validateToken, (req: Request, res: Response) => userController.requestProfileData(req, res));
 userRouter.put('/profile',  validateToken, (req: Request, res: Response) => userController.updateProfileData(req, res));
 

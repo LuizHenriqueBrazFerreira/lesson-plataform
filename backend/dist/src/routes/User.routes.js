@@ -14,6 +14,7 @@ userRouter.put('/confirm', (req, res) => userController.confirmEmail(req, res));
 userRouter.post('/resend-email', (req, res) => userController.resendEmail(req, res));
 userRouter.post('/forgot-password', (req, res) => userController.forgotPassword(req, res));
 userRouter.put('/reset-password', (req, res) => userController.resetPassword(req, res));
+userRouter.post('/support', (req, res) => userController.sendSupportEmail(req, res));
 userRouter.post('/profile', validateLogin_1.validateToken, (req, res) => userController.requestProfileData(req, res));
 userRouter.put('/profile', validateLogin_1.validateToken, (req, res) => userController.updateProfileData(req, res));
 exports.default = userRouter;

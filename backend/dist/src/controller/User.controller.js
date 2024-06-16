@@ -60,6 +60,13 @@ class UsersController {
             return res.status((0, mapHttp_1.default)(status)).json(data);
         });
     }
+    sendSupportEmail(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email, name, topic, content } = req.body;
+            const { status, data } = yield this.userService.requestSuport(email, name, topic, content);
+            return res.status((0, mapHttp_1.default)(status)).json(data);
+        });
+    }
     requestProfileData(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { email } = req.body;

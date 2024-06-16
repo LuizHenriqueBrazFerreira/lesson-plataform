@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendForgotPasswordEmail = exports.sendConfirmEmail = void 0;
+exports.sendSupportEmail = exports.sendForgotPasswordEmail = exports.sendConfirmEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const userEmail = process.env.EMAIL_USER || 'ensinofsmsss@gmail.com';
 const userPassword = process.env.EMAIL_PASSWORD;
@@ -85,3 +85,31 @@ const sendForgotPasswordEmail = (email, token, name) => __awaiter(void 0, void 0
     }
 });
 exports.sendForgotPasswordEmail = sendForgotPasswordEmail;
+const sendSupportEmail = (email, name, topic, content) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield smtpTransport.sendMail({
+            from: {
+                name: 'Ensino - FSMSSS',
+                address: userEmail
+            },
+            to: userEmail,
+            subject: topic,
+            html: `
+        <div style="margin: 0 auto; width: 40vw; background-color:#faf9f8; padding: 20px; height: 70vh; font-family: Graphik, Roboto, Helvetica, Calibri, Arial, sans-serif;"">
+          <img src="https://storage.googleapis.com/atados-v3/user-uploaded/images/32c816d9-4f08-463e-8676-200895084434.png" alt="Logo" style="display: block; margin: 0 auto; width: 202px; height: 68px;">
+          <div style="background-color: rgba(224, 105, 21, 0.1); padding: 20px; border-radius: 5px;">
+            <h1 style="font-size: 20px;">Olá, 'Ensino - FSMSSS!</h1>
+            <p style="font-size: 25px;">Recebemos uma solicitação ao Suporte</p>
+          </div>
+          <div style="padding: 20px; background-color: white;"">
+            <p style="font-size: 20px;">Usuário ${name}, com e-mail: ${email}, enviou uma chamada ao suporte, com o seguinte conteúdo:</p>
+            <p style="margin-top: 50px;">${content}</p>
+          </div>
+        </div>`
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.sendSupportEmail = sendSupportEmail;

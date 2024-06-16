@@ -7,6 +7,7 @@ class LessonsService implements ILessonsService {
   private _moduleModel = new ModulesModel()
 
   async createLesson(moduleTitle: string, title: string, content: string, image: string, link: string) {
+    console.log(moduleTitle)
     try {
       const moduleExists = await this._moduleModel.getModuleByTitle(moduleTitle);
 

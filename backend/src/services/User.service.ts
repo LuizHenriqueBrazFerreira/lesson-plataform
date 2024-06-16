@@ -2,7 +2,7 @@ import { IUserModel } from '../interfaces/IUsers';
 import { UserData } from '../types/Data.types';
 import { createToken, createEmailToken, verifyToken } from '../utils/jwt';
 import { validatePassword, validateUser, validateConfirmEmailToken } from "../middlewares/validateLogin";
-import { sendConfirmEmail, sendForgotPasswordEmail } from '../utils/sendEmail';
+import { sendConfirmEmail, sendForgotPasswordEmail, sendSupportEmail } from '../utils/sendEmail';
 import { IUserService } from '../interfaces/IUsers';
 import UsersModel from '../models/UsersModel';
 import bcrypt from 'bcryptjs';
@@ -106,6 +106,16 @@ class UsersService implements IUserService {
       const name = user.dataValues.name.split(' ')[0];
   
       await sendForgotPasswordEmail(email, forgotPasswordToken, name);
+  
+      return { status: 'SUCCESSFUL', data: { message: 'E-mail enviado com sucesso.' } };
+    } catch (error: any) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+    }
+  }
+
+  async requestSuport(email: string, name: string, topic: string, content: string, contact: string) {
+    try {
+      await sendSupportEmail(email, name, topic, content, contact);
   
       return { status: 'SUCCESSFUL', data: { message: 'E-mail enviado com sucesso.' } };
     } catch (error: any) {

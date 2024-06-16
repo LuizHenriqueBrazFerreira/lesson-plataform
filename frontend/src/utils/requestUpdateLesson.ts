@@ -14,7 +14,7 @@ async function requestUpdateLesson(
   await Promise.all(toUpdate.map(async (lesson) => {
     const module = modules.find((mod) => mod.title === lesson.moduleTitle) as any;
     const lessonData = await requestUpdate(`/lessons/${lesson.id}`, {
-      moduleId: module.id,
+      moduleTitle: module.title,
       title: lesson.title,
       content: lesson.content,
       image: lesson.image,

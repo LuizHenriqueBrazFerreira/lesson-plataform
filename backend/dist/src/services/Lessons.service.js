@@ -21,6 +21,7 @@ class LessonsService {
     }
     createLesson(moduleTitle, title, content, image, link) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(moduleTitle);
             try {
                 const moduleExists = yield this._moduleModel.getModuleByTitle(moduleTitle);
                 if (!moduleExists)
@@ -32,6 +33,7 @@ class LessonsService {
                 return { status: 'SUCCESSFUL', data: lesson };
             }
             catch (error) {
+                console.log(error);
                 return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar Lições' } };
             }
         });

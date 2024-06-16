@@ -19,6 +19,7 @@ class LessonsModel {
     }
     createLesson(moduleId, title, content, image, link) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(`title no model: ${title}`);
             const lesson = yield this.model.create({ moduleId, title, content, image, link });
             return lesson;
         });
