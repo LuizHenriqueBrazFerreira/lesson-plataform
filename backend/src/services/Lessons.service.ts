@@ -14,12 +14,15 @@ class LessonsService implements ILessonsService {
 
       if (!title || !content ) return { status: 'BAD_REQUEST', data: { message: 'Campos obrigatórios não preenchidos' } };
       
+      
       const moduleId = moduleExists.id;
       const lesson = await this.model.createLesson(moduleId, title, content, image, link);
 
       return { status: 'SUCCESSFUL', data: lesson };
     }
     catch (error) {
+      console.log(error);
+      
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar Lições' } };
     }
   }
