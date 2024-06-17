@@ -26,17 +26,24 @@ function CreateLesson({
           {' '}
           {index + 1}
         </h2>
-        <TrashButton onClick={ () => handleRemoveLesson(index) } />
+        <TrashButton
+          type="button"
+          onClick={ () => handleRemoveLesson(index) }
+        />
       </div>
       <Select
         size="lg"
         label="Selecione o módulo"
         name="moduleTitle"
+        selected={ () => lesson.moduleTitle }
         value={ lesson.moduleTitle }
         onChange={ (event) => handleLessonsChange(event, index) }
       >
         {modules.map((module, i) => (
-          <Option key={ i } value={ module }>
+          <Option
+            key={ i }
+            value={ module }
+          >
             {module}
           </Option>
         ))}
