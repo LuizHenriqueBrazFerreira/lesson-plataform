@@ -6,9 +6,9 @@ export default {
     return queryInterface.createTable<Model<PdfLessonDB>>('LessonPdfs', {
       lessonId: {
         primaryKey: true,
-        allowNull:false,
-        field: 'lesson_id',
+        allowNull: false,
         type: DataTypes.INTEGER,
+        field: 'lesson_id',
         references: {
           model: 'Lessons',
           key: 'id'
