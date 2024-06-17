@@ -6,13 +6,13 @@ import { DataTypes,
 import db from './index';
 import LessonsSequelize from './Lessons.model';
 
-class LessonPdfsSequelize extends Model<InferAttributes<LessonPdfsSequelize>,
-InferCreationAttributes<LessonPdfsSequelize>> {
+class PdfLessonSequelize extends Model<InferAttributes<PdfLessonSequelize>,
+InferCreationAttributes<PdfLessonSequelize>> {
   declare lessonId: number;
   declare path: string;
 }
 
-LessonPdfsSequelize.init({
+PdfLessonSequelize.init({
   lessonId: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -29,14 +29,14 @@ LessonPdfsSequelize.init({
   timestamps: false,
 });
 
-LessonsSequelize.hasMany(LessonPdfsSequelize, {
+LessonsSequelize.hasMany(PdfLessonSequelize, {
   foreignKey: 'lessonId',
   sourceKey: 'id',
 });
 
-LessonPdfsSequelize.belongsTo(LessonsSequelize, {
+PdfLessonSequelize.belongsTo(LessonsSequelize, {
   foreignKey: 'id',
   targetKey: 'lessonId',
 });
 
-export default LessonPdfsSequelize;
+export default PdfLessonSequelize;
