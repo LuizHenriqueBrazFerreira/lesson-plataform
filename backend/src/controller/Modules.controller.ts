@@ -43,10 +43,10 @@ class ModulesController implements IModulesController {
   }
 
   async updateModuleById(req: Request, res: Response) {
-    const { moduleId } = req.params;
+    const { id } = req.params;
     const { courseId, title } = req.body;
 
-    const { status, data } = await this.modulesService.updateModuleById(Number(moduleId), courseId, title);
+    const { status, data } = await this.modulesService.updateModuleById(Number(id), Number(courseId), title);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }

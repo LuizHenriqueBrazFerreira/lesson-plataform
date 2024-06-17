@@ -9,6 +9,7 @@ import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
 import { LessonPropType } from '../types/lessons';
 import { requestPost, setToken } from '../services/requests';
+import { showSuccessMessage } from '../utils/editCourseHelpers';
 
 const INITIAL_LESSON = {
   moduleTitle: '',
@@ -22,7 +23,6 @@ function CreateCourse() {
   const [modules, setModules] = useState(['']);
   const [lessons, setLessons] = useState<LessonPropType[]>([INITIAL_LESSON]);
   const [courseTitle, setCourseTitle] = useState('');
-  const [message, setMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -53,27 +53,19 @@ function CreateCourse() {
   };
 
   const handleLessonsChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    event: ChangeEvent<HTMLInputElement |
+    HTMLTextAreaElement | HTMLSelectElement> | string,
     index: number,
   ) => {
     const newLessons = [...lessons];
 
     if (typeof event === 'string') {
-      newLessons[index] = {
-        ...newLessons[index],
-        moduleTitle: event,
-      };
-      setLessons(newLessons);
-      return;
+      newLessons[index] = { ...newLessons[index], moduleTitle: event };
+    } else {
+      const { name, value } = event.target;
+
+      newLessons[index] = { ...newLessons[index], [name]: value };
     }
-
-    const { name, value } = event.target;
-
-    newLessons[index] = {
-      ...newLessons[index],
-      [name]: value,
-    };
-
     setLessons(newLessons);
   };
 
@@ -102,28 +94,24 @@ function CreateCourse() {
       const lessonData = await requestPost(
         '/lessons',
         {
+          moduleTitle: lesson.moduleTitle,
           title: lesson.title,
           content: lesson.content,
           image: lesson.image,
           link: lesson.link,
-          moduleTitle: lesson.moduleTitle,
         },
       );
       return lessonData;
     }));
 
     if (courseData.title && modulesData.length && lessonsData.length) {
-      setMessage('Curso criado com sucesso!');
+      showSuccessMessage('Curso criado com sucesso');
 
       setCourseTitle('');
 
       setModules(['']);
 
       setLessons([INITIAL_LESSON]);
-
-      setTimeout(() => {
-        setMessage('');
-      }, 3000);
     }
   };
 
@@ -175,11 +163,6 @@ function CreateCourse() {
             lesson={ lesson }
           />
         ))}
-        {message && (
-          <p className="text-center text-green-500 font-bold">
-            {message}
-          </p>
-        )}
         <PlusButton onClick={ handleAddLesson }>
           Adicionar Aula
         </PlusButton>

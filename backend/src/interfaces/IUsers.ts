@@ -1,3 +1,4 @@
+import { sendSupportEmail } from './../utils/sendEmail';
 import { UserData, LoginResponse } from '../types/Data.types';
 import { ServiceResponse } from '../types/Service.response';
 import UsersSequelize from '../database/models/Users.model';
@@ -29,6 +30,7 @@ export interface IUserService {
   forgotPassword(email: string): Promise<ServiceResponse<''>>;
   resetPassword(emailToken: string, password: string): Promise<ServiceResponse<''>>;
   findProfileData(email: string): Promise<ServiceResponse<UserData>>;
+  requestSuport(email: string, name: string, topic: string, content: string, cell:string): Promise<ServiceResponse<''>>;
   updateProfileData(oldEmail: string, email: string, name: string, password: string, country: string, organization: string): Promise<ServiceResponse<number>>;
 }
 
@@ -39,6 +41,7 @@ export interface IUserController {
   resendEmail(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   forgotPassword(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   resetPassword(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  sendSupportEmail(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   requestProfileData(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   updateProfileData(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
 }
