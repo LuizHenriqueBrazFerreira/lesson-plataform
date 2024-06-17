@@ -1,3 +1,4 @@
+import { sendSupportEmail } from './../utils/sendEmail';
 import { Request, Response } from "express";
 import mapStatusHTTP from "../utils/mapHttp";
 import UsersService from '../services/User.service';
@@ -52,6 +53,14 @@ class UsersController implements IUserController{
   
     const {status, data} = await this.userService.resetPassword(token, password);
   
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
+  async sendSupportEmail(req: Request, res: Response) {
+    const {email, name, topic, content, contact} = req.body;
+
+    const {status, data} = await this.userService.requestSuport(email, name, topic, content, contact);
+
     return res.status(mapStatusHTTP(status)).json(data);
   }
 

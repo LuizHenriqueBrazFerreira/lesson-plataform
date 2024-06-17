@@ -17,6 +17,7 @@ import Profile from './pages/Profile';
 import LessonPage from './pages/LessonPage';
 import CreateCourse from './pages/CreateCourse';
 import EditCourse from './pages/EditCourse';
+import SupportPage from './pages/SupportPage';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/admin/edit" element={ <EditCourse /> } />
           <Route path="/admin/students" element="Estudantes" />
           <Route path="/admin/courses" element="Cursos" />
+          <Route path="/support" element={ <SupportPage /> } />
           <Route path="*" element={ <NotFound /> } />
         </Routes>
         <Footer />
