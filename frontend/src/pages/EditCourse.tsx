@@ -33,8 +33,6 @@ export default function EditCourse() {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
-  console.log(modules);
-
   useEffect(() => {
     if (!token) {
       return navigate('/login');
@@ -116,14 +114,15 @@ export default function EditCourse() {
 
     newModules[index] = { ...newModules[index], title: event.target.value };
 
-    const moduleFromLesson = lessonsBackup.map((lesson, i) => {
-      if (lesson.moduleTitle === modulesBackup[index].title) {
-        return { ...lessons[i], moduleTitle: event.target.value };
-      }
-      return lessons[i];
-    });
-
-    setLessons(moduleFromLesson);
+    if (index < modulesBackup.length) {
+      const moduleFromLesson = lessonsBackup.map((lesson, i) => {
+        if (lesson.moduleTitle === modulesBackup[index].title) {
+          return { ...lessons[i], moduleTitle: event.target.value };
+        }
+        return lessons[i];
+      });
+      setLessons(moduleFromLesson);
+    }
     setModules(newModules);
   };
 
