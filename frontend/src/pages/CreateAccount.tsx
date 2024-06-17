@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import { FormEvent, MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -8,15 +8,12 @@ import EyeButton from '../components/EyeButton';
 import OrangeButton from '../components/OrangeButton';
 import WhiteButton from '../components/WhiteButton';
 import WarnigIcon from '../components/WarningIcon';
-import GreyInput from '../components/GreyInput';
 import LoginBackground from '../components/LoginBackground';
 import FormBackground from '../components/FormBackground';
+import { UserType, initialUserState } from '../types/userTypes';
 
 function CreateAccount() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [user, setUser] = useState<UserType>(initialUserState);
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
@@ -27,14 +24,24 @@ function CreateAccount() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+
     if (token) {
-      navigate('/');
+      navigate('/courses');
     }
   }, [navigate]);
 
+  const handleChange = (event: any) => {
+    event.preventDefault();
+
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   const handleResendEmail = async () => {
     try {
-      const data = await requestPost('/resend-email', { email });
+      const data = await requestPost('/resend-email', { email: user.email });
 
       setMessage(data.message);
     } catch (error: any) {
@@ -42,19 +49,21 @@ function CreateAccount() {
     }
   };
 
-  const handleRegister = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (user.password !== user.confirmPassword) {
       return setMessage('As senhas não coincidem');
     }
 
     try {
       setIsLoading(true);
 
-      const data = await requestPost('/create-account', { name,
-        email,
-        password,
+      const data = await requestPost('/create-account', { name: user.name,
+        email: user.email,
+        password: user.password,
+        country: user.country,
+        organization: user.organization,
         role: 'STUDENT' });
 
       setMessage(data.message);
@@ -67,7 +76,7 @@ function CreateAccount() {
     Clique no link que enviamos para
     <strong>
       {' '}
-      {email}
+      {user.email}
     </strong>
     {' '}
     para verificar sua conta. Se não receber um email dentro de 15 minutos,
@@ -104,60 +113,60 @@ function CreateAccount() {
 
   return (
     <LoginBackground>
-      <FormBackground>
+      <FormBackground onSubmit={ handleRegister }>
         <h1
           className="text-xl lg:text-4xl text-btn-orange mb-3 font-semibold"
         >
           Cadastre-se
         </h1>
-        {/* <GreyInput
-          labelText="Nome Completo"
-          value={ name }
-          onChange={ (event) => setName(event.target.value) }
-        /> */}
         <Input
-          value={ name }
+          crossOrigin={ undefined }
+          name="name"
+          value={ user.name }
           size="lg"
           type="text"
-          onChange={ (e) => setName(e.target.value) }
+          onChange={ handleChange }
           label="Nome Completo"
         />
-        {/* <GreyInput
-          labelText="Email"
-          type="email"
-          value={ email }
-          onChange={ (event) => setEmail(event.target.value) }
-        /> */}
         <Input
-          value={ email }
+          crossOrigin={ undefined }
+          name="email"
+          value={ user.email }
           size="lg"
           type="email"
-          onChange={ (e) => setEmail(e.target.value) }
+          onChange={ handleChange }
           label="Email"
         />
-        {/* <div>
-          <GreyInput
-            labelText="Senha"
-            type={ showPassword ? 'text' : 'password' }
-            value={ password }
-            onChange={ (e) => setPassword(e.target.value) }
-            onFocus={ () => setShowEye(true) }
-          />
-          <EyeButton
-            onClick={ (event) => handleShowPassword(event) }
-            showEye={ showEye }
-            showPassword={ showPassword }
-          />
-        </div> */}
+        <Input
+          crossOrigin={ undefined }
+          name="country"
+          value={ user.country }
+          size="lg"
+          type="text"
+          onChange={ handleChange }
+          label="País"
+        />
+        <Input
+          crossOrigin={ undefined }
+          name="organization"
+          value={ user.organization }
+          size="lg"
+          type="text"
+          onChange={ handleChange }
+          label="Organização (opcional)"
+        />
         <div>
           <Input
-            value={ password }
+            crossOrigin={ undefined }
+            name="password"
+            value={ user.password }
             size="lg"
             type={ showPassword ? 'text' : 'password' }
-            onChange={ (e) => setPassword(e.target.value) }
+            onChange={ handleChange }
             onFocus={ () => setShowEye(true) }
             label="Senha"
             icon={ <EyeButton
+              type="button"
               onClick={ (event) => handleShowPassword(event) }
               showEye={ showEye }
               showPassword={ showPassword }
@@ -174,17 +183,13 @@ function CreateAccount() {
             </Typography>
           )}
         </div>
-        {/* <GreyInput
-          labelText="Confirme sua senha"
-          type={ showPassword ? 'text' : 'password' }
-          value={ confirmPassword }
-          onChange={ (e) => setConfirmPassword(e.target.value) }
-        /> */}
         <Input
-          value={ confirmPassword }
+          crossOrigin={ undefined }
+          name="confirmPassword"
+          value={ user.confirmPassword }
           size="lg"
           type={ showPassword ? 'text' : 'password' }
-          onChange={ (e) => setConfirmPassword(e.target.value) }
+          onChange={ handleChange }
           label="Confirme sua senha"
         />
         { message === 'E-mail reenviado com sucesso.'
@@ -192,13 +197,14 @@ function CreateAccount() {
           ? <p className="text-green-500">{ message }</p>
           : <p className="text-red-500">{ message }</p>}
         <OrangeButton
-          onClick={ (event) => handleRegister(event) }
+          type="submit"
           isLoading={ isLoading }
         >
           Cadastrar
         </OrangeButton>
         <p className="self-center">Já possui uma conta?</p>
         <WhiteButton
+          type="button"
           onClick={ () => navigate('/login') }
         >
           Entrar

@@ -11,7 +11,8 @@ export interface IModules {
 export interface IModulesModel {
   createModule(courseId: number, title: string): Promise<IModules>;
   getModules(): Promise<IModules[]>;
-  getModuleById(id: number): Promise<ModulesSequelize[]>;
+  getModuleById(id: number): Promise<ModulesSequelize | null>;
+  getModulesByCourseId(courseId: number): Promise<IModules[]>;
   updateModuleById(id: number, courseId: number, title: string): Promise<[affectedCount: number]>;
   deleteModuleById(id: number): Promise<number>;
 }
@@ -19,7 +20,8 @@ export interface IModulesModel {
 export interface IModulesService {
   createModule(courseTitle: string, title: string): Promise<ServiceResponse<IModules>>;
   getModules(): Promise<ServiceResponse<IModules[]>>;
-  getModuleById(id: number): Promise<ServiceResponse<ModulesSequelize[] | null>>;
+  getModuleById(id: number): Promise<ServiceResponse<ModulesSequelize | null>>;
+  getModulesByCourseId(courseId: number): Promise<ServiceResponse<IModules[]>>;
   updateModuleById(id: number, courseId: number, title: string): Promise<ServiceResponse<[affectedCount: number]>>;
   deleteModuleById(id: number): Promise<ServiceResponse<number>>;
 }
@@ -28,6 +30,7 @@ export interface IModulesController {
   createModule(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   getModules(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   getModuleById(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  getModulesByCourseId(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   updateModuleById(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   deleteModuleById(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
 }

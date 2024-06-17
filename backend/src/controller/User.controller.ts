@@ -54,6 +54,22 @@ class UsersController implements IUserController{
   
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  async requestProfileData(req: Request, res: Response) {
+    const {email} = req.body;
+
+    const {status, data} = await this.userService.findProfileData(email);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
+  async updateProfileData(req: Request, res: Response) {
+    const {oldEmail, email, name, password, country, organization} = req.body;
+
+    const {status, data} = await this.userService.updateProfileData(oldEmail, email, name, password, country, organization);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }
 
 export default UsersController;

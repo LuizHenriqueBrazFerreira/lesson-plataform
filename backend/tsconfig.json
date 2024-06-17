@@ -12,10 +12,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "typeRoots": [
-      "src/@types",
-      "./node_modules/@types"
+      "./types"
     ]
   },
-  "include": ["src/**/*", "src/database/**/*"],
+  "include": ["src/**/*", "src/database/**/*", "types/express/index.d.ts"],
   "exclude": ["node_modules"]
 }

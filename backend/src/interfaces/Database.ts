@@ -3,6 +3,8 @@ export interface UserDB {
   name: string,
   email: string,
   password: string,
+  country: string,
+  organization?: string,
   role: 'ADMIN' | 'STUDENT',
   confirmEmailToken: string | null
 };
@@ -34,4 +36,9 @@ export interface UserCoursesDB {
   courseId: number,
   progress?: number,
   bookmarked?: boolean,
+};
+
+export interface PdfLessonDB {
+  lessonId: number,
+  path: string,
 };

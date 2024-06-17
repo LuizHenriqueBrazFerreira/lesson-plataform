@@ -5,11 +5,15 @@ import ModulesModel from '../models/ModulesModel';
 class LessonsService implements ILessonsService {
   private model = new LessonsModel();
   private _moduleModel = new ModulesModel()
+
   async createLesson(moduleTitle: string, title: string, content: string, image: string, link: string) {
     try {
       const moduleExists = await this._moduleModel.getModuleByTitle(moduleTitle);
 
-      if (!moduleExists) throw new Error('Módulo não encontrado');
+      if (!moduleExists) return { status: 'NOT_FOUND', data: { message: 'Módulo não encontrado' } };
+
+      if (!title || !content ) return { status: 'BAD_REQUEST', data: { message: 'Campos obrigatórios não preenchidos' } };
+      
       
       const moduleId = moduleExists.id;
       const lesson = await this.model.createLesson(moduleId, title, content, image, link);
@@ -17,6 +21,8 @@ class LessonsService implements ILessonsService {
       return { status: 'SUCCESSFUL', data: lesson };
     }
     catch (error) {
+      console.log(error);
+      
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar Lições' } };
     }
   }
@@ -41,6 +47,17 @@ class LessonsService implements ILessonsService {
       }
 
       return { status: 'SUCCESSFUL', data: lesson };
+    }
+    catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+    }
+  }
+
+  async getLessonsByModuleId(moduleId: number) {
+    try {
+      const lessons = await this.model.getLessonsByModuleId(moduleId);
+
+      return { status: 'SUCCESSFUL', data: lessons };
     }
     catch (error) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };

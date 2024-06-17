@@ -1,37 +1,53 @@
 import { Request, Response, NextFunction } from 'express';
 import * as bcrypt from 'bcryptjs';
 import { verifyToken } from '../utils/jwt';
+import UsersModel from '../models/UsersModel';
+import LessonsModel from '../models/LessonsModel';
+import ModulesModel from '../models/ModulesModel';
+import UserCoursesModel from '../models/UserCoursesModel';
 
 const validatePassword = (password: string, dbPassword: string): boolean => bcrypt
   .compareSync(password, dbPassword);
 
-const validateToken = (req: Request) => {
+const validateToken = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
+  const userModel = new UsersModel();
+  const lessonsModel = new LessonsModel();
+  const modulesModel = new ModulesModel();
+  const userCoursesModel = new UserCoursesModel();
 
   if (!authorization) {
-    return { status: 'UNAUTHORIZED', data: { message: 'Token não encontrado' } };
+    return res.status(401).json({ message: 'Token não encontrado' });
   }
 
   const token = authorization.split(' ')[1];
 
-  try {
-    const tokenInfo = verifyToken(token);
+  const { email } = verifyToken(token);
 
-    if (tokenInfo) {
-      return true;
-    }
-  } catch (error) {
-    console.log(error);
+  const user = await userModel.findByEmail(email);
 
-    return { status: 'UNAUTHORIZED', data: { message: 'Token deve ser um token válido' } };
+  if (!user) {
+    return res.status(401).json({ message: 'Token inválido' });
   }
+
+  const courses = await userCoursesModel.findCoursesByUserId(user.id);
+
+  const userData = { 
+    ...user.dataValues, 
+    courses: courses.map((course: any) => course.dataValues),
+  };
+
+  req.user = userData;
+  
+  next();
 };
 
-const validateUser = (email: string, password: string) => {
+
+const validateUser = (email: string, password: string, name: string, country: string) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!email || !password) {
-    return { status: 'BAD_REQUEST', data: { message: 'Todos os campos devem estar preenchidos.' } };
+  if (!email || !password || !name || !country) {
+    return { status: 'BAD_REQUEST', data: { message: 'Todos os campos obrigatórios devem estar preenchidos.' } };
   }
 
   const validMail = regex.test(email);

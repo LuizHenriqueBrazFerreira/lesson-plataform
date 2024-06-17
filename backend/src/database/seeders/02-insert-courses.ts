@@ -1,6 +1,10 @@
 import { QueryInterface } from 'sequelize';
 import UsersSequelize from '../models/Users.model';
 import UserCoursesSequelize from '../models/UserCourses.model';
+import { createEmailToken } from '../../utils/jwt';
+import bcrypt from 'bcryptjs'
+
+const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
 export default {
   up: async (queryInterface: QueryInterface) => {
@@ -15,12 +19,21 @@ export default {
 
     // Inserir módulos
     await queryInterface.bulkInsert('Modules', [
-      { title: 'Módulo 1', course_id: 1 },
-      { title: 'Módulo 2', course_id: 1 },
-      { title: 'Módulo 1', course_id: 2 },
-      { title: 'Módulo 2', course_id: 2 },
-      { title: 'Módulo 1', course_id: 3 },
-      { title: 'Módulo 2', course_id: 3 },
+      { title: 'Módulo A', course_id: 1 },
+      { title: 'Módulo B', course_id: 1 },
+      { title: 'Módulo C', course_id: 1 },
+      { title: 'Módulo D', course_id: 2 },
+      { title: 'Módulo E', course_id: 2 },
+      { title: 'Módulo F', course_id: 2 },
+      { title: 'Módulo G', course_id: 3 },
+      { title: 'Módulo H', course_id: 3 },
+      { title: 'Módulo I', course_id: 3 },
+      { title: 'Módulo J', course_id: 4 },
+      { title: 'Módulo K', course_id: 4 },
+      { title: 'Módulo L', course_id: 4 },
+      { title: 'Módulo M', course_id: 5 },
+      { title: 'Módulo N', course_id: 5 },
+      { title: 'Módulo O', course_id: 5 },
     ]);
     
     // Inserir lições
@@ -42,8 +55,11 @@ await queryInterface.bulkInsert('Lessons', [
 const user1 = await UsersSequelize.create({
   name: 'Usuário 1',
   email: 'usuario1@email.com',
-  password: 'senha1',
+  password: bcrypt.hashSync('senha1', SALT_ROUNDS),
+  country: 'Brasil',
+  organization: '',
   role: 'STUDENT',
+  confirmEmailToken: createEmailToken({ email: 'usuario1@email.com' })
 });
 
 await UserCoursesSequelize.bulkCreate([
@@ -54,8 +70,11 @@ await UserCoursesSequelize.bulkCreate([
 const user2 = await UsersSequelize.create({
   name: 'Usuário 2',
   email: 'usuario2@email.com',
-  password: 'senha2',
+  password: bcrypt.hashSync('senha2', SALT_ROUNDS),
+  country: 'Brasil',
+  organization: '',
   role: 'STUDENT',
+  confirmEmailToken: createEmailToken({ email: 'usuario2@email.com' })
 });
 
 await UserCoursesSequelize.bulkCreate([

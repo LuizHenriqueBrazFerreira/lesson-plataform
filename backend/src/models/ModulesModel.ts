@@ -17,7 +17,13 @@ class ModulesModel implements IModulesModel {
   }
 
   async getModuleById(id: number) {
-    const modules = await this.model.findAll({ where: { courseId: id } });
+    const modules = await this.model.findOne({ where: { id } });
+
+    return modules;
+  }
+
+  async getModulesByCourseId(courseId: number) {
+    const modules = await this.model.findAll({ where: { courseId } });
 
     return modules;
   }

@@ -8,10 +8,12 @@ type ModuleCardProps = {
 function ModuleCard({ module }: ModuleCardProps) {
   const navigate = useNavigate();
 
+  const lessonsUrl = `/courses/${module.courseId}/modules/${module.id}/lessons`;
+
   return (
     <Card
       className="w-80 lg:w-[37rem] lg:h-[17rem] m-4 select-none
-                cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
+      cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
     >
       <CardBody className="flex flex-col">
         <div className="flex justify-between mb-10">
@@ -22,7 +24,7 @@ function ModuleCard({ module }: ModuleCardProps) {
           </h2>
         </div>
         <div
-          onClick={ () => navigate(`/courses/${module.courseId}/modules`) }
+          onClick={ () => navigate(lessonsUrl) }
           aria-hidden="true"
           className="lg:text-3xl font-semibold"
         >

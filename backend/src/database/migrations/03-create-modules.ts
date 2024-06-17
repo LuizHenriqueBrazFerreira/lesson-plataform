@@ -21,6 +21,7 @@ export default {
       title: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true
       },
     })
   },

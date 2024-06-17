@@ -12,17 +12,17 @@ const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) 
 class UsersService implements IUserService {
   private userModel: IUserModel = new UsersModel();
 
-  async createUser({ name, email, password, role }: UserData) {
+  async createUser({ name, email, password, role, country, organization = '' }: UserData) {
     try {
       const user = await this.userModel.findByEmail(email);
   
-      const isUserValid = validateUser(email, password);
+      const isUserValid = validateUser(email, password, name, country);
   
       if (isUserValid) return { status: isUserValid.status, data: isUserValid.data };
   
       if (user) return { status: 'CONFLICT', data: { message: 'E-mail já cadastrado.' } };
   
-      await this.userModel.createUser({ name, email, password, role });
+      await this.userModel.createUser({ name, email, password, role, country, organization });
   
       const confirmEmailToken = createEmailToken({ email });
   
@@ -55,9 +55,9 @@ class UsersService implements IUserService {
       
       if (!userExists || !isCorrectPassword) return { status: 'NOT_FOUND', data: { message: 'E-mail ou senha incorretos.' } };
       
-      const token = createToken({ email, password });
+      const token = createToken({ email, id: userExists.dataValues.id});
   
-      return { status: 'SUCCESSFUL', data: { token, role: userExists.dataValues.role, id: userExists.dataValues.id } };
+      return { status: 'SUCCESSFUL', data: { token, user: userExists.dataValues } };
     } catch (error: any) {
       console.log(error);
       
@@ -128,6 +128,48 @@ class UsersService implements IUserService {
       return { status: 'SUCCESSFUL', data: { message: 'Senha alterada com sucesso.' } };
     } catch (error: any) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+    }
+  }
+
+  async findProfileData(email: string) {
+    try {
+      const user = await this.userModel.findByEmail(email);
+  
+      if (!user) return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado.' } };
+  
+      return { status: 'SUCCESSFUL', data: user.dataValues };
+    } catch (error: any) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
+    }
+  }
+
+  async updateProfileData(oldEmail: string, email: string, name: string, password: string, country: string, organization: string) {
+    try {
+      const user = await this.userModel.findByEmail(oldEmail);
+  
+      if (!user) return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado.' } };
+  
+      if (password.length > 8) {
+        const hashedPassword = bcrypt.hashSync(password, SALT_ROUNDS);
+        await this.userModel.updateUser('password', hashedPassword, oldEmail);
+      }
+  
+      await this.userModel.updateUser('country', country, oldEmail);
+
+      await this.userModel.updateUser('organization', organization, oldEmail);
+
+      await this.userModel.updateUser('name', name, oldEmail);
+
+      await this.userModel.updateUser('email', email, oldEmail);
+
+      if (oldEmail !== email) {
+        const confirmEmailToken = createEmailToken({ email });
+        await this.userModel.updateUser('confirmEmailToken', confirmEmailToken, email);
+      }
+  
+      return { status: 'SUCCESSFUL', data: { message: 'Perfil atualizado com sucesso!' } };
+    } catch (error: any) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Erro ao atualizar perfil.' } };
     }
   }
 }

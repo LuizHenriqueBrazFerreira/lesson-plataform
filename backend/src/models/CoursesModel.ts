@@ -1,5 +1,6 @@
 import CoursesSequelize from '../database/models/Courses.model';
 import { ICoursesModel } from '../interfaces/ICourses';
+import LessonsSequelize from '../database/models/Lessons.model';
 
 class CoursesModel implements ICoursesModel {
   private model = CoursesSequelize;
@@ -24,6 +25,31 @@ class CoursesModel implements ICoursesModel {
 
   async getCourseByTitle(courseTitle: string) {
     const course = await this.model.findOne({ where: { title: courseTitle } });
+
+    return course;
+  }
+
+  async getCourseByLessonId(lessonId: number) {
+    const course = await this.model.findOne({
+      include: [{
+        association: 'modules',
+        include: [{
+          model: LessonsSequelize,
+          where: { id: lessonId },
+        }],
+      }],
+    });
+  
+    return course;
+  }
+
+  async getCourseByModuleId(moduleId: number) {
+    const course = await this.model.findOne({
+      include: {
+        association: 'modules',
+        where: { id: moduleId },
+      },
+    });
 
     return course;
   }

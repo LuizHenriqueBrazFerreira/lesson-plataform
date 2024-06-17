@@ -1,30 +1,54 @@
-// import { Navigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import LessonList from '../components/LessonList';
-// import Lesson from '../../components/Lesson';
-import LoginBackground from '../components/LoginBackground';
-import CreateLesson from '../components/CreateLesson';
-import CreateModule from '../components/CreateModule';
-import CreateCourse from '../components/CreateCourse';
-import RootContext from '../context/main';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AdminCard from '../components/AdminCard';
+import CoursesBackground from '../components/CoursesBackground';
+import { setToken } from '../services/requests';
 
 export default function AdminPage() {
-  const { status } = useContext(RootContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return navigate('/login');
+    }
+
+    setToken(token);
+  }, []);
 
   return (
-    <LoginBackground>
-      <div className="flex justify-center items-center gap-4 flex-wrap">
-        <div
-          className="justify-start w-[400px] h-[200px] lg:justify-start lg:w-[430px]"
+    <CoursesBackground>
+      <div className="self-start">
+        <h1
+          className="text-xl lg:text-4xl
+           text-btn-orange font-bold"
         >
-          <LessonList />
-        </div>
-        <div className="">
-          {(status.course && status.active) && <CreateCourse />}
-          {(status.module && status.active) && <CreateModule />}
-          {(status.lesson && status.active) && <CreateLesson />}
-        </div>
+          Administrador
+        </h1>
       </div>
-    </LoginBackground>
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <AdminCard
+          heading="Cursos"
+          to="courses"
+          description="Ver todos os cursos"
+        />
+        <AdminCard
+          heading="Estudantes"
+          to="students"
+          description="Ver todas as pessoas estudantes"
+        />
+        <AdminCard
+          heading="Criar Curso"
+          to="create"
+          description="Criar um novo curso"
+        />
+        <AdminCard
+          heading="Editar Curso"
+          to="edit"
+          description="Editar um curso existente"
+        />
+      </div>
+    </CoursesBackground>
   );
 }

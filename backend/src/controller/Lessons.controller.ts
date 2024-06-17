@@ -8,41 +8,50 @@ class LessonsController implements ILessonsController {
 
   async createLesson(req: Request, res: Response) {
     const { moduleTitle, title, content, image, link } = req.body;
+    console.log(typeof title);
+    
+    const { status, data } = await this.service.createLesson(moduleTitle, title, content, image, link);
 
-    const response = await this.service.createLesson(moduleTitle, title, content, image, link);
-
-    return res.status(mapStatusHttp(response.status)).json(response);
+    return res.status(mapStatusHttp(status)).json(data);
   }
 
   async getLessons(_req: Request, res: Response) {
-    const response = await this.service.getLessons();
-
-    return res.status(mapStatusHttp(response.status)).json(response);
+    const { status, data } = await this.service.getLessons();
+   
+    return res.status(mapStatusHttp(status)).json(data);
   }
 
   async getLessonById(req: Request, res: Response) {
     const { id } = req.params;
 
-    const response = await this.service.getLessonById(Number(id));
+    const { status, data } = await this.service.getLessonById(Number(id));
 
-    return res.status(mapStatusHttp(response.status)).json(response);
+    return res.status(mapStatusHttp(status)).json(data);
+  }
+
+  async getLessonsByModuleId(req: Request, res: Response) {
+    const { moduleId } = req.params;
+
+    const { status, data } = await this.service.getLessonsByModuleId(Number(moduleId));
+
+    return res.status(mapStatusHttp(status)).json(data);
   }
 
   async updateLessonById(req: Request, res: Response) {
     const { id } = req.params;
     const { moduleTitle, title, content, image, link } = req.body;
 
-    const response = await this.service.updateLessonById(Number(id), moduleTitle, title, content, image, link);
+    const { status, data } = await this.service.updateLessonById(Number(id), moduleTitle, title, content, image, link);
 
-    return res.status(mapStatusHttp(response.status)).json(response);
+    return res.status(mapStatusHttp(status)).json(data);
   }
 
   async deleteLessonById(req: Request, res: Response) {
     const { id } = req.params;
 
-    const response = await this.service.deleteLessonById(Number(id));
+    const { status, data } = await this.service.deleteLessonById(Number(id));
 
-    return res.status(mapStatusHttp(response.status)).json(response);
+    return res.status(mapStatusHttp(status)).json(data);
   }
 }
 

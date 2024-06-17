@@ -9,6 +9,8 @@ export interface IUsers {
   name: string;
   email: string;
   password: string;
+  country: string;
+  organization?: string;
   role?: string;
   confirmEmailToken?: string;
 }
@@ -26,6 +28,8 @@ export interface IUserService {
   resendEmail(email: string): Promise<ServiceResponse<''>>;
   forgotPassword(email: string): Promise<ServiceResponse<''>>;
   resetPassword(emailToken: string, password: string): Promise<ServiceResponse<''>>;
+  findProfileData(email: string): Promise<ServiceResponse<UserData>>;
+  updateProfileData(oldEmail: string, email: string, name: string, password: string, country: string, organization: string): Promise<ServiceResponse<number>>;
 }
 
 export interface IUserController {
@@ -35,6 +39,8 @@ export interface IUserController {
   resendEmail(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   forgotPassword(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   resetPassword(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  requestProfileData(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  updateProfileData(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
 }
 
 export interface IUserCourses {

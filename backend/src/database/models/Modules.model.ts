@@ -31,6 +31,7 @@ ModulesSequelize.init({
   title: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
 }, {
   sequelize: db,
@@ -41,6 +42,7 @@ ModulesSequelize.init({
 CoursesSequelize.hasMany(ModulesSequelize, {
   foreignKey: 'courseId',
   sourceKey: 'id',
+  as: 'modules',
 });
 
 ModulesSequelize.belongsTo(CoursesSequelize, {

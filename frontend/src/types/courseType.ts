@@ -6,9 +6,9 @@ export type Lesson = {
 };
 
 export type Module = {
+  courseId: number;
   id: number;
-  content: string;
-  lessons: Lesson[];
+  title: string;
 };
 
 export type Courses = {
@@ -22,4 +22,15 @@ export type UserCourses = {
   userId: number;
   progress: number;
   bookmarked: boolean;
+};
+
+export const initialCourseState: Courses = {
+  id: 0,
+  title: '',
+};
+
+export const initialModuleState: Module = {
+  courseId: 0,
+  id: 0,
+  title: '',
 };

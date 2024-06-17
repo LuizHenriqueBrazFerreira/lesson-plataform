@@ -1,23 +1,35 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CoursesBackground from '../components/CoursesBackground';
-import { requestData, requestUpdate } from '../services/requests';
+import { requestData, requestUpdate, setToken } from '../services/requests';
 import { UserCourses } from '../types/courseType';
 import CourseCard from '../components/CourseCard';
 
 function StudentCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
+  const [hasCourses, setHasCourses] = useState(true);
 
-  const { userId } = useParams();
+  const userId = localStorage.getItem('userId');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return navigate('/login');
+    }
+
+    setToken(token);
+
     async function fetchData() {
       try {
         const data = await requestData(`/user-courses/${userId}`);
         setCourses(data);
+        setHasCourses(data.length > 0);
       } catch (error: any) {
         if (error.isAxiosError) {
-          console.error(error.response.data.message);
+          console.error(error.response.data);
         }
       }
     }
@@ -49,7 +61,7 @@ function StudentCourses() {
         </h1>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2">
-        { courses.length > 0 ? (
+        { hasCourses ? (
           courses.map((course, index) => (
             <CourseCard
               key={ index }
@@ -60,12 +72,12 @@ function StudentCourses() {
           ))
         )
           : (
-            <h1
+            <h2
               className="text-xl lg:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
               Você ainda não possui cursos
-            </h1>
+            </h2>
           )}
       </div>
     </CoursesBackground>
