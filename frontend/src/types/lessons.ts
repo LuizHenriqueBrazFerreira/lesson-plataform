@@ -42,3 +42,13 @@ export const INITIAL_LESSON = {
   image: '',
   link: '',
 };
+
+export type PdfsType = {
+  link: string,
+  title: string,
+};
+
+export const INITIAL_PDF = {
+  link: '',
+  title: '',
+};
