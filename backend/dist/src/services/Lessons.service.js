@@ -43,7 +43,7 @@ class LessonsService {
                 return { status: 'SUCCESSFUL', data: lessons };
             }
             catch (error) {
-                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: `Erro ao buscar todas as lições: ${error}` } };
             }
         });
     }
@@ -57,7 +57,7 @@ class LessonsService {
                 return { status: 'SUCCESSFUL', data: lesson };
             }
             catch (error) {
-                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: `Erro ao buscar lição: ${error}` } };
             }
         });
     }
@@ -68,22 +68,24 @@ class LessonsService {
                 return { status: 'SUCCESSFUL', data: lessons };
             }
             catch (error) {
-                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao buscar Lições' } };
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: `Erro ao buscar lições: ${error}` } };
             }
         });
     }
     updateLessonById(id, moduleTitle, title, content, image, link) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                if (!title || !content)
+                    return { status: 'BAD_REQUEST', data: { message: 'Campos obrigatórios não preenchidos' } };
                 const moduleExists = yield this._moduleModel.getModuleByTitle(moduleTitle);
                 if (!moduleExists)
-                    throw new Error('Módulo não encontrado');
+                    return { status: 'NOT_FOUND', data: { message: 'Módulo não encontrado' } };
                 const moduleId = moduleExists.id;
                 const lesson = yield this.model.updateLessonById(id, moduleId, title, content, image, link);
                 return { status: 'SUCCESSFUL', data: lesson };
             }
             catch (error) {
-                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao atualizar Lições' } };
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: `Erro ao atualizar lição: ${error}` } };
             }
         });
     }
@@ -94,7 +96,7 @@ class LessonsService {
                 return { status: 'SUCCESSFUL', data: lesson };
             }
             catch (error) {
-                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao deletar Lições' } };
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: `Erro ao deletar lição: ${error}` } };
             }
         });
     }

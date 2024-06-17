@@ -26,6 +26,7 @@ export const InitialLessonsType = {
 };
 
 export type LessonPropType = {
+  id?: number,
   moduleTitle: string,
   title: string,
   content: string,
@@ -34,6 +35,7 @@ export type LessonPropType = {
 };
 
 export const INITIAL_LESSON = {
+  id: 0,
   moduleTitle: '',
   title: '',
   content: '',

@@ -8,27 +8,36 @@ import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
 import { LessonPropType, LessonsType, INITIAL_LESSON } from '../types/lessons';
-import { requestPost, setToken, requestData } from '../services/requests';
-import { Courses, Module } from '../types/courseType';
+import {
+  setToken,
+  requestData,
+  requestUpdate,
+  requestDelete,
+} from '../services/requests';
+import { Courses, Module, EditModule } from '../types/courseType';
+import {
+  handleModuleEdit,
+  handleLessonEdit,
+  showSuccessMessage,
+  showNoCourseSelectedMessage,
+} from '../utils/editCourseHelpers';
 
 export default function EditCourse() {
-  const [modules, setModules] = useState(['']);
-  const [lessons, setLessons] = useState<LessonPropType[]>([INITIAL_LESSON]);
+  const [modules, setModules] = useState<EditModule[]>([]);
+  const [modulesBackup, setModulesBackup] = useState<EditModule[]>([]);
+  const [lessons, setLessons] = useState<LessonPropType[]>([]);
+  const [lessonsBackup, setLessonsBackup] = useState<LessonPropType[]>([]);
   const [courses, setCourses] = useState<Courses[]>([]);
   const [courseTitle, setCourseTitle] = useState('');
   const [courseId, setCourseId] = useState(0);
-  const [message, setMessage] = useState('');
   const token = localStorage.getItem('token');
-
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!token) {
       return navigate('/login');
     }
-
     setToken(token);
-
     async function fetchData() {
       try {
         const coursesData = await requestData('/courses');
@@ -40,11 +49,10 @@ export default function EditCourse() {
       }
     }
     fetchData();
-  }, []);
+  }, [navigate, token, courseTitle]);
 
   const handleChooseCourse = async (value: string) => {
     if (token) setToken(token);
-
     setCourseTitle(value);
 
     const selectedCourse = courses.find((course) => course.title === value);
@@ -55,13 +63,19 @@ export default function EditCourse() {
     setLessons([]);
 
     const modulesData = await requestData(`/modules/${selectedCourse.id}`);
-
-    const newModules = modulesData.map((module: Module) => module.title);
+    const newModules = modulesData.map((module: Module) => (
+      {
+        id: module.id,
+        title: module.title,
+      }
+    ));
     setModules(newModules);
+    setModulesBackup(newModules);
 
     const lessonsPromises = modulesData.map(async (module: Module) => {
       const lessonsData = await requestData(`/lessons/${module.id}`);
       return lessonsData.map((lesson: LessonsType) => ({
+        id: lesson.id,
         moduleTitle: module.title,
         title: lesson.title,
         content: lesson.content,
@@ -69,25 +83,27 @@ export default function EditCourse() {
         link: lesson.link,
       }));
     });
-
     const newLessons = (await Promise.all(lessonsPromises)).flat();
     setLessons(newLessons);
+    setLessonsBackup(newLessons);
   };
 
   const handleAddModule = () => {
-    setModules([...modules, '']);
+    setModules([...modules, { id: 0, title: '' }]);
   };
 
   const handleAddLesson = () => {
     setLessons([...lessons, INITIAL_LESSON]);
   };
 
-  const handleRemoveModule = (index: number) => {
+  // adicionar request para deletar módulo, estava dando erro no sequelize então tentarei depois
+  const handleRemoveModule = async (index: number) => {
     const newModules = [...modules];
     newModules.splice(index, 1);
     setModules(newModules);
   };
 
+  // adicionar request para deletar aula, estava dando erro no sequelize então tentarei depois
   const handleRemoveLesson = (index: number) => {
     const newLessons = [...lessons];
     newLessons.splice(index, 1);
@@ -96,77 +112,64 @@ export default function EditCourse() {
 
   const handleModuleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
     const newModules = [...modules];
-    newModules[index] = event.target.value;
+
+    newModules[index] = { ...newModules[index], title: event.target.value };
+
+    const moduleFromLesson = lessonsBackup.map((lesson, i) => {
+      if (lesson.moduleTitle === modulesBackup[index].title) {
+        return { ...lessons[i], moduleTitle: event.target.value };
+      }
+      return lessons[i];
+    });
+
+    setLessons(moduleFromLesson);
     setModules(newModules);
   };
 
   const handleLessonsChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    event: ChangeEvent<HTMLInputElement |
+    HTMLTextAreaElement | HTMLSelectElement> | string,
     index: number,
   ) => {
     const newLessons = [...lessons];
 
     if (typeof event === 'string') {
-      newLessons[index] = {
-        ...newLessons[index],
-        moduleTitle: event,
-      };
-      setLessons(newLessons);
-      return;
+      newLessons[index] = { ...newLessons[index], moduleTitle: event };
+    } else {
+      const { name, value } = event.target;
+
+      newLessons[index] = { ...newLessons[index], [name]: value };
     }
-
-    const { name, value } = event.target;
-
-    newLessons[index] = {
-      ...newLessons[index],
-      [name]: value,
-    };
     setLessons(newLessons);
   };
 
-  // ESSA FUNÇÃO EU COPIEI DO CREATECOURSE, PARA ATUALIZAR OS CURSOS AO INVÉS DE CRIAR, TEM QUE MUDAR A FUNÇÃO PARA USAR AS ROTAS DE UPDATE
-  // const handleCreateCourse = async (event: React.FormEvent) => {
-  //   event.preventDefault();
+  const handleUpdateCourse = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-  //   if (!token) {
-  //     return navigate('/login');
-  //   }
-  //   setToken(token);
+    if (lessons.length === 0 || modules.length === 0) {
+      return showNoCourseSelectedMessage();
+    }
 
-  //   const courseData = await requestPost('/courses', { title: courseTitle });
+    if (!token) {
+      return navigate('/login');
+    }
+    setToken(token);
 
-  //   const modulesData = await Promise.all(modules.map(async (module) => {
-  //     const moduleData = await requestPost(
-  //       '/modules',
-  //       { courseTitle, title: module },
-  //     );
-  //     return moduleData;
-  //   }));
+    const courseData = await requestUpdate(
+      `/courses/${courseId}`,
+      { id: courseId, title: courseTitle },
+    );
 
-  //   const lessonsData = await Promise.all(lessons.map(async (lesson) => {
-  //     const lessonData = await requestPost(
-  //       '/lessons',
-  //       {
-  //         title: lesson.title,
-  //         content: lesson.content,
-  //         image: lesson.image,
-  //         link: lesson.link,
-  //         moduleTitle: lesson.moduleTitle,
-  //       },
-  //     );
-  //     return lessonData;
-  //   }));
+    const modulesData = await handleModuleEdit(courseId, courseTitle, modules);
+    const lessonsData = await handleLessonEdit(lessons);
 
-  //   if (courseData.title && modulesData.length && lessonsData.length) {
-  //     setMessage('Curso criado com sucesso!');
-  //     setCourseTitle('');
-  //     setModules(['']);
-  //     setLessons([INITIAL_LESSON]);
-  //     setTimeout(() => {
-  //       setMessage('');
-  //     }, 3000);
-  //   }
-  // };
+    if (courseData && modulesData && lessonsData) {
+      showSuccessMessage('Curso atualizado com sucesso');
+      setCourseTitle('');
+      setModules([]);
+      setLessons([]);
+    }
+  };
 
   return (
     <CoursesBackground>
@@ -178,7 +181,7 @@ export default function EditCourse() {
           Editar Curso
         </h1>
       </div>
-      <form className="flex flex-col gap-4" onSubmit={ handleCreateCourse }>
+      <form className="flex flex-col gap-4" onSubmit={ handleUpdateCourse }>
         <Select
           size="lg"
           label="Selecione o curso"
@@ -206,7 +209,7 @@ export default function EditCourse() {
               type="text"
               size="lg"
               label={ `Título do módulo ${index + 1}` }
-              value={ module }
+              value={ module.title }
               onChange={ (event) => handleModuleChange(event, index) }
               icon={ <TrashButton
                 type="button"
@@ -221,24 +224,19 @@ export default function EditCourse() {
         {lessons.map((lesson, index) => (
           <CreateLesson
             key={ index }
-            modules={ modules }
+            modules={ modules.map((module) => module.title) }
             handleLessonsChange={ handleLessonsChange }
             handleRemoveLesson={ handleRemoveLesson }
             index={ index }
             lesson={ lesson }
           />
         ))}
-        {message && (
-          <p className="text-center text-green-500 font-bold">
-            {message}
-          </p>
-        )}
         <PlusButton onClick={ handleAddLesson }>
           Adicionar Aula
         </PlusButton>
         <div className="flex gap-4 justify-center">
           <OrangeButton type="submit">
-            Criar
+            Salvar
           </OrangeButton>
           <WhiteButton onClick={ () => navigate('/admin') }>
             Voltar

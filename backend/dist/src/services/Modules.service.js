@@ -87,7 +87,7 @@ class ModulesService {
                 return { status: 'SUCCESSFUL', data: deletedModule };
             }
             catch (error) {
-                return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao deletar módulo.' } };
+                return { status: 'INTERNAL_SERVER_ERROR', data: { message: `Erro: ${error}` } };
             }
         });
     }

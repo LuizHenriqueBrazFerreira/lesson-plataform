@@ -34,3 +34,8 @@ export const initialModuleState: Module = {
   id: 0,
   title: '',
 };
+
+export type EditModule = {
+  id: number;
+  title: string;
+};
