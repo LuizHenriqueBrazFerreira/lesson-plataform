@@ -18,6 +18,7 @@ import LessonPage from './pages/LessonPage';
 import CreateCourse from './pages/CreateCourse';
 import EditCourse from './pages/EditCourse';
 import SupportPage from './pages/SupportPage';
+import './App.css';
 
 function App() {
   return (

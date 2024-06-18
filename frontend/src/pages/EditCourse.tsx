@@ -127,12 +127,15 @@ export default function EditCourse() {
     event: ChangeEvent<HTMLInputElement |
     HTMLTextAreaElement | HTMLSelectElement> | string,
     index: number,
+    delta = '',
   ) => {
     const newLessons = [...lessons];
 
-    if (typeof event === 'string') {
+    if (typeof event === 'string' && delta === '') {
       newLessons[index] = { ...newLessons[index], moduleTitle: event };
-    } else {
+    } else if (typeof event === 'string' && delta !== '') {
+      newLessons[index] = { ...newLessons[index], content: event };
+    } else if (typeof event !== 'string' && delta !== '') {
       const { name, value } = event.target;
 
       newLessons[index] = { ...newLessons[index], [name]: value };

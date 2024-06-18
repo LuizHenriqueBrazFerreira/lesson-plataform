@@ -27,7 +27,7 @@ export interface ILessonsService {
   getLessonById(id: number): Promise<ServiceResponse<ILessons>>;
   getLessonsByModuleId(moduleId: number): Promise<ServiceResponse<ILessons[]>>;
   updateLessonById(id: number, moduleTitle: string, title: string, content: string, image: string, link: string): Promise<ServiceResponse<[affectedCount: number]>>;
-  deleteLessonById(id: number): Promise<ServiceResponse<number>>;
+  deleteLessonById(id: number): Promise<ServiceResponse<number | string>>;
 }
 
 export interface ILessonsController {

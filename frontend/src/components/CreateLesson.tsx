@@ -1,10 +1,12 @@
-import { Input, Select, Textarea, Option } from '@material-tailwind/react';
+import { Input, Select, Option } from '@material-tailwind/react';
+import ReactQuill from 'react-quill';
 import TrashButton from './TrashButton';
 import PlusButton from './PlusButton';
 import { LessonPropType, PdfsType, INITIAL_PDF } from '../types/lessons';
+import 'react-quill/dist/quill.snow.css';
 
 type CreateLessonType = {
-  handleLessonsChange: (event: any, index: number) => void,
+  handleLessonsChange: (event: any, index: number, delta?: any) => void,
   index: number,
   lesson: LessonPropType,
   modules: string[],
@@ -37,6 +39,23 @@ function CreateLesson({
     const newPdfs = [...pdfs];
     newPdfs[i] = { ...newPdfs[i], [name]: value };
     setPdfs(newPdfs);
+  };
+
+  const toolbarOptions = [
+    [{ font: [] }],
+    [{ size: ['small', false, 'large', 'huge'] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ align: [] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote'],
+    ['link', 'image', 'video'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    ['clean'],
+  ];
+
+  const options = {
+    toolbar: toolbarOptions,
   };
 
   return (
@@ -78,12 +97,12 @@ function CreateLesson({
         value={ lesson.title }
         onChange={ (event) => handleLessonsChange(event, index) }
       />
-      <Textarea
-        label="Conteúdo da aula"
-        name="content"
+      <ReactQuill
+        theme="snow"
+        placeholder="Conteúdo da aula"
+        modules={ options }
         value={ lesson.content }
-        onChange={ (event) => handleLessonsChange(event, index) }
-        rows={ 10 }
+        onChange={ (event, delta) => handleLessonsChange(event, index, delta) }
       />
       <Input
         crossOrigin={ undefined }
