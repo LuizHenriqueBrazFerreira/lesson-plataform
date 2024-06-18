@@ -3,27 +3,29 @@ import { ServiceResponse } from '../types/Service.response';
 import LessonPdfsSequelize from '../database/models/LessonPdfs.model';
 
 export interface ILessonPdfs {
+  id: number;
   lessonId: number;
   path: string;
+  title: string;
 }
 
 export interface IPdfLessonModel {
-  insertPdf(lessonId: number, path: string): Promise<ILessonPdfs>;
-  getPdfByLessonId(lessonId: number): Promise<LessonPdfsSequelize | null>;
-  deletePdfByPath(path: string): Promise<number>;
-  updatePdfByPath(path: string): Promise<[affectedCount: number]>;
+  insertPdf(lessonId: number, path: string, title: string): Promise<ILessonPdfs>;
+  getPdfsByLessonId(lessonId: number): Promise<LessonPdfsSequelize[] | null>;
+  deletePdfByPath(id: number): Promise<number>;
+  updatePdfByPath(id: number, path: string, title: string): Promise<[affectedCount: number]>;
 }
 
 export interface IPdfLessonService {
-  insertPdf(lessonId: number, path: string):Promise<ServiceResponse<ILessonPdfs>>;
-  getPdfByLessonId(lessonId: number): Promise<ServiceResponse<ILessonPdfs>>;
-  deletePdfByPath(path: string): Promise<ServiceResponse<string>>;
-  updatePdfByPath(path: string): Promise<ServiceResponse<string>>;
+  insertPdf(lessonId: number, path: string, title: string):Promise<ServiceResponse<ILessonPdfs>>;
+  getPdfsByLessonId(lessonId: number): Promise<ServiceResponse<ILessonPdfs[]>>;
+  deletePdfByPath(id: number): Promise<ServiceResponse<string>>;
+  updatePdfByPath(id: number, path: string, title: string): Promise<ServiceResponse<string>>;
 }
 
 export interface IPdfLessonController {
   insertPdf(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
-  getPdfByLessonId(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  getPdfsByLessonId(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   deletePdfByPath(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   updatePdfByPath(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
 }

@@ -7,19 +7,15 @@ import CoursesBackground from '../components/CoursesBackground';
 import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
-import { LessonPropType, LessonsType, INITIAL_LESSON } from '../types/lessons';
+import { LessonPropType, LessonsType, INITIAL_LESSON,
+  PdfsType, INITIAL_PDF } from '../types/lessons';
 import {
-  setToken,
-  requestData,
-  requestUpdate,
-  requestDelete,
+  setToken, requestData, requestUpdate, requestDelete,
 } from '../services/requests';
 import { Courses, Module, EditModule } from '../types/courseType';
 import {
-  handleModuleEdit,
-  handleLessonEdit,
-  showSuccessMessage,
-  showNoCourseSelectedMessage,
+  handleModuleEdit, handleLessonEdit,
+  showSuccessMessage, showNoCourseSelectedMessage,
 } from '../utils/editCourseHelpers';
 
 export default function EditCourse() {
@@ -30,10 +26,9 @@ export default function EditCourse() {
   const [courses, setCourses] = useState<Courses[]>([]);
   const [courseTitle, setCourseTitle] = useState('');
   const [courseId, setCourseId] = useState(0);
+  const [pdfs, setPdfs] = useState<PdfsType[]>([INITIAL_PDF]);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
-
-  console.log(modules);
 
   useEffect(() => {
     if (!token) {
@@ -46,7 +41,7 @@ export default function EditCourse() {
         setCourses(coursesData);
       } catch (error: any) {
         if (error.isAxiosError) {
-          console.error(error.response.data.message);
+          console.error(error);
         }
       }
     }
@@ -116,14 +111,15 @@ export default function EditCourse() {
 
     newModules[index] = { ...newModules[index], title: event.target.value };
 
-    const moduleFromLesson = lessonsBackup.map((lesson, i) => {
-      if (lesson.moduleTitle === modulesBackup[index].title) {
-        return { ...lessons[i], moduleTitle: event.target.value };
-      }
-      return lessons[i];
-    });
-
-    setLessons(moduleFromLesson);
+    if (index < modulesBackup.length) {
+      const moduleFromLesson = lessonsBackup.map((lesson, i) => {
+        if (lesson.moduleTitle === modulesBackup[index].title) {
+          return { ...lessons[i], moduleTitle: event.target.value };
+        }
+        return lessons[i];
+      });
+      setLessons(moduleFromLesson);
+    }
     setModules(newModules);
   };
 
@@ -131,12 +127,15 @@ export default function EditCourse() {
     event: ChangeEvent<HTMLInputElement |
     HTMLTextAreaElement | HTMLSelectElement> | string,
     index: number,
+    delta = '',
   ) => {
     const newLessons = [...lessons];
 
-    if (typeof event === 'string') {
+    if (typeof event === 'string' && delta === '') {
       newLessons[index] = { ...newLessons[index], moduleTitle: event };
-    } else {
+    } else if (typeof event === 'string' && delta !== '') {
+      newLessons[index] = { ...newLessons[index], content: event };
+    } else if (typeof event !== 'string' && delta !== '') {
       const { name, value } = event.target;
 
       newLessons[index] = { ...newLessons[index], [name]: value };
@@ -227,6 +226,8 @@ export default function EditCourse() {
             handleRemoveLesson={ handleRemoveLesson }
             index={ index }
             lesson={ lesson }
+            pdfs={ pdfs }
+            setPdfs={ setPdfs }
           />
         ))}
         <PlusButton onClick={ handleAddLesson }>

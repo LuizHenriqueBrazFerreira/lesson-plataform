@@ -9,7 +9,7 @@ const pdfLessonRouter = Router()
 const pdfLessonController = new PdfLessonController()
 
 pdfLessonRouter.post('/pdfs',  validateToken, validateAdmin, (req: Request, res: Response) => pdfLessonController.insertPdf(req, res))
-pdfLessonRouter.get('/pdfs/:lessonId',  validateToken, validateLessonAccess, (req: Request, res: Response) => pdfLessonController.getPdfByLessonId(req, res))
+pdfLessonRouter.get('/pdfs/:lessonId',  validateToken, validateLessonAccess, (req: Request, res: Response) => pdfLessonController.getPdfsByLessonId(req, res))
 pdfLessonRouter.delete('/pdfs/:path',  validateToken, validateAdmin, (req: Request, res: Response) => pdfLessonController.deletePdfByPath(req, res))
 pdfLessonRouter.put('/pdfs/:path',  validateToken, validateAdmin, (req: Request, res: Response) => pdfLessonController.updatePdfByPath(req, res))
 

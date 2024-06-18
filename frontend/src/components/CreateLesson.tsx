@@ -1,14 +1,18 @@
-import { Input, Select, Textarea, Option } from '@material-tailwind/react';
-// import { ChangeEvent } from 'react';
+import { Input, Select, Option } from '@material-tailwind/react';
+import ReactQuill from 'react-quill';
 import TrashButton from './TrashButton';
-import { LessonPropType } from '../types/lessons';
+import PlusButton from './PlusButton';
+import { LessonPropType, PdfsType, INITIAL_PDF } from '../types/lessons';
+import 'react-quill/dist/quill.snow.css';
 
 type CreateLessonType = {
-  handleLessonsChange: (event: any, index: number) => void,
+  handleLessonsChange: (event: any, index: number, delta?: any) => void,
   index: number,
   lesson: LessonPropType,
   modules: string[],
   handleRemoveLesson: (index: number) => void,
+  pdfs: PdfsType[],
+  setPdfs: (pdfs: PdfsType[]) => void,
 };
 
 function CreateLesson({
@@ -16,10 +20,46 @@ function CreateLesson({
   index,
   lesson,
   modules,
+  pdfs,
+  setPdfs,
   handleRemoveLesson,
 }: CreateLessonType) {
+  const handleAddPdf = () => {
+    setPdfs([...pdfs, INITIAL_PDF]);
+  };
+
+  const handleRemovePdf = (i: number) => {
+    const newPdfs = [...pdfs];
+    newPdfs.splice(i, 1);
+    setPdfs(newPdfs);
+  };
+
+  const handlePdfsChange = (event: any, i: number) => {
+    const { name, value } = event.target;
+    const newPdfs = [...pdfs];
+    newPdfs[i] = { ...newPdfs[i], [name]: value };
+    setPdfs(newPdfs);
+  };
+
+  const toolbarOptions = [
+    [{ font: [] }],
+    [{ size: ['small', false, 'large', 'huge'] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ align: [] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote'],
+    ['link', 'image', 'video'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    ['clean'],
+  ];
+
+  const options = {
+    toolbar: toolbarOptions,
+  };
+
   return (
-    <div className="flex flex-col gap-4 mb-5">
+    <div className="flex flex-col gap-4 border p-8">
       <div className="flex gap-2">
         <h2 className="text-2xl font-semibold">
           Aula
@@ -57,11 +97,12 @@ function CreateLesson({
         value={ lesson.title }
         onChange={ (event) => handleLessonsChange(event, index) }
       />
-      <Textarea
-        label="Conteúdo da aula"
-        name="content"
+      <ReactQuill
+        theme="snow"
+        placeholder="Conteúdo da aula"
+        modules={ options }
         value={ lesson.content }
-        onChange={ (event) => handleLessonsChange(event, index) }
+        onChange={ (event, delta) => handleLessonsChange(event, index, delta) }
       />
       <Input
         crossOrigin={ undefined }
@@ -81,6 +122,35 @@ function CreateLesson({
         value={ lesson.link }
         onChange={ (event) => handleLessonsChange(event, index) }
       />
+      {pdfs.map((pdf, i) => (
+        <div key={ i } className="flex flex-col gap-4">
+          <Input
+            crossOrigin={ undefined }
+            size="lg"
+            type="text"
+            label={ `Título do PDF ${i + 1}` }
+            name="title"
+            value={ pdf.title }
+            onChange={ (event) => handlePdfsChange(event, i) }
+            icon={ <TrashButton
+              type="button"
+              onClick={ () => handleRemovePdf(i) }
+            /> }
+          />
+          <Input
+            crossOrigin={ undefined }
+            size="lg"
+            type="text"
+            label={ `Link do PDF ${i + 1}` }
+            name="link"
+            value={ pdf.link }
+            onChange={ (event) => handlePdfsChange(event, i) }
+          />
+        </div>
+      ))}
+      <PlusButton onClick={ handleAddPdf }>
+        Adicionar PDF
+      </PlusButton>
     </div>
   );
 }

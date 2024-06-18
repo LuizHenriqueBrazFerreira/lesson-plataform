@@ -7,7 +7,7 @@ import CoursesBackground from '../components/CoursesBackground';
 import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
-import { LessonPropType } from '../types/lessons';
+import { INITIAL_PDF, LessonPropType, PdfsType } from '../types/lessons';
 import { requestPost, setToken } from '../services/requests';
 import { showSuccessMessage } from '../utils/editCourseHelpers';
 
@@ -23,6 +23,7 @@ function CreateCourse() {
   const [modules, setModules] = useState(['']);
   const [lessons, setLessons] = useState<LessonPropType[]>([INITIAL_LESSON]);
   const [courseTitle, setCourseTitle] = useState('');
+  const [pdfs, setPdfs] = useState<PdfsType[]>([INITIAL_PDF]);
 
   const navigate = useNavigate();
 
@@ -56,12 +57,15 @@ function CreateCourse() {
     event: ChangeEvent<HTMLInputElement |
     HTMLTextAreaElement | HTMLSelectElement> | string,
     index: number,
+    delta = '',
   ) => {
     const newLessons = [...lessons];
 
-    if (typeof event === 'string') {
+    if (typeof event === 'string' && delta === '') {
       newLessons[index] = { ...newLessons[index], moduleTitle: event };
-    } else {
+    } else if (typeof event === 'string' && delta !== '') {
+      newLessons[index] = { ...newLessons[index], content: event };
+    } else if (typeof event !== 'string' && delta === '') {
       const { name, value } = event.target;
 
       newLessons[index] = { ...newLessons[index], [name]: value };
@@ -161,6 +165,8 @@ function CreateCourse() {
             handleRemoveLesson={ handleRemoveLesson }
             index={ index }
             lesson={ lesson }
+            setPdfs={ setPdfs }
+            pdfs={ pdfs }
           />
         ))}
         <PlusButton onClick={ handleAddLesson }>

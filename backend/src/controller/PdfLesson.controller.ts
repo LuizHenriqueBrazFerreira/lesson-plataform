@@ -7,33 +7,33 @@ class PdfLessonController implements IPdfLessonController {
   private service = new PdfLessonService();
 
   async insertPdf(req: Request, res: Response) {
-    const { lessonId, path } = req.body;
+    const { lessonId, path, title } = req.body;
 
-    const { status, data } = await this.service.insertPdf(lessonId, path);
+    const { status, data } = await this.service.insertPdf(lessonId, path, title);
 
     return res.status(mapStatusHttp(status)).json(data);
   }
 
-  async getPdfByLessonId(req: Request, res: Response) {
+  async getPdfsByLessonId(req: Request, res: Response) {
     const { lessonId } = req.params;
 
-    const { status, data } = await this.service.getPdfByLessonId(Number(lessonId));
+    const { status, data } = await this.service.getPdfsByLessonId(Number(lessonId));
 
     return res.status(mapStatusHttp(status)).json(data);
   }
 
   async deletePdfByPath(req: Request, res: Response) {
-    const { path } = req.params;
+    const { id } = req.params;
 
-    const { status, data } = await this.service.deletePdfByPath(path);
+    const { status, data } = await this.service.deletePdfByPath(Number(id));
 
     return res.status(mapStatusHttp(status)).json(data);
   }
 
   async updatePdfByPath(req: Request, res: Response) {
-    const { path } = req.params;
+    const { id, path, title } = req.params;
 
-    const { status, data } = await this.service.updatePdfByPath(path);
+    const { status, data } = await this.service.updatePdfByPath(Number(id), path, title);
 
     return res.status(mapStatusHttp(status)).json(data);
   }

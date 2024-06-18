@@ -39,6 +39,8 @@ export interface UserCoursesDB {
 };
 
 export interface PdfLessonDB {
+  id: number,
   lessonId: number,
   path: string,
+  title: string,
 };

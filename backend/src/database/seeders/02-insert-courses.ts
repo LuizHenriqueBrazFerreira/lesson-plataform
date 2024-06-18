@@ -1,6 +1,7 @@
 import { QueryInterface } from 'sequelize';
 import UsersSequelize from '../models/Users.model';
 import UserCoursesSequelize from '../models/UserCourses.model';
+import PdfLessonSequelize from '../models/LessonPdfs.model';
 import { createEmailToken } from '../../utils/jwt';
 import bcrypt from 'bcryptjs'
 
@@ -83,12 +84,26 @@ await UserCoursesSequelize.bulkCreate([
   { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', courseId: 4, progress: 15, bookmarked: false },
   { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', courseId: 5, progress: 0, bookmarked: false },
 ]);
-  },
 
+await PdfLessonSequelize.bulkCreate([
+  { lessonId: 1, path: 'https://drive.google.com/file/d/1mbay_lgTisqZATHgBQ1T9OggS6zQlYZE/view?usp=sharing', title: '1984 - George Orwell' },
+  { lessonId: 2, path: 'https://drive.google.com/file/d/1cGOaIpsjeAiqisYaolJ-1fEzW9Dos3tV/view?usp=sharing', title: 'Machado de Assis - Memórias Póstumas de Brás Cubas' },
+  { lessonId: 2, path: 'https://drive.google.com/file/d/10TLXJ-F4sq_Y5HaCqhzs235TeOHOltIt/view?usp=sharing', title: 'Guerra e paz - Liev Tolstoi' },
+  { lessonId: 2, path: 'https://drive.google.com/file/d/1GCK1CjVT4aXqX6_4ZGCASZ4oQs74D8Kn/view?usp=sharing', title: 'Os Sertoes - Euclides Da Cunha' },
+  { lessonId: 2, path: 'https://drive.google.com/file/d/1RotwIy5l7S6sRXoJFhwjtpk4WgFv0vd0/view?usp=sharing', title: 'Box - Grandes obras de Dostoiévski' },
+  { lessonId: 3, path: 'https://drive.google.com/file/d/1_RsBOYJMHfEd3VefG6R-akOh6nEo_g2c/view?usp=sharing', title: 'A Morte de Ivan Ilitch - Leon Tolstoi' },
+  { lessonId: 3, path: 'https://drive.google.com/file/d/1WfqEn2dvoTsjALgwLiOaCWrYjQvNwnvI/view?usp=sharing', title: 'Dom Pedro II - A história não contada' },
+]);
+
+  },
   down: async (queryInterface: QueryInterface) => {
     // Deletar todos os dados
     await queryInterface.bulkDelete('Lessons', {});
     await queryInterface.bulkDelete('Modules', {});
     await queryInterface.bulkDelete('Courses', {});
+    await queryInterface.bulkDelete('UserCourses', {});
+    await queryInterface.bulkDelete('Users', {});
+    await queryInterface.bulkDelete('LessonPdfs', {});
   },
 };
+
