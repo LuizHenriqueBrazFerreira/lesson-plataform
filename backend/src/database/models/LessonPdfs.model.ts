@@ -37,13 +37,15 @@ PdfLessonSequelize.init({
   },
 }, {
   sequelize: db,
-  modelName: 'LessonPdfs',
+  tableName: 'LessonPdfs',
   timestamps: false,
+  underscored: true,
 });
 
 LessonsSequelize.hasMany(PdfLessonSequelize, {
   foreignKey: 'lessonId',
   sourceKey: 'id',
+  as: 'pdfs'
 });
 
 PdfLessonSequelize.belongsTo(LessonsSequelize, {
