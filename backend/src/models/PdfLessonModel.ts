@@ -1,6 +1,5 @@
 import { IPdfLessonModel } from "../interfaces/ILessonPdfs";
 import PdfLessonSequelize from "../database/models/LessonPdfs.model";
-import { where } from 'sequelize';
 
 class PdfLessonModel implements IPdfLessonModel {
   private model = PdfLessonSequelize;
