@@ -1,9 +1,21 @@
-import { Input, Select, Option } from '@material-tailwind/react';
-import ReactQuill from 'react-quill';
+import { Input, Select, Option, Textarea } from '@material-tailwind/react';
+import { createEditor, BaseEditor, Descendant } from 'slate';
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
+import { useState } from 'react';
 import TrashButton from './TrashButton';
 import PlusButton from './PlusButton';
-import { LessonPropType, PdfsType, INITIAL_PDF } from '../types/lessons';
-import 'react-quill/dist/quill.snow.css';
+import { LessonPropType, PdfsType } from '../types/lessons';
+
+type CustomElement = { type: 'paragraph'; children: CustomText[] };
+type CustomText = { text: string };
+
+declare module 'slate' {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor
+    Element: CustomElement
+    Text: CustomText
+  }
+}
 
 type CreateLessonType = {
   handleLessonsChange: (event: any, index: number, delta?: any) => void,
@@ -12,7 +24,9 @@ type CreateLessonType = {
   modules: string[],
   handleRemoveLesson: (index: number) => void,
   pdfs: PdfsType[],
-  setPdfs: (pdfs: PdfsType[]) => void,
+  handleAddPdf: () => void,
+  handleRemovePdf: (i: number) => void,
+  handlePdfsChange: (event: any, i: number) => void,
 };
 
 function CreateLesson({
@@ -21,42 +35,18 @@ function CreateLesson({
   lesson,
   modules,
   pdfs,
-  setPdfs,
   handleRemoveLesson,
+  handleAddPdf,
+  handleRemovePdf,
+  handlePdfsChange,
 }: CreateLessonType) {
-  const handleAddPdf = () => {
-    setPdfs([...pdfs, INITIAL_PDF]);
-  };
-
-  const handleRemovePdf = (i: number) => {
-    const newPdfs = [...pdfs];
-    newPdfs.splice(i, 1);
-    setPdfs(newPdfs);
-  };
-
-  const handlePdfsChange = (event: any, i: number) => {
-    const { name, value } = event.target;
-    const newPdfs = [...pdfs];
-    newPdfs[i] = { ...newPdfs[i], [name]: value };
-    setPdfs(newPdfs);
-  };
-
-  const toolbarOptions = [
-    [{ font: [] }],
-    [{ size: ['small', false, 'large', 'huge'] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ align: [] }],
-    ['bold', 'italic', 'underline', 'strike'],
-    ['blockquote'],
-    ['link', 'image', 'video'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ indent: '-1' }, { indent: '+1' }],
-    ['clean'],
-  ];
-
-  const options = {
-    toolbar: toolbarOptions,
-  };
+  const [editor] = useState(() => withReact(createEditor()));
+  const [value, setValue] = useState([
+    {
+      type: 'paragraph',
+      children: [{ text: 'A line of text in a paragraph.' }],
+    },
+  ]);
 
   return (
     <div className="flex flex-col gap-4 border p-8">
@@ -97,12 +87,11 @@ function CreateLesson({
         value={ lesson.title }
         onChange={ (event) => handleLessonsChange(event, index) }
       />
-      <ReactQuill
-        theme="snow"
-        placeholder="Conteúdo da aula"
-        modules={ options }
+      <Textarea
+        label="Conteúdo da aula"
+        name="content"
         value={ lesson.content }
-        onChange={ (event, delta) => handleLessonsChange(event, index, delta) }
+        onChange={ (event) => handleLessonsChange(event, index) }
       />
       <Input
         crossOrigin={ undefined }
@@ -143,7 +132,7 @@ function CreateLesson({
             type="text"
             label={ `Link do PDF ${i + 1}` }
             name="link"
-            value={ pdf.link }
+            value={ pdf.path }
             onChange={ (event) => handlePdfsChange(event, i) }
           />
         </div>

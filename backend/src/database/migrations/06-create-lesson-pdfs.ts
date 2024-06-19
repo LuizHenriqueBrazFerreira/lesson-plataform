@@ -5,10 +5,10 @@ export default {
   up(queryInterface:QueryInterface) {
     return queryInterface.createTable<Model<PdfLessonDB>>('LessonPdfs', {
       id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
       },
       lessonId: {
         allowNull: false,

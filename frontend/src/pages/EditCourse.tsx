@@ -7,15 +7,17 @@ import CoursesBackground from '../components/CoursesBackground';
 import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
-import { LessonPropType, LessonsType, INITIAL_LESSON,
+import { LessonPropType, INITIAL_LESSON,
   PdfsType, INITIAL_PDF } from '../types/lessons';
 import {
   setToken, requestData, requestUpdate, requestDelete,
 } from '../services/requests';
-import { Courses, Module, EditModule } from '../types/courseType';
+import { Courses, EditModule } from '../types/courseType';
 import {
   handleModuleEdit, handleLessonEdit,
   showSuccessMessage, showNoCourseSelectedMessage,
+  requestModules, requestLessons,
+  requestPdfs,
 } from '../utils/editCourseHelpers';
 
 export default function EditCourse() {
@@ -46,44 +48,54 @@ export default function EditCourse() {
       }
     }
     fetchData();
-  }, [navigate, token, courseTitle]);
+  }, []);
+
+  const handleAddPdf = () => {
+    setPdfs([...pdfs, INITIAL_PDF]);
+  };
+
+  const handleRemovePdf = (i: number) => {
+    const newPdfs = [...pdfs];
+    newPdfs.splice(i, 1);
+    setPdfs(newPdfs);
+  };
+
+  const handlePdfsChange = (event: any, i: number) => {
+    const { name, value } = event.target;
+    const newPdfs = [...pdfs];
+    newPdfs[i] = { ...newPdfs[i], [name]: value };
+    setPdfs(newPdfs);
+  };
 
   const handleChooseCourse = async (value: string) => {
-    if (token) setToken(token);
-    setCourseTitle(value);
+    try {
+      if (token) setToken(token);
+      setCourseTitle(value);
 
-    const selectedCourse = courses.find((course) => course.title === value);
-    if (!selectedCourse) return;
+      const selectedCourse = courses.find((course) => course.title === value);
+      if (!selectedCourse) return;
 
-    setCourseId(selectedCourse.id);
-    setModules([]);
-    setLessons([]);
+      setCourseId(selectedCourse.id);
+      setModules([]);
+      setLessons([]);
 
-    const modulesData = await requestData(`/modules/${selectedCourse.id}`);
-    const newModules = modulesData.map((module: Module) => (
-      {
-        id: module.id,
-        title: module.title,
+      const { modulesData, newModules } = await requestModules(selectedCourse.id);
+      setModules(newModules);
+      setModulesBackup(newModules);
+
+      const newLessons = await requestLessons(modulesData);
+      setLessons(newLessons);
+      setLessonsBackup(newLessons);
+
+      // const pdfsData = await requestPdfs(newLessons);
+      // setPdfs(pdfsData);
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
       }
-    ));
-    setModules(newModules);
-    setModulesBackup(newModules);
-
-    const lessonsPromises = modulesData.map(async (module: Module) => {
-      const lessonsData = await requestData(`/lessons/${module.id}`);
-      return lessonsData.map((lesson: LessonsType) => ({
-        id: lesson.id,
-        moduleTitle: module.title,
-        title: lesson.title,
-        content: lesson.content,
-        image: lesson.image,
-        link: lesson.link,
-      }));
-    });
-    const newLessons = (await Promise.all(lessonsPromises)).flat();
-    setLessons(newLessons);
-    setLessonsBackup(newLessons);
+    }
   };
+
   const handleAddModule = () => {
     setModules([...modules, { id: 0, title: '' }]);
   };
@@ -92,14 +104,12 @@ export default function EditCourse() {
     setLessons([...lessons, INITIAL_LESSON]);
   };
 
-  // adicionar request para deletar módulo, estava dando erro no sequelize então tentarei depois
   const handleRemoveModule = async (index: number) => {
     const newModules = [...modules];
     newModules.splice(index, 1);
     setModules(newModules);
   };
 
-  // adicionar request para deletar aula, estava dando erro no sequelize então tentarei depois
   const handleRemoveLesson = (index: number) => {
     const newLessons = [...lessons];
     newLessons.splice(index, 1);
@@ -127,15 +137,12 @@ export default function EditCourse() {
     event: ChangeEvent<HTMLInputElement |
     HTMLTextAreaElement | HTMLSelectElement> | string,
     index: number,
-    delta = '',
   ) => {
     const newLessons = [...lessons];
 
-    if (typeof event === 'string' && delta === '') {
+    if (typeof event === 'string') {
       newLessons[index] = { ...newLessons[index], moduleTitle: event };
-    } else if (typeof event === 'string' && delta !== '') {
-      newLessons[index] = { ...newLessons[index], content: event };
-    } else if (typeof event !== 'string' && delta !== '') {
+    } else {
       const { name, value } = event.target;
 
       newLessons[index] = { ...newLessons[index], [name]: value };
@@ -150,11 +157,6 @@ export default function EditCourse() {
       return showNoCourseSelectedMessage();
     }
 
-    if (!token) {
-      return navigate('/login');
-    }
-    setToken(token);
-
     const courseData = await requestUpdate(
       `/courses/${courseId}`,
       { id: courseId, title: courseTitle },
@@ -162,7 +164,6 @@ export default function EditCourse() {
 
     const modulesData = await handleModuleEdit(courseId, courseTitle, modules);
     const lessonsData = await handleLessonEdit(lessons);
-
     if (courseData && modulesData && lessonsData) {
       showSuccessMessage('Curso atualizado com sucesso');
       setCourseTitle('');
@@ -227,7 +228,9 @@ export default function EditCourse() {
             index={ index }
             lesson={ lesson }
             pdfs={ pdfs }
-            setPdfs={ setPdfs }
+            handleAddPdf={ handleAddPdf }
+            handleRemovePdf={ handleRemovePdf }
+            handlePdfsChange={ handlePdfsChange }
           />
         ))}
         <PlusButton onClick={ handleAddLesson }>

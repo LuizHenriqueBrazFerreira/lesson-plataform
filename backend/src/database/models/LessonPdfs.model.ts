@@ -24,7 +24,6 @@ PdfLessonSequelize.init({
   },
   lessonId: {
     type: DataTypes.INTEGER,
-    primaryKey: true,
     allowNull: false,
     field: 'lesson_id',
   },
@@ -45,7 +44,6 @@ PdfLessonSequelize.init({
 LessonsSequelize.hasMany(PdfLessonSequelize, {
   foreignKey: 'lessonId',
   sourceKey: 'id',
-  as: 'pdfs',
 });
 
 PdfLessonSequelize.belongsTo(LessonsSequelize, {

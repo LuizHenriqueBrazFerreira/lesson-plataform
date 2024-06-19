@@ -9,7 +9,7 @@ class PdfLessonController implements IPdfLessonController {
   async insertPdf(req: Request, res: Response) {
     const { lessonId, path, title } = req.body;
 
-    const { status, data } = await this.service.insertPdf(lessonId, path, title);
+    const { status, data } = await this.service.insertPdf(Number(lessonId), path, title);
 
     return res.status(mapStatusHttp(status)).json(data);
   }

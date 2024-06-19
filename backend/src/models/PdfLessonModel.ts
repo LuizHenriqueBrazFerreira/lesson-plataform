@@ -14,6 +14,8 @@ class PdfLessonModel implements IPdfLessonModel {
   async getPdfsByLessonId(lessonId: number) {
     const pdf = await this.model.findAll({ where: { lessonId } });
 
+    if (!pdf.length) return [];
+    
     return pdf;
   }
 
