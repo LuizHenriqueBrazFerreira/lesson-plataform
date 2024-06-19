@@ -1,9 +1,11 @@
 import { IPdfLessonModel } from "../interfaces/ILessonPdfs";
 import PdfLessonSequelize from "../database/models/LessonPdfs.model";
 import { where } from 'sequelize';
+import LessonsSequelize from "../database/models/Lessons.model";
 
 class PdfLessonModel implements IPdfLessonModel {
   private model = PdfLessonSequelize;
+  private lessonModel = LessonsSequelize;
 
   async insertPdf(lessonId: number, path: string, title: string) {
     const pdf = await this.model.create({ lessonId, path, title });
@@ -12,11 +14,13 @@ class PdfLessonModel implements IPdfLessonModel {
   }
 
   async getPdfsByLessonId(lessonId: number) {
-    const pdf = await this.model.findAll({ where: { lessonId } });
-
-    if (!pdf.length) return [];
     
-    return pdf;
+  const pdf = await this.model.findAll( {where: {lessonId}});
+  
+  
+  if (!pdf.length) return [];
+  return pdf;
+    
   }
 
   async deletePdfByPath(id: number) {
