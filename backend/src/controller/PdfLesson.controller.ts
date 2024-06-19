@@ -15,9 +15,9 @@ class PdfLessonController implements IPdfLessonController {
   }
 
   async getPdfsByLessonId(req: Request, res: Response) {
-    const { lessonId } = req.params;
+    const { id } = req.params;
 
-    const { status, data } = await this.service.getPdfsByLessonId(Number(lessonId));
+    const { status, data } = await this.service.getPdfsByLessonId(Number(id));
 
     return res.status(mapStatusHttp(status)).json(data);
   }

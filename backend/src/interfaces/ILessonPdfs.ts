@@ -11,14 +11,14 @@ export interface ILessonPdfs {
 
 export interface IPdfLessonModel {
   insertPdf(lessonId: number, path: string, title: string): Promise<ILessonPdfs>;
-  getPdfsByLessonId(lessonId: number): Promise<LessonPdfsSequelize[] | null>;
+  getPdfsByLessonId(lessonId: number): Promise<LessonPdfsSequelize | unknown>;
   deletePdfByPath(id: number): Promise<number>;
   updatePdfByPath(id: number, path: string, title: string): Promise<[affectedCount: number]>;
 }
 
 export interface IPdfLessonService {
   insertPdf(lessonId: number, path: string, title: string):Promise<ServiceResponse<ILessonPdfs>>;
-  getPdfsByLessonId(lessonId: number): Promise<ServiceResponse<ILessonPdfs[]>>;
+  getPdfsByLessonId(lessonId: number): Promise<ServiceResponse<ILessonPdfs | unknown>>;
   deletePdfByPath(id: number): Promise<ServiceResponse<string>>;
   updatePdfByPath(id: number, path: string, title: string): Promise<ServiceResponse<string>>;
 }
