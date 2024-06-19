@@ -5,7 +5,6 @@ class LessonsModel implements ILessonsModel {
   private model = LessonsSequelize;
 
   async createLesson(moduleId: number, title: string, content: string, image: string, link: string) {
-    console.log(`title no model: ${title}`	);
     
     const lesson = await this.model.create({ moduleId, title, content, image, link });
 
@@ -43,7 +42,6 @@ class LessonsModel implements ILessonsModel {
 
   async updateLessonById(id: number, moduleId: number, title: string, content: string, image: string, link: string) {
     const lesson = await this.model.update({ moduleId, title, content, image, link }, { where: { id } });
-    console.log(`lesson => ${lesson}`);
     
     return lesson;
   }

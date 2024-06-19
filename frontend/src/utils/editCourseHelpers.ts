@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
-import { requestPost, requestUpdate } from '../services/requests';
-import { EditModule } from '../types/courseType';
-import { LessonPropType } from '../types/lessons';
+import { requestData, requestPost, requestUpdate } from '../services/requests';
+import { EditModule, Module } from '../types/courseType';
+import { LessonPropType, LessonsType, PdfsType } from '../types/lessons';
 
 export const handleModuleEdit = async (
   courseId: number,
@@ -80,4 +80,49 @@ export const showNoCourseSelectedMessage = () => {
     showConfirmButton: true,
     confirmButtonColor: '#e06915',
   });
+};
+
+export const requestModules = async (courseId: number) => {
+  const modulesData = await requestData(`/modules/${courseId}`);
+
+  const newModules = modulesData.map((module: Module) => (
+    {
+      id: module.id,
+      title: module.title,
+    }
+  ));
+
+  return { modulesData, newModules };
+};
+
+export const requestLessons = async (modulesData: Module[]) => {
+  const lessonsPromises = modulesData.map(async (module: Module) => {
+    const lessonsData = await requestData(`/lessons/${module.id}`);
+    return lessonsData.map((lesson: LessonsType) => ({
+      id: lesson.id,
+      moduleTitle: module.title,
+      title: lesson.title,
+      content: lesson.content,
+      image: lesson.image,
+      link: lesson.link,
+    }));
+  });
+  const newLessons = (await Promise.all(lessonsPromises)).flat();
+
+  return newLessons;
+};
+
+export const requestPdfs = async (newLessons: LessonsType[]) => {
+  const pdfsData = newLessons.map(async (lesson) => {
+    const pdfsResponse = await requestData(`/pdfs/${lesson.id}`);
+
+    return pdfsResponse.map((pdf: PdfsType) => ({
+      id: pdf.id ?? 0,
+      lessonId: pdf.lessonId ?? 0,
+      title: pdf.title ?? '',
+      path: pdf.path ?? '',
+    }));
+  });
+
+  return (await Promise.all(pdfsData)).flat();
 };

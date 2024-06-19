@@ -87,6 +87,7 @@ await UserCoursesSequelize.bulkCreate([
 
 await PdfLessonSequelize.bulkCreate([
   { lessonId: 1, path: 'https://drive.google.com/file/d/1mbay_lgTisqZATHgBQ1T9OggS6zQlYZE/view?usp=sharing', title: '1984 - George Orwell' },
+  { lessonId: 1, path: 'https://drive.google.com/file/d/1eJV94RpUvVR4EwbpujkkLc4HNF4twCTW/view?usp=sharing', title: 'Frederic Bastiat - A Lei' },
   { lessonId: 2, path: 'https://drive.google.com/file/d/1cGOaIpsjeAiqisYaolJ-1fEzW9Dos3tV/view?usp=sharing', title: 'Machado de Assis - Memórias Póstumas de Brás Cubas' },
   { lessonId: 2, path: 'https://drive.google.com/file/d/10TLXJ-F4sq_Y5HaCqhzs235TeOHOltIt/view?usp=sharing', title: 'Guerra e paz - Liev Tolstoi' },
   { lessonId: 2, path: 'https://drive.google.com/file/d/1GCK1CjVT4aXqX6_4ZGCASZ4oQs74D8Kn/view?usp=sharing', title: 'Os Sertoes - Euclides Da Cunha' },

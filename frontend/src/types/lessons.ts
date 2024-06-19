@@ -44,11 +44,15 @@ export const INITIAL_LESSON = {
 };
 
 export type PdfsType = {
-  link: string,
+  id: number,
+  lessonId: number,
+  path: string,
   title: string,
 };
 
 export const INITIAL_PDF = {
-  link: '',
+  id: 0,
+  lessonId: 0,
+  path: '',
   title: '',
 };
