@@ -9,15 +9,13 @@ import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
 import { LessonPropType, INITIAL_LESSON,
   PdfsType, INITIAL_PDF } from '../types/lessons';
-import {
-  setToken, requestData, requestUpdate, requestDelete,
-} from '../services/requests';
+import { setToken, requestData, requestUpdate, requestDelete }
+  from '../services/requests';
 import { Courses, EditModule } from '../types/courseType';
 import {
-  handleModuleEdit, handleLessonEdit,
+  handleModuleEdit, handleLessonEdit, handlePdfEdit,
   showSuccessMessage, showNoCourseSelectedMessage,
-  requestModules, requestLessons,
-  requestPdfs,
+  requestModules, requestLessons, requestPdfs,
 } from '../utils/editCourseHelpers';
 
 export default function EditCourse() {
@@ -28,7 +26,6 @@ export default function EditCourse() {
   const [courses, setCourses] = useState<Courses[]>([]);
   const [courseTitle, setCourseTitle] = useState('');
   const [courseId, setCourseId] = useState(0);
-  const [pdfs, setPdfs] = useState<PdfsType[]>([INITIAL_PDF]);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -50,45 +47,26 @@ export default function EditCourse() {
     fetchData();
   }, []);
 
-  const handleAddPdf = () => {
-    setPdfs([...pdfs, INITIAL_PDF]);
-  };
-
-  const handleRemovePdf = (i: number) => {
-    const newPdfs = [...pdfs];
-    newPdfs.splice(i, 1);
-    setPdfs(newPdfs);
-  };
-
-  const handlePdfsChange = (event: any, i: number) => {
-    const { name, value } = event.target;
-    const newPdfs = [...pdfs];
-    newPdfs[i] = { ...newPdfs[i], [name]: value };
-    setPdfs(newPdfs);
-  };
-
   const handleChooseCourse = async (value: string) => {
     try {
       if (token) setToken(token);
       setCourseTitle(value);
-
       const selectedCourse = courses.find((course) => course.title === value);
       if (!selectedCourse) return;
-
       setCourseId(selectedCourse.id);
       setModules([]);
       setLessons([]);
-
       const { modulesData, newModules } = await requestModules(selectedCourse.id);
       setModules(newModules);
       setModulesBackup(newModules);
-
       const newLessons = await requestLessons(modulesData);
-      setLessons(newLessons);
-      setLessonsBackup(newLessons);
-
-      // const pdfsData = await requestPdfs(newLessons);
-      // setPdfs(pdfsData);
+      const pdfsData = await requestPdfs(newLessons);
+      const lessonsWithPdfs = newLessons.map((lesson) => {
+        const pdfs = pdfsData.filter((pdf) => pdf.lessonId === lesson.id);
+        return { ...lesson, pdfs: pdfs ?? [] };
+      });
+      setLessons(lessonsWithPdfs);
+      setLessonsBackup(lessonsWithPdfs);
     } catch (error: any) {
       if (error.isAxiosError) {
         console.error(error);
@@ -118,9 +96,7 @@ export default function EditCourse() {
 
   const handleModuleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
     const newModules = [...modules];
-
     newModules[index] = { ...newModules[index], title: event.target.value };
-
     if (index < modulesBackup.length) {
       const moduleFromLesson = lessonsBackup.map((lesson, i) => {
         if (lesson.moduleTitle === modulesBackup[index].title) {
@@ -139,12 +115,10 @@ export default function EditCourse() {
     index: number,
   ) => {
     const newLessons = [...lessons];
-
     if (typeof event === 'string') {
       newLessons[index] = { ...newLessons[index], moduleTitle: event };
     } else {
       const { name, value } = event.target;
-
       newLessons[index] = { ...newLessons[index], [name]: value };
     }
     setLessons(newLessons);
@@ -152,19 +126,17 @@ export default function EditCourse() {
 
   const handleUpdateCourse = async (event: React.FormEvent) => {
     event.preventDefault();
-
     if (lessons.length === 0 || modules.length === 0) {
       return showNoCourseSelectedMessage();
     }
-
     const courseData = await requestUpdate(
       `/courses/${courseId}`,
       { id: courseId, title: courseTitle },
     );
-
     const modulesData = await handleModuleEdit(courseId, courseTitle, modules);
     const lessonsData = await handleLessonEdit(lessons);
-    if (courseData && modulesData && lessonsData) {
+    const pdfsData = await handlePdfEdit(lessons);
+    if (courseData && modulesData && lessonsData && pdfsData) {
       showSuccessMessage('Curso atualizado com sucesso');
       setCourseTitle('');
       setModules([]);
@@ -227,10 +199,7 @@ export default function EditCourse() {
             handleRemoveLesson={ handleRemoveLesson }
             index={ index }
             lesson={ lesson }
-            pdfs={ pdfs }
-            handleAddPdf={ handleAddPdf }
-            handleRemovePdf={ handleRemovePdf }
-            handlePdfsChange={ handlePdfsChange }
+            setLessons={ setLessons }
           />
         ))}
         <PlusButton onClick={ handleAddLesson }>

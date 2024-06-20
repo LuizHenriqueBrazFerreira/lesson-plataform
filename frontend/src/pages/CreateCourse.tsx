@@ -7,23 +7,14 @@ import CoursesBackground from '../components/CoursesBackground';
 import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
-import { INITIAL_PDF, LessonPropType, PdfsType } from '../types/lessons';
-import { requestPost, setToken } from '../services/requests';
+import { INITIAL_PDF, LessonPropType, PdfsType, INITIAL_LESSON } from '../types/lessons';
+import { requestDelete, requestPost, setToken } from '../services/requests';
 import { showSuccessMessage } from '../utils/editCourseHelpers';
-
-const INITIAL_LESSON = {
-  moduleTitle: '',
-  title: '',
-  content: '',
-  image: '',
-  link: '',
-};
 
 function CreateCourse() {
   const [modules, setModules] = useState(['']);
   const [lessons, setLessons] = useState<LessonPropType[]>([INITIAL_LESSON]);
   const [courseTitle, setCourseTitle] = useState('');
-  const [pdfs, setPdfs] = useState<PdfsType[]>([INITIAL_PDF]);
 
   const navigate = useNavigate();
 
@@ -57,17 +48,12 @@ function CreateCourse() {
     event: ChangeEvent<HTMLInputElement |
     HTMLTextAreaElement | HTMLSelectElement> | string,
     index: number,
-    delta = '',
   ) => {
     const newLessons = [...lessons];
-
-    if (typeof event === 'string' && delta === '') {
+    if (typeof event === 'string') {
       newLessons[index] = { ...newLessons[index], moduleTitle: event };
-    } else if (typeof event === 'string' && delta !== '') {
-      newLessons[index] = { ...newLessons[index], content: event };
-    } else if (typeof event !== 'string' && delta === '') {
+    } else {
       const { name, value } = event.target;
-
       newLessons[index] = { ...newLessons[index], [name]: value };
     }
     setLessons(newLessons);
@@ -165,8 +151,7 @@ function CreateCourse() {
             handleRemoveLesson={ handleRemoveLesson }
             index={ index }
             lesson={ lesson }
-            setPdfs={ setPdfs }
-            pdfs={ pdfs }
+            setLessons={ setLessons }
           />
         ))}
         <PlusButton onClick={ handleAddLesson }>

@@ -18,6 +18,7 @@ import LessonPage from './pages/LessonPage';
 import CreateCourse from './pages/CreateCourse';
 import EditCourse from './pages/EditCourse';
 import SupportPage from './pages/SupportPage';
+import PdfPage from './pages/PdfPage';
 import './App.css';
 
 function App() {
@@ -49,6 +50,10 @@ function App() {
           <Route path="/admin/students" element="Estudantes" />
           <Route path="/admin/courses" element="Cursos" />
           <Route path="/support" element={ <SupportPage /> } />
+          <Route
+            path="/courses/:courseId/modules/:moduleId/lessons/:lessonId/pdfs"
+            element={ <PdfPage /> }
+          />
           <Route path="*" element={ <NotFound /> } />
         </Routes>
         <Footer />
