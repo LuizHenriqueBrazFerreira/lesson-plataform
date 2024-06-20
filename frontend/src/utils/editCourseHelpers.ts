@@ -64,6 +64,41 @@ export const handleLessonEdit = async (
   return lessonsData;
 };
 
+export const handlePdfEdit = async (
+  lessons: LessonPropType[],
+) => {
+  // Cria novos pdfs quando o id é 0
+  const pdfsData = await Promise.all(lessons.map(async ({ id, pdfs }) => {
+    if (id === 0) {
+      pdfs.map(async (pdf) => {
+        await requestPost(
+          '/pdfs',
+          {
+            lessonId: id,
+            title: pdf.title,
+            path: pdf.path,
+          },
+        );
+      });
+      return;
+    }
+    // Atualiza os pdfs existentes quando o id não é 0
+    pdfs.map(async (pdf) => {
+      await requestUpdate(
+        `/pdfs/${pdf.id}`,
+        {
+          id: pdf.id,
+          lessonId: id,
+          title: pdf.title,
+          path: pdf.path,
+        },
+      );
+    });
+  }));
+
+  return pdfsData;
+};
+
 export const showSuccessMessage = (text: string) => {
   Swal.fire({
     icon: 'success',

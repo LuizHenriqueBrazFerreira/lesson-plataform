@@ -4,7 +4,8 @@ import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import { useState } from 'react';
 import TrashButton from './TrashButton';
 import PlusButton from './PlusButton';
-import { LessonPropType, PdfsType } from '../types/lessons';
+import { INITIAL_PDF, LessonPropType, PdfsType } from '../types/lessons';
+import { requestDelete } from '../services/requests';
 
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
 type CustomText = { text: string };
@@ -23,10 +24,7 @@ type CreateLessonType = {
   lesson: LessonPropType,
   modules: string[],
   handleRemoveLesson: (index: number) => void,
-  pdfs: PdfsType[],
-  handleAddPdf: () => void,
-  handleRemovePdf: (i: number) => void,
-  handlePdfsChange: (event: any, i: number) => void,
+  setLessons: React.Dispatch<React.SetStateAction<LessonPropType[]>>
 };
 
 function CreateLesson({
@@ -34,19 +32,44 @@ function CreateLesson({
   index,
   lesson,
   modules,
-  pdfs,
   handleRemoveLesson,
-  handleAddPdf,
-  handleRemovePdf,
-  handlePdfsChange,
+  setLessons,
 }: CreateLessonType) {
-  const [editor] = useState(() => withReact(createEditor()));
-  const [value, setValue] = useState([
-    {
-      type: 'paragraph',
-      children: [{ text: 'A line of text in a paragraph.' }],
-    },
-  ]);
+  // const [editor] = useState(() => withReact(createEditor()));
+  // const [value, setValue] = useState([
+  //   {
+  //     type: 'paragraph',
+  //     children: [{ text: 'A line of text in a paragraph.' }],
+  //   },
+  // ]);
+
+  const handleAddPdf = (i: number) => {
+    setLessons((prevLessons) => {
+      const newLessons = [...prevLessons];
+      newLessons[i].pdfs.push(INITIAL_PDF);
+      return newLessons;
+    });
+  };
+
+  const handleRemovePdf = (lessonIndex: number, pdfIndex: number) => {
+    setLessons((prevLessons) => {
+      const newLessons = [...prevLessons];
+      requestDelete(`/pdfs/${newLessons[lessonIndex].pdfs[pdfIndex].id}`);
+      newLessons[lessonIndex].pdfs.splice(pdfIndex, 1);
+      return newLessons;
+    });
+  };
+
+  const handlePdfsChange = (event: any, lessonIndex: number, pdfIndex: number) => {
+    const { name, value } = event.target;
+    setLessons((prevLessons) => {
+      const newLessons = [...prevLessons];
+      newLessons[lessonIndex].pdfs[pdfIndex] = { ...newLessons[lessonIndex]
+        .pdfs[pdfIndex],
+      [name]: value };
+      return newLessons;
+    });
+  };
 
   return (
     <div className="flex flex-col gap-4 border p-8">
@@ -111,7 +134,7 @@ function CreateLesson({
         value={ lesson.link }
         onChange={ (event) => handleLessonsChange(event, index) }
       />
-      {pdfs.map((pdf, i) => (
+      {lesson.pdfs.length > 0 && lesson.pdfs.map((pdf, i) => (
         <div key={ i } className="flex flex-col gap-4">
           <Input
             crossOrigin={ undefined }
@@ -120,10 +143,10 @@ function CreateLesson({
             label={ `Título do PDF ${i + 1}` }
             name="title"
             value={ pdf.title }
-            onChange={ (event) => handlePdfsChange(event, i) }
+            onChange={ (event) => handlePdfsChange(event, index, i) }
             icon={ <TrashButton
               type="button"
-              onClick={ () => handleRemovePdf(i) }
+              onClick={ () => handleRemovePdf(index, i) }
             /> }
           />
           <Input
@@ -133,11 +156,11 @@ function CreateLesson({
             label={ `Link do PDF ${i + 1}` }
             name="link"
             value={ pdf.path }
-            onChange={ (event) => handlePdfsChange(event, i) }
+            onChange={ (event) => handlePdfsChange(event, index, i) }
           />
         </div>
       ))}
-      <PlusButton onClick={ handleAddPdf }>
+      <PlusButton onClick={ () => handleAddPdf(index) }>
         Adicionar PDF
       </PlusButton>
     </div>

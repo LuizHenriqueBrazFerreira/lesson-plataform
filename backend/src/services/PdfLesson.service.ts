@@ -49,7 +49,7 @@ class PdfLessonService implements IPdfLessonService {
       const pdf = await this.model.updatePdfByPath(id, path, title);
 
       if (!pdf) return { status: 'NOT_FOUND', data: { message: 'PDF não encontrado' } };
-      
+
       return { status: 'SUCCESSFUL', data: path };
     } catch (error) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao atualizar PDF' } };
