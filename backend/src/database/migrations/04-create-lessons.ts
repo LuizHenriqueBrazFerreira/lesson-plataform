@@ -29,10 +29,6 @@ export default {
       },
       image: DataTypes.STRING,
       link: DataTypes.STRING,
-      watched: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      },
     })
   },
   down(queryInterface: QueryInterface) {

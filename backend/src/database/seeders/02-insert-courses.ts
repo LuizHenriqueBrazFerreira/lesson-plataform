@@ -2,6 +2,7 @@ import { QueryInterface } from 'sequelize';
 import UsersSequelize from '../models/Users.model';
 import UserCoursesSequelize from '../models/UserCourses.model';
 import PdfLessonSequelize from '../models/LessonPdfs.model';
+import WatchedLessonSequelize from '../models/WatchedLessons';
 import { createEmailToken } from '../../utils/jwt';
 import bcrypt from 'bcryptjs'
 
@@ -96,6 +97,23 @@ await PdfLessonSequelize.bulkCreate([
   { lessonId: 3, path: 'https://drive.google.com/file/d/1WfqEn2dvoTsjALgwLiOaCWrYjQvNwnvI/view?usp=sharing', title: 'Dom Pedro II - A história não contada' },
 ]);
 
+await WatchedLessonSequelize.bulkCreate([
+  { lessonId: 1, userId: user1.id, moduleId: 1 ,watched: true },
+  { lessonId: 2, userId: user1.id, moduleId: 1 ,watched: false },
+  { lessonId: 1, userId: user2.id, moduleId: 1 ,watched: true },
+  { lessonId: 2, userId: user2.id, moduleId: 1 ,watched: false },
+  { lessonId: 3, userId: user2.id, moduleId: 1 ,watched: true },
+  { lessonId: 4, userId: user2.id, moduleId: 1 ,watched: false },
+  { lessonId: 5, userId: user2.id, moduleId: 1 ,watched: true },
+  { lessonId: 6, userId: user2.id, moduleId: 1 ,watched: false },
+  { lessonId: 7, userId: user2.id, moduleId: 1 ,watched: true },
+  { lessonId: 8, userId: user2.id, moduleId: 1 ,watched: false },
+  { lessonId: 9, userId: user2.id, moduleId: 1 ,watched: true },
+  { lessonId: 10, userId: user2.id, moduleId: 1 ,watched: false },
+  { lessonId: 11, userId: user2.id, moduleId: 1 ,watched: true },
+  { lessonId: 12, userId: user2.id, moduleId: 1 ,watched: false },
+]);
+
   },
   down: async (queryInterface: QueryInterface) => {
     // Deletar todos os dados
@@ -105,6 +123,7 @@ await PdfLessonSequelize.bulkCreate([
     await queryInterface.bulkDelete('UserCourses', {});
     await queryInterface.bulkDelete('Users', {});
     await queryInterface.bulkDelete('LessonPdfs', {});
+    await queryInterface.bulkDelete('WatchedLessons', {});
   },
 };
 
