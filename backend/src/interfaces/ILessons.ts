@@ -9,7 +9,6 @@ export interface ILessons {
   content: string;
   image: string;
   link: string;
-  watched: boolean;
 }
 
 export interface ILessonsModel {

@@ -15,7 +15,6 @@ InferCreationAttributes<LessonsSequelize>> {
   declare content: string;
   declare image: string;
   declare link: string;
-  declare watched: CreationOptional<boolean>;
 }
 
 LessonsSequelize.init({
@@ -43,11 +42,7 @@ LessonsSequelize.init({
   },
   link: {
     type: DataTypes.STRING,
-  },
-  watched: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
+  }
 }, {
   sequelize: db,
   modelName: 'Lessons',
