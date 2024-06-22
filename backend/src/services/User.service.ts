@@ -5,12 +5,16 @@ import { validatePassword, validateUser, validateConfirmEmailToken } from "../mi
 import { sendConfirmEmail, sendForgotPasswordEmail, sendSupportEmail } from '../utils/sendEmail';
 import { IUserService } from '../interfaces/IUsers';
 import UsersModel from '../models/UsersModel';
+import UserCoursesModel from '../models/UserCoursesModel';
+import CoursesModel from '../models/CoursesModel';
 import bcrypt from 'bcryptjs';
 
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
 class UsersService implements IUserService {
   private userModel: IUserModel = new UsersModel();
+  private userCoursesModel = new UserCoursesModel();
+  private coursesModel = new CoursesModel();
 
   async createUser({ name, email, password, role, country, organization = '' }: UserData) {
     try {
@@ -33,6 +37,16 @@ class UsersService implements IUserService {
       return { status: 'CREATED', data: { message: 'Usuário criado com sucesso.' }};
     } catch (error) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar o usuário' } };
+    }
+  }
+
+  async getAllUsers() {
+    try {
+      const users = await this.userModel.getAllUsers();
+  
+      return { status: 'SUCCESSFUL', data: users };
+    } catch (error: any) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
     }
   }
   
@@ -70,6 +84,20 @@ class UsersService implements IUserService {
       const { email } = verifyToken(confirmEmailToken);
   
       await this.userModel.updateUser('confirmEmailToken', confirmEmailToken, email);
+
+      const user = await this.userModel.findByEmail(email);
+
+      if (!user) return { status: 'NOT_FOUND', data: { message: 'E-mail não encontrado.' } };
+
+      const courses = await this.coursesModel.getCourses();
+
+      courses.forEach(async (course) => {
+        await this.userCoursesModel.createUserCourse({
+          userId: user.dataValues.id,
+          courseTitle: course.dataValues.title,
+          courseId: course.dataValues.id,
+        });
+      });
   
       return { status: 'SUCCESSFUL', data: { message: 'E-mail confirmado com sucesso.' } };
     } catch (error: any) {

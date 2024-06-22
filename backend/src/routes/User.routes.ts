@@ -6,6 +6,7 @@ import { validateToken } from '../middlewares/validateLogin';
 const userController = new UsersController();
 const userRouter = Router()
 
+userRouter.get('/students', (req: Request, res: Response) => userController.requestAllUsers(req, res));
 userRouter.post('/create-account', (req: Request, res: Response) => userController.registerUser(req, res));
 userRouter.post('/login', (req: Request, res: Response) => userController.requestUserByEmail(req, res));
 userRouter.put('/confirm',  (req: Request, res: Response) => userController.confirmEmail(req, res));

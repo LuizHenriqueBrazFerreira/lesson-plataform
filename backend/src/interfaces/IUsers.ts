@@ -18,12 +18,14 @@ export interface IUsers {
 
 export interface IUserModel {
   createUser({ name, email, password, role }: UserData): Promise<UsersSequelize>;
+  getAllUsers(): Promise<UsersSequelize[]>;
   findByEmail(email: string): Promise<UsersSequelize | null>;
   updateUser(key:string, value: string, email: string): Promise<[affectedCount: number]>;
 }
 
 export interface IUserService {
   createUser({ name, email, password, role }: UserData): Promise<ServiceResponse<UserData>>;
+  getAllUsers(): Promise<ServiceResponse<UsersSequelize[]>>;
   findByEmail(email: string, password: string): Promise<ServiceResponse<LoginResponse>>;
   confirmEmail(confirmEmailToken: string): Promise<ServiceResponse<''>>;
   resendEmail(email: string): Promise<ServiceResponse<''>>;
@@ -36,6 +38,7 @@ export interface IUserService {
 
 export interface IUserController {
   registerUser(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  requestAllUsers(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   requestUserByEmail(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   confirmEmail(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   resendEmail(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;

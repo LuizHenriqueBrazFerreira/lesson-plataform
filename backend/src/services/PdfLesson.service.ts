@@ -10,11 +10,11 @@ class PdfLessonService implements IPdfLessonService {
     try {
       const lessonExists = await this._lessonsModel.getLessonById(lessonId);
 
-      if (!lessonExists) return { status: 'NOT_FOUND', data: { message: 'Lições não encontradas' } };
+      if (!lessonExists) return { status: 'NOT_FOUND', data: { message: 'Aula não encontrada' } };
 
       const pdf = await this.model.insertPdf(lessonId, path, title);
 
-      return { status: 'SUCCESSFUL', data: pdf };
+      return { status: 'BAD_REQUEST', data: pdf };
     } catch (error) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar PDF' } };
     }
@@ -44,13 +44,9 @@ class PdfLessonService implements IPdfLessonService {
 
   async updatePdfByPath(id: number, path: string, title: string) {
     try {
-      if (!path) return { status: 'BAD_REQUEST', data: { message: 'Caminho do PDF não informado' } };
+      await this.model.updatePdfByPath(id, path, title);
 
-      const pdf = await this.model.updatePdfByPath(id, path, title);
-
-      if (!pdf) return { status: 'NOT_FOUND', data: { message: 'PDF não encontrado' } };
-
-      return { status: 'SUCCESSFUL', data: path };
+      return { status: 'SUCCESSFUL', data: { message: 'PDF atualizado' } };
     } catch (error) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao atualizar PDF' } };
     }

@@ -17,6 +17,12 @@ class UsersModel implements IUserModel {
     return user;
   }
 
+  async getAllUsers() {
+    const users = await this.model.findAll();
+
+    return users;
+  }
+
   async findByEmail(email: string) {
       const userExists = await this.model.findOne({ where: { email } });
 
