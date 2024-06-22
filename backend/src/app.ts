@@ -12,5 +12,6 @@ app.use(routes.courseRouter)
 app.use(routes.moduleRouter)
 app.use(routes.userCoursesRouter)
 app.use(routes.pdfLessonRouter)
+app.use(routes.watchedLessonsRouter)
 
 export default app;

@@ -44,3 +44,11 @@ export interface PdfLessonDB {
   path: string,
   title: string,
 };
+
+export interface WatchedLessonDB {
+  id: number,
+  lessonId: number,
+  userId: number,
+  moduleId: number,
+  watched: boolean,
+}
