@@ -68,35 +68,31 @@ export const handlePdfEdit = async (
   lessons: LessonPropType[],
 ) => {
   // Cria novos pdfs quando o id é 0
-  const pdfsData = await Promise.all(lessons.map(async ({ id, pdfs }) => {
-    if (id === 0) {
-      pdfs.map(async (pdf) => {
+  const pdfData = await Promise.all(lessons.map(async ({ id, pdfs }) => {
+    pdfs.forEach(async (pdf) => {
+      if (pdf.id === 0) {
         await requestPost(
           '/pdfs',
           {
             lessonId: id,
-            title: pdf.title,
             path: pdf.path,
+            title: pdf.title,
           },
         );
-      });
-      return;
-    }
-    // Atualiza os pdfs existentes quando o id não é 0
-    pdfs.map(async (pdf) => {
+        return;
+      }
+      // Atualiza os pdfs existentes quando o id não é 0
       await requestUpdate(
         `/pdfs/${pdf.id}`,
         {
           id: pdf.id,
-          lessonId: id,
-          title: pdf.title,
           path: pdf.path,
+          title: pdf.title,
         },
       );
     });
   }));
-
-  return pdfsData;
+  return pdfData;
 };
 
 export const showSuccessMessage = (text: string) => {

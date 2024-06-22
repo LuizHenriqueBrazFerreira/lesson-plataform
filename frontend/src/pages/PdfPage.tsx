@@ -38,10 +38,7 @@ function PdfPage() {
 
   return (
     <div>
-      <CoursesBackground
-        heading="PDFs"
-        title="Aqui você encontra todos os PDFs disponíveis"
-      >
+      <CoursesBackground>
         <div className="self-start">
           {
             pdfs.length > 0

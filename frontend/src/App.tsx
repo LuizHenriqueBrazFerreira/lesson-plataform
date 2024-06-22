@@ -9,7 +9,7 @@ import ConfirmEmail from './pages/ConfirmEmail';
 import ForgotPassword from './pages/ResetPassword';
 import Homepage from './pages/Homepage';
 import AdminPage from './pages/AdminPage';
-import CourseModules from './pages/CouseModules';
+import CourseModules from './pages/CourseModules';
 import Lessons from './pages/Lessons';
 import RootProvider from './context';
 import BookmarkedCourses from './pages/BookmarkedCourses';
@@ -19,6 +19,7 @@ import CreateCourse from './pages/CreateCourse';
 import EditCourse from './pages/EditCourse';
 import SupportPage from './pages/SupportPage';
 import PdfPage from './pages/PdfPage';
+import Students from './pages/Students';
 import './App.css';
 
 function App() {
@@ -47,7 +48,7 @@ function App() {
           <Route path="/admin" element={ <AdminPage /> } />
           <Route path="/admin/create" element={ <CreateCourse /> } />
           <Route path="/admin/edit" element={ <EditCourse /> } />
-          <Route path="/admin/students" element="Estudantes" />
+          <Route path="/admin/students" element={ <Students /> } />
           <Route path="/admin/courses" element="Cursos" />
           <Route path="/support" element={ <SupportPage /> } />
           <Route

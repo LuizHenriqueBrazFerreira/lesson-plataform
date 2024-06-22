@@ -29,11 +29,6 @@ export default function AdminPage() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <AdminCard
-          heading="Cursos"
-          to="courses"
-          description="Ver todos os cursos"
-        />
-        <AdminCard
           heading="Estudantes"
           to="students"
           description="Ver todas as pessoas estudantes"

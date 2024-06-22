@@ -23,17 +23,25 @@ function Header() {
           className="w-36 lg:w-full"
         />
       </button>
-      { pathname !== '/login' && !token ? (
-        <button
-          onClick={ () => navigate('/login') }
-          className="bg-btn-orange text-white rounded-md w-28 h-12 text-2xl font-semibold"
-        >
-          Entrar
-        </button>
-      ) : null}
-      { role === 'STUDENT' ? (
-        <NavBar />
-      ) : null}
+      { !token && (
+        <div className="flex gap-4">
+          <button
+            onClick={ () => navigate('/login') }
+            className="bg-btn-orange text-white rounded-md
+            md:w-28 md:h-12 md:text-2xl p-2 font-semibold"
+          >
+            Entrar
+          </button>
+          <button
+            onClick={ () => navigate('/create-account') }
+            className="bg-btn-orange text-white rounded-md
+            md:w-32 md:h-12 md:text-2xl p-2 md:p-0 font-semibold"
+          >
+            Cadastrar
+          </button>
+        </div>
+      )}
+      { role === 'STUDENT' && (<NavBar />)}
 
       { role === 'ADMIN' && (<AdminNavBar />)}
     </header>

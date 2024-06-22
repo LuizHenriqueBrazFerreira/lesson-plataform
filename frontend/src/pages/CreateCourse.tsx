@@ -10,6 +10,8 @@ import CreateLesson from '../components/CreateLesson';
 import { INITIAL_PDF, LessonPropType, PdfsType, INITIAL_LESSON } from '../types/lessons';
 import { requestDelete, requestPost, setToken } from '../services/requests';
 import { showSuccessMessage } from '../utils/editCourseHelpers';
+import { handleCreateModule, handleCreateLessons, handleCreatePdf }
+  from '../utils/createCourseHelpers';
 
 function CreateCourse() {
   const [modules, setModules] = useState(['']);
@@ -72,29 +74,13 @@ function CreateCourse() {
 
     const courseData = await requestPost('/courses', { title: courseTitle });
 
-    const modulesData = await Promise.all(modules.map(async (module) => {
-      const moduleData = await requestPost(
-        '/modules',
-        { courseTitle, title: module },
-      );
-      return moduleData;
-    }));
+    const modulesData = await handleCreateModule(courseTitle, modules);
 
-    const lessonsData = await Promise.all(lessons.map(async (lesson) => {
-      const lessonData = await requestPost(
-        '/lessons',
-        {
-          moduleTitle: lesson.moduleTitle,
-          title: lesson.title,
-          content: lesson.content,
-          image: lesson.image,
-          link: lesson.link,
-        },
-      );
-      return lessonData;
-    }));
+    const lessonsData = await handleCreateLessons(lessons);
 
-    if (courseData.title && modulesData.length && lessonsData.length) {
+    const pdfData = await handleCreatePdf(lessons);
+
+    if (courseData.title && modulesData.length && lessonsData.length && pdfData.length) {
       showSuccessMessage('Curso criado com sucesso');
 
       setCourseTitle('');

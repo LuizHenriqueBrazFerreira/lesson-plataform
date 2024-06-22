@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { Input, Textarea } from '@material-tailwind/react';
+import { ClipboardIcon } from '@heroicons/react/24/outline';
+import { CheckIcon } from '@heroicons/react/24/solid';
 import CoursesBackground from '../components/CoursesBackground';
 import OrangeButton from '../components/OrangeButton';
 import { SupportFormType } from '../types/supportType';
 import { requestPost } from '../services/requests';
 
 function SupportPage() {
+  const [copied, setCopied] = useState(false);
+
   const INITIAL_FORM = {
     name: '',
     email: '',
@@ -26,6 +30,14 @@ function SupportPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setForm(INITIAL_FORM);
+  };
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('ensinofsmsss@gmail.com');
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   };
 
   const handleEmailToSupport = async (data: SupportFormType) => {
@@ -49,13 +61,38 @@ function SupportPage() {
 
   return (
     <CoursesBackground>
+      <h1
+        className="text-xl md:text-4xl
+            text-btn-orange font-bold mb-10"
+      >
+        Suporte
+      </h1>
       <form
         onSubmit={ (event) => handleSubmit(event) }
-        className="flex flex-col gap-4 align-center justify-center
-        lg:w-1/3 lg:h-1/2 self-center text-center bg-white p-4 rounded-md shadow-md"
+        className="flex flex-col gap-4 self-center md:w-1/2 md:h-1/2"
       >
+        <h2
+          className="text-xl md:text-2xl
+            text-btn-orange font-semibold"
+        >
+          Envie sua mensagem
+        </h2>
+        <div className="flex gap-3 font-semibold">
+          <p>ou clique aqui para copiar o email:</p>
+          <button
+            type="button"
+            className={ `${copied ? 'text-black' : 'text-btn-orange'} 
+              hover:underline flex gap-1` }
+            onClick={ handleCopyEmail }
+          >
+            { copied ? <CheckIcon className="w-5 h-5" />
+              : <ClipboardIcon className="w-5 h-5" />}
+            { copied ? 'Copiado!' : 'Copiar'}
+          </button>
+        </div>
         <Input
-          crossOrigin={ false }
+          crossOrigin={ undefined }
+          size="lg"
           type="text"
           name="name"
           value={ form.name }
@@ -64,7 +101,8 @@ function SupportPage() {
         />
 
         <Input
-          crossOrigin={ false }
+          crossOrigin={ undefined }
+          size="lg"
           type="text"
           name="email"
           value={ form.email }
@@ -75,7 +113,8 @@ function SupportPage() {
         />
 
         <Input
-          crossOrigin={ false }
+          crossOrigin={ undefined }
+          size="lg"
           type="text"
           name="contact"
           value={ form.contact }
@@ -86,7 +125,8 @@ function SupportPage() {
         />
 
         <Input
-          crossOrigin={ false }
+          crossOrigin={ undefined }
+          size="lg"
           type="text"
           name="topic"
           value={ form.topic }
@@ -97,6 +137,7 @@ function SupportPage() {
         />
 
         <Textarea
+          size="lg"
           name="content"
           value={ form.content }
           id="subtopic"

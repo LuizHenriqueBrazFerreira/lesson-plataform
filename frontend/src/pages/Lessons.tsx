@@ -49,22 +49,13 @@ function Lessons() {
     <div>
       <CoursesBackground heading="Módulo" title={ module.title }>
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          {
-            lessons.map((lesson, index) => (
-              <div
-                aria-hidden="true"
-                className="lg:text-3xl font-semibold"
-                onClick={
-                  () => navigate(`${lessonsUrl}/${lesson.id}`)
-                }
-                key={ index }
-              >
-                <ModuleCard
-                  module={ lesson }
-                />
-              </div>
-            ))
-          }
+          {lessons.map((lesson) => (
+            <LessonsCard
+              lessonsUrl={ lessonsUrl }
+              key={ lesson.id }
+              lesson={ lesson }
+            />
+          ))}
         </div>
         <OrangeButton
           onClick={ () => navigate(`/courses/${module.courseId}/modules`) }

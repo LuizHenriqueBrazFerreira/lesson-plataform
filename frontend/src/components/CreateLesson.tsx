@@ -154,7 +154,7 @@ function CreateLesson({
             size="lg"
             type="text"
             label={ `Link do PDF ${i + 1}` }
-            name="link"
+            name="path"
             value={ pdf.path }
             onChange={ (event) => handlePdfsChange(event, index, i) }
           />

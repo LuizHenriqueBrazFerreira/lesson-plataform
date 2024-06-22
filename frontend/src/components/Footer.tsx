@@ -1,19 +1,33 @@
 import { Typography } from '@material-tailwind/react';
+import { EnvelopeIcon, GlobeAltIcon, ClipboardIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 
 function Footer() {
+  const [showCopy, setShowCopy] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('ensinofsmsss@gmail.com');
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+
   return (
     <footer className="w-full bg-white px-5 py-6 lg:px-14">
       <div
-        className="flex flex-row flex-wrap items-center justify-center
-      gap-y-6 gap-x-12 bg-white text-center md:justify-between"
+        className="flex md:flex-row flex- items-center justify-center
+      gap-y-6 gap-x-12 bg-white md:justify-between"
       >
         <img
           className="w-28 lg:w-80"
           src="/src/assets/baudouin.png"
           alt="King Baudouin Foundation's Logo"
         />
-        <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
-          <li>
+        <ul className="flex flex-wrap items-center gap-y-2 gap-x-12">
+          <li className="flex gap-2 items-center">
+            <GlobeAltIcon className="w-6 h-6" />
             <Typography
               as="a"
               href="https://www.fsmsss.org/"
@@ -25,7 +39,8 @@ function Footer() {
               Nosso site
             </Typography>
           </li>
-          <li>
+          <li className="flex gap-2 items-center">
+            <img className="w-5 h-5" src="/src/assets/insta.png" alt="instagram logo" />
             <Typography
               as="a"
               href="https://www.instagram.com/fsm_saudeeseguridadesocial/"
@@ -37,7 +52,8 @@ function Footer() {
               Instagram
             </Typography>
           </li>
-          <li>
+          <li className="flex gap-2 items-center">
+            <EnvelopeIcon className="w-6 h-6" />
             <Typography
               as="a"
               href="/support"
@@ -46,6 +62,27 @@ function Footer() {
               hover:text-blue-500 focus:text-blue-500"
             >
               Suporte por email
+            </Typography>
+          </li>
+          <li className="flex gap-2 items-center">
+            <ClipboardIcon className="w-6 h-6" />
+            { showCopy && (
+              <div
+                className="absolute mb-14 ml-5 border border-black
+              px-2 hidden md:block"
+              >
+                {copied ? 'Copiado!' : 'Clique para copiar'}
+              </div>
+            )}
+            <Typography
+              onMouseEnter={ () => setShowCopy(true) }
+              onMouseLeave={ () => setShowCopy(false) }
+              className="font-normal transition-colors
+              hover:text-blue-500 focus:text-blue-500"
+              as="button"
+              onClick={ handleCopyEmail }
+            >
+              ensinofsmsss@gmail.com
             </Typography>
           </li>
         </ul>
