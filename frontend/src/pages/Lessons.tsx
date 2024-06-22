@@ -5,7 +5,6 @@ import CoursesBackground from '../components/CoursesBackground';
 import { Module, initialModuleState } from '../types/courseType';
 import { LessonsType } from '../types/lessons';
 import LessonsCard from '../components/LessonsCard';
-import ModuleCard from '../components/ModuleCard';
 import OrangeButton from '../components/OrangeButton';
 
 function Lessons() {
@@ -32,7 +31,7 @@ function Lessons() {
       try {
         const moduleData = await requestData(`module/${moduleId}`);
         const lessonsData = await requestData(`lessons/${moduleId}`);
-        console.log(lessonsData);
+
         setModule(moduleData);
         setLessons(lessonsData);
       } catch (error: any) {

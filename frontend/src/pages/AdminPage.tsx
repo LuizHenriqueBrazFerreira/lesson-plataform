@@ -9,8 +9,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
 
-    if (!token) {
+    if (!token || role !== 'ADMIN') {
       return navigate('/login');
     }
 

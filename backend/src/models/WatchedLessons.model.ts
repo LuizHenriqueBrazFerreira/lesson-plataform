@@ -4,8 +4,8 @@ import { IWatchedLessons, IWatchedLessonsModel } from "../interfaces/IWatchedLes
 export default class WatchedLessonModel implements IWatchedLessonsModel {
   private _model = WatchedLessonSequelize;
 
-   async findWatchedLessonsByUserIdAndModuleId(userId: number, moduleId: number, watched = true): Promise<WatchedLessonSequelize[]> {
-    const watchedLessons = await this._model.findAll({ where: { userId, moduleId, watched } });
+   async findWatchedLessonsByUserIdAndModuleId(userId: number, moduleId: number): Promise<WatchedLessonSequelize[]> {
+    const watchedLessons = await this._model.findAll({ where: { userId, moduleId, watched: true } });
 
     return watchedLessons;
   }
@@ -14,6 +14,12 @@ export default class WatchedLessonModel implements IWatchedLessonsModel {
     const updated = await this._model.update({ watched }, { where: { userId, lessonId } });
 
     return updated[0];
+  }
+
+  async getWatchedLessonByLessonId(userId: number, lessonId: number): Promise<WatchedLessonSequelize | null> {
+    const watchedLesson = await this._model.findOne({ where: { userId, lessonId } });
+
+    return watchedLesson;
   }
    
 }

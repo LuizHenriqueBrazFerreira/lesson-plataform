@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
 import OrangeButton from '../components/OrangeButton';
@@ -7,8 +7,8 @@ import CoursesBackground from '../components/CoursesBackground';
 import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
-import { INITIAL_PDF, LessonPropType, PdfsType, INITIAL_LESSON } from '../types/lessons';
-import { requestDelete, requestPost, setToken } from '../services/requests';
+import { LessonPropType, INITIAL_LESSON } from '../types/lessons';
+import { requestPost, setToken } from '../services/requests';
 import { showSuccessMessage } from '../utils/editCourseHelpers';
 import { handleCreateModule, handleCreateLessons, handleCreatePdf }
   from '../utils/createCourseHelpers';
@@ -19,6 +19,17 @@ function CreateCourse() {
   const [courseTitle, setCourseTitle] = useState('');
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+
+    if (!token || role !== 'ADMIN') {
+      return navigate('/login');
+    }
+
+    setToken(token);
+  }, []);
 
   const handleAddModule = () => {
     setModules([...modules, '']);
@@ -63,14 +74,6 @@ function CreateCourse() {
 
   const handleCreateCourse = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      return navigate('/login');
-    }
-
-    setToken(token);
 
     const courseData = await requestPost('/courses', { title: courseTitle });
 

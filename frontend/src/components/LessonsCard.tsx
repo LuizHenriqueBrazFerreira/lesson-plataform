@@ -1,6 +1,8 @@
 import { Card, CardBody, Checkbox } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { LessonsType } from '../types/lessons';
+import { requestUpdate, setToken, requestData } from '../services/requests';
 
 type LessonsCardProps = {
   lesson: LessonsType;
@@ -8,7 +10,49 @@ type LessonsCardProps = {
 };
 
 function LessonsCard({ lesson, lessonsUrl }: LessonsCardProps) {
+  const [isWatched, setIsWatched] = useState(false);
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token || !userId) {
+      return navigate('/login');
+    }
+
+    setToken(token);
+
+    console.log(lesson.id);
+
+    async function fetchData() {
+      try {
+        const data = await requestData(`/watchedLesson/${userId}/${lesson.id}`);
+        if (data) {
+          setIsWatched(data.watched);
+        }
+      } catch (error: any) {
+        if (error.isAxiosError) {
+          console.error(error);
+        }
+      }
+    }
+    fetchData();
+  }, []);
+
+  const updateWatched = async () => {
+    try {
+      await requestUpdate(
+        '/watchedLessons',
+        { userId, lessonId: lesson.id, watched: !isWatched },
+      );
+
+      setIsWatched(!isWatched);
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <Card
@@ -23,7 +67,8 @@ function LessonsCard({ lesson, lessonsUrl }: LessonsCardProps) {
             <Checkbox
               crossOrigin={ undefined }
               color="orange"
-              onChange={ () => console.log('checkbox clicked') }
+              onChange={ updateWatched }
+              checked={ isWatched }
             />
           </div>
         </div>

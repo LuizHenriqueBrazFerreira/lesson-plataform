@@ -6,9 +6,9 @@ import WatchedLessonSequelize from "../database/models/WatchedLessons";
 export default class WatchedLessonService implements IWatchedLessonsService {
   constructor(private _model = new WatchedLessonModel()) {};
 
-  async requestWatchedLessonsByUserIdAndModuleId(userId: number, moduleId: number, watched: boolean): Promise<ServiceResponse<WatchedLessonSequelize[]>> {
+  async requestWatchedLessonsByUserIdAndModuleId(userId: number, moduleId: number): Promise<ServiceResponse<WatchedLessonSequelize[]>> {
 
-      const watchedLessons = await this._model.findWatchedLessonsByUserIdAndModuleId(userId, moduleId, watched);
+      const watchedLessons = await this._model.findWatchedLessonsByUserIdAndModuleId(userId, moduleId);
       
       if (watchedLessons) return { status: 'SUCCESSFUL', data:  watchedLessons  };
 
@@ -19,6 +19,14 @@ export default class WatchedLessonService implements IWatchedLessonsService {
     const updatedWatchedLesson = await this._model.updateWatchedLesson(userId, lessonId, watched);
 
     if (updatedWatchedLesson) return { status: 'SUCCESSFUL', data: updatedWatchedLesson };
+
+    return { status: 'NOT_FOUND', data: { message: 'Aula não encontrada.' } };
+  }
+
+  async getWatchedLessonByLessonId(userId: number, lessonId: number): Promise<ServiceResponse<WatchedLessonSequelize | null>> {
+    const watchedLesson = await this._model.getWatchedLessonByLessonId(userId, lessonId);
+
+    if (watchedLesson) return { status: 'SUCCESSFUL', data: watchedLesson };
 
     return { status: 'NOT_FOUND', data: { message: 'Aula não encontrada.' } };
   }

@@ -7,9 +7,9 @@ export default class WatchedLessonsController implements IWatchedLessonsControll
   constructor( private _service = new WatchedLessonService() ) {}
 
   async requestWatchedLessonsByUserIdAndModuleId(req: Request, res: Response) {
-    const { userId, moduleId, watched } = req.body;
+    const { userId, moduleId } = req.params;
 
-    const { status, data } = await this._service.requestWatchedLessonsByUserIdAndModuleId(Number(userId), Number(moduleId), watched);
+    const { status, data } = await this._service.requestWatchedLessonsByUserIdAndModuleId(Number(userId), Number(moduleId));
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
@@ -19,6 +19,14 @@ export default class WatchedLessonsController implements IWatchedLessonsControll
     
 
     const { status, data } = await this._service.updateWatchedLesson(Number(userId), Number(lessonId), watched);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
+  async requestGetWatchedLessonByLessonId(req: Request, res: Response) {
+    const { userId, lessonId } = req.params;
+
+    const { status, data } = await this._service.getWatchedLessonByLessonId(Number(userId), Number(lessonId));
 
     return res.status(mapStatusHTTP(status)).json(data);
   }

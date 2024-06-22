@@ -11,6 +11,7 @@ import EyeButton from '../components/EyeButton';
 
 function Students() {
   const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
   const [students, setStudents] = useState<UserType[]>([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
@@ -18,7 +19,7 @@ function Students() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token) {
+    if (!token || role !== 'ADMIN') {
       return navigate('/login');
     }
     setToken(token);

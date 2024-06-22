@@ -1,7 +1,8 @@
 import { Card, CardBody, Progress, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Module } from '../types/courseType';
+import { requestData, setToken } from '../services/requests';
 
 type ModuleCardProps = {
   module: Module;
@@ -10,9 +11,44 @@ type ModuleCardProps = {
 function ModuleCard({ module }: ModuleCardProps) {
   const userId = localStorage.getItem('userId');
   const [progress, setProgress] = useState(0);
+  const [totalLessons, setTotalLessons] = useState(0);
+  const [lessonsWatched, setLessonsWatched] = useState([]);
   const navigate = useNavigate();
 
   const lessonsUrl = `/courses/${module.courseId}/modules/${module.id}/lessons`;
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token || !userId) {
+      return navigate('/login');
+    }
+
+    setToken(token);
+
+    async function fetchData() {
+      try {
+        const watched = await requestData(`/watchedLessons/${userId}/${module.id}`);
+        const total = await requestData(`/lessons/${module.id}`);
+
+        setLessonsWatched(watched);
+        setTotalLessons(total.length);
+      } catch (error: any) {
+        if (error.isAxiosError) {
+          console.error(error);
+        }
+      }
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (lessonsWatched.length > 0) {
+      const watched = lessonsWatched.length;
+      const percentage = (watched / totalLessons) * 100;
+      setProgress(percentage);
+    }
+  }, [lessonsWatched, totalLessons]);
 
   return (
     <Card

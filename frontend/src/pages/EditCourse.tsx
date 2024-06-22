@@ -27,10 +27,11 @@ export default function EditCourse() {
   const [courseTitle, setCourseTitle] = useState('');
   const [courseId, setCourseId] = useState(0);
   const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token) {
+    if (!token || role !== 'ADMIN') {
       return navigate('/login');
     }
     setToken(token);
