@@ -2,6 +2,7 @@ import {Router} from 'express'
 import UsersController from '../controller/User.controller' 
 import { Request, Response } from 'express';
 import { validateToken } from '../middlewares/validateLogin';
+import checkAdminRole from '../middlewares/validateAdmin';
 
 const userController = new UsersController();
 const userRouter = Router()
@@ -16,5 +17,6 @@ userRouter.put('/reset-password',  (req: Request, res: Response) => userControll
 userRouter.post('/support',  (req: Request, res: Response) => userController.sendSupportEmail(req, res));
 userRouter.post('/profile',  validateToken, (req: Request, res: Response) => userController.requestProfileData(req, res));
 userRouter.put('/profile',  validateToken, (req: Request, res: Response) => userController.updateProfileData(req, res));
+userRouter.post('/user/give-access',  validateToken, checkAdminRole, (req: Request, res: Response) => userController.giveUserAccessToOneCourse(req, res));
 
 export default userRouter;

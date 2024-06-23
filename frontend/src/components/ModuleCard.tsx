@@ -2,7 +2,7 @@ import { Card, CardBody, Progress, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Module } from '../types/courseType';
-import { requestData, setToken } from '../services/requests';
+import { requestData, setToken, requestUpdate } from '../services/requests';
 
 type ModuleCardProps = {
   module: Module;
@@ -48,6 +48,21 @@ function ModuleCard({ module }: ModuleCardProps) {
       const percentage = (watched / totalLessons) * 100;
       setProgress(percentage);
     }
+
+    async function updateProgress() {
+      try {
+        await requestUpdate('/modulesProgress', {
+          userId,
+          moduleId: module.id,
+          progress,
+        });
+      } catch (error: any) {
+        if (error.isAxiosError) {
+          console.error(error);
+        }
+      }
+    }
+    updateProgress();
   }, [lessonsWatched, totalLessons]);
 
   return (

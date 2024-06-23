@@ -5,16 +5,13 @@ import { validatePassword, validateUser, validateConfirmEmailToken } from "../mi
 import { sendConfirmEmail, sendForgotPasswordEmail, sendSupportEmail } from '../utils/sendEmail';
 import { IUserService } from '../interfaces/IUsers';
 import UsersModel from '../models/UsersModel';
-import UserCoursesModel from '../models/UserCoursesModel';
-import CoursesModel from '../models/CoursesModel';
+import { giveAccessToAll, giveAcessToOne } from '../utils/giveAccess';
 import bcrypt from 'bcryptjs';
 
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
 class UsersService implements IUserService {
   private userModel: IUserModel = new UsersModel();
-  private userCoursesModel = new UserCoursesModel();
-  private coursesModel = new CoursesModel();
 
   async createUser({ name, email, password, role, country, organization = '' }: UserData) {
     try {
@@ -89,16 +86,8 @@ class UsersService implements IUserService {
 
       if (!user) return { status: 'NOT_FOUND', data: { message: 'E-mail não encontrado.' } };
 
-      const courses = await this.coursesModel.getCourses();
+      await giveAccessToAll(user.dataValues.id);
 
-      courses.forEach(async (course) => {
-        await this.userCoursesModel.createUserCourse({
-          userId: user.dataValues.id,
-          courseTitle: course.dataValues.title,
-          courseId: course.dataValues.id,
-        });
-      });
-  
       return { status: 'SUCCESSFUL', data: { message: 'E-mail confirmado com sucesso.' } };
     } catch (error: any) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: error } };
@@ -208,6 +197,16 @@ class UsersService implements IUserService {
       return { status: 'SUCCESSFUL', data: { message: 'Perfil atualizado com sucesso!' } };
     } catch (error: any) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Erro ao atualizar perfil.' } };
+    }
+  }
+
+  async giveUserAccessToOneCourse(userId: number, courseId: number) {
+    try {
+      const userCourse = await giveAcessToOne(userId, courseId);
+  
+      return { status: 'SUCCESSFUL', data: userCourse };
+    } catch (error: any) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: error };
     }
   }
 }

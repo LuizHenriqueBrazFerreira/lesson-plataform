@@ -2,7 +2,6 @@ import WatchedLessonsController from "../controller/WatchedLessons.controller";
 import { Request, Response } from "express";
 import { Router } from "express";
 import { validateToken } from "../middlewares/validateLogin";
-import validateAdmin from '../middlewares/validateAdmin';
 
 const watchedLessonsRouter = Router();
 const watchedLessonsController = new WatchedLessonsController();

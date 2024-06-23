@@ -85,6 +85,14 @@ class UsersController implements IUserController{
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  async giveUserAccessToOneCourse(req: Request, res: Response) {
+    const {userId, courseId} = req.body;
+
+    const {status, data} = await this.userService.giveUserAccessToOneCourse(userId, courseId);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }
 
 export default UsersController;
