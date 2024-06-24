@@ -46,6 +46,7 @@ export interface PdfLessonDB {
 };
 
 export interface WatchedLessonDB {
+  id: number,
   lessonId: number,
   userId: number,
   moduleId: number,
@@ -53,6 +54,7 @@ export interface WatchedLessonDB {
 }
 
 export interface ModuleProgressDB {
+  id: number,
   moduleId: number,
   courseId: number,
   userId: number,

@@ -4,6 +4,12 @@ import { WatchedLessonDB } from '../../interfaces/Database'
 export default {
   up(queryInterface:QueryInterface) {
     return queryInterface.createTable<Model<WatchedLessonDB>>('WatchedLessons', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+      },
       lessonId: {
         allowNull: false,
         type: DataTypes.INTEGER,

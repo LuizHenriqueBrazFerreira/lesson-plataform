@@ -7,9 +7,8 @@ import CoursesBackground from '../components/CoursesBackground';
 import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
-import { LessonPropType, INITIAL_LESSON,
-  PdfsType, INITIAL_PDF } from '../types/lessons';
-import { setToken, requestData, requestUpdate, requestDelete, requestPost }
+import { LessonPropType, INITIAL_LESSON } from '../types/lessons';
+import { setToken, requestData, requestUpdate, requestDelete }
   from '../services/requests';
 import { Courses, EditModule } from '../types/courseType';
 import {
@@ -17,7 +16,6 @@ import {
   showSuccessMessage, showNoCourseSelectedMessage,
   requestModules, requestLessons, requestPdfs,
 } from '../utils/editCourseHelpers';
-import { verifyLessons, verifyModules, verifyPdfs } from '../utils/verifyInputs';
 
 export default function EditCourse() {
   const [modules, setModules] = useState<EditModule[]>([]);
@@ -85,15 +83,42 @@ export default function EditCourse() {
   };
 
   const handleRemoveModule = async (index: number) => {
-    const newModules = [...modules];
-    newModules.splice(index, 1);
-    setModules(newModules);
+    try {
+      const moduleDeletedId = await requestDelete(`/modules/${modules[index].id}`);
+      console.log(moduleDeletedId);
+      const newModules = [...modules];
+      newModules.splice(index, 1);
+      setModules(newModules);
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+      }
+    }
   };
 
-  const handleRemoveLesson = (index: number) => {
-    const newLessons = [...lessons];
-    newLessons.splice(index, 1);
-    setLessons(newLessons);
+  const handleRemoveLesson = async (index: number) => {
+    try {
+      const lessonDeletedId = await requestDelete(`/lessons/${lessons[index].id}`);
+      console.log(lessonDeletedId);
+      const newLessons = [...lessons];
+      newLessons.splice(index, 1);
+      setLessons(newLessons);
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleRemoveCourse = async () => {
+    try {
+      await requestDelete(`/courses/${courseId}`);
+      window.location.reload();
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+      }
+    }
   };
 
   const handleModuleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -172,6 +197,10 @@ export default function EditCourse() {
           label="Título do curso"
           value={ courseTitle }
           onChange={ (event) => setCourseTitle(event.target.value) }
+          icon={ <TrashButton
+            type="button"
+            onClick={ handleRemoveCourse }
+          /> }
         />
         {modules.map((module, index) => (
           <div key={ index }>
