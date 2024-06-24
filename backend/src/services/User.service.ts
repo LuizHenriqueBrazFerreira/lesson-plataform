@@ -7,6 +7,7 @@ import { IUserService } from '../interfaces/IUsers';
 import UsersModel from '../models/UsersModel';
 import { giveAccessToAll, giveAcessToOne } from '../utils/giveAccess';
 import bcrypt from 'bcryptjs';
+import { ServiceResponse } from '../types/Service.response';
 
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
@@ -208,6 +209,14 @@ class UsersService implements IUserService {
     } catch (error: any) {
       return { status: 'INTERNAL_SERVER_ERROR', data: error };
     }
+  }
+
+  async requestDeleteUser(id: number) {
+    const deletedUser = await this.userModel.deleteUser(id);
+
+    if (deletedUser) return { status: 'SUCCESSFUL', data: { message: 'Usuário deletado com sucesso.' } };
+
+    return { status: 'NOT_FOUND', data: { message: 'Usuário não encontrado.' } };
   }
 }
 

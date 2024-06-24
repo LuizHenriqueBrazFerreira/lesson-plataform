@@ -17,7 +17,10 @@ export default {
         references: {
           model: 'Courses',
           key: 'id'
-      }},
+      },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    },
       title: {
         allowNull: false,
         type: DataTypes.STRING,

@@ -11,7 +11,10 @@ export default {
         references: {
           model: 'Users',
           key: 'id'
-      }},
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      },
       courseTitle: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -24,7 +27,10 @@ export default {
         references: {
           model: 'Courses',
           key: 'id'
-      }},
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      },
       progress: {
         allowNull: false,
         type: DataTypes.INTEGER,

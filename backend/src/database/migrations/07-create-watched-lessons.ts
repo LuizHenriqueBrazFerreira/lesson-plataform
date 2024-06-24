@@ -17,7 +17,9 @@ export default {
         references: {
           model: 'Lessons',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       userId: {
         allowNull: false,
@@ -26,7 +28,9 @@ export default {
         references: {
           model: 'Users',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       moduleId: {
         allowNull: false,
@@ -35,7 +39,9 @@ export default {
         references: {
           model: 'Modules',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       watched: {
         allowNull:false,

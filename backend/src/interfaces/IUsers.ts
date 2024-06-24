@@ -21,6 +21,7 @@ export interface IUserModel {
   getAllUsers(): Promise<UsersSequelize[]>;
   findByEmail(email: string): Promise<UsersSequelize | null>;
   updateUser(key:string, value: string, email: string): Promise<[affectedCount: number]>;
+  deleteUser(id:number): Promise<number>;
 }
 
 export interface IUserService {
@@ -34,6 +35,7 @@ export interface IUserService {
   findProfileData(email: string): Promise<ServiceResponse<UserData>>;
   requestSuport(email: string, name: string, topic: string, content: string, cell:string): Promise<ServiceResponse<''>>;
   updateProfileData(oldEmail: string, email: string, name: string, password: string, country: string, organization: string): Promise<ServiceResponse<number>>;
+  requestDeleteUser(id:number): Promise<ServiceResponse<number>>;
 }
 
 export interface IUserController {
@@ -47,6 +49,7 @@ export interface IUserController {
   sendSupportEmail(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   requestProfileData(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   updateProfileData(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  requestDeleteUser(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
 }
 
 export interface IUserCourses {
