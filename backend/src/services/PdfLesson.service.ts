@@ -6,15 +6,17 @@ class PdfLessonService implements IPdfLessonService {
   private model = new PdfLessonModel();
   private _lessonsModel = new LessonsModel();
 
-  async insertPdf(lessonId: number, path: string, title: string) {
+  async insertPdf(lessonTitle: string, path: string, title: string) {
     try {
-      const lessonExists = await this._lessonsModel.getLessonById(lessonId);
+      const lessonExists = await this._lessonsModel.getLessonsByTitle(lessonTitle);
 
       if (!lessonExists) return { status: 'NOT_FOUND', data: { message: 'Aula não encontrada' } };
 
+      const lessonId = lessonExists.id;
+
       const pdf = await this.model.insertPdf(lessonId, path, title);
 
-      return { status: 'BAD_REQUEST', data: pdf };
+      return { status: 'SUCCESSFUL', data: pdf };
     } catch (error) {
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar PDF' } };
     }

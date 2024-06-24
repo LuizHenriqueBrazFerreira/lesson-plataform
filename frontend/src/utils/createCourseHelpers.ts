@@ -36,13 +36,13 @@ export const handleCreateLessons = async (
 export const handleCreatePdf = async (
   lessons: LessonPropType[],
 ) => {
-  const pdfData = await Promise.all(lessons.map(async ({ id, pdfs }) => {
+  const pdfData = await Promise.all(lessons.map(async ({ title, pdfs }) => {
     pdfs.map(async (pdf) => {
       if (pdf.id === 0) {
         await requestPost(
           '/pdfs',
           {
-            lessonId: id,
+            lessonTitle: title,
             path: pdf.path,
             title: pdf.title,
           },

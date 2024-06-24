@@ -17,7 +17,7 @@ export interface IPdfLessonModel {
 }
 
 export interface IPdfLessonService {
-  insertPdf(lessonId: number, path: string, title: string):Promise<ServiceResponse<ILessonPdfs>>;
+  insertPdf(lessonTitle:string, path: string, title: string):Promise<ServiceResponse<ILessonPdfs>>;
   getPdfsByLessonId(lessonId: number): Promise<ServiceResponse<ILessonPdfs | unknown>>;
   deletePdfByPath(id: number): Promise<ServiceResponse<string>>;
   updatePdfByPath(id: number, path: string, title: string): Promise<ServiceResponse<string>>;

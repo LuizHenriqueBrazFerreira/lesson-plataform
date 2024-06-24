@@ -15,6 +15,7 @@ export interface ILessonsModel {
   createLesson(moduleId: number, title: string, content: string, image: string, link: string): Promise<ILessons>;
   getLessons(): Promise<ILessons[]>;
   getLessonById(id: number): Promise<LessonsSequelize | null>;
+  getLessonsByTitle(title: string): Promise<ILessons | null>;
   getLessonsByModuleId(moduleId: number): Promise<ILessons[]>;
   updateLessonById(id: number, moduleId: number, title: string, content: string, image: string, link: string): Promise<[affectedCount: number]>;
   deleteLessonById(id: number): Promise<number>;

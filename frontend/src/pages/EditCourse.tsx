@@ -9,7 +9,7 @@ import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
 import { LessonPropType, INITIAL_LESSON,
   PdfsType, INITIAL_PDF } from '../types/lessons';
-import { setToken, requestData, requestUpdate, requestDelete }
+import { setToken, requestData, requestUpdate, requestDelete, requestPost }
   from '../services/requests';
 import { Courses, EditModule } from '../types/courseType';
 import {
@@ -17,6 +17,7 @@ import {
   showSuccessMessage, showNoCourseSelectedMessage,
   requestModules, requestLessons, requestPdfs,
 } from '../utils/editCourseHelpers';
+import { verifyLessons, verifyModules, verifyPdfs } from '../utils/verifyInputs';
 
 export default function EditCourse() {
   const [modules, setModules] = useState<EditModule[]>([]);
@@ -137,6 +138,7 @@ export default function EditCourse() {
     const modulesData = await handleModuleEdit(courseId, courseTitle, modules);
     const lessonsData = await handleLessonEdit(lessons);
     const pdfsData = await handlePdfEdit(lessons);
+
     if (courseData && modulesData && lessonsData && pdfsData) {
       showSuccessMessage('Curso atualizado com sucesso');
       setCourseTitle('');

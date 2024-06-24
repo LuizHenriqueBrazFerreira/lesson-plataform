@@ -17,7 +17,9 @@ export default {
         references: {
           model: 'Modules',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       title: {
         allowNull: false,

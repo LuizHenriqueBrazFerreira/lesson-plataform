@@ -17,7 +17,9 @@ export default {
         references: {
           model: 'Lessons',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       path: {
         allowNull: false,

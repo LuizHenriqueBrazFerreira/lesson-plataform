@@ -18,5 +18,6 @@ userRouter.post('/support',  (req: Request, res: Response) => userController.sen
 userRouter.post('/profile',  validateToken, (req: Request, res: Response) => userController.requestProfileData(req, res));
 userRouter.put('/profile',  validateToken, (req: Request, res: Response) => userController.updateProfileData(req, res));
 userRouter.post('/user/give-access',  validateToken, checkAdminRole, (req: Request, res: Response) => userController.giveUserAccessToOneCourse(req, res));
+userRouter.delete('/profile/:id', validateToken, checkAdminRole, (req: Request, res: Response) => userController.requestDeleteUser(req, res));
 
 export default userRouter;

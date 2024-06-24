@@ -1,12 +1,14 @@
 import { ILessonsService } from '../interfaces/ILessons';
 import LessonsModel from '../models/LessonsModel';
 import ModulesModel from '../models/ModulesModel';
-
+import {UpdateTables} from '../utils/updateTables'
 class LessonsService implements ILessonsService {
   private model = new LessonsModel();
   private _moduleModel = new ModulesModel()
 
   async createLesson(moduleTitle: string, title: string, content: string, image: string, link: string) {
+    console.log(moduleTitle)
+    const updateTable = new UpdateTables()
     try {
       const moduleExists = await this._moduleModel.getModuleByTitle(moduleTitle);
 
@@ -16,7 +18,10 @@ class LessonsService implements ILessonsService {
       
       
       const moduleId = moduleExists.id;
+      const courseId = moduleExists.courseId;
       const lesson = await this.model.createLesson(moduleId, title, content, image, link);
+
+      updateTable.updateLessonWatched(lesson.id, moduleId);
 
       return { status: 'SUCCESSFUL', data: lesson };
     }
