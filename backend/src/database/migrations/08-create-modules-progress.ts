@@ -4,12 +4,6 @@ import { ModuleProgressDB } from '../../interfaces/Database'
 export default {
   up(queryInterface:QueryInterface) {
     return queryInterface.createTable<Model<ModuleProgressDB>>('ModulesProgress', {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-
       userId: {
         allowNull: false,
         type: DataTypes.INTEGER,
