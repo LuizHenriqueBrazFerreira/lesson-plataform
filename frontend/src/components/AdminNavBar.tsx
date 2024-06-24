@@ -112,7 +112,7 @@ function AdminNavBar() {
         <IconButton
           variant="text"
           className="h-6 w-6 text-inherit hover:bg-transparent
-          focus:bg-transparent active:bg-transparent lg:hidden"
+          focus:bg-transparent active:bg-transparent md:hidden"
           ripple={ false }
           onClick={ () => setOpenNav(!openNav) }
         >

@@ -41,7 +41,7 @@ function CourseModules() {
 
   return (
     <CoursesBackground heading="Curso" title={ course.title }>
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2">
         {
           modules.map((module, index) => (
             <ModuleCard
@@ -52,7 +52,7 @@ function CourseModules() {
         }
       </div>
       <OrangeButton
-        onClick={ () => navigate('/courses') }
+        onClick={ () => navigate(-1) }
       >
         Voltar
       </OrangeButton>

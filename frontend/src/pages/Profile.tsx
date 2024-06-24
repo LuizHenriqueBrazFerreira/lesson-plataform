@@ -113,17 +113,15 @@ function Profile() {
 
   return (
     <CoursesBackground>
-      <div className="self-start">
-        <h1
-          className="text-2xl lg:text-4xl
+      <h1
+        className="text-2xl md:text-4xl
             text-btn-orange font-bold"
-        >
-          Meu Perfil
-        </h1>
-      </div>
+      >
+        Meu Perfil
+      </h1>
       <div className="flex flex-col justify-evenly grow">
         <img
-          className="w-12 lg:w-20"
+          className="w-12 md:w-20"
           src="/src/assets/profile.png"
           alt="profile icon"
         />

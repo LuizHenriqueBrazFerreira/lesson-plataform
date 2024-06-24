@@ -47,7 +47,7 @@ function ResetPassword() {
     <LoginBackground>
       <FormBackground onSubmit={ handleResetPassword }>
         <h1
-          className="text-xl lg:text-4xl
+          className="text-xl md:text-4xl
           text-btn-orange mb-3 font-semibold"
         >
           Crie uma nova senha

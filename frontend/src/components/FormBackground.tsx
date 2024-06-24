@@ -8,8 +8,8 @@ type Children = {
 function FormBackground({ children, moreClasses = '', ...rest }: Children) {
   return (
     <form
-      className={ `flex flex-col bg-white w-80 lg:w-[36rem] 
-      p-9 lg:p-14 rounded-lg h-[70vh] lg:h-[90%] justify-evenly text-xs lg:text-base
+      className={ `flex flex-col bg-white w-80 md:w-[36rem] 
+      p-9 md:p-14 rounded-md h-[70vh] md:h-[90%] justify-evenly text-xs md:text-base
       ${moreClasses}` }
       { ...rest }
     >

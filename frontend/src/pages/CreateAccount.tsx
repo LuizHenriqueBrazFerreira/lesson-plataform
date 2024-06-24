@@ -115,7 +115,7 @@ function CreateAccount() {
     <LoginBackground>
       <FormBackground onSubmit={ handleRegister }>
         <h1
-          className="text-xl lg:text-4xl text-btn-orange mb-3 font-semibold"
+          className="text-xl md:text-4xl text-btn-orange mb-3 font-semibold"
         >
           Cadastre-se
         </h1>

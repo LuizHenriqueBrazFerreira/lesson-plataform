@@ -27,10 +27,11 @@ export default function EditCourse() {
   const [courseTitle, setCourseTitle] = useState('');
   const [courseId, setCourseId] = useState(0);
   const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token) {
+    if (!token || role !== 'ADMIN') {
       return navigate('/login');
     }
     setToken(token);
@@ -146,11 +147,9 @@ export default function EditCourse() {
 
   return (
     <CoursesBackground>
-      <div className="self-start">
-        <h1 className="text-xl lg:text-4xl text-btn-orange font-bold mb-10">
-          Editar Curso
-        </h1>
-      </div>
+      <h1 className="text-xl md:text-4xl text-btn-orange font-bold mb-10">
+        Editar Curso
+      </h1>
       <form className="flex flex-col gap-4" onSubmit={ handleUpdateCourse }>
         <Select
           size="lg"

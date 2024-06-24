@@ -15,6 +15,12 @@ class UsersController implements IUserController{
   
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  async requestAllUsers(req: Request, res: Response) {
+    const {status, data} = await this.userService.getAllUsers();
+  
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
   
   async requestUserByEmail(req: Request, res: Response) {
     const {email, password} = req.body;
@@ -76,6 +82,14 @@ class UsersController implements IUserController{
     const {oldEmail, email, name, password, country, organization} = req.body;
 
     const {status, data} = await this.userService.updateProfileData(oldEmail, email, name, password, country, organization);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
+  async giveUserAccessToOneCourse(req: Request, res: Response) {
+    const {userId, courseId} = req.body;
+
+    const {status, data} = await this.userService.giveUserAccessToOneCourse(userId, courseId);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }

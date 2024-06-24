@@ -52,3 +52,10 @@ export interface WatchedLessonDB {
   moduleId: number,
   watched: boolean,
 }
+
+export interface ModuleProgressDB {
+  moduleId: number,
+  courseId: number,
+  userId: number,
+  progress: number,
+}

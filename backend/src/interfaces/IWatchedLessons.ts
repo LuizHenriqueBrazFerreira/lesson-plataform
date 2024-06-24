@@ -11,16 +11,19 @@ export interface IWatchedLessons {
 }
 
 export interface IWatchedLessonsModel {
-  findWatchedLessonsByUserIdAndModuleId(userId: number, moduleId:number, watched: boolean): Promise<WatchedLessonSequelize[]>;
+  findWatchedLessonsByUserIdAndModuleId(userId: number, moduleId:number): Promise<WatchedLessonSequelize[]>;
   updateWatchedLesson(userId: number, lessonId: number, watched:boolean): Promise<number>;
+  getWatchedLessonByLessonId(userId: number, lessonId: number): Promise<WatchedLessonSequelize | null>;
 }
 
 export interface IWatchedLessonsService {
-  requestWatchedLessonsByUserIdAndModuleId(userId: number, moduleId:number, watched:boolean): Promise<ServiceResponse<WatchedLessonSequelize[]>>;
+  requestWatchedLessonsByUserIdAndModuleId(userId: number, moduleId:number): Promise<ServiceResponse<WatchedLessonSequelize[]>>;
   updateWatchedLesson(userId: number, lessonId: number, watched:boolean): Promise<any>;
+  getWatchedLessonByLessonId(userId: number, lessonId: number): Promise<ServiceResponse<WatchedLessonSequelize | null>>;
 }
 
 export interface IWatchedLessonsController {
   requestWatchedLessonsByUserIdAndModuleId(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   requestUpdateWatchedLesson(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  requestGetWatchedLessonByLessonId(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
 }

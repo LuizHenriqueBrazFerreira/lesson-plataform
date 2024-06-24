@@ -1,7 +1,8 @@
 import { Input, Select, Option, Textarea } from '@material-tailwind/react';
 import { createEditor, BaseEditor, Descendant } from 'slate';
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TrashButton from './TrashButton';
 import PlusButton from './PlusButton';
 import { INITIAL_PDF, LessonPropType, PdfsType } from '../types/lessons';
@@ -35,6 +36,8 @@ function CreateLesson({
   handleRemoveLesson,
   setLessons,
 }: CreateLessonType) {
+  const navigate = useNavigate();
+
   // const [editor] = useState(() => withReact(createEditor()));
   // const [value, setValue] = useState([
   //   {
@@ -154,7 +157,7 @@ function CreateLesson({
             size="lg"
             type="text"
             label={ `Link do PDF ${i + 1}` }
-            name="link"
+            name="path"
             value={ pdf.path }
             onChange={ (event) => handlePdfsChange(event, index, i) }
           />

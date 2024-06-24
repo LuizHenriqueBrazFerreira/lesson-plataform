@@ -31,7 +31,7 @@ class PdfLessonController implements IPdfLessonController {
   }
 
   async updatePdfByPath(req: Request, res: Response) {
-    const { id, path, title } = req.params;
+    const { id, path, title } = req.body;
 
     const { status, data } = await this.service.updatePdfByPath(Number(id), path, title);
 

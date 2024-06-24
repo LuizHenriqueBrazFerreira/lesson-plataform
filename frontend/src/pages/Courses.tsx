@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CoursesBackground from '../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../services/requests';
-import { UserCourses } from '../types/courseType';
+import { UserCourses, ModulesProgress } from '../types/courseType';
 import CourseCard from '../components/CourseCard';
 
 function StudentCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
   const [hasCourses, setHasCourses] = useState(true);
+  const [modulesProgress, setModulesProgress] = useState<ModulesProgress[]>([]);
 
   const userId = localStorage.getItem('userId');
 
@@ -29,7 +30,7 @@ function StudentCourses() {
         setHasCourses(data.length > 0);
       } catch (error: any) {
         if (error.isAxiosError) {
-          console.error(error.response.data);
+          console.error(error);
         }
       }
     }
@@ -52,15 +53,13 @@ function StudentCourses() {
 
   return (
     <CoursesBackground>
-      <div className="self-start">
-        <h1
-          className="text-xl lg:text-4xl
+      <h1
+        className="text-xl md:text-4xl
            text-btn-orange font-bold"
-        >
-          Meus Cursos
-        </h1>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      >
+        Meus Cursos
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2">
         { hasCourses ? (
           courses.map((course, index) => (
             <CourseCard
@@ -73,7 +72,7 @@ function StudentCourses() {
         )
           : (
             <h2
-              className="text-xl lg:text-4xl font-bold
+              className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
               Você ainda não possui cursos

@@ -1,7 +1,18 @@
+import HomeBackground from '../components/HomeBackground';
+
 function Homepage() {
   return (
-    <main className="w-screen h-screen text-center border-solid border-8">
-      Página inicial
+    <main>
+      <HomeBackground>
+        {' '}
+      </HomeBackground>
+      <section className="flex flex-col py-4 h-screen">
+        <img
+          className="self-center"
+          src="/src/assets/infografico.png"
+          alt="infográfico"
+        />
+      </section>
     </main>
   );
 }

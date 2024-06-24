@@ -9,8 +9,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
 
-    if (!token) {
+    if (!token || role !== 'ADMIN') {
       return navigate('/login');
     }
 
@@ -19,20 +20,13 @@ export default function AdminPage() {
 
   return (
     <CoursesBackground>
-      <div className="self-start">
-        <h1
-          className="text-xl lg:text-4xl
+      <h1
+        className="text-xl md:text-4xl
            text-btn-orange font-bold"
-        >
-          Administrador
-        </h1>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2">
-        <AdminCard
-          heading="Cursos"
-          to="courses"
-          description="Ver todos os cursos"
-        />
+      >
+        Administrador
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2">
         <AdminCard
           heading="Estudantes"
           to="students"

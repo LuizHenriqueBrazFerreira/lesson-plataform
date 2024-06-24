@@ -21,7 +21,6 @@ UserCoursesSequelize.init({
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    autoIncrement: true,
     primaryKey: true,
     field: 'user_id',
   },

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
 import OrangeButton from '../components/OrangeButton';
@@ -7,9 +7,11 @@ import CoursesBackground from '../components/CoursesBackground';
 import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
-import { INITIAL_PDF, LessonPropType, PdfsType, INITIAL_LESSON } from '../types/lessons';
-import { requestDelete, requestPost, setToken } from '../services/requests';
+import { LessonPropType, INITIAL_LESSON } from '../types/lessons';
+import { requestPost, setToken } from '../services/requests';
 import { showSuccessMessage } from '../utils/editCourseHelpers';
+import { handleCreateModule, handleCreateLessons, handleCreatePdf }
+  from '../utils/createCourseHelpers';
 
 function CreateCourse() {
   const [modules, setModules] = useState(['']);
@@ -17,6 +19,17 @@ function CreateCourse() {
   const [courseTitle, setCourseTitle] = useState('');
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+
+    if (!token || role !== 'ADMIN') {
+      return navigate('/login');
+    }
+
+    setToken(token);
+  }, []);
 
   const handleAddModule = () => {
     setModules([...modules, '']);
@@ -62,39 +75,15 @@ function CreateCourse() {
   const handleCreateCourse = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      return navigate('/login');
-    }
-
-    setToken(token);
-
     const courseData = await requestPost('/courses', { title: courseTitle });
 
-    const modulesData = await Promise.all(modules.map(async (module) => {
-      const moduleData = await requestPost(
-        '/modules',
-        { courseTitle, title: module },
-      );
-      return moduleData;
-    }));
+    const modulesData = await handleCreateModule(courseTitle, modules);
 
-    const lessonsData = await Promise.all(lessons.map(async (lesson) => {
-      const lessonData = await requestPost(
-        '/lessons',
-        {
-          moduleTitle: lesson.moduleTitle,
-          title: lesson.title,
-          content: lesson.content,
-          image: lesson.image,
-          link: lesson.link,
-        },
-      );
-      return lessonData;
-    }));
+    const lessonsData = await handleCreateLessons(lessons);
 
-    if (courseData.title && modulesData.length && lessonsData.length) {
+    const pdfData = await handleCreatePdf(lessons);
+
+    if (courseData.title && modulesData.length && lessonsData.length && pdfData.length) {
       showSuccessMessage('Curso criado com sucesso');
 
       setCourseTitle('');
@@ -107,14 +96,12 @@ function CreateCourse() {
 
   return (
     <CoursesBackground>
-      <div className="self-start">
-        <h1
-          className="text-xl lg:text-4xl
+      <h1
+        className="text-xl md:text-4xl
             text-btn-orange font-bold mb-10"
-        >
-          Criar Curso
-        </h1>
-      </div>
+      >
+        Criar Curso
+      </h1>
       <form className="flex flex-col gap-4" onSubmit={ handleCreateCourse }>
         <Input
           crossOrigin={ undefined }

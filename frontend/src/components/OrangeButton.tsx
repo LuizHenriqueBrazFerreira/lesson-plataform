@@ -12,9 +12,9 @@ export default function OrangeButton({ children,
   return (
     // @ts-expect-error - material-tailwind @types/react bug
     <Button
-      className={ `w-32 lg:w-60 h-6 lg:h-12 bg-btn-orange
-    self-center my-3 rounded-md font-semibold 
-    flex items-center justify-center ${moreClasses}` }
+      className={ `w-32 md:w-60 h-6 md:h-12 bg-btn-orange
+    self-center my-3 md:rounded-md font-semibold text-xs 
+    md:text-base flex items-center justify-center ${moreClasses}` }
       loading={ isLoading }
       { ...rest }
     >

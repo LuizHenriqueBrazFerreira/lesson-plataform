@@ -97,7 +97,7 @@ function Login() {
   return (
     <LoginBackground>
       <FormBackground onSubmit={ handleLogin }>
-        <h1 className="text-xl lg:text-4xl text-btn-orange font-semibold">Entrar</h1>
+        <h1 className="text-xl md:text-4xl text-btn-orange font-semibold">Entrar</h1>
         <Input
           crossOrigin={ undefined }
           value={ email }
