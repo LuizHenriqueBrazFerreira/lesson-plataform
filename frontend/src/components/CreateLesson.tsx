@@ -36,7 +36,7 @@ function CreateLesson({
   handleRemoveLesson,
   setLessons,
 }: CreateLessonType) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // const [editor] = useState(() => withReact(createEditor()));
   // const [value, setValue] = useState([
@@ -46,10 +46,10 @@ function CreateLesson({
   //   },
   // ]);
 
-  const handleAddPdf = (i: number) => {
+  const handleAddPdf = () => {
     setLessons((prevLessons) => {
       const newLessons = [...prevLessons];
-      newLessons[i].pdfs.push(INITIAL_PDF);
+      newLessons[index].pdfs.push(INITIAL_PDF);
       return newLessons;
     });
   };
@@ -163,7 +163,7 @@ function CreateLesson({
           />
         </div>
       ))}
-      <PlusButton onClick={ () => handleAddPdf(index) }>
+      <PlusButton onClick={ handleAddPdf }>
         Adicionar PDF
       </PlusButton>
     </div>

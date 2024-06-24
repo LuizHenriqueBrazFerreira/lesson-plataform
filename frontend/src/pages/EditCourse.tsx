@@ -81,7 +81,7 @@ export default function EditCourse() {
   };
 
   const handleAddLesson = () => {
-    setLessons([...lessons, INITIAL_LESSON]);
+    setLessons((prevLessons) => [...prevLessons, INITIAL_LESSON]);
   };
 
   const handleRemoveModule = async (index: number) => {
