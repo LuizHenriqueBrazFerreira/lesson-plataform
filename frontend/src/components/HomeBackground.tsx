@@ -4,12 +4,12 @@ type Children = {
 
 function HomeBackground({ children }: Children) {
   return (
-    <div
+    <section
       className="bg-image-login bg-cover h-[90vh]
       font-['Nunito'] flex justify-center items-center"
     >
       { children }
-    </div>
+    </section>
   );
 }
 

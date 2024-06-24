@@ -52,15 +52,13 @@ function BookmarkedCourses() {
 
   return (
     <CoursesBackground>
-      <div className="self-start">
-        <h1
-          className="text-xl lg:text-4xl
+      <h1
+        className="text-xl md:text-4xl
            text-btn-orange font-bold"
-        >
-          Cursos Salvos
-        </h1>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 min-w-fit">
+      >
+        Cursos Salvos
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 min-w-fit">
         { hasCourses ? (
           courses.map((course, index) => (
             course.bookmarked ? (
@@ -75,7 +73,7 @@ function BookmarkedCourses() {
         )
           : (
             <h2
-              className="text-xl lg:text-4xl font-bold
+              className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
               Você não possui cursos salvos

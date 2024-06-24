@@ -7,7 +7,8 @@ import pdfLessonRouter from './PdfLesson.routes'
 import watchedLessonsRouter from "./WatchedLessons.routes";
 import modulesProgressRouter from './ModulesProgress.routes';
 
-export default {lessonRouter,
+export default {
+  lessonRouter,
   userRouter,
   courseRouter,
   moduleRouter,

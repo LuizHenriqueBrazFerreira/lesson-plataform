@@ -2,7 +2,6 @@ import { DataTypes,
   Model,
   InferAttributes,
   InferCreationAttributes,
-  CreationOptional,
 } from 'sequelize';
 import db from './index';
 import CoursesSequelize from './Courses.model';
@@ -11,7 +10,6 @@ import ModulesSequelize from './Modules.model';
 
 class ModulesProgressSequelize extends Model<InferAttributes<ModulesProgressSequelize>,
 InferCreationAttributes<ModulesProgressSequelize>> {
-  declare id: CreationOptional<number>;
   declare courseId: number;
   declare userId: number;
   declare moduleId: number;
@@ -19,14 +17,9 @@ InferCreationAttributes<ModulesProgressSequelize>> {
 }
 
 ModulesProgressSequelize.init({
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  },
   userId: {
     type: DataTypes.INTEGER,
+    primaryKey: true,
     allowNull: false,
     field: 'user_id',
   },

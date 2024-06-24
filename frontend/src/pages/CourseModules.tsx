@@ -52,7 +52,7 @@ function CourseModules() {
         }
       </div>
       <OrangeButton
-        onClick={ () => navigate('/courses') }
+        onClick={ () => navigate(-1) }
       >
         Voltar
       </OrangeButton>

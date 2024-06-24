@@ -3,6 +3,7 @@ import UsersSequelize from '../models/Users.model';
 import UserCoursesSequelize from '../models/UserCourses.model';
 import PdfLessonSequelize from '../models/LessonPdfs.model';
 import WatchedLessonSequelize from '../models/WatchedLessons';
+import ModulesProgressSequelize from '../models/ModulesProgress';
 import { createEmailToken } from '../../utils/jwt';
 import bcrypt from 'bcryptjs'
 
@@ -40,9 +41,9 @@ export default {
     
     // Inserir lições
 await queryInterface.bulkInsert('Lessons', [
-  { title: 'Lição 1', module_id: 1, content: 'Conteúdo da lição 1', image: 'url_da_imagem_1', link: 'url_do_link_1' },
-  { title: 'Lição 2', module_id: 1, content: 'Conteúdo da lição 2', image: 'url_da_imagem_2', link: 'url_do_link_2' },
-  { title: 'Lição 1', module_id: 2, content: 'Conteúdo da lição 3', image: 'url_da_imagem_3', link: 'url_do_link_3' },
+  { title: 'Lição 1', module_id: 1, content: 'Conteúdo da lição 1', image: 'url_da_imagem_1', link: 'https://www.youtube.com/embed/3iQu3E59yqM?si=jGd4wzZGOy8-Xbk0' },
+  { title: 'Lição 2', module_id: 1, content: 'Conteúdo da lição 2', image: 'url_da_imagem_2', link: 'https://www.youtube.com/embed/sTlzjFABmoA?si=MRdkRhVFcxQo6944' },
+  { title: 'Lição 1', module_id: 2, content: 'Conteúdo da lição 3', image: 'url_da_imagem_3', link: 'https://www.youtube.com/embed/niRLEyu4qpg?si=i8OBpC73SuX2CSR5' },
   { title: 'Lição 2', module_id: 2, content: 'Conteúdo da lição 4', image: 'url_da_imagem_4', link: 'url_do_link_4' },
   { title: 'Lição 1', module_id: 3, content: 'Conteúdo da lição 5', image: 'url_da_imagem_5', link: 'url_do_link_5' },
   { title: 'Lição 2', module_id: 3, content: 'Conteúdo da lição 6', image: 'url_da_imagem_6', link: 'url_do_link_6' },
@@ -114,6 +115,17 @@ await WatchedLessonSequelize.bulkCreate([
   { lessonId: 12, userId: user2.id, moduleId: 1 ,watched: false },
 ]);
 
+await ModulesProgressSequelize.bulkCreate([
+  { userId: user1.id, courseId: 1 , moduleId: 1, progress: 0 },
+  { userId: user1.id, courseId: 1 , moduleId: 2, progress: 0 },
+  { userId: user1.id, courseId: 1 , moduleId: 3, progress: 0 },
+  { userId: user2.id, courseId: 1 , moduleId: 1, progress: 0 },
+  { userId: user2.id, courseId: 1 , moduleId: 2, progress: 0 },
+  { userId: user2.id, courseId: 1 , moduleId: 3, progress: 0 },
+  { userId: user1.id, courseId: 2 , moduleId: 4, progress: 0 },
+  { userId: user1.id, courseId: 2 , moduleId: 5, progress: 0 },
+  { userId: user1.id, courseId: 2 , moduleId: 6, progress: 0 },
+]);
   },
   down: async (queryInterface: QueryInterface) => {
     // Deletar todos os dados
@@ -124,6 +136,7 @@ await WatchedLessonSequelize.bulkCreate([
     await queryInterface.bulkDelete('Users', {});
     await queryInterface.bulkDelete('LessonPdfs', {});
     await queryInterface.bulkDelete('WatchedLessons', {});
+    await queryInterface.bulkDelete('ModulesProgress', {});
   },
 };
 

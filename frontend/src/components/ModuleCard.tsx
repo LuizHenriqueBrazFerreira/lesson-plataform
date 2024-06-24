@@ -63,7 +63,7 @@ function ModuleCard({ module }: ModuleCardProps) {
       }
     }
     updateProgress();
-  }, [lessonsWatched, totalLessons]);
+  }, [lessonsWatched, totalLessons, progress, module.id, userId]);
 
   return (
     <Card

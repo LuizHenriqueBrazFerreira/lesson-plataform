@@ -73,20 +73,18 @@ function Students() {
 
   return (
     <CoursesBackground>
-      <div className="self-start">
-        <h1
-          className="text-xl lg:text-4xl
+      <h1
+        className="text-xl md:text-4xl
             text-btn-orange font-bold mb-10"
-        >
-          Administrar Estudantes
-        </h1>
-      </div>
+      >
+        Administrar Estudantes
+      </h1>
       {students.length ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-3">
           {students.map((student: UserType, index) => (
             <div
               key={ student.id }
-              className="flex flex-col gap-4 w-96 p-4 bg-white rounded-lg shadow-md"
+              className="flex flex-col gap-4 md:w-96 p-4 bg-white rounded-lg shadow-md"
             >
               <Input
                 crossOrigin={ undefined }
@@ -162,7 +160,7 @@ function Students() {
           ))}
         </div>
       ) : (
-        <h2 className="text-center text-xl lg:text-2xl text-btn-orange font-bold">
+        <h2 className="text-center text-xl md:text-2xl text-btn-orange font-bold">
           Nenhum estudante encontrado
         </h2>
       )}

@@ -15,13 +15,13 @@ function Footer() {
   };
 
   return (
-    <footer className="w-full bg-white px-5 py-6 lg:px-14">
+    <footer className="w-full bg-white px-5 py-6 md:px-14">
       <div
         className="flex md:flex-row flex- items-center justify-center
       gap-y-6 gap-x-12 bg-white md:justify-between"
       >
         <img
-          className="w-28 lg:w-80"
+          className="w-28 md:w-80"
           src="/src/assets/baudouin.png"
           alt="King Baudouin Foundation's Logo"
         />

@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Button } from '@material-tailwind/react';
 import NavBar from './NavBar';
 import AdminNavBar from './AdminNavBar';
-// import AdminBar from './AdminBar';
 
 function Header() {
   const { pathname } = useLocation();
@@ -13,32 +13,34 @@ function Header() {
 
   return (
     <header
-      className="max-h-[6rem] lg:max-h-[8rem]
-    px-5 py-6 lg:px-14 flex justify-between font-['Nunito']"
+      className="max-h-[6rem] md:max-h-[8rem]
+    px-5 py-6 md:px-14 flex justify-between font-['Nunito']"
     >
       <button onClick={ () => navigate('/') }>
         <img
           src="/src/assets/logo.png"
           alt="FSMSSS logo"
-          className="w-36 lg:w-full"
+          className="w-36 md:w-full"
         />
       </button>
       { !token && (
         <div className="flex gap-4">
-          <button
+          <Button
             onClick={ () => navigate('/login') }
-            className="bg-btn-orange text-white rounded-md
-            md:w-28 md:h-12 md:text-2xl p-2 font-semibold"
+            className="w-32 h-6 md:h-12 bg-btn-orange
+            my-3 md:rounded-md font-semibold text-xs md:text-base
+            flex items-center justify-center"
           >
             Entrar
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={ () => navigate('/create-account') }
-            className="bg-btn-orange text-white rounded-md
-            md:w-32 md:h-12 md:text-2xl p-2 md:p-0 font-semibold"
+            className="bg-white border-2 border-btn-orange text-btn-orange
+            w-34 h-6 md:h-12 my-3 md:rounded-md font-semibold text-xs
+            md:text-base flex items-center justify-center"
           >
             Cadastrar
-          </button>
+          </Button>
         </div>
       )}
       { role === 'STUDENT' && (<NavBar />)}

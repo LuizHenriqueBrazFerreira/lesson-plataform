@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { requestData, setToken } from '../services/requests';
 import CoursesBackground from '../components/CoursesBackground';
 import { Module, initialModuleState } from '../types/courseType';
@@ -12,11 +12,9 @@ function Lessons() {
   const [module, setModule] = useState<Module>(initialModuleState);
 
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const { moduleId } = useParams();
-
-  const lessonsUrl = `/courses/${module.courseId}
-  /modules/${moduleId}/lessons`;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -47,17 +45,17 @@ function Lessons() {
   return (
     <div>
       <CoursesBackground heading="Módulo" title={ module.title }>
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2">
           {lessons.map((lesson) => (
             <LessonsCard
-              lessonsUrl={ lessonsUrl }
+              lessonsUrl={ pathname }
               key={ lesson.id }
               lesson={ lesson }
             />
           ))}
         </div>
         <OrangeButton
-          onClick={ () => navigate(`/courses/${module.courseId}/modules`) }
+          onClick={ () => navigate(-1) }
         >
           Voltar
         </OrangeButton>

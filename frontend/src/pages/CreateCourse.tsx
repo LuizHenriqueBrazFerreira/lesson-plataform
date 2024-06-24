@@ -96,14 +96,12 @@ function CreateCourse() {
 
   return (
     <CoursesBackground>
-      <div className="self-start">
-        <h1
-          className="text-xl lg:text-4xl
+      <h1
+        className="text-xl md:text-4xl
             text-btn-orange font-bold mb-10"
-        >
-          Criar Curso
-        </h1>
-      </div>
+      >
+        Criar Curso
+      </h1>
       <form className="flex flex-col gap-4" onSubmit={ handleCreateCourse }>
         <Input
           crossOrigin={ undefined }

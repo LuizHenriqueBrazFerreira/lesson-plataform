@@ -11,12 +11,7 @@ export default class ModulesProgressModel implements IModulesProgressModel {
   }
 
   async getModulesProgressByUserIdAndCourseId(userId: number, courseId: number) {
-    return await this._model.findAll({
-      where: {
-        userId,
-        courseId
-      }
-    });
+    return await this._model.findAll({ where: { userId, courseId } });
   }
 
   async updateModuleProgress(userId: number, moduleId: number, progress: number) {
@@ -25,7 +20,7 @@ export default class ModulesProgressModel implements IModulesProgressModel {
       {
         where: {
           userId,
-          moduleId
+          moduleId,
         }
       }
     );

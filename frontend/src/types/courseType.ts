@@ -39,3 +39,10 @@ export type EditModule = {
   id: number;
   title: string;
 };
+
+export type ModulesProgress = {
+  courseId: number;
+  moduleId: number;
+  userId: number;
+  progress: number;
+};

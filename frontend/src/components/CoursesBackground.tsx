@@ -4,9 +4,11 @@ type Children = {
   children: React.ReactNode;
   heading?: string;
   title?: string;
+  moreClasses?: string;
 };
 
-function CoursesBackground({ children, heading = '', title = '' }: Children) {
+function CoursesBackground({ children, heading = '',
+  title = '', moreClasses = '' }: Children) {
   const { pathname } = useLocation();
 
   // Verifica se o pathname contém "/lessons"
@@ -23,7 +25,7 @@ function CoursesBackground({ children, heading = '', title = '' }: Children) {
     >
       {(containsLessons || containsModules) && !conainsPdfs ? (
         <section
-          className="md:w-[81rem] bg-white rounded-2xl mb-8
+          className="md:w-[81rem] w-screen bg-white rounded-2xl mb-8
           flex flex-col px-[2rem] py-[1rem] md:py-[2rem] gap-2 md:gap-6"
         >
           <h1
@@ -38,8 +40,9 @@ function CoursesBackground({ children, heading = '', title = '' }: Children) {
         </section>
       ) : null}
       <section
-        className="md:w-[81rem] bg-white
-        flex flex-col grow px-[2rem] py-[3rem] rounded-2xl"
+        className={ `md:w-[81rem] w-screen bg-white
+        flex flex-col grow px-[2rem] py-[3rem] rounded-2xl 
+        ${moreClasses}` }
       >
         { children }
       </section>

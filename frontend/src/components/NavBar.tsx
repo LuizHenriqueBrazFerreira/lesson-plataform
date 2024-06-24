@@ -92,7 +92,7 @@ function NavBar() {
       className="px-0"
     >
       <div className="flex justify-end text-black">
-        <div className="hidden lg:block">
+        <div className="hidden md:block">
           {navList}
         </div>
         <IconButton

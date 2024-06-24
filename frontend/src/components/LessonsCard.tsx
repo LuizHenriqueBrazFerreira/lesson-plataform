@@ -22,8 +22,6 @@ function LessonsCard({ lesson, lessonsUrl }: LessonsCardProps) {
 
     setToken(token);
 
-    console.log(lesson.id);
-
     async function fetchData() {
       try {
         const data = await requestData(`/watchedLesson/${userId}/${lesson.id}`);
@@ -56,14 +54,14 @@ function LessonsCard({ lesson, lessonsUrl }: LessonsCardProps) {
 
   return (
     <Card
-      className="w-80 lg:w-[37rem] lg:h-[17rem] m-4 select-none
+      className="w-80 md:w-[37rem] md:h-[17rem] m-4 select-none
                 cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
     >
       <CardBody className="flex flex-col">
         <div className="flex justify-between mb-10">
-          <h2 className="text-xl lg:text-2xl font-semibold text-btn-orange">Aula</h2>
-          <div className="flex items-center text-xl font-semibold">
-            Já assisti?
+          <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">Aula</h2>
+          <div className="flex items-center text-xl font-semibold  text-btn-orange">
+            Já estudei
             <Checkbox
               crossOrigin={ undefined }
               color="orange"
@@ -73,9 +71,10 @@ function LessonsCard({ lesson, lessonsUrl }: LessonsCardProps) {
           </div>
         </div>
         <div
-          onClick={ () => navigate(`${lessonsUrl}/${lesson.id}`) }
           aria-hidden="true"
-          className="lg:text-3xl font-semibold"
+          onClick={ () => navigate(`${lessonsUrl}/${lesson.id}`) }
+          className="lg:text-3xl font-semibold text-left
+          grow h-[9rem]"
         >
           {lesson.title}
         </div>
