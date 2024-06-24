@@ -41,8 +41,8 @@ export default {
     
     // Inserir lições
 await queryInterface.bulkInsert('Lessons', [
-  { title: 'Lição 1', module_id: 1, content: 'Conteúdo da lição 1', image: 'url_da_imagem_1', link: 'https://www.youtube.com/embed/3iQu3E59yqM?si=jGd4wzZGOy8-Xbk0' },
-  { title: 'Lição 2', module_id: 1, content: 'Conteúdo da lição 2', image: 'url_da_imagem_2', link: 'https://www.youtube.com/embed/sTlzjFABmoA?si=MRdkRhVFcxQo6944' },
+  { title: 'Lição 1', module_id: 1, content: 'Conteúdo da lição 1', image: 'https://static.todamateria.com.br/upload/pl/an/plano-de-aula-og.jpg', link: 'https://www.youtube.com/embed/3iQu3E59yqM?si=jGd4wzZGOy8-Xbk0' },
+  { title: 'Lição 2', module_id: 1, content: 'Conteúdo da lição 2', image: 'https://blog.wittel.com/wp-content/uploads/2017/06/91098-sala-de-aula-virtual-entenda-o-conceito-para-treinamentos.jpg', link: 'https://www.youtube.com/embed/sTlzjFABmoA?si=MRdkRhVFcxQo6944' },
   { title: 'Lição 1', module_id: 2, content: 'Conteúdo da lição 3', image: 'url_da_imagem_3', link: 'https://www.youtube.com/embed/niRLEyu4qpg?si=i8OBpC73SuX2CSR5' },
   { title: 'Lição 2', module_id: 2, content: 'Conteúdo da lição 4', image: 'url_da_imagem_4', link: 'url_do_link_4' },
   { title: 'Lição 1', module_id: 3, content: 'Conteúdo da lição 5', image: 'url_da_imagem_5', link: 'url_do_link_5' },

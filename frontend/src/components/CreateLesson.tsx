@@ -46,7 +46,7 @@ function CreateLesson({
   //   },
   // ]);
 
- const handleAddPdf = (i: number) => {
+  const handleAddPdf = (i: number) => {
     setLessons((prevLessons) => {
       // const newLessons = [...prevLessons];
       // newLessons[i].pdfs.push({ ...INITIAL_PDF });
@@ -63,13 +63,23 @@ function CreateLesson({
     });
   };
 
-  const handleRemovePdf = (lessonIndex: number, pdfIndex: number) => {
-    setLessons((prevLessons) => {
-      const newLessons = [...prevLessons];
-      requestDelete(`/pdfs/${newLessons[lessonIndex].pdfs[pdfIndex].id}`);
-      newLessons[lessonIndex].pdfs.splice(pdfIndex, 1);
-      return newLessons;
-    });
+  const handleRemovePdf = async (lessonIndex: number, pdfIndex: number) => {
+    try {
+      let id;
+      setLessons((prevLessons) => {
+        const newLessons = [...prevLessons];
+        id = newLessons[lessonIndex].pdfs[pdfIndex].id;
+        newLessons[lessonIndex].pdfs.splice(pdfIndex, 1);
+        return newLessons;
+      });
+      await requestDelete(
+        `/pdfs/${id}`,
+      );
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+      }
+    }
   };
 
   const handlePdfsChange = (event: any, lessonIndex: number, pdfIndex: number) => {
@@ -172,7 +182,7 @@ function CreateLesson({
           />
         </div>
       ))}
-      <PlusButton onClick={ handleAddPdf }>
+      <PlusButton onClick={ () => handleAddPdf(index) }>
         Adicionar PDF
       </PlusButton>
     </div>
