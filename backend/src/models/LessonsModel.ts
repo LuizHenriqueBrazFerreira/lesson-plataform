@@ -23,6 +23,12 @@ class LessonsModel implements ILessonsModel {
     return lesson;
   }
 
+  async getLessonsByTitle(title: string) {
+    const lesson = await this.model.findOne({ where: { title } });
+
+    return lesson;
+  }
+
   async getLessonsByModuleId(moduleId: number) {
     const lesson = await this.model.findAll({ where: { moduleId } });
 

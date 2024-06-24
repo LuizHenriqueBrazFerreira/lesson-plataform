@@ -12,6 +12,7 @@ import EyeButton from '../components/EyeButton';
 function Students() {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
+  const [oldEmail, setOldEmail] = useState<string[]>([]);
   const [students, setStudents] = useState<UserType[]>([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
@@ -34,6 +35,8 @@ function Students() {
             isDisabled: true,
           };
         });
+        const studentsOldEmail = data.map((student: UserType) => student.email);
+        setOldEmail(studentsOldEmail);
         setStudents(newStudents);
       } catch (error: any) {
         if (error.isAxiosError) {
@@ -69,6 +72,33 @@ function Students() {
       };
       return newStudents;
     });
+  };
+
+  const handleUpdateProfile = async (index:number) => {
+    const student = students[index];
+    const oldEmailStudent = oldEmail[index];
+
+    const data = { oldEmail: oldEmailStudent, ...student };
+
+    try {
+      await requestUpdate('/profile', data);
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleDeleteStudent = async (index:number) => {
+    const student = students[index];
+
+    try {
+      await requestDelete(`/profile/${student.id}`);
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -148,11 +178,11 @@ function Students() {
                     Editar
                   </OrangeButton>
                 ) : (
-                  <OrangeButton>
+                  <OrangeButton onClick={ () => handleUpdateProfile(index) }>
                     Salvar
                   </OrangeButton>
                 )}
-                <WhiteButton>
+                <WhiteButton onClick={ () => handleDeleteStudent(index) }>
                   Excluir
                 </WhiteButton>
               </div>

@@ -4,6 +4,12 @@ import { ModuleProgressDB } from '../../interfaces/Database'
 export default {
   up(queryInterface:QueryInterface) {
     return queryInterface.createTable<Model<ModuleProgressDB>>('ModulesProgress', {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+
       userId: {
         allowNull: false,
         type: DataTypes.INTEGER,
@@ -11,7 +17,9 @@ export default {
         references: {
           model: 'Users',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       moduleId: {
         allowNull: false,
@@ -20,7 +28,9 @@ export default {
         references: {
           model: 'Modules',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       courseId: {
         allowNull: false,
@@ -29,7 +39,9 @@ export default {
         references: {
           model: 'Courses',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       progress: {
         allowNull:false,

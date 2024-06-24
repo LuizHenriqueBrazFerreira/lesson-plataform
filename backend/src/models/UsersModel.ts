@@ -34,6 +34,12 @@ class UsersModel implements IUserModel {
 
     return user;
   }
+
+  async deleteUser(id: number) {
+    const user = await this.model.destroy({ where: { id } });
+
+    return user;
+  }
 }
 
 export default UsersModel;

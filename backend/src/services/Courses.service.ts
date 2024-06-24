@@ -1,12 +1,15 @@
 import { ICoursesService } from '../interfaces/ICourses';
 import CoursesModel from '../models/CoursesModel';
+import {UpdateTables} from '../utils/updateTables'
 
 class CoursesService implements ICoursesService {
   private coursesModel = new CoursesModel();
 
   async createCourse(title: string) {
+    const updateTable = new UpdateTables()
     try {
       const course = await this.coursesModel.createCourse(title);
+      updateTable.updateUserCourses(course.id);
 
       return { status: 'CREATED', data: course}
     } catch (error) {

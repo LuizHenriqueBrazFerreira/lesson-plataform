@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import mapStatusHTTP from "../utils/mapHttp";
 import UsersService from '../services/User.service';
 import { IUserController } from '../interfaces/IUsers';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
 
 class UsersController implements IUserController{
   private userService = new UsersService()
@@ -90,6 +92,16 @@ class UsersController implements IUserController{
     const {userId, courseId} = req.body;
 
     const {status, data} = await this.userService.giveUserAccessToOneCourse(userId, courseId);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
+  async requestDeleteUser(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>) {
+    const {id} = req.params;
+
+    if(Number(id) === 1) return res.status(400).json({message: 'You cannot delete the admin user'});
+
+    const {status, data} = await this.userService.requestDeleteUser(Number(id));
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
