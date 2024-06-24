@@ -1,12 +1,14 @@
 import { IModulesService } from '../interfaces/IModules';
 import CoursesModel from '../models/CoursesModel';
 import ModulesModel from '../models/ModulesModel';
+import {UpdateTables} from '../utils/updateTables'
+
 
 class ModulesService implements IModulesService {
   private modulesModel = new ModulesModel();
   private _coursesModel = new CoursesModel()
-
   async createModule(courseTitle: string, title: string) {
+    const updateTable = new UpdateTables()
     try {
       const courseExists = await this._coursesModel.getCourseByTitle(courseTitle);
 
@@ -16,6 +18,7 @@ class ModulesService implements IModulesService {
       
       const courseId = courseExists.id;
       const module = await this.modulesModel.createModule(courseId, title);
+      updateTable.updateModuleProgress(module.id, courseId);
 
       return { status: 'CREATED', data: module}
     } catch (error) {

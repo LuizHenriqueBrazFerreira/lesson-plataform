@@ -22,8 +22,6 @@ class LessonsService implements ILessonsService {
       const lesson = await this.model.createLesson(moduleId, title, content, image, link);
 
       updateTable.updateLessonWatched(lesson.id, moduleId);
-      updateTable.updateModuleProgress(moduleId, courseId);
-      updateTable.updateUserCourses(courseId);
 
       return { status: 'SUCCESSFUL', data: lesson };
     }
