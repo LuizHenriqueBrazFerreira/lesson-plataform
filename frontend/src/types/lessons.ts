@@ -42,6 +42,13 @@ export type LessonPropType = {
   pdfs: PdfsType[]
 };
 
+export const INITIAL_PDF = {
+  id: 0,
+  lessonId: 0,
+  path: '',
+  title: '',
+};
+
 export const INITIAL_LESSON = {
   id: 0,
   moduleTitle: '',
@@ -49,12 +56,5 @@ export const INITIAL_LESSON = {
   content: '',
   image: '',
   link: '',
-  pdfs: [],
-};
-
-export const INITIAL_PDF = {
-  id: 0,
-  lessonId: 0,
-  path: '',
-  title: '',
+  pdfs: [INITIAL_PDF],
 };

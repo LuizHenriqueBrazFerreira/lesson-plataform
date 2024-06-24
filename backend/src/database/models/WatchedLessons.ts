@@ -11,7 +11,6 @@ import ModulesSequelize from './Modules.model';
 
 class WatchedLessonSequelize extends Model<InferAttributes<WatchedLessonSequelize>,
 InferCreationAttributes<WatchedLessonSequelize>> {
-  declare id: CreationOptional<number>;
   declare lessonId: number;
   declare userId: number;
   declare moduleId: number;
@@ -19,12 +18,6 @@ InferCreationAttributes<WatchedLessonSequelize>> {
 }
 
 WatchedLessonSequelize.init({
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
-  },
   lessonId: {
     type: DataTypes.INTEGER,
     allowNull: false,
