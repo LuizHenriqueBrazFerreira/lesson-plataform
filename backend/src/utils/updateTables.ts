@@ -29,7 +29,7 @@ export class UpdateTables {
       const users = await this._userModel.getAllUsers();
       const usersIds = users.map((user) => user.id);
       await Promise.all(usersIds.map(async (id:any) => {
-        await this._moduleProgress.createModuleProgress(id, moduleId, courseId);
+        await this._moduleProgress.createModuleProgress(id, courseId, moduleId);
       }));
     } catch (error) {
       console.error(error);
