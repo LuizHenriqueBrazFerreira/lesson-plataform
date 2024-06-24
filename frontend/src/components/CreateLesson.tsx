@@ -46,11 +46,20 @@ function CreateLesson({
   //   },
   // ]);
 
-  const handleAddPdf = () => {
+ const handleAddPdf = (i: number) => {
     setLessons((prevLessons) => {
-      const newLessons = [...prevLessons];
-      newLessons[index].pdfs.push(INITIAL_PDF);
-      return newLessons;
+      // const newLessons = [...prevLessons];
+      // newLessons[i].pdfs.push({ ...INITIAL_PDF });
+      // return newLessons;
+      return prevLessons.map((lessonList, indexLesson) => {
+        if (indexLesson === i) {
+          return {
+            ...lessonList,
+            pdfs: [...lessonList.pdfs, { ...INITIAL_PDF }],
+          };
+        }
+        return lesson;
+      });
     });
   };
 
@@ -138,7 +147,7 @@ function CreateLesson({
         onChange={ (event) => handleLessonsChange(event, index) }
       />
       {lesson.pdfs.length > 0 && lesson.pdfs.map((pdf, i) => (
-        <div key={ i } className="flex flex-col gap-4">
+        <div key={ pdf.id } className="flex flex-col gap-4">
           <Input
             crossOrigin={ undefined }
             size="lg"
