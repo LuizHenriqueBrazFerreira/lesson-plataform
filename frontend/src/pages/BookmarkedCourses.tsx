@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CoursesBackground from '../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../services/requests';
 import { UserCourses } from '../types/courseType';

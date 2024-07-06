@@ -11,7 +11,6 @@ import Homepage from './pages/Homepage';
 import AdminPage from './pages/AdminPage';
 import CourseModules from './pages/CourseModules';
 import Lessons from './pages/Lessons';
-import RootProvider from './context';
 import BookmarkedCourses from './pages/BookmarkedCourses';
 import Profile from './pages/Profile';
 import LessonPage from './pages/LessonPage';
@@ -25,40 +24,38 @@ import './App.css';
 function App() {
   return (
     <div>
-      <RootProvider>
-        <Header />
-        <Routes>
-          <Route path="/" element={ <Homepage /> } />
-          <Route path="/login" element={ <Login /> } />
-          <Route path="/create-account" element={ <CreateAccount /> } />
-          <Route path="/courses" element={ <StudentCourses /> } />
-          <Route path="/bookmarked" element={ <BookmarkedCourses /> } />
-          <Route path="/courses/:courseId/modules" element={ <CourseModules /> } />
-          <Route
-            path="/courses/:courseId/modules/:moduleId/lessons"
-            element={ <Lessons /> }
-          />
-          <Route
-            path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
-            element={ <LessonPage /> }
-          />
-          <Route path="/profile" element={ <Profile /> } />
-          <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
-          <Route path="/reset-password/:token" element={ <ForgotPassword /> } />
-          <Route path="/admin" element={ <AdminPage /> } />
-          <Route path="/admin/create" element={ <CreateCourse /> } />
-          <Route path="/admin/edit" element={ <EditCourse /> } />
-          <Route path="/admin/students" element={ <Students /> } />
-          <Route path="/admin/courses" element="Cursos" />
-          <Route path="/support" element={ <SupportPage /> } />
-          <Route
-            path="/courses/:courseId/modules/:moduleId/lessons/:lessonId/pdfs"
-            element={ <PdfPage /> }
-          />
-          <Route path="*" element={ <NotFound /> } />
-        </Routes>
-        <Footer />
-      </RootProvider>
+      <Header />
+      <Routes>
+        <Route path="/" element={ <Homepage /> } />
+        <Route path="/login" element={ <Login /> } />
+        <Route path="/create-account" element={ <CreateAccount /> } />
+        <Route path="/courses" element={ <StudentCourses /> } />
+        <Route path="/bookmarked" element={ <BookmarkedCourses /> } />
+        <Route path="/courses/:courseId/modules" element={ <CourseModules /> } />
+        <Route
+          path="/courses/:courseId/modules/:moduleId/lessons"
+          element={ <Lessons /> }
+        />
+        <Route
+          path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
+          element={ <LessonPage /> }
+        />
+        <Route path="/profile" element={ <Profile /> } />
+        <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
+        <Route path="/reset-password/:token" element={ <ForgotPassword /> } />
+        <Route path="/admin" element={ <AdminPage /> } />
+        <Route path="/admin/create" element={ <CreateCourse /> } />
+        <Route path="/admin/edit" element={ <EditCourse /> } />
+        <Route path="/admin/students" element={ <Students /> } />
+        <Route path="/admin/courses" element="Cursos" />
+        <Route path="/support" element={ <SupportPage /> } />
+        <Route
+          path="/courses/:courseId/modules/:moduleId/lessons/:lessonId/pdfs"
+          element={ <PdfPage /> }
+        />
+        <Route path="*" element={ <NotFound /> } />
+      </Routes>
+      <Footer />
     </div>
   );
 }

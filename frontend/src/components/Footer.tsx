@@ -91,9 +91,7 @@ function Footer() {
       <Typography color="blue-gray" className="text-center font-normal">
         &copy;
         {' '}
-        { new Date().getFullYear() }
-        {' '}
-        King Baudouin Foundation
+        {`${new Date().getFullYear()} - King Baudouin Foundation`}
       </Typography>
     </footer>
   );

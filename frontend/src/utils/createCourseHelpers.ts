@@ -1,6 +1,5 @@
-import { requestData, requestPost, requestUpdate } from '../services/requests';
-import { EditModule, Module } from '../types/courseType';
-import { LessonPropType, LessonsType, PdfsType } from '../types/lessons';
+import { requestPost } from '../services/requests';
+import { LessonPropType } from '../types/lessons';
 
 export const handleCreateModule = async (
   courseTitle: string,

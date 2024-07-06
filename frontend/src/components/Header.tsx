@@ -1,10 +1,9 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
-import NavBar from './NavBar';
 import AdminNavBar from './AdminNavBar';
+import NavBar from './NavBar';
 
 function Header() {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');

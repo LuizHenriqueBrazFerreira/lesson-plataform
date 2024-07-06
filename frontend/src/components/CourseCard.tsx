@@ -1,8 +1,8 @@
-import { Card, CardBody, Progress, Typography } from '@material-tailwind/react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BookmarkIcon as BookmarkSolid } from '@heroicons/react/24/solid';
 import { BookmarkIcon } from '@heroicons/react/24/outline';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Card, CardBody, Progress, Typography } from '@material-tailwind/react';
 import { ModulesProgress, UserCourses } from '../types/courseType';
 import { requestData, requestUpdate } from '../services/requests';
 
@@ -18,14 +18,12 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchProgress() {
       try {
         const data = await requestData(
           `/modulesProgress/${course.userId}/${course.courseId}`,
         );
         setModulesProgress(data);
-        console.log(data);
-        console.log(course.courseId);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error);
@@ -33,8 +31,8 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
       }
     }
 
-    fetchData();
-  }, []);
+    fetchProgress();
+  }, [course.userId, course.courseId]);
 
   useEffect(() => {
     let courseP = 0;
@@ -97,8 +95,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
               value={ courseProgress }
             />
             <Typography className="font-semibold">
-              { courseProgress }
-              %
+              { `${courseProgress}%`}
             </Typography>
           </div>
         </div>

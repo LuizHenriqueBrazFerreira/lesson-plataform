@@ -28,9 +28,9 @@ export default function AdminPage() {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2">
         <AdminCard
-          heading="Estudantes"
+          heading="Gerenciar Usuários"
           to="students"
-          description="Ver todas as pessoas estudantes"
+          description="Ver todas as pessoas cadastradas no sistema"
         />
         <AdminCard
           heading="Criar Curso"

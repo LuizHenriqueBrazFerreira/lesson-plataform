@@ -1,12 +1,13 @@
 import { useState, useEffect, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
+import Swal from 'sweetalert2';
+import { UserType } from '../types/userTypes';
+import { requestData, requestUpdate,
+  requestDelete, setToken } from '../services/requests';
 import OrangeButton from '../components/OrangeButton';
 import WhiteButton from '../components/WhiteButton';
 import CoursesBackground from '../components/CoursesBackground';
-import { requestData, requestUpdate,
-  requestDelete, setToken } from '../services/requests';
-import { UserType } from '../types/userTypes';
 import EyeButton from '../components/EyeButton';
 
 function Students() {
@@ -82,6 +83,13 @@ function Students() {
 
     try {
       await requestUpdate('/profile', data);
+      handleIsDisabled(students[index], index);
+      Swal.fire({
+        icon: 'success',
+        title: 'Usuário atualizado com sucesso',
+        showConfirmButton: true,
+        confirmButtonColor: '#e06915',
+      });
     } catch (error: any) {
       if (error.isAxiosError) {
         console.error(error);
@@ -93,6 +101,20 @@ function Students() {
     const student = students[index];
 
     try {
+      if (index === 0) {
+        return await Swal.fire({
+          icon: 'error',
+          title: 'Não é possível excluir o ADMIN',
+          showConfirmButton: true,
+          confirmButtonColor: '#e06915',
+        });
+      }
+
+      setStudents((prevStudents) => {
+        const newStudents = [...prevStudents];
+        newStudents.splice(index, 1);
+        return newStudents;
+      });
       await requestDelete(`/profile/${student.id}`);
     } catch (error: any) {
       if (error.isAxiosError) {
@@ -105,17 +127,26 @@ function Students() {
     <CoursesBackground>
       <h1
         className="text-xl md:text-4xl
-            text-btn-orange font-bold mb-10"
+      text-btn-orange font-bold mb-10"
       >
-        Administrar Estudantes
+        Administrar Usuários
       </h1>
       {students.length ? (
-        <div className="grid grid-cols-1 md:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {students.map((student: UserType, index) => (
             <div
               key={ student.id }
               className="flex flex-col gap-4 md:w-96 p-4 bg-white rounded-lg shadow-md"
             >
+              {index === 0 ? (
+                <h2 className="text-center text-xl md:text-2xl text-btn-orange font-bold">
+                  Administrador
+                </h2>
+              ) : (
+                <h2 className="text-center text-xl md:text-2xl text-btn-orange font-bold">
+                  Estudante
+                </h2>
+              )}
               <Input
                 crossOrigin={ undefined }
                 size="lg"
@@ -191,7 +222,7 @@ function Students() {
         </div>
       ) : (
         <h2 className="text-center text-xl md:text-2xl text-btn-orange font-bold">
-          Nenhum estudante encontrado
+          Nenhum usuário encontrado
         </h2>
       )}
     </CoursesBackground>

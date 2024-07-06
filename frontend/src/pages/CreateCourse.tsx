@@ -1,17 +1,17 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
+import { LessonPropType, INITIAL_LESSON } from '../types/lessons';
+import { requestPost, setToken } from '../services/requests';
+import { showSuccessMessage } from '../utils/editCourseHelpers';
+import { handleCreateModule, handleCreateLessons, handleCreatePdf }
+  from '../utils/createCourseHelpers';
 import OrangeButton from '../components/OrangeButton';
 import WhiteButton from '../components/WhiteButton';
 import CoursesBackground from '../components/CoursesBackground';
 import TrashButton from '../components/TrashButton';
 import PlusButton from '../components/PlusButton';
 import CreateLesson from '../components/CreateLesson';
-import { LessonPropType, INITIAL_LESSON } from '../types/lessons';
-import { requestPost, setToken } from '../services/requests';
-import { showSuccessMessage } from '../utils/editCourseHelpers';
-import { handleCreateModule, handleCreateLessons, handleCreatePdf }
-  from '../utils/createCourseHelpers';
 
 function CreateCourse() {
   const [modules, setModules] = useState(['']);
