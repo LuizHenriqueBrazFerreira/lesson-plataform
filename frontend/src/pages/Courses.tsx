@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CoursesBackground from '../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../services/requests';
-import { UserCourses, ModulesProgress } from '../types/courseType';
+import { UserCourses } from '../types/courseType';
 import CourseCard from '../components/CourseCard';
 
 function StudentCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
   const [hasCourses, setHasCourses] = useState(true);
-  const [modulesProgress, setModulesProgress] = useState<ModulesProgress[]>([]);
 
   const userId = localStorage.getItem('userId');
 
@@ -53,10 +52,7 @@ function StudentCourses() {
 
   return (
     <CoursesBackground>
-      <h1
-        className="text-xl md:text-4xl
-           text-btn-orange font-bold"
-      >
+      <h1 className="text-xl md:text-4xl text-btn-orange font-bold">
         Meus Cursos
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2">

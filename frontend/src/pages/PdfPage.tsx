@@ -40,6 +40,9 @@ function PdfPage() {
   return (
     <div>
       <CoursesBackground>
+        <h1 className="text-xl md:text-4xl text-btn-orange font-bold mb-10">
+          Arquivos PDF
+        </h1>
         {pdfs.length > 0 ? (
           <div className="flex flex-col flex-wrap gap-4 text-xl grow">
             {pdfs.map((pdf) => (

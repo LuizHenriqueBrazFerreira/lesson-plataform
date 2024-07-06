@@ -57,7 +57,7 @@ function LessonPage() {
           </h1>
           <PdfBar path={ pathname } />
         </div>
-        <p className="text-lg md:text-2xl">
+        <p className="text-lg md:text-xl text-justify">
           {lesson.content}
         </p>
         { lesson.image && (

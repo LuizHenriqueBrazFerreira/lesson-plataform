@@ -8,8 +8,6 @@ import {
 } from '@material-tailwind/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
-const frontURL = import.meta.env.VITE_REACT_FRONT_URL;
-
 const navList = (
   <ul
     className="mt-2 p-4 lg:p-0 bg-white border-2 lg:border-none
@@ -22,7 +20,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}/admin` }
+        href="/admin"
         className="flex items-center justify-center
        hover:text-blue-500 transition-colors"
       >
@@ -36,7 +34,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}/admin/create` }
+        href="/admin/create"
         className="flex items-center justify-center
        hover:text-blue-500 transition-colors"
       >
@@ -50,7 +48,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}/admin/edit` }
+        href="/admin/edit"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
         Editar Cursos
@@ -63,10 +61,10 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}/admin/students` }
+        href="/admin/students"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
-        Estudantes
+        Gerenciar Usuários
       </a>
     </Typography>
     <Typography
@@ -76,7 +74,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}` }
+        href="/"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
         onClick={ () => localStorage.clear() }
       >

@@ -8,16 +8,14 @@ type ButtonProps = {
 
 function EyeButton({ showEye = false, showPassword = false, ...rest }: ButtonProps) {
   return (
-    <Button
-      { ...rest }
-    >
-      {showEye ? (
+    <Button { ...rest }>
+      {showEye && (
         <img
           className="opacity-40"
-          src={ showPassword ? '/src/assets/eye.svg' : '/src/assets/eye-slash.svg' }
+          src={ `/src/assets/${showPassword ? 'eye' : 'eye-slash'}.svg` }
           alt="show password"
         />
-      ) : ''}
+      )}
     </Button>
   );
 }

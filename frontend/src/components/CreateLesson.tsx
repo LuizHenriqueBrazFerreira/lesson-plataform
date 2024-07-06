@@ -1,26 +1,13 @@
-import { Input, Select, Option, Textarea } from '@material-tailwind/react';
-import { createEditor, BaseEditor, Descendant } from 'slate';
-import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Input, Select, Option } from '@material-tailwind/react';
+import { INITIAL_PDF, LessonPropType } from '../types/lessons';
+import { requestDelete } from '../services/requests';
+import EditorConvertToHTML from './TextEditor';
 import TrashButton from './TrashButton';
 import PlusButton from './PlusButton';
-import { INITIAL_PDF, LessonPropType, PdfsType } from '../types/lessons';
-import { requestDelete } from '../services/requests';
-
-type CustomElement = { type: 'paragraph'; children: CustomText[] };
-type CustomText = { text: string };
-
-declare module 'slate' {
-  interface CustomTypes {
-    Editor: BaseEditor & ReactEditor
-    Element: CustomElement
-    Text: CustomText
-  }
-}
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 type CreateLessonType = {
-  handleLessonsChange: (event: any, index: number, delta?: any) => void,
+  handleLessonsChange: (event: any, index: number) => void,
   index: number,
   lesson: LessonPropType,
   modules: string[],
@@ -36,21 +23,8 @@ function CreateLesson({
   handleRemoveLesson,
   setLessons,
 }: CreateLessonType) {
-  // const navigate = useNavigate();
-
-  // const [editor] = useState(() => withReact(createEditor()));
-  // const [value, setValue] = useState([
-  //   {
-  //     type: 'paragraph',
-  //     children: [{ text: 'A line of text in a paragraph.' }],
-  //   },
-  // ]);
-
   const handleAddPdf = (i: number) => {
     setLessons((prevLessons) => {
-      // const newLessons = [...prevLessons];
-      // newLessons[i].pdfs.push({ ...INITIAL_PDF });
-      // return newLessons;
       return prevLessons.map((lessonList, indexLesson) => {
         if (indexLesson === i) {
           return {
@@ -58,7 +32,30 @@ function CreateLesson({
             pdfs: [...lessonList.pdfs, { ...INITIAL_PDF }],
           };
         }
-        return lesson;
+        return lessonList;
+      });
+    });
+  };
+
+  const handlePdfsChange = (event: any, lessonIndex: number, pdfIndex: number) => {
+    const { name, value } = event.target;
+    setLessons((prevLessons) => {
+      return prevLessons.map((lessonList, indexLesson) => {
+        if (indexLesson === lessonIndex) {
+          return {
+            ...lessonList,
+            pdfs: lessonList.pdfs.map((pdf, indexPdf) => {
+              if (indexPdf === pdfIndex) {
+                return {
+                  ...pdf,
+                  [name]: value,
+                };
+              }
+              return pdf;
+            }),
+          };
+        }
+        return lessonList;
       });
     });
   };
@@ -82,24 +79,11 @@ function CreateLesson({
     }
   };
 
-  const handlePdfsChange = (event: any, lessonIndex: number, pdfIndex: number) => {
-    const { name, value } = event.target;
-    setLessons((prevLessons) => {
-      const newLessons = [...prevLessons];
-      newLessons[lessonIndex].pdfs[pdfIndex] = { ...newLessons[lessonIndex]
-        .pdfs[pdfIndex],
-      [name]: value };
-      return newLessons;
-    });
-  };
-
   return (
     <div className="flex flex-col gap-4 border p-8">
       <div className="flex gap-2">
         <h2 className="text-2xl font-semibold">
-          Aula
-          {' '}
-          {index + 1}
+          {`Aula ${index + 1}`}
         </h2>
         <TrashButton
           type="button"
@@ -132,12 +116,13 @@ function CreateLesson({
         value={ lesson.title }
         onChange={ (event) => handleLessonsChange(event, index) }
       />
-      <Textarea
+      {/* <Textarea
         label="Conteúdo da aula"
         name="content"
         value={ lesson.content }
         onChange={ (event) => handleLessonsChange(event, index) }
-      />
+      /> */}
+      <EditorConvertToHTML />
       <Input
         crossOrigin={ undefined }
         size="lg"

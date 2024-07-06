@@ -27,7 +27,7 @@ export default {
       },
       content: {
         allowNull:false,
-        type: DataTypes.STRING
+        type: DataTypes.TEXT,
       },
       image: DataTypes.STRING,
       link: DataTypes.STRING,

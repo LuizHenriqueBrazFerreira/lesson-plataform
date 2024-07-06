@@ -18,9 +18,9 @@ class UsersService implements IUserService {
     try {
       const user = await this.userModel.findByEmail(email);
   
-      const isUserValid = validateUser(email, password, name, country);
+      const isUserInvalid = validateUser(email, password, name, country);
   
-      if (isUserValid) return { status: isUserValid.status, data: isUserValid.data };
+      if (isUserInvalid) return { status: isUserInvalid.status, data: isUserInvalid.data };
   
       if (user) return { status: 'CONFLICT', data: { message: 'E-mail já cadastrado.' } };
   

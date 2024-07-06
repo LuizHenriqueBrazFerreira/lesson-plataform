@@ -8,8 +8,6 @@ import {
 } from '@material-tailwind/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
-const frontURL = import.meta.env.VITE_REACT_FRONT_URL;
-
 const navList = (
   <ul
     className="mt-2 p-4 lg:p-0 bg-white border-2 lg:border-none
@@ -22,7 +20,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}/courses` }
+        href="/courses"
         className="flex items-center justify-center
        hover:text-blue-500 transition-colors"
       >
@@ -36,7 +34,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}/bookmarked` }
+        href="/bookmarked"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
         Cursos Salvos
@@ -49,7 +47,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}/profile` }
+        href="/profile"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
         Meu Perfil
@@ -62,7 +60,7 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
-        href={ `${frontURL}` }
+        href="/"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
         onClick={ () => localStorage.clear() }
       >

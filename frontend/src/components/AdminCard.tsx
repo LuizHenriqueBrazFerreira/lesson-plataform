@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom';
 type AdminCardProps = {
   heading: string;
   to: string;
-  description?: string;
+  description: string;
 };
 
-function AdminCard({ heading, to, description = ' ' }: AdminCardProps) {
+function AdminCard({ heading, to, description }: AdminCardProps) {
   const navigate = useNavigate();
 
   return (
     <Card
-      onClick={ () => navigate(`/admin/${to}`) }
       className="w-80 md:w-[37rem] md:h-[17rem] m-4 select-none
       cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
+      onClick={ () => navigate(`/admin/${to}`) }
     >
       <CardBody className="flex flex-col">
         <div className="flex justify-between mb-10">
