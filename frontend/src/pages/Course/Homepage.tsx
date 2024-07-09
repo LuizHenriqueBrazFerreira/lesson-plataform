@@ -1,4 +1,4 @@
-import HomeBackground from '../components/HomeBackground';
+import HomeBackground from '../../components/HomeBackground';
 
 function Homepage() {
   return (

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { requestData, setToken } from '../services/requests';
-import CoursesBackground from '../components/CoursesBackground';
-import { Module, initialModuleState } from '../types/courseType';
-import { LessonsType } from '../types/lessons';
-import LessonsCard from '../components/LessonsCard';
-import OrangeButton from '../components/OrangeButton';
+import { requestData, setToken } from '../../services/requests';
+import CoursesBackground from '../../components/CoursesBackground';
+import { Module, initialModuleState } from '../../types/courseType';
+import { LessonsType } from '../../types/lessons';
+import LessonsCard from '../../components/LessonsCard';
+import OrangeButton from '../../components/OrangeButton';
 
 function Lessons() {
   const [lessons, setLessons] = useState<LessonsType[]>([]);

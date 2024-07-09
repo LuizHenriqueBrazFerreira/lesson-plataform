@@ -3,10 +3,10 @@ import Swal from 'sweetalert2';
 import { Input, Textarea } from '@material-tailwind/react';
 import { ClipboardIcon } from '@heroicons/react/24/outline';
 import { CheckIcon } from '@heroicons/react/24/solid';
-import CoursesBackground from '../components/CoursesBackground';
-import OrangeButton from '../components/OrangeButton';
-import { SupportFormType } from '../types/supportType';
-import { requestPost } from '../services/requests';
+import CoursesBackground from '../../components/CoursesBackground';
+import OrangeButton from '../../components/OrangeButton';
+import { SupportFormType } from '../../types/supportType';
+import { requestPost } from '../../services/requests';
 
 function SupportPage() {
   const [copied, setCopied] = useState(false);

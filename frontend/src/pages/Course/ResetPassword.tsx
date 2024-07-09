@@ -1,13 +1,13 @@
 import { useState, MouseEvent, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
-import { validatePassword } from '../utils/validations';
-import { requestUpdate } from '../services/requests';
-import LoginBackground from '../components/LoginBackground';
-import FormBackground from '../components/FormBackground';
-import OrangeButton from '../components/OrangeButton';
-import WhiteButton from '../components/WhiteButton';
-import EyeButton from '../components/EyeButton';
+import { validatePassword } from '../../utils/validations';
+import { requestUpdate } from '../../services/requests';
+import LoginBackground from '../../components/LoginBackground';
+import FormBackground from '../../components/FormBackground';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import EyeButton from '../../components/EyeButton';
 
 function ResetPassword() {
   const [password, setPassword] = useState('');

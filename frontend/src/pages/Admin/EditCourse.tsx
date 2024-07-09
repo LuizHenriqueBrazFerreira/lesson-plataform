@@ -1,21 +1,21 @@
 import { ChangeEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Select, Option } from '@material-tailwind/react';
-import OrangeButton from '../components/OrangeButton';
-import WhiteButton from '../components/WhiteButton';
-import CoursesBackground from '../components/CoursesBackground';
-import TrashButton from '../components/TrashButton';
-import PlusButton from '../components/PlusButton';
-import CreateLesson from '../components/CreateLesson';
-import { LessonPropType, INITIAL_LESSON } from '../types/lessons';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import CoursesBackground from '../../components/CoursesBackground';
+import TrashButton from '../../components/TrashButton';
+import PlusButton from '../../components/PlusButton';
+import CreateLesson from '../../components/CreateLesson';
+import { LessonPropType, INITIAL_LESSON } from '../../types/lessons';
 import { setToken, requestData, requestUpdate, requestDelete }
-  from '../services/requests';
-import { Courses, EditModule } from '../types/courseType';
+  from '../../services/requests';
+import { Courses, EditModule } from '../../types/courseType';
 import {
   handleModuleEdit, handleLessonEdit, handlePdfEdit,
   showSuccessMessage, showNoCourseSelectedMessage,
   requestModules, requestLessons, requestPdfs,
-} from '../utils/editCourseHelpers';
+} from '../../utils/editCourseHelpers';
 
 export default function EditCourse() {
   const [modules, setModules] = useState<EditModule[]>([]);
