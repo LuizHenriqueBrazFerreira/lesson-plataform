@@ -1,12 +1,14 @@
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
+import { useContext } from 'react';
+import CourseContext from '../context/CourseContext';
 
-type PdfBarProps = {
-  link: string
-};
+export default function ForumButton() {
+  const { forumURL } = useContext(CourseContext);
 
-export default function ForumButton({ link }: PdfBarProps) {
+  const includesHTTPS = forumURL.includes('https://');
+
   return (
-    <a href={ link } target="_blank" rel="noreferrer">
+    <a href={ includesHTTPS ? forumURL : `https://${forumURL}` } target="_blank" rel="noreferrer">
       <button
         className="border-2 border-btn-orange rounded-md
         md:py-3 md:px-10 py-2 flex flex-col items-center w-16
