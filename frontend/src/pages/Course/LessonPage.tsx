@@ -6,6 +6,7 @@ import CoursesBackground from '../../components/CoursesBackground';
 import { Module, initialModuleState } from '../../types/courseType';
 import { LessonsType, InitialLessonsType } from '../../types/lessons';
 import OrangeButton from '../../components/OrangeButton';
+import BreadCrumbs from '../../components/BreadCrumbs';
 
 function LessonPage() {
   const [lesson, setLesson] = useState<LessonsType>(InitialLessonsType);
@@ -48,6 +49,7 @@ function LessonPage() {
         title={ module.title }
         moreClasses="gap-10"
       >
+        <BreadCrumbs />
         <div className="flex md:flex-row flex-col md:justify-between md:items-center">
           <h1
             className="text-2xl md:text-4xl

@@ -1,18 +1,20 @@
 import { Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 import AdminPage from './pages/Admin/AdminPage';
 import CreateCourse from './pages/Admin/CreateCourse';
 import EditCourse from './pages/Admin/EditCourse';
 import Students from './pages/Admin/Students';
 import BookmarkedCourses from './pages/Course/BookmarkedCourses';
-import ConfirmEmail from './pages/Course/ConfirmEmail';
+import ConfirmEmail from './pages/Login/ConfirmEmail';
+import CourseContext from './context/CourseContext';
 import CourseModules from './pages/Course/CourseModules';
-import CreateAccount from './pages/Course/CreateAccount';
-import ForgotPassword from './pages/Course/ResetPassword';
+import CreateAccount from './pages/Login/CreateAccount';
+import ForgotPassword from './pages/Login/ResetPassword';
 import Header from './components/Header';
 import Homepage from './pages/Course/Homepage';
 import LessonPage from './pages/Course/LessonPage';
 import Lessons from './pages/Course/Lessons';
-import Login from './pages/Course/Login';
+import Login from './pages/Login/Login';
 import NotFound from './pages/Course/NotFound';
 import PdfPage from './pages/Course/PdfPage';
 import Profile from './pages/Course/Profile';
@@ -22,8 +24,14 @@ import Footer from './components/Footer';
 import './App.css';
 
 function App() {
+  const [forumURL, setForumURL] = useState('');
+
+  const changeForumURL = (url: string) => {
+    setForumURL(url);
+  };
+
   return (
-    <div>
+    <CourseContext.Provider value={ { forumURL, changeForumURL } }>
       <Header />
       <Routes>
         <Route path="/" element={ <Homepage /> } />
@@ -56,7 +64,7 @@ function App() {
         <Route path="*" element={ <NotFound /> } />
       </Routes>
       <Footer />
-    </div>
+    </CourseContext.Provider>
   );
 }
 

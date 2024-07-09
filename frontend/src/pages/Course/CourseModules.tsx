@@ -1,14 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import CoursesBackground from '../../components/CoursesBackground';
-import ModuleCard from '../../components/ModuleCard';
-import { requestData, setToken } from '../../services/requests';
-import OrangeButton from '../../components/OrangeButton';
 import { Courses, initialCourseState } from '../../types/courseType';
+import { requestData, setToken } from '../../services/requests';
+import BreadCrumbs from '../../components/BreadCrumbs';
+import CoursesBackground from '../../components/CoursesBackground';
+import CourseContext from '../../context/CourseContext';
+import ModuleCard from '../../components/ModuleCard';
+import OrangeButton from '../../components/OrangeButton';
 
 function CourseModules() {
   const [modules, setModules] = useState([]);
   const [course, setCourse] = useState<Courses>(initialCourseState);
+
+  const { changeForumURL } = useContext(CourseContext);
 
   const navigate = useNavigate();
 
@@ -29,6 +33,7 @@ function CourseModules() {
         const courseData = await requestData(`/courses/${courseId}`);
         setModules(data);
         setCourse(courseData);
+        changeForumURL(courseData.forum);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data);
@@ -37,10 +42,11 @@ function CourseModules() {
     }
 
     fetchData();
-  }, [courseId, navigate]);
+  }, [courseId, navigate, changeForumURL]);
 
   return (
-    <CoursesBackground heading="Curso" title={ course.title } link="www.google.com">
+    <CoursesBackground heading="Curso" title={ course.title }>
+      <BreadCrumbs />
       <div className="grid grid-cols-1 md:grid-cols-2">
         {
           modules.map((module, index) => (
