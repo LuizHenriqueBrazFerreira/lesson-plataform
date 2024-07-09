@@ -8,17 +8,16 @@ import OrangeButton from '../../components/OrangeButton';
 import { SupportFormType } from '../../types/supportType';
 import { requestPost } from '../../services/requests';
 
+const INITIAL_FORM = {
+  name: '',
+  email: '',
+  contact: '',
+  topic: '',
+  content: '',
+};
+
 function SupportPage() {
   const [copied, setCopied] = useState(false);
-
-  const INITIAL_FORM = {
-    name: '',
-    email: '',
-    contact: '',
-    topic: '',
-    content: '',
-  };
-
   const [form, setForm] = useState<SupportFormType>(INITIAL_FORM);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement |

@@ -10,6 +10,7 @@ class CoursesSequelize extends Model<InferAttributes<CoursesSequelize>,
 InferCreationAttributes<CoursesSequelize>> {
   declare id: CreationOptional<number>;
   declare title: string;
+  declare forum: string;
 }
 
 CoursesSequelize.init({
@@ -22,6 +23,11 @@ CoursesSequelize.init({
   title: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  forum: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
   },
 }, {
   sequelize: db,

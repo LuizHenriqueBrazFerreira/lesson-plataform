@@ -15,10 +15,12 @@ type CourseCardProps = {
 function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProps) {
   const [modulesProgress, setModulesProgress] = useState<ModulesProgress[]>([]);
   const [courseProgress, setCourseProgress] = useState(course.progress);
+  const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProgress() {
+      if (userId === '1') return;
       try {
         const data = await requestData(
           `/modulesProgress/${course.userId}/${course.courseId}`,
@@ -32,10 +34,11 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
     }
 
     fetchProgress();
-  }, [course.userId, course.courseId]);
+  }, [course.userId, course.courseId, userId]);
 
   useEffect(() => {
     let courseP = 0;
+    if (userId === '1') return;
     if (modulesProgress.length > 0) {
       const progress = modulesProgress.reduce((acc, module) => acc + module.progress, 0);
       const totalModules = modulesProgress.length;
@@ -83,11 +86,11 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
             />}
         </div>
         <div
-          onClick={ () => navigate(`/courses/${course.courseId}/modules`) }
+          onClick={ () => navigate(`/courses/${course.courseId ?? course.id}/modules`) }
           aria-hidden="true"
           className="md:text-3xl font-semibold"
         >
-          {course.courseTitle}
+          {course.courseTitle ?? course.title}
           <div className="mt-8 flex items-center gap-4">
             <Progress
               size="sm"
@@ -95,7 +98,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
               value={ courseProgress }
             />
             <Typography className="font-semibold">
-              { `${courseProgress}%`}
+              { `${courseProgress ?? 0}%`}
             </Typography>
           </div>
         </div>

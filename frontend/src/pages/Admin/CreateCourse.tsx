@@ -17,6 +17,7 @@ function CreateCourse() {
   const [modules, setModules] = useState(['']);
   const [lessons, setLessons] = useState<LessonPropType[]>([INITIAL_LESSON]);
   const [courseTitle, setCourseTitle] = useState('');
+  const [forumURL, setForumURL] = useState('');
 
   const navigate = useNavigate();
 
@@ -75,7 +76,8 @@ function CreateCourse() {
   const handleCreateCourse = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const courseData = await requestPost('/courses', { title: courseTitle });
+    const courseData = await requestPost('/courses', { title: courseTitle,
+      forum: forumURL });
 
     const modulesData = await handleCreateModule(courseTitle, modules);
 
@@ -110,6 +112,14 @@ function CreateCourse() {
           label="Título do curso"
           value={ courseTitle }
           onChange={ (event) => setCourseTitle(event.target.value) }
+        />
+        <Input
+          crossOrigin={ undefined }
+          size="lg"
+          type="text"
+          label="Link do fórum"
+          value={ forumURL }
+          onChange={ (event) => setForumURL(event.target.value) }
         />
         {modules.map((module, index) => (
           <div key={ index }>

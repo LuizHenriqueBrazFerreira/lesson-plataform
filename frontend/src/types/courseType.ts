@@ -14,9 +14,12 @@ export type Module = {
 export type Courses = {
   id: number;
   title: string;
+  forum: string;
 };
 
 export type UserCourses = {
+  id?: number;
+  title?: string;
   courseId: number;
   courseTitle: string;
   userId: number;
@@ -27,6 +30,7 @@ export type UserCourses = {
 export const initialCourseState: Courses = {
   id: 0,
   title: '',
+  forum: '',
 };
 
 export const initialModuleState: Module = {

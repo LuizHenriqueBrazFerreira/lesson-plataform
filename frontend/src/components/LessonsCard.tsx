@@ -7,9 +7,10 @@ import { requestUpdate, setToken, requestData } from '../services/requests';
 type LessonsCardProps = {
   lesson: LessonsType;
   lessonsUrl: string;
+  index: number;
 };
 
-function LessonsCard({ lesson, lessonsUrl }: LessonsCardProps) {
+function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
   const [isWatched, setIsWatched] = useState(false);
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
@@ -59,7 +60,9 @@ function LessonsCard({ lesson, lessonsUrl }: LessonsCardProps) {
     >
       <CardBody className="flex flex-col">
         <div className="flex justify-between mb-10">
-          <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">Aula</h2>
+          <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">
+            {`Aula ${index + 1}`}
+          </h2>
           <div className="flex items-center text-xl font-semibold  text-btn-orange">
             Já estudei
             <Checkbox

@@ -9,39 +9,7 @@ import bcrypt from 'bcryptjs'
 
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
-export default {
-  up: async (queryInterface: QueryInterface) => {
-    // Inserir cursos
-    await queryInterface.bulkInsert('Courses', [
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5' },
-    ]);
-
-    // Inserir módulos
-    await queryInterface.bulkInsert('Modules', [
-      { title: 'Módulo A', course_id: 1 },
-      { title: 'Módulo B', course_id: 1 },
-      { title: 'Módulo C', course_id: 1 },
-      { title: 'Módulo D', course_id: 2 },
-      { title: 'Módulo E', course_id: 2 },
-      { title: 'Módulo F', course_id: 2 },
-      { title: 'Módulo G', course_id: 3 },
-      { title: 'Módulo H', course_id: 3 },
-      { title: 'Módulo I', course_id: 3 },
-      { title: 'Módulo J', course_id: 4 },
-      { title: 'Módulo K', course_id: 4 },
-      { title: 'Módulo L', course_id: 4 },
-      { title: 'Módulo M', course_id: 5 },
-      { title: 'Módulo N', course_id: 5 },
-      { title: 'Módulo O', course_id: 5 },
-    ]);
-    
-    // Inserir lições
-await queryInterface.bulkInsert('Lessons', [
-  { title: 'Lição 1', module_id: 1, content: `Em geral, para funções com um valor de entrada pequeno, não costumamos nos importar com a eficiência do algoritmo.
+const content = `Em geral, para funções com um valor de entrada pequeno, não costumamos nos importar com a eficiência do algoritmo.
 
 Entretanto, quando nossa função tiver que lidar com valores de entrada muito grandes, por exemplo: mil valores ao mesmo tempo? Ou quem sabe milhões de valores? Nesses casos, a eficiência do que estamos fazendo torna-se importante e nós, pessoas desenvolvedoras, precisamos ser capazes de lidar com esses cenários!
 
@@ -53,18 +21,52 @@ De olho na dica 👀: Esse conhecimento é tão importante no mundo da tecnologi
 
 Em suma, quando cresce a escala, esse conhecimento se torna essencial. E com esse conhecimento você vai perceber a existência de certos tipos de problemas que ainda não têm solução, mesmo reunindo toda a capacidade computacional do planeta.
 
-⚠️ Aviso: Parece exagero? Mas acredite, não é. Vamos seguir para o conteúdo e isso ficará mais nítido para você. 🙂`, image: 'https://static.todamateria.com.br/upload/pl/an/plano-de-aula-og.jpg', link: 'https://www.youtube.com/embed/3iQu3E59yqM?si=jGd4wzZGOy8-Xbk0' },
-  { title: 'Lição 2', module_id: 1, content: 'Conteúdo da lição 2', image: '', link: 'https://www.youtube.com/embed/sTlzjFABmoA?si=MRdkRhVFcxQo6944' },
-  { title: 'Lição 1', module_id: 2, content: 'Conteúdo da lição 3', image: 'url_da_imagem_3', link: 'https://www.youtube.com/embed/niRLEyu4qpg?si=i8OBpC73SuX2CSR5' },
-  { title: 'Lição 2', module_id: 2, content: 'Conteúdo da lição 4', image: 'url_da_imagem_4', link: 'url_do_link_4' },
-  { title: 'Lição 1', module_id: 3, content: 'Conteúdo da lição 5', image: 'url_da_imagem_5', link: 'url_do_link_5' },
-  { title: 'Lição 2', module_id: 3, content: 'Conteúdo da lição 6', image: 'url_da_imagem_6', link: 'url_do_link_6' },
-  { title: 'Lição 1', module_id: 4, content: 'Conteúdo da lição 7', image: 'url_da_imagem_7', link: 'url_do_link_7' },
-  { title: 'Lição 2', module_id: 4, content: 'Conteúdo da lição 8', image: 'url_da_imagem_8', link: 'url_do_link_8' },
-  { title: 'Lição 1', module_id: 5, content: 'Conteúdo da lição 9', image: 'url_da_imagem_9', link: 'url_do_link_9' },
-  { title: 'Lição 2', module_id: 5, content: 'Conteúdo da lição 10', image: 'url_da_imagem_10', link: 'url_do_link_10' },
-  { title: 'Lição 1', module_id: 6, content: 'Conteúdo da lição 11', image: 'url_da_imagem_11', link: 'url_do_link_11' },
-  { title: 'Lição 2', module_id: 6, content: 'Conteúdo da lição 12', image: 'url_da_imagem_12', link: 'url_do_link_12' },
+⚠️ Aviso: Parece exagero? Mas acredite, não é. Vamos seguir para o conteúdo e isso ficará mais nítido para você. 🙂`;
+
+export default {
+  up: async (queryInterface: QueryInterface) => {
+    // Inserir cursos
+    await queryInterface.bulkInsert('Courses', [
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', forum: 'www.google.com' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2', forum: 'www.google.com' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', forum: 'www.google.com' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', forum: 'www.google.com' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', forum: 'www.google.com' },
+    ]);
+
+    // Inserir módulos
+    await queryInterface.bulkInsert('Modules', [
+      { title: 'Coloque o título do módulo 1 aqui.....', course_id: 1 },
+      { title: 'Coloque o título do módulo 2 aqui.....', course_id: 1 },
+      { title: 'Coloque o título do módulo 3 aqui.....', course_id: 1 },
+      { title: 'Coloque o título do módulo 4 aqui.....', course_id: 2 },
+      { title: 'Coloque o título do módulo 5 aqui.....', course_id: 2 },
+      { title: 'Coloque o título do módulo 6 aqui.....', course_id: 2 },
+      { title: 'Coloque o título do módulo 7 aqui.....', course_id: 3 },
+      { title: 'Coloque o título do módulo 8 aqui.....', course_id: 3 },
+      { title: 'Coloque o título do módulo 9 aqui.....', course_id: 3 },
+      { title: 'Coloque o título do módulo 10 aqui.....', course_id: 4 },
+      { title: 'Coloque o título do módulo 11 aqui.....', course_id: 4 },
+      { title: 'Coloque o título do módulo 12 aqui.....', course_id: 4 },
+      { title: 'Coloque o título do módulo 13 aqui.....', course_id: 5 },
+      { title: 'Coloque o título do módulo 14 aqui.....', course_id: 5 },
+      { title: 'Coloque o título do módulo 15 aqui.....', course_id: 5 },
+    ]);
+    
+    // Inserir lições
+await queryInterface.bulkInsert('Lessons', [
+  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content, image: 'https://static.todamateria.com.br/upload/pl/an/plano-de-aula-og.jpg', link: 'https://www.youtube.com/embed/3iQu3E59yqM?si=jGd4wzZGOy8-Xbk0' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content, image: '', link: 'https://www.youtube.com/embed/sTlzjFABmoA?si=MRdkRhVFcxQo6944' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content, image: 'url_da_imagem_3', link: 'https://www.youtube.com/embed/niRLEyu4qpg?si=i8OBpC73SuX2CSR5' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content, image: 'url_da_imagem_4', link: 'url_do_link_4' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content, image: 'url_da_imagem_5', link: 'url_do_link_5' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content, image: 'url_da_imagem_6', link: 'url_do_link_6' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content, image: 'url_da_imagem_7', link: 'url_do_link_7' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content, image: 'url_da_imagem_8', link: 'url_do_link_8' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content, image: 'url_da_imagem_9', link: 'url_do_link_9' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content, image: 'url_da_imagem_10', link: 'url_do_link_10' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content, image: 'url_da_imagem_11', link: 'url_do_link_11' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content, image: 'url_da_imagem_12', link: 'url_do_link_12' },
 ]);
 // Inserir usuários com cursos
 const user1 = await UsersSequelize.create({

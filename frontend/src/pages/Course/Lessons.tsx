@@ -46,11 +46,12 @@ function Lessons() {
     <div>
       <CoursesBackground heading="Módulo" title={ module.title }>
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {lessons.map((lesson) => (
+          {lessons.map((lesson, index) => (
             <LessonsCard
               lessonsUrl={ pathname }
               key={ lesson.id }
               lesson={ lesson }
+              index={ index }
             />
           ))}
         </div>

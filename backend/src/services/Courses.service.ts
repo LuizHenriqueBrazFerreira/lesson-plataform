@@ -5,10 +5,10 @@ import {UpdateTables} from '../utils/updateTables'
 class CoursesService implements ICoursesService {
   private coursesModel = new CoursesModel();
 
-  async createCourse(title: string) {
+  async createCourse(title: string, forum = '') {
     const updateTable = new UpdateTables()
     try {
-      const course = await this.coursesModel.createCourse(title);
+      const course = await this.coursesModel.createCourse(title, forum);
       updateTable.updateUserCourses(course.id);
 
       return { status: 'CREATED', data: course}
@@ -37,9 +37,9 @@ class CoursesService implements ICoursesService {
     }
   }
 
-  async updateCourseById(id: number, title: string) {
+  async updateCourseById(id: number, title: string, forum = '') {
     try {
-      const updatedCourse = await this.coursesModel.updateCourseById(id, title);
+      const updatedCourse = await this.coursesModel.updateCourseById(id, title, forum);
 
       return { status: 'SUCCESSFUL', data: updatedCourse };
     } catch (error) {

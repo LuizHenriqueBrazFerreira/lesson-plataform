@@ -1,21 +1,20 @@
 import { ChangeEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Select, Option } from '@material-tailwind/react';
-import OrangeButton from '../../components/OrangeButton';
-import WhiteButton from '../../components/WhiteButton';
-import CoursesBackground from '../../components/CoursesBackground';
-import TrashButton from '../../components/TrashButton';
-import PlusButton from '../../components/PlusButton';
-import CreateLesson from '../../components/CreateLesson';
+import { Courses, EditModule } from '../../types/courseType';
 import { LessonPropType, INITIAL_LESSON } from '../../types/lessons';
 import { setToken, requestData, requestUpdate, requestDelete }
   from '../../services/requests';
-import { Courses, EditModule } from '../../types/courseType';
-import {
-  handleModuleEdit, handleLessonEdit, handlePdfEdit,
+import { handleModuleEdit, handleLessonEdit, handlePdfEdit,
   showSuccessMessage, showNoCourseSelectedMessage,
   requestModules, requestLessons, requestPdfs,
 } from '../../utils/editCourseHelpers';
+import CreateLesson from '../../components/CreateLesson';
+import CoursesBackground from '../../components/CoursesBackground';
+import OrangeButton from '../../components/OrangeButton';
+import PlusButton from '../../components/PlusButton';
+import TrashButton from '../../components/TrashButton';
+import WhiteButton from '../../components/WhiteButton';
 
 export default function EditCourse() {
   const [modules, setModules] = useState<EditModule[]>([]);
@@ -24,6 +23,7 @@ export default function EditCourse() {
   const [lessonsBackup, setLessonsBackup] = useState<LessonPropType[]>([]);
   const [courses, setCourses] = useState<Courses[]>([]);
   const [courseTitle, setCourseTitle] = useState('');
+  const [forumURL, setForumURL] = useState('');
   const [courseId, setCourseId] = useState(0);
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
@@ -45,7 +45,7 @@ export default function EditCourse() {
       }
     }
     fetchData();
-  }, []);
+  }, [navigate, role, token]);
 
   const handleChooseCourse = async (value: string) => {
     try {
@@ -54,6 +54,7 @@ export default function EditCourse() {
       const selectedCourse = courses.find((course) => course.title === value);
       if (!selectedCourse) return;
       setCourseId(selectedCourse.id);
+      setForumURL(selectedCourse.forum);
       setModules([]);
       setLessons([]);
       const { modulesData, newModules } = await requestModules(selectedCourse.id);
@@ -84,8 +85,7 @@ export default function EditCourse() {
 
   const handleRemoveModule = async (index: number) => {
     try {
-      const moduleDeletedId = await requestDelete(`/modules/${modules[index].id}`);
-      console.log(moduleDeletedId);
+      await requestDelete(`/modules/${modules[index].id}`);
       const newModules = [...modules];
       newModules.splice(index, 1);
       setModules(newModules);
@@ -98,8 +98,7 @@ export default function EditCourse() {
 
   const handleRemoveLesson = async (index: number) => {
     try {
-      const lessonDeletedId = await requestDelete(`/lessons/${lessons[index].id}`);
-      console.log(lessonDeletedId);
+      await requestDelete(`/lessons/${lessons[index].id}`);
       const newLessons = [...lessons];
       newLessons.splice(index, 1);
       setLessons(newLessons);
@@ -158,7 +157,7 @@ export default function EditCourse() {
     }
     const courseData = await requestUpdate(
       `/courses/${courseId}`,
-      { id: courseId, title: courseTitle },
+      { id: courseId, title: courseTitle, forum: forumURL },
     );
     const modulesData = await handleModuleEdit(courseId, courseTitle, modules);
     const lessonsData = await handleLessonEdit(lessons);
@@ -202,6 +201,14 @@ export default function EditCourse() {
             onClick={ handleRemoveCourse }
           /> }
         />
+        <Input
+          crossOrigin={ undefined }
+          size="lg"
+          type="text"
+          label="Link do fórum"
+          value={ forumURL }
+          onChange={ (event) => setForumURL(event.target.value) }
+        />
         {modules.map((module, index) => (
           <div key={ index }>
             <Input
@@ -218,9 +225,7 @@ export default function EditCourse() {
             />
           </div>
         ))}
-        <PlusButton onClick={ handleAddModule }>
-          Adicionar Módulo
-        </PlusButton>
+        <PlusButton onClick={ handleAddModule }>Adicionar Módulo</PlusButton>
         {lessons.map((lesson, index) => (
           <CreateLesson
             key={ index }
@@ -236,12 +241,8 @@ export default function EditCourse() {
           Adicionar Aula
         </PlusButton>
         <div className="flex gap-4 justify-center">
-          <OrangeButton type="submit">
-            Salvar
-          </OrangeButton>
-          <WhiteButton onClick={ () => navigate('/admin') }>
-            Voltar
-          </WhiteButton>
+          <OrangeButton type="submit">Salvar</OrangeButton>
+          <WhiteButton onClick={ () => navigate('/admin') }>Voltar</WhiteButton>
         </div>
       </form>
     </CoursesBackground>

@@ -37,16 +37,17 @@ function CourseModules() {
     }
 
     fetchData();
-  }, []);
+  }, [courseId, navigate]);
 
   return (
-    <CoursesBackground heading="Curso" title={ course.title }>
+    <CoursesBackground heading="Curso" title={ course.title } link="www.google.com">
       <div className="grid grid-cols-1 md:grid-cols-2">
         {
           modules.map((module, index) => (
             <ModuleCard
               key={ index }
               module={ module }
+              index={ index }
             />
           ))
         }
