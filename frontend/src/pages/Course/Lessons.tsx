@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { requestData, setToken } from '../../services/requests';
-import CoursesBackground from '../../components/CoursesBackground';
-import { Module, initialModuleState } from '../../types/courseType';
 import { LessonsType } from '../../types/lessons';
+import { Module, initialModuleState } from '../../types/courseType';
+import BreadCrumbs from '../../components/BreadCrumbs';
+import CoursesBackground from '../../components/CoursesBackground';
 import LessonsCard from '../../components/LessonsCard';
 import OrangeButton from '../../components/OrangeButton';
 
@@ -45,6 +46,7 @@ function Lessons() {
   return (
     <div>
       <CoursesBackground heading="Módulo" title={ module.title }>
+        <BreadCrumbs />
         <div className="grid grid-cols-1 md:grid-cols-2">
           {lessons.map((lesson, index) => (
             <LessonsCard

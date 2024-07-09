@@ -29,7 +29,7 @@ class CoursesController implements ICoursesController {
 
     if (!hasAccess && role !== 'ADMIN') {
       const data = { message: 'Você não tem acesso a este curso.' };
-      return res.status(mapStatusHTTP('FORBIDDEN')).json( {message: role} );
+      return res.status(mapStatusHTTP('FORBIDDEN')).json( { data } );
     }
 
     const { status, data } = await this.coursesService.getCourseById(Number(id));

@@ -1,10 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 import AdminPage from './pages/Admin/AdminPage';
 import CreateCourse from './pages/Admin/CreateCourse';
 import EditCourse from './pages/Admin/EditCourse';
 import Students from './pages/Admin/Students';
 import BookmarkedCourses from './pages/Course/BookmarkedCourses';
 import ConfirmEmail from './pages/Course/ConfirmEmail';
+import CourseContext from './context/CourseContext';
 import CourseModules from './pages/Course/CourseModules';
 import CreateAccount from './pages/Course/CreateAccount';
 import ForgotPassword from './pages/Course/ResetPassword';
@@ -22,8 +24,14 @@ import Footer from './components/Footer';
 import './App.css';
 
 function App() {
+  const [forumURL, setForumURL] = useState('');
+
+  const changeForumURL = (url: string) => {
+    setForumURL(url);
+  };
+
   return (
-    <div>
+    <CourseContext.Provider value={ { forumURL, changeForumURL } }>
       <Header />
       <Routes>
         <Route path="/" element={ <Homepage /> } />
@@ -56,7 +64,7 @@ function App() {
         <Route path="*" element={ <NotFound /> } />
       </Routes>
       <Footer />
-    </div>
+    </CourseContext.Provider>
   );
 }
 

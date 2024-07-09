@@ -3,10 +3,9 @@ import ForumButton from './ForumButton';
 type HeaderSectionProps = {
   heading: string;
   title: string;
-  link: string;
 };
 
-function HeaderSection({ heading, title, link }: HeaderSectionProps) {
+function HeaderSection({ heading, title }: HeaderSectionProps) {
   return (
     <section
       className="md:w-[81rem] w-screen bg-white rounded-2xl mb-8 flex
@@ -21,7 +20,7 @@ function HeaderSection({ heading, title, link }: HeaderSectionProps) {
           {title}
         </h2>
       </div>
-      <ForumButton link={ link } />
+      <ForumButton />
     </section>
   );
 }
