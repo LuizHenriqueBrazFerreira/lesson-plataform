@@ -6,9 +6,10 @@ import { requestData, setToken, requestUpdate } from '../services/requests';
 
 type ModuleCardProps = {
   module: Module;
+  index: number;
 };
 
-function ModuleCard({ module }: ModuleCardProps) {
+function ModuleCard({ module, index }: ModuleCardProps) {
   const userId = localStorage.getItem('userId');
   const [progress, setProgress] = useState(0);
   const [totalLessons, setTotalLessons] = useState(0);
@@ -75,7 +76,7 @@ function ModuleCard({ module }: ModuleCardProps) {
           <h2
             className="text-xl md:text-2xl font-semibold text-btn-orange"
           >
-            Módulo
+            {`Módulo ${index + 1}`}
           </h2>
         </div>
         <div

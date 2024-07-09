@@ -7,9 +7,9 @@ class CoursesController implements ICoursesController {
   constructor(private coursesService = new CoursesService()) {}
 
   async createCourse(req: Request, res: Response) {
-    const { title } = req.body;
+    const { title, forum } = req.body;
 
-    const { status, data } = await this.coursesService.createCourse(title);
+    const { status, data } = await this.coursesService.createCourse(title, forum);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
@@ -23,12 +23,13 @@ class CoursesController implements ICoursesController {
   async getCourseById(req: Request, res: Response) {
     const { id } = req.params;
     const courses = req.user?.courses 
+    const role = req.user?.role;
 
     const hasAccess = courses?.some((course: any) => course.courseId === Number(id));
 
-    if (!hasAccess) {
+    if (!hasAccess && role !== 'ADMIN') {
       const data = { message: 'Você não tem acesso a este curso.' };
-      return res.status(mapStatusHTTP('FORBIDDEN')).json( data );
+      return res.status(mapStatusHTTP('FORBIDDEN')).json( {message: role} );
     }
 
     const { status, data } = await this.coursesService.getCourseById(Number(id));
@@ -38,9 +39,9 @@ class CoursesController implements ICoursesController {
 
   async updateCourseById(req: Request, res: Response) {
     const { id } = req.params;
-    const { title } = req.body;
+    const { title, forum } = req.body;
 
-    const { status, data } = await this.coursesService.updateCourseById(Number(id), title);
+    const { status, data } = await this.coursesService.updateCourseById(Number(id), title, forum);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }

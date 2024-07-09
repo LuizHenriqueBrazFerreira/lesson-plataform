@@ -6,10 +6,11 @@ type CoursesBackgroudProps = {
   heading?: string;
   title?: string;
   moreClasses?: string;
+  link?: string;
 };
 
 function CoursesBackground({ children, heading = '', title = '',
-  moreClasses = '' }: CoursesBackgroudProps) {
+  moreClasses = '', link = '' }: CoursesBackgroudProps) {
   const { pathname } = useLocation();
 
   const shouldDisplayHeader = pathname.includes('/lessons')
@@ -22,7 +23,7 @@ function CoursesBackground({ children, heading = '', title = '',
       bg-courses-gray flex flex-col justify-center items-center py-[3rem] px-4"
     >
       {shouldDisplayHeader && !shouldHideHeader && (
-        <HeaderSection heading={ heading } title={ title } />
+        <HeaderSection heading={ heading } title={ title } link={ link } />
       )}
       <section
         className={ `md:w-[81rem] w-screen bg-white flex 

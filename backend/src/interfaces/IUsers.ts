@@ -4,6 +4,7 @@ import { ServiceResponse } from '../types/Service.response';
 import UsersSequelize from '../database/models/Users.model';
 import { Request, Response } from 'express';
 import UserCoursesSequelize from '../database/models/UserCourses.model';
+import CoursesSequelize from '../database/models/Courses.model';
 
 export interface IUsers {
   id: number;
@@ -62,13 +63,13 @@ export interface IUserCourses {
 
 export interface IUserCoursesModel {
   createUserCourse({ userId, courseTitle, courseId, progress, bookmarked }: IUserCourses): Promise<UserCoursesSequelize>;
-  findCoursesByUserId(userId: number): Promise<UserCoursesSequelize[]>;
+  findCoursesByUserId(userId: number): Promise<UserCoursesSequelize[] | CoursesSequelize[]>;
   updateUserCourse(key:string, value: string, userId: number, courseId: number): Promise<number>;
 }
 
 export interface IUserCoursesService {
   createUserCourse({ userId, courseId, progress, bookmarked }: IUserCourses): Promise<ServiceResponse<UserCoursesSequelize>>;
-  findCoursesByUserId(userId: number): Promise<ServiceResponse<IUserCourses[]>>;
+  findCoursesByUserId(userId: number): Promise<ServiceResponse<IUserCourses[] | CoursesSequelize[]>>;
   updateUserCourse(key:string, value: string, userId: number, courseId: number): Promise<ServiceResponse<number>>;
 }
 

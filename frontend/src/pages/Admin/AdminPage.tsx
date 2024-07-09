@@ -42,6 +42,11 @@ export default function AdminPage() {
           to="edit"
           description="Editar um curso existente"
         />
+        <AdminCard
+          heading="Cursos"
+          to="courses"
+          description="Ver todos os cursos cadastrados no sistema"
+        />
       </div>
     </CoursesBackground>
   );

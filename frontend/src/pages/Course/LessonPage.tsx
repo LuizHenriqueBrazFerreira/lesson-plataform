@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import PdfBar from '../../components/PdfBar';
+import PdfBar from '../../components/PdfButton';
 import { requestData, setToken } from '../../services/requests';
 import CoursesBackground from '../../components/CoursesBackground';
 import { Module, initialModuleState } from '../../types/courseType';

@@ -34,6 +34,20 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <a
+        href="/courses"
+        className="flex items-center justify-center
+       hover:text-blue-500 transition-colors"
+      >
+        Cursos
+      </a>
+    </Typography>
+    <Typography
+      as="li"
+      variant="small"
+      color="blue-gray"
+      className="p-1 font-medium text-xl"
+    >
+      <a
         href="/admin/create"
         className="flex items-center justify-center
        hover:text-blue-500 transition-colors"
