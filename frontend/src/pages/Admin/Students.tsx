@@ -2,13 +2,13 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
 import Swal from 'sweetalert2';
-import { UserType } from '../types/userTypes';
+import { UserType } from '../../types/userTypes';
 import { requestData, requestUpdate,
-  requestDelete, setToken } from '../services/requests';
-import OrangeButton from '../components/OrangeButton';
-import WhiteButton from '../components/WhiteButton';
-import CoursesBackground from '../components/CoursesBackground';
-import EyeButton from '../components/EyeButton';
+  requestDelete, setToken } from '../../services/requests';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import CoursesBackground from '../../components/CoursesBackground';
+import EyeButton from '../../components/EyeButton';
 
 function Students() {
   const token = localStorage.getItem('token');

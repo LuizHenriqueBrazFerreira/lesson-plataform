@@ -14,6 +14,11 @@ export default {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      forum: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        defaultValue: ''
+      },
     })
   },
   down(queryInterface: QueryInterface) {

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import PdfBar from '../components/PdfBar';
-import { requestData, setToken } from '../services/requests';
-import CoursesBackground from '../components/CoursesBackground';
-import { Module, initialModuleState } from '../types/courseType';
-import { LessonsType, InitialLessonsType } from '../types/lessons';
-import OrangeButton from '../components/OrangeButton';
+import PdfBar from '../../components/PdfBar';
+import { requestData, setToken } from '../../services/requests';
+import CoursesBackground from '../../components/CoursesBackground';
+import { Module, initialModuleState } from '../../types/courseType';
+import { LessonsType, InitialLessonsType } from '../../types/lessons';
+import OrangeButton from '../../components/OrangeButton';
 
 function LessonPage() {
   const [lesson, setLesson] = useState<LessonsType>(InitialLessonsType);

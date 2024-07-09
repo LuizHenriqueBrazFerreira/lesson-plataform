@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { Input, Typography } from '@material-tailwind/react';
-import { requestPost } from '../services/requests';
-import EyeButton from '../components/EyeButton';
-import OrangeButton from '../components/OrangeButton';
-import WhiteButton from '../components/WhiteButton';
-import WarnigIcon from '../components/WarningIcon';
-import LoginBackground from '../components/LoginBackground';
-import FormBackground from '../components/FormBackground';
-import { UserType, initialUserState } from '../types/userTypes';
+import { requestPost } from '../../services/requests';
+import EyeButton from '../../components/EyeButton';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import WarnigIcon from '../../components/WarningIcon';
+import LoginBackground from '../../components/LoginBackground';
+import FormBackground from '../../components/FormBackground';
+import { UserType, initialUserState } from '../../types/userTypes';
 
 function CreateAccount() {
   const [user, setUser] = useState<UserType>(initialUserState);

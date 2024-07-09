@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DocumentTextIcon } from '@heroicons/react/24/outline';
-import { requestData, setToken } from '../services/requests';
-import CoursesBackground from '../components/CoursesBackground';
-import OrangeButton from '../components/OrangeButton';
-import { PdfsType } from '../types/lessons';
+import { requestData, setToken } from '../../services/requests';
+import CoursesBackground from '../../components/CoursesBackground';
+import OrangeButton from '../../components/OrangeButton';
+import { PdfsType } from '../../types/lessons';
 
 function PdfPage() {
   const [pdfs, setPdfs] = useState<PdfsType[]>([]);

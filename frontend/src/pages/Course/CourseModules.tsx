@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import CoursesBackground from '../components/CoursesBackground';
-import ModuleCard from '../components/ModuleCard';
-import { requestData, setToken } from '../services/requests';
-import OrangeButton from '../components/OrangeButton';
-import { Courses, initialCourseState } from '../types/courseType';
+import CoursesBackground from '../../components/CoursesBackground';
+import ModuleCard from '../../components/ModuleCard';
+import { requestData, setToken } from '../../services/requests';
+import OrangeButton from '../../components/OrangeButton';
+import { Courses, initialCourseState } from '../../types/courseType';
 
 function CourseModules() {
   const [modules, setModules] = useState([]);

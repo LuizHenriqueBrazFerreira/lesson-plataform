@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Spinner } from '@material-tailwind/react';
-import LoginBackground from '../components/LoginBackground';
-import { requestUpdate } from '../services/requests';
+import LoginBackground from '../../components/LoginBackground';
+import { requestUpdate } from '../../services/requests';
 
 function ConfirmEmail() {
   const { token } = useParams();

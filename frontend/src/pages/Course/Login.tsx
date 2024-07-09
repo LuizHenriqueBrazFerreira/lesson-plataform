@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
 import { Input } from '@material-tailwind/react';
-import { requestPost, setToken } from '../services/requests';
-import Button from '../components/Button';
-import EyeButton from '../components/EyeButton';
-import OrangeButton from '../components/OrangeButton';
-import WhiteButton from '../components/WhiteButton';
-import LoginBackground from '../components/LoginBackground';
-import FormBackground from '../components/FormBackground';
+import { requestPost, setToken } from '../../services/requests';
+import Button from '../../components/Button';
+import EyeButton from '../../components/EyeButton';
+import OrangeButton from '../../components/OrangeButton';
+import WhiteButton from '../../components/WhiteButton';
+import LoginBackground from '../../components/LoginBackground';
+import FormBackground from '../../components/FormBackground';
 
 function Login() {
   const [email, setEmail] = useState('');
