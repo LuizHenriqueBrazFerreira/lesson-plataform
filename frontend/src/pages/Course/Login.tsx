@@ -10,6 +10,7 @@ import OrangeButton from '../../components/OrangeButton';
 import WhiteButton from '../../components/WhiteButton';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
+import { useTranslation } from "react-i18next";
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -18,6 +19,8 @@ function Login() {
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  const { t } = useTranslation();
 
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
@@ -104,7 +107,7 @@ function Login() {
           size="lg"
           type="email"
           onChange={ (e) => setEmail(e.target.value) }
-          label="Email"
+          label={t("Email")}
         />
         <Input
           value={ password }
@@ -112,7 +115,7 @@ function Login() {
           type={ showPassword ? 'text' : 'password' }
           onChange={ (e) => setPassword(e.target.value) }
           onFocus={ () => setShowEye(true) }
-          label="Senha"
+          label={t("Senha")}
           crossOrigin={ undefined }
           icon={ <EyeButton
             type="button"
@@ -126,7 +129,7 @@ function Login() {
           type="submit"
           isLoading={ isLoading }
         >
-          Entrar
+          {t("Entrar")}
         </OrangeButton>
         <Button
           type="button"
@@ -134,14 +137,14 @@ function Login() {
           active:text-blue-500 hover:text-blue-700"
           onClick={ handleForgotPassword }
         >
-          Esqueceu sua senha?
+          {t("EsqueceuSuaSenha")}
         </Button>
-        <p className="self-center">Ainda não tem uma conta?</p>
+        <p className="self-center">{t("AindaNaoTemUmaConta")}</p>
         <WhiteButton
           type="button"
           onClick={ () => navigate('/create-account') }
         >
-          Cadastre-se
+          {t("CadastreSe")}
         </WhiteButton>
       </FormBackground>
     </LoginBackground>

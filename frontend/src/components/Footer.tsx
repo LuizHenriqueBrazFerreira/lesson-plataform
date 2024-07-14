@@ -1,10 +1,12 @@
 import { Typography } from '@material-tailwind/react';
 import { EnvelopeIcon, GlobeAltIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import { useTranslation } from "react-i18next";
 
 function Footer() {
   const [showCopy, setShowCopy] = useState(false);
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('ensinofsmsss@gmail.com');
@@ -36,7 +38,7 @@ function Footer() {
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
             >
-              Nosso site
+              {t("NossoSite")}
             </Typography>
           </li>
           <li className="flex gap-2 items-center">
@@ -49,7 +51,7 @@ function Footer() {
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
             >
-              Instagram
+              {t("Instagram")}
             </Typography>
           </li>
           <li className="flex gap-2 items-center">
@@ -61,7 +63,7 @@ function Footer() {
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
             >
-              Suporte por email
+              {t("SuportePorEmail")}
             </Typography>
           </li>
           <li className="flex gap-2 items-center">

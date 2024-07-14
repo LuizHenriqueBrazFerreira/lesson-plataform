@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-us" viewBox="0 0 512 512">
+  <g fill-rule="evenodd">
+    <g stroke-width="1pt">
+      <path fill="#bd3d44" d="M0 0h247v10H0z"/>
+      <path fill="#ffffff" d="M0 10h247v10H0z"/>
+    </g>
+    <path fill="#192f5d" d="M0 0h98.8v70H0z" transform="scale(3.9385)"/>
+    <path fill="#ffffff" d="M8.2 3l2.7-2.4-1.7-1.6L9.7.2z"/>
+  </g>
+</svg>
