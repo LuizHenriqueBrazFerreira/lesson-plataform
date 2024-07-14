@@ -49,7 +49,7 @@ function App() {
           element={ <Lessons /> }
         />
         <Route
-          path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
+          path="/courses/:courseId/modules/:moduleId/lessons/lesson/:lessonId"
           element={ <LessonPage /> }
         />
         <Route

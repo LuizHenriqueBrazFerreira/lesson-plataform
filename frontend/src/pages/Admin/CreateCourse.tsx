@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
-import { LessonPropType, INITIAL_LESSON } from '../../types/lessons';
+import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
 import { requestPost, setToken } from '../../services/requests';
 import { showSuccessMessage } from '../../utils/editCourseHelpers';
 import { handleCreateModule, handleCreateLessons, handleCreatePdf }
@@ -15,9 +15,10 @@ import CreateLesson from '../../components/CreateLesson';
 
 function CreateCourse() {
   const [modules, setModules] = useState(['']);
-  const [lessons, setLessons] = useState<LessonPropType[]>([INITIAL_LESSON]);
+  const [lessons, setLessons] = useState<LessonsType[]>([INITIAL_LESSON]);
   const [courseTitle, setCourseTitle] = useState('');
   const [forumURL, setForumURL] = useState('');
+  const [duration, setDuration] = useState('');
 
   const navigate = useNavigate();
 
@@ -76,8 +77,10 @@ function CreateCourse() {
   const handleCreateCourse = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const courseData = await requestPost('/courses', { title: courseTitle,
-      forum: forumURL });
+    const courseData = await requestPost('/courses', {
+      title: courseTitle,
+      forum: forumURL,
+      duration });
 
     const modulesData = await handleCreateModule(courseTitle, modules);
 
@@ -122,6 +125,14 @@ function CreateCourse() {
           label="Link do fórum"
           value={ forumURL }
           onChange={ (event) => setForumURL(event.target.value) }
+        />
+        <Input
+          crossOrigin={ undefined }
+          size="lg"
+          type="text"
+          label="Duração do curso"
+          value={ duration }
+          onChange={ (event) => setDuration(event.target.value) }
         />
         {modules.map((module, index) => (
           <div key={ index }>

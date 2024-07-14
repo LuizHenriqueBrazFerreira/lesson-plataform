@@ -5,7 +5,6 @@ import { requestData, setToken } from '../../services/requests';
 import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
 import { PdfsType } from '../../types/lessons';
-import BreadCrumbs from '../../components/BreadCrumbs';
 
 function PdfPage() {
   const [pdfs, setPdfs] = useState<PdfsType[]>([]);

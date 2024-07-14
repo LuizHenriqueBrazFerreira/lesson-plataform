@@ -7,9 +7,9 @@ class LessonsController implements ILessonsController {
   private service = new LessonsService();
 
   async createLesson(req: Request, res: Response) {
-    const { moduleTitle, title, content, image, link } = req.body;
+    const { moduleTitle, title, content } = req.body;
     
-    const { status, data } = await this.service.createLesson(moduleTitle, title, content, image, link);
+    const { status, data } = await this.service.createLesson(moduleTitle, title, content);
 
     return res.status(mapStatusHttp(status)).json(data);
   }
@@ -38,9 +38,9 @@ class LessonsController implements ILessonsController {
 
   async updateLessonById(req: Request, res: Response) {
     const { id } = req.params;
-    const { moduleTitle, title, content, image, link } = req.body;
+    const { moduleTitle, title, content } = req.body;
 
-    const { status, data } = await this.service.updateLessonById(Number(id), moduleTitle, title, content, image, link);
+    const { status, data } = await this.service.updateLessonById(Number(id), moduleTitle, title, content);
 
     return res.status(mapStatusHttp(status)).json(data);
   }

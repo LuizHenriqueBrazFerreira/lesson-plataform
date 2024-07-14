@@ -29,8 +29,6 @@ export default {
         allowNull:false,
         type: DataTypes.TEXT,
       },
-      image: DataTypes.STRING,
-      link: DataTypes.STRING,
     })
   },
   down(queryInterface: QueryInterface) {

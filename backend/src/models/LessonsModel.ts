@@ -4,9 +4,9 @@ import LessonsSequelize from '../database/models/Lessons.model';
 class LessonsModel implements ILessonsModel {
   private model = LessonsSequelize;
 
-  async createLesson(moduleId: number, title: string, content: string, image: string, link: string) {
+  async createLesson(moduleId: number, title: string, content: string) {
     
-    const lesson = await this.model.create({ moduleId, title, content, image, link });
+    const lesson = await this.model.create({ moduleId, title, content});
 
     return lesson;
   }
@@ -46,8 +46,8 @@ class LessonsModel implements ILessonsModel {
     return lesson;
   }
 
-  async updateLessonById(id: number, moduleId: number, title: string, content: string, image: string, link: string) {
-    const lesson = await this.model.update({ moduleId, title, content, image, link }, { where: { id } });
+  async updateLessonById(id: number, moduleId: number, title: string, content: string) {
+    const lesson = await this.model.update({ moduleId, title, content}, { where: { id } });
     
     return lesson;
   }
