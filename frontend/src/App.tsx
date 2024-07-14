@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
-import { LessonPropType } from './types/lessons';
 import AdminPage from './pages/Admin/AdminPage';
 import CreateCourse from './pages/Admin/CreateCourse';
 import EditCourse from './pages/Admin/EditCourse';
