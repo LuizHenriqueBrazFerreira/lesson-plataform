@@ -30,7 +30,7 @@ function CreateCourse() {
     }
 
     setToken(token);
-  }, []);
+  }, [navigate]);
 
   const handleAddModule = () => {
     setModules([...modules, '']);
@@ -89,6 +89,8 @@ function CreateCourse() {
       showSuccessMessage('Curso criado com sucesso');
 
       setCourseTitle('');
+
+      setForumURL('');
 
       setModules(['']);
 

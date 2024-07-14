@@ -1,7 +1,8 @@
+import { useCallback } from 'react';
 import { Input, Select, Option } from '@material-tailwind/react';
 import { INITIAL_PDF, LessonPropType } from '../types/lessons';
 import { requestDelete } from '../services/requests';
-import EditorConvertToHTML from './TextEditor';
+import Editor from './TextEditor';
 import TrashButton from './TrashButton';
 import PlusButton from './PlusButton';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -23,6 +24,24 @@ function CreateLesson({
   handleRemoveLesson,
   setLessons,
 }: CreateLessonType) {
+  const handleContentChange = useCallback((
+    newContent: string,
+  ) => {
+    setLessons(
+      (prevLessons) => prevLessons.map(
+        (lessonList, indexLesson) => {
+          if (indexLesson === index) {
+            return {
+              ...lessonList,
+              content: newContent,
+            };
+          }
+          return lessonList;
+        },
+      ),
+    );
+  }, []);
+
   const handleAddPdf = (i: number) => {
     setLessons((prevLessons) => {
       return prevLessons.map((lessonList, indexLesson) => {
@@ -116,13 +135,11 @@ function CreateLesson({
         value={ lesson.title }
         onChange={ (event) => handleLessonsChange(event, index) }
       />
-      {/* <Textarea
-        label="Conteúdo da aula"
-        name="content"
-        value={ lesson.content }
-        onChange={ (event) => handleLessonsChange(event, index) }
-      /> */}
-      <EditorConvertToHTML />
+      <Editor
+        handleContentChange={ handleContentChange }
+        content={ lesson.content }
+        index={ index }
+      />
       <Input
         crossOrigin={ undefined }
         size="lg"
