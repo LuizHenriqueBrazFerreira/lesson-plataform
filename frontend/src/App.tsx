@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
+import { LessonPropType } from './types/lessons';
 import AdminPage from './pages/Admin/AdminPage';
 import CreateCourse from './pages/Admin/CreateCourse';
 import EditCourse from './pages/Admin/EditCourse';
@@ -12,8 +13,8 @@ import CreateAccount from './pages/Login/CreateAccount';
 import ForgotPassword from './pages/Login/ResetPassword';
 import Header from './components/Header';
 import Homepage from './pages/Course/Homepage';
-import LessonPage from './pages/Course/LessonPage';
 import Lessons from './pages/Course/Lessons';
+import LessonPage from './pages/Course/LessonPage';
 import Login from './pages/Login/Login';
 import NotFound from './pages/Course/NotFound';
 import PdfPage from './pages/Course/PdfPage';

@@ -7,9 +7,17 @@ const extractPath = (path: string) => {
   return pathArray.filter((segment) => segment && !segment.match(/^\d+$/));
 };
 
-function capitalizeFirstLetter(str: string): string {
-  if (!str) return str;
-  return str.charAt(0).toUpperCase() + str.slice(1);
+function translate(str: string): string {
+  switch (str) {
+    case 'courses':
+      return 'Cursos';
+    case 'modules':
+      return 'Módulos';
+    case 'lessons':
+      return 'Aulas';
+    default:
+      return str;
+  }
 }
 
 function truncatePathnameAtSegment(pathname: string, path: string): string {
@@ -31,10 +39,15 @@ function BreadCrumbs() {
   const path = extractPath(pathname);
 
   return (
-    <Breadcrumbs>
+    <Breadcrumbs className="bg-white" separator=">">
       {path.map((segment, index) => (
-        <a key={ index } href={ truncatePathnameAtSegment(pathname, segment) }>
-          {capitalizeFirstLetter(segment)}
+        <a
+          className={ `text-xl hover:text-bg-login 
+          ${index === path.length - 1 ? 'text-black' : 'text-gray-600'}` }
+          key={ index }
+          href={ truncatePathnameAtSegment(pathname, segment) }
+        >
+          {translate(segment)}
         </a>
       ))}
     </Breadcrumbs>

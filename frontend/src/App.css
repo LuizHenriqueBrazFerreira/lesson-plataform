@@ -1,7 +1,26 @@
 iframe {
-  width: 800px;
-  height: 450px;
+  height: 650px;
   margin: auto;
   border-radius: 0.375rem;
 }
 
+.ce-block__content,
+.ce-toolbar__content {
+        max-width: unset;
+}
+
+.cdx-input {
+  display: none;
+}
+
+.cdx-simple-image__picture {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 720px) {
+  iframe {
+    height: 250px;
+  }
+  
+}
