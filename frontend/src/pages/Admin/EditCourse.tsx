@@ -1,14 +1,10 @@
 import { ChangeEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Select, Option } from '@material-tailwind/react';
+import * as helpers from '../../utils/editCourseHelpers';
+import * as requests from '../../services/requests';
 import { Courses, EditModule } from '../../types/courseType';
 import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
-import { setToken, requestData, requestUpdate, requestDelete }
-  from '../../services/requests';
-import { handleModuleEdit, handleLessonEdit, handlePdfEdit,
-  showSuccessMessage, showNoCourseSelectedMessage,
-  requestModules, requestLessons, requestPdfs,
-} from '../../utils/editCourseHelpers';
 import CreateLesson from '../../components/CreateLesson';
 import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
@@ -31,13 +27,11 @@ export default function EditCourse() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token || role !== 'ADMIN') {
-      return navigate('/login');
-    }
-    setToken(token);
+    if (!token || role !== 'ADMIN') return navigate('/login');
+    requests.setToken(token);
     async function fetchData() {
       try {
-        const coursesData = await requestData('/courses');
+        const coursesData = await requests.requestData('/courses');
         setCourses(coursesData);
       } catch (error: any) {
         if (error.isAxiosError) {
@@ -50,7 +44,7 @@ export default function EditCourse() {
 
   const handleChooseCourse = async (value: string) => {
     try {
-      if (token) setToken(token);
+      if (token) requests.setToken(token);
       setCourseTitle(value);
       const selectedCourse = courses.find((course) => course.title === value);
       if (!selectedCourse) return;
@@ -59,11 +53,11 @@ export default function EditCourse() {
       setDuration(selectedCourse.duration);
       setModules([]);
       setLessons([]);
-      const { modulesData, newModules } = await requestModules(selectedCourse.id);
+      const { modulesData, newModules } = await helpers.requestModules(selectedCourse.id);
       setModules(newModules);
       setModulesBackup(newModules);
-      const newLessons = await requestLessons(modulesData);
-      const pdfsData = await requestPdfs(newLessons);
+      const newLessons = await helpers.requestLessons(modulesData);
+      const pdfsData = await helpers.requestPdfs(newLessons);
       const lessonsWithPdfs = newLessons.map((lesson) => {
         const pdfs = pdfsData.filter((pdf) => pdf.lessonId === lesson.id);
         return { ...lesson, pdfs: pdfs ?? [] };
@@ -87,7 +81,7 @@ export default function EditCourse() {
 
   const handleRemoveModule = async (index: number) => {
     try {
-      await requestDelete(`/modules/${modules[index].id}`);
+      await requests.requestDelete(`/modules/${modules[index].id}`);
       const newModules = [...modules];
       newModules.splice(index, 1);
       setModules(newModules);
@@ -100,7 +94,7 @@ export default function EditCourse() {
 
   const handleRemoveLesson = async (index: number) => {
     try {
-      await requestDelete(`/lessons/${lessons[index].id}`);
+      await requests.requestDelete(`/lessons/${lessons[index].id}`);
       const newLessons = [...lessons];
       newLessons.splice(index, 1);
       setLessons(newLessons);
@@ -113,7 +107,7 @@ export default function EditCourse() {
 
   const handleRemoveCourse = async () => {
     try {
-      await requestDelete(`/courses/${courseId}`);
+      await requests.requestDelete(`/courses/${courseId}`);
       window.location.reload();
     } catch (error: any) {
       if (error.isAxiosError) {
@@ -138,8 +132,7 @@ export default function EditCourse() {
   };
 
   const handleLessonsChange = (
-    event: ChangeEvent<HTMLInputElement |
-    HTMLTextAreaElement | HTMLSelectElement> | string,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number,
   ) => {
     const newLessons = [...lessons];
@@ -155,21 +148,19 @@ export default function EditCourse() {
   const handleUpdateCourse = async (event: React.FormEvent) => {
     event.preventDefault();
     if (lessons.length === 0 || modules.length === 0) {
-      return showNoCourseSelectedMessage();
+      return helpers.showNoCourseSelectedMessage();
     }
-    const courseData = await requestUpdate(
+    const courseData = await requests.requestUpdate(
       `/courses/${courseId}`,
       { id: courseId, title: courseTitle, forum: forumURL, duration },
     );
-    const modulesData = await handleModuleEdit(courseId, courseTitle, modules);
-    const lessonsData = await handleLessonEdit(lessons);
-    const pdfsData = await handlePdfEdit(lessons);
+    const modulesData = await helpers.handleModuleEdit(courseId, courseTitle, modules);
+    const lessonsData = await helpers.handleLessonEdit(lessons);
+    const pdfsData = await helpers.handlePdfEdit(lessons);
 
     if (courseData && modulesData && lessonsData && pdfsData) {
-      showSuccessMessage('Curso atualizado com sucesso');
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      helpers.showSuccessMessage('Curso atualizado com sucesso');
+      setTimeout(() => { window.location.reload(); }, 1000);
     }
   };
 
@@ -247,9 +238,7 @@ export default function EditCourse() {
             setLessons={ setLessons }
           />
         ))}
-        <PlusButton onClick={ handleAddLesson }>
-          Adicionar Aula
-        </PlusButton>
+        <PlusButton onClick={ handleAddLesson }>Adicionar Aula</PlusButton>
         <div className="flex gap-4 justify-center">
           <OrangeButton type="submit">Salvar</OrangeButton>
           <WhiteButton onClick={ () => navigate('/admin') }>Voltar</WhiteButton>
