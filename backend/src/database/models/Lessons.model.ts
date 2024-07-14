@@ -13,8 +13,6 @@ InferCreationAttributes<LessonsSequelize>> {
   declare moduleId: number;
   declare title: string;
   declare content: string;
-  declare image: string;
-  declare link: string;
 }
 
 LessonsSequelize.init({
@@ -37,12 +35,6 @@ LessonsSequelize.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
-  image: {
-    type: DataTypes.STRING,
-  },
-  link: {
-    type: DataTypes.STRING,
-  }
 }, {
   sequelize: db,
   modelName: 'Lessons',

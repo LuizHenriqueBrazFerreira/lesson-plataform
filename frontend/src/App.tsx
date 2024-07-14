@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
-import { LessonPropType } from './types/lessons';
 import AdminPage from './pages/Admin/AdminPage';
 import CreateCourse from './pages/Admin/CreateCourse';
 import EditCourse from './pages/Admin/EditCourse';
@@ -50,7 +49,7 @@ function App() {
           element={ <Lessons /> }
         />
         <Route
-          path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
+          path="/courses/:courseId/modules/:moduleId/lessons/lesson/:lessonId"
           element={ <LessonPage /> }
         />
         <Route

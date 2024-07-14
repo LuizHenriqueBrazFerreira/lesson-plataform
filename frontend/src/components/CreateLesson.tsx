@@ -1,19 +1,18 @@
 import { useCallback } from 'react';
 import { Input, Select, Option } from '@material-tailwind/react';
-import { INITIAL_PDF, LessonPropType } from '../types/lessons';
+import { INITIAL_PDF, LessonsType } from '../types/lessons';
 import { requestDelete } from '../services/requests';
 import Editor from './TextEditor';
 import TrashButton from './TrashButton';
 import PlusButton from './PlusButton';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 type CreateLessonType = {
   handleLessonsChange: (event: any, index: number) => void,
   index: number,
-  lesson: LessonPropType,
+  lesson: LessonsType,
   modules: string[],
   handleRemoveLesson: (index: number) => void,
-  setLessons: React.Dispatch<React.SetStateAction<LessonPropType[]>>
+  setLessons: React.Dispatch<React.SetStateAction<LessonsType[]>>
 };
 
 function CreateLesson({
@@ -139,24 +138,6 @@ function CreateLesson({
         handleContentChange={ handleContentChange }
         content={ lesson.content }
         index={ index }
-      />
-      <Input
-        crossOrigin={ undefined }
-        size="lg"
-        type="text"
-        label="Imagem da aula"
-        name="image"
-        value={ lesson.image }
-        onChange={ (event) => handleLessonsChange(event, index) }
-      />
-      <Input
-        crossOrigin={ undefined }
-        size="lg"
-        type="text"
-        label="Link do vídeo da aula"
-        name="link"
-        value={ lesson.link }
-        onChange={ (event) => handleLessonsChange(event, index) }
       />
       {lesson.pdfs.length > 0 && lesson.pdfs.map((pdf, i) => (
         <div key={ pdf.id } className="flex flex-col gap-4">

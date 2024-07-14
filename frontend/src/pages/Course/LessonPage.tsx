@@ -5,13 +5,13 @@ import PdfBar from '../../components/PdfButton';
 import { requestData, setToken } from '../../services/requests';
 import CoursesBackground from '../../components/CoursesBackground';
 import { Module, initialModuleState } from '../../types/courseType';
-import { LessonsType, InitialLessonsType } from '../../types/lessons';
+import { LessonsType } from '../../types/lessons';
 import OrangeButton from '../../components/OrangeButton';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import ReadTextEditor from '../../components/ReadTextEditor';
 
 function LessonPage() {
-  const [lesson, setLesson] = useState<LessonsType>(InitialLessonsType);
+  const [lesson, setLesson] = useState<LessonsType>({} as LessonsType);
   const [module, setModule] = useState<Module>(initialModuleState);
 
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ function LessonPage() {
         title={ module.title }
         moreClasses="gap-10"
       >
-        <BreadCrumbs />
+        <BreadCrumbs lesssonTitle={ lesson.title } />
         <div className="flex md:flex-row flex-col md:justify-between md:items-center">
           <h1
             className="text-2xl md:text-4xl

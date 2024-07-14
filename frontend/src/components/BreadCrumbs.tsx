@@ -7,7 +7,7 @@ const extractPath = (path: string) => {
   return pathArray.filter((segment) => segment && !segment.match(/^\d+$/));
 };
 
-function translate(str: string): string {
+function translate(str: string, lessonTitle = ''): string {
   switch (str) {
     case 'courses':
       return 'Cursos';
@@ -15,6 +15,8 @@ function translate(str: string): string {
       return 'Módulos';
     case 'lessons':
       return 'Aulas';
+    case 'lesson':
+      return `Aula: ${lessonTitle}`;
     default:
       return str;
   }
@@ -34,7 +36,7 @@ function truncatePathnameAtSegment(pathname: string, path: string): string {
   return truncatedSegments.join('/');
 }
 
-function BreadCrumbs() {
+function BreadCrumbs({ lesssonTitle = '' }) {
   const { pathname } = useLocation();
   const path = extractPath(pathname);
 
@@ -47,7 +49,7 @@ function BreadCrumbs() {
           key={ index }
           href={ truncatePathnameAtSegment(pathname, segment) }
         >
-          {translate(segment)}
+          {translate(segment, lesssonTitle)}
         </a>
       ))}
     </Breadcrumbs>

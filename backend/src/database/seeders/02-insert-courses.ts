@@ -75,11 +75,11 @@ export default {
   up: async (queryInterface: QueryInterface) => {
     // Inserir cursos
     await queryInterface.bulkInsert('Courses', [
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', forum: 'www.google.com' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2', forum: 'www.google.com' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', forum: 'www.google.com' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', forum: 'www.google.com' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', forum: 'www.google.com' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', forum: 'www.google.com', duration: 'Duração estimada: 2 horas' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2', forum: 'www.google.com', duration: 'Duração estimada: 3 horas' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', forum: 'www.google.com', duration: 'Duração estimada: 1 hora' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', forum: 'www.google.com', duration: 'Duração estimada: 5 horas' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', forum: 'www.google.com', duration: 'Duração estimada: 2 horas' },
     ]);
 
     // Inserir módulos
@@ -103,18 +103,18 @@ export default {
     
     // Inserir lições
 await queryInterface.bulkInsert('Lessons', [
-  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content, image: 'https://static.todamateria.com.br/upload/pl/an/plano-de-aula-og.jpg', link: 'https://www.youtube.com/embed/3iQu3E59yqM?si=jGd4wzZGOy8-Xbk0' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content, image: '', link: 'https://www.youtube.com/embed/sTlzjFABmoA?si=MRdkRhVFcxQo6944' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content, image: 'url_da_imagem_3', link: 'https://www.youtube.com/embed/niRLEyu4qpg?si=i8OBpC73SuX2CSR5' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content, image: 'url_da_imagem_4', link: 'url_do_link_4' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content, image: 'url_da_imagem_5', link: 'url_do_link_5' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content, image: 'url_da_imagem_6', link: 'url_do_link_6' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content, image: 'url_da_imagem_7', link: 'url_do_link_7' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content, image: 'url_da_imagem_8', link: 'url_do_link_8' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content, image: 'url_da_imagem_9', link: 'url_do_link_9' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content, image: 'url_da_imagem_10', link: 'url_do_link_10' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content, image: 'url_da_imagem_11', link: 'url_do_link_11' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content, image: 'url_da_imagem_12', link: 'url_do_link_12' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content },
 ]);
 // Inserir usuários com cursos
 const user1 = await UsersSequelize.create({

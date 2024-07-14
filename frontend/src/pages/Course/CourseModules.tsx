@@ -46,6 +46,7 @@ function CourseModules() {
 
   return (
     <CoursesBackground heading="Curso" title={ course.title }>
+      <p className="self-center text-xl">{ course.duration }</p>
       <BreadCrumbs />
       <div className="grid grid-cols-1 md:grid-cols-2">
         {

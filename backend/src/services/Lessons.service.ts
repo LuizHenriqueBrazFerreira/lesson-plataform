@@ -6,7 +6,7 @@ class LessonsService implements ILessonsService {
   private model = new LessonsModel();
   private _moduleModel = new ModulesModel()
 
-  async createLesson(moduleTitle: string, title: string, content: string, image: string, link: string) {
+  async createLesson(moduleTitle: string, title: string, content: string) {
     console.log(moduleTitle)
     const updateTable = new UpdateTables()
     try {
@@ -19,7 +19,7 @@ class LessonsService implements ILessonsService {
       
       const moduleId = moduleExists.id;
       const courseId = moduleExists.courseId;
-      const lesson = await this.model.createLesson(moduleId, title, content, image, link);
+      const lesson = await this.model.createLesson(moduleId, title, content);
 
       updateTable.updateLessonWatched(lesson.id, moduleId);
 
@@ -69,7 +69,7 @@ class LessonsService implements ILessonsService {
     }
   }
 
-  async updateLessonById(id: number, moduleTitle: string, title: string, content: string, image: string, link: string) {
+  async updateLessonById(id: number, moduleTitle: string, title: string, content: string) {
     try {
       if (!title || !content) return { status: 'BAD_REQUEST', data: { message: 'Campos obrigatórios não preenchidos' } };
 
@@ -78,7 +78,7 @@ class LessonsService implements ILessonsService {
       if (!moduleExists) return { status: 'NOT_FOUND', data: { message: `Módulo não encontrado, módulo atual: ${moduleTitle}` } };
       
       const moduleId = moduleExists.id;
-      const lesson = await this.model.updateLessonById(id, moduleId, title, content, image, link);
+      const lesson = await this.model.updateLessonById(id, moduleId, title, content);
 
       return { status: 'SUCCESSFUL', data: lesson };
     }

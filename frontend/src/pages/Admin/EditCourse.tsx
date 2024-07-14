@@ -2,7 +2,7 @@ import { ChangeEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Select, Option } from '@material-tailwind/react';
 import { Courses, EditModule } from '../../types/courseType';
-import { LessonPropType, INITIAL_LESSON } from '../../types/lessons';
+import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
 import { setToken, requestData, requestUpdate, requestDelete }
   from '../../services/requests';
 import { handleModuleEdit, handleLessonEdit, handlePdfEdit,
@@ -19,11 +19,12 @@ import WhiteButton from '../../components/WhiteButton';
 export default function EditCourse() {
   const [modules, setModules] = useState<EditModule[]>([]);
   const [modulesBackup, setModulesBackup] = useState<EditModule[]>([]);
-  const [lessons, setLessons] = useState<LessonPropType[]>([]);
-  const [lessonsBackup, setLessonsBackup] = useState<LessonPropType[]>([]);
+  const [lessons, setLessons] = useState<LessonsType[]>([]);
+  const [lessonsBackup, setLessonsBackup] = useState<LessonsType[]>([]);
   const [courses, setCourses] = useState<Courses[]>([]);
   const [courseTitle, setCourseTitle] = useState('');
   const [forumURL, setForumURL] = useState('');
+  const [duration, setDuration] = useState('');
   const [courseId, setCourseId] = useState(0);
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
@@ -55,6 +56,7 @@ export default function EditCourse() {
       if (!selectedCourse) return;
       setCourseId(selectedCourse.id);
       setForumURL(selectedCourse.forum);
+      setDuration(selectedCourse.duration);
       setModules([]);
       setLessons([]);
       const { modulesData, newModules } = await requestModules(selectedCourse.id);
@@ -157,7 +159,7 @@ export default function EditCourse() {
     }
     const courseData = await requestUpdate(
       `/courses/${courseId}`,
-      { id: courseId, title: courseTitle, forum: forumURL },
+      { id: courseId, title: courseTitle, forum: forumURL, duration },
     );
     const modulesData = await handleModuleEdit(courseId, courseTitle, modules);
     const lessonsData = await handleLessonEdit(lessons);
@@ -165,9 +167,9 @@ export default function EditCourse() {
 
     if (courseData && modulesData && lessonsData && pdfsData) {
       showSuccessMessage('Curso atualizado com sucesso');
-      setCourseTitle('');
-      setModules([]);
-      setLessons([]);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   };
 
@@ -208,6 +210,14 @@ export default function EditCourse() {
           label="Link do fórum"
           value={ forumURL }
           onChange={ (event) => setForumURL(event.target.value) }
+        />
+        <Input
+          crossOrigin={ undefined }
+          size="lg"
+          type="text"
+          label="Duração do curso"
+          value={ duration }
+          onChange={ (event) => setDuration(event.target.value) }
         />
         {modules.map((module, index) => (
           <div key={ index }>

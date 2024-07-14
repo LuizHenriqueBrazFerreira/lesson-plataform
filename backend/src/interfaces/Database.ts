@@ -13,6 +13,7 @@ export interface CoursesDB {
   id: number,
   title: string,
   forum: string,
+  duration: string,
 }
 
 export interface ModulesDB {
@@ -26,8 +27,6 @@ export interface LessonsDB {
   moduleId: number,
   title: string,
   content: string,
-  image: string,
-  link?: string,
 };
 
 export interface UserCoursesDB {

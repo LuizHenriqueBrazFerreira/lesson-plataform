@@ -15,6 +15,7 @@ export type Courses = {
   id: number;
   title: string;
   forum: string;
+  duration: string;
 };
 
 export type UserCourses = {
@@ -31,6 +32,7 @@ export const initialCourseState: Courses = {
   id: 0,
   title: '',
   forum: '',
+  duration: '',
 };
 
 export const initialModuleState: Module = {
