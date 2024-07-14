@@ -20,6 +20,7 @@ function translate(str: string, lessonTitle = ''): string {
     default:
       return str;
   }
+}
 
 function truncatePathnameAtSegment(pathname: string, path: string): string {
   const segments = pathname.split('/');
@@ -39,14 +40,17 @@ function BreadCrumbs({ lesssonTitle = '' }) {
   const { pathname } = useLocation();
   const path = extractPath(pathname);
 
- return (
+  if (lesssonTitle) path.push('lesson');
+
+  return (
     <Breadcrumbs className="bg-white" separator=">">
       {path.map((segment, index) => (
         <a
           className={ `text-xl hover:text-bg-login 
           ${index === path.length - 1 ? 'text-black' : 'text-gray-600'}` }
           key={ index }
-          href={ truncatePathnameAtSegment(pathname, segment) }
+          href={ index === path.length - 1 ? ''
+            : truncatePathnameAtSegment(pathname, segment) }
         >
           {translate(segment, lesssonTitle)}
         </a>

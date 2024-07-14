@@ -75,7 +75,7 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
         </div>
         <div
           aria-hidden="true"
-          onClick={ () => navigate(`${lessonsUrl}/lesson/${lesson.id}`) }
+          onClick={ () => navigate(`${lessonsUrl}/${lesson.id}`) }
           className="lg:text-3xl font-semibold text-left
           grow h-[9rem]"
         >
