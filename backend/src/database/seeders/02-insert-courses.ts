@@ -9,19 +9,67 @@ import bcrypt from 'bcryptjs'
 
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
-const content = `Em geral, para funções com um valor de entrada pequeno, não costumamos nos importar com a eficiência do algoritmo.
-
-Entretanto, quando nossa função tiver que lidar com valores de entrada muito grandes, por exemplo: mil valores ao mesmo tempo? Ou quem sabe milhões de valores? Nesses casos, a eficiência do que estamos fazendo torna-se importante e nós, pessoas desenvolvedoras, precisamos ser capazes de lidar com esses cenários!
-
-⚠️ Aviso: Embora pareça que estamos falando de quantidades irreais, há uma série de exemplos que comprovam que problemas gerados por entradas de dados grandiosas são bastante comuns.
-
-O famoso Discord, por exemplo, já enfrentou a demanda de ordenar alfabeticamente uma lista de amigos com até 250.000 pessoas. E você sabe o tempo máximo que o algoritmo tinha pra rodar? Menos de um segundo e meio! Um desafio e tanto que pôde ser solucionado com o conhecimento sobre Algoritmos.
-
-De olho na dica 👀: Esse conhecimento é tão importante no mundo da tecnologia, que as famosas Big Techs como: Google, Amazon e Facebook, fazem processos seletivos nos quais a capacidade de fazer esse tipo de análise é obrigatória.
-
-Em suma, quando cresce a escala, esse conhecimento se torna essencial. E com esse conhecimento você vai perceber a existência de certos tipos de problemas que ainda não têm solução, mesmo reunindo toda a capacidade computacional do planeta.
-
-⚠️ Aviso: Parece exagero? Mas acredite, não é. Vamos seguir para o conteúdo e isso ficará mais nítido para você. 🙂`;
+const content = `{
+  "time": 1647534033754,
+  "blocks": [
+    {
+      "type": "header",
+      "data": {
+        "text": "Título Exemplo",
+        "level": 2
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Este é um parágrafo de exemplo para ilustrar como podemos adicionar conteúdo textual ao nosso editor."
+      }
+    },
+    {
+      "type": "image",
+      "data": {
+        "file": {
+          "url": "https://www.radiologiaclinicadecampinas.com.br/_libs/imgs/final/154.jpg"
+        },
+        "caption": "Imagem Exemplar",
+        "withBorder": false,
+        "stretched": false,
+        "withBackground": false
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Abaixo, você encontrará um vídeo incorporado diretamente do YouTube, proporcionando uma experiência multimídia rica."
+      }
+    },
+    {
+      "type": "embed",
+      "data": {
+        "service": "youtube",
+        "source": "https://www.youtube.com/watch?v=3iQu3E59yqM&ab_channel=PandaIsGood",
+        "embed": "https://www.youtube.com/embed/3iQu3E59yqM?si=HOvuNdPtg8AEkF58",
+        "width": 560,
+        "height": 315,
+        "caption": "Vídeo Exemplar do YouTube"
+      }
+    },
+    {
+      "type": "header",
+      "data": {
+        "text": "Conclusão",
+        "level": 2
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Este exemplo ilustra como diferentes tipos de conteúdo, como títulos, parágrafos, imagens e vídeos, podem ser combinados para criar uma página rica e interativa."
+      }
+    }
+  ],
+  "version": "2.22.2"
+}`;
 
 export default {
   up: async (queryInterface: QueryInterface) => {
