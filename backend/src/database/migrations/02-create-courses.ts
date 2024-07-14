@@ -19,6 +19,11 @@ export default {
         type: DataTypes.STRING,
         defaultValue: ''
       },
+      duration: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        defaultValue: ''
+      }
     })
   },
   down(queryInterface: QueryInterface) {

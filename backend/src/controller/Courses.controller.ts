@@ -7,9 +7,9 @@ class CoursesController implements ICoursesController {
   constructor(private coursesService = new CoursesService()) {}
 
   async createCourse(req: Request, res: Response) {
-    const { title, forum } = req.body;
+    const { title, forum, duration } = req.body;
 
-    const { status, data } = await this.coursesService.createCourse(title, forum);
+    const { status, data } = await this.coursesService.createCourse(title, forum, duration);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
@@ -39,9 +39,9 @@ class CoursesController implements ICoursesController {
 
   async updateCourseById(req: Request, res: Response) {
     const { id } = req.params;
-    const { title, forum } = req.body;
+    const { title, forum, duration } = req.body;
 
-    const { status, data } = await this.coursesService.updateCourseById(Number(id), title, forum);
+    const { status, data } = await this.coursesService.updateCourseById(Number(id), title, forum, duration);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }

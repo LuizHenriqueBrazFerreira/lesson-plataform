@@ -5,8 +5,8 @@ import LessonsSequelize from '../database/models/Lessons.model';
 class CoursesModel implements ICoursesModel {
   private model = CoursesSequelize;
 
-  async createCourse(title: string, forum = '') {
-    const course = await this.model.create({ title, forum });
+  async createCourse(title: string, forum = '', duration = '') {
+    const course = await this.model.create({ title, forum, duration });
 
     return course;
   }
@@ -54,8 +54,8 @@ class CoursesModel implements ICoursesModel {
     return course;
   }
 
-  async updateCourseById(id: number, title: string, forum = '') {
-    const course = await this.model.update({ title, forum }, { where: { id } });
+  async updateCourseById(id: number, title: string, forum = '', duration = '') {
+    const course = await this.model.update({ title, forum, duration }, { where: { id } });
 
     return course;
   }

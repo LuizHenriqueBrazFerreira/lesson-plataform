@@ -6,22 +6,23 @@ export interface ICourses {
     id: number;
     title: string;
     forum?: string;
+    duration?: string;
 }
 
 export interface ICoursesModel {
-  createCourse(title: string, forum: string): Promise<ICourses>;
+  createCourse(title: string, forum: string, duration: string): Promise<ICourses>;
   getCourses(): Promise<ICourses[]>;
   getCourseById(id: number): Promise<CoursesSequelize | null>;
   getCourseByTitle(courseTitle: string): Promise<CoursesSequelize | null>;
-  updateCourseById(id: number, title: string): Promise<[affectedCount: number]>;
+  updateCourseById(id: number, title: string, forum: string, duration: string): Promise<[affectedCount: number]>;
   deleteCourseById(id: number): Promise<number>;
 }
 
 export interface ICoursesService {
-  createCourse(title: string, forum: string): Promise<ServiceResponse<CoursesSequelize>>;
+  createCourse(title: string, forum: string, duration: string): Promise<ServiceResponse<CoursesSequelize>>;
   getCourses(): Promise<ServiceResponse<CoursesSequelize[]>>;
   getCourseById(id: number): Promise<ServiceResponse<CoursesSequelize | null>>;
-  updateCourseById(id: number, title: string): Promise<ServiceResponse<[affectedCount: number]>>;
+  updateCourseById(id: number, title: string, forum: string, duration: string): Promise<ServiceResponse<[affectedCount: number]>>;
   deleteCourseById(id: number): Promise<ServiceResponse<number>>;
 }
 

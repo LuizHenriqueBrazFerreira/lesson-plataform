@@ -6,8 +6,6 @@ import { DataTypes,
 } from 'sequelize';
 import db from './index';
 import CoursesSequelize from './Courses.model';
-import LessonsSequelize from './Lessons.model';
-
 
 class ModulesSequelize extends Model<InferAttributes<ModulesSequelize>,
 InferCreationAttributes<ModulesSequelize>> {

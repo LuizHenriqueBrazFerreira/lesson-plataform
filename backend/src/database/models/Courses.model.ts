@@ -11,6 +11,7 @@ InferCreationAttributes<CoursesSequelize>> {
   declare id: CreationOptional<number>;
   declare title: string;
   declare forum: string;
+  declare duration: string;
 }
 
 CoursesSequelize.init({
@@ -25,6 +26,11 @@ CoursesSequelize.init({
     allowNull: false,
   },
   forum: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
+  duration: {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: '',

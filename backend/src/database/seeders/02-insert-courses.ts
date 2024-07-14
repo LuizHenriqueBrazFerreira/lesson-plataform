@@ -9,29 +9,77 @@ import bcrypt from 'bcryptjs'
 
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 
-const content = `Em geral, para funções com um valor de entrada pequeno, não costumamos nos importar com a eficiência do algoritmo.
-
-Entretanto, quando nossa função tiver que lidar com valores de entrada muito grandes, por exemplo: mil valores ao mesmo tempo? Ou quem sabe milhões de valores? Nesses casos, a eficiência do que estamos fazendo torna-se importante e nós, pessoas desenvolvedoras, precisamos ser capazes de lidar com esses cenários!
-
-⚠️ Aviso: Embora pareça que estamos falando de quantidades irreais, há uma série de exemplos que comprovam que problemas gerados por entradas de dados grandiosas são bastante comuns.
-
-O famoso Discord, por exemplo, já enfrentou a demanda de ordenar alfabeticamente uma lista de amigos com até 250.000 pessoas. E você sabe o tempo máximo que o algoritmo tinha pra rodar? Menos de um segundo e meio! Um desafio e tanto que pôde ser solucionado com o conhecimento sobre Algoritmos.
-
-De olho na dica 👀: Esse conhecimento é tão importante no mundo da tecnologia, que as famosas Big Techs como: Google, Amazon e Facebook, fazem processos seletivos nos quais a capacidade de fazer esse tipo de análise é obrigatória.
-
-Em suma, quando cresce a escala, esse conhecimento se torna essencial. E com esse conhecimento você vai perceber a existência de certos tipos de problemas que ainda não têm solução, mesmo reunindo toda a capacidade computacional do planeta.
-
-⚠️ Aviso: Parece exagero? Mas acredite, não é. Vamos seguir para o conteúdo e isso ficará mais nítido para você. 🙂`;
+const content = `{
+  "time": 1647534033754,
+  "blocks": [
+    {
+      "type": "header",
+      "data": {
+        "text": "Título Exemplo",
+        "level": 2
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Este é um parágrafo de exemplo para ilustrar como podemos adicionar conteúdo textual ao nosso editor."
+      }
+    },
+    {
+      "type": "image",
+      "data": {
+        "file": {
+          "url": "https://www.radiologiaclinicadecampinas.com.br/_libs/imgs/final/154.jpg"
+        },
+        "caption": "Imagem Exemplar",
+        "withBorder": false,
+        "stretched": false,
+        "withBackground": false
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Abaixo, você encontrará um vídeo incorporado diretamente do YouTube, proporcionando uma experiência multimídia rica."
+      }
+    },
+    {
+      "type": "embed",
+      "data": {
+        "service": "youtube",
+        "source": "https://www.youtube.com/watch?v=3iQu3E59yqM&ab_channel=PandaIsGood",
+        "embed": "https://www.youtube.com/embed/3iQu3E59yqM?si=HOvuNdPtg8AEkF58",
+        "width": 560,
+        "height": 315,
+        "caption": "Vídeo Exemplar do YouTube"
+      }
+    },
+    {
+      "type": "header",
+      "data": {
+        "text": "Conclusão",
+        "level": 2
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Este exemplo ilustra como diferentes tipos de conteúdo, como títulos, parágrafos, imagens e vídeos, podem ser combinados para criar uma página rica e interativa."
+      }
+    }
+  ],
+  "version": "2.22.2"
+}`;
 
 export default {
   up: async (queryInterface: QueryInterface) => {
     // Inserir cursos
     await queryInterface.bulkInsert('Courses', [
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', forum: 'www.google.com' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2', forum: 'www.google.com' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', forum: 'www.google.com' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', forum: 'www.google.com' },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', forum: 'www.google.com' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', forum: 'www.google.com', duration: 'Duração estimada: 2 horas' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2', forum: 'www.google.com', duration: 'Duração estimada: 3 horas' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', forum: 'www.google.com', duration: 'Duração estimada: 1 hora' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', forum: 'www.google.com', duration: 'Duração estimada: 5 horas' },
+      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', forum: 'www.google.com', duration: 'Duração estimada: 2 horas' },
     ]);
 
     // Inserir módulos
@@ -55,18 +103,18 @@ export default {
     
     // Inserir lições
 await queryInterface.bulkInsert('Lessons', [
-  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content, image: 'https://static.todamateria.com.br/upload/pl/an/plano-de-aula-og.jpg', link: 'https://www.youtube.com/embed/3iQu3E59yqM?si=jGd4wzZGOy8-Xbk0' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content, image: '', link: 'https://www.youtube.com/embed/sTlzjFABmoA?si=MRdkRhVFcxQo6944' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content, image: 'url_da_imagem_3', link: 'https://www.youtube.com/embed/niRLEyu4qpg?si=i8OBpC73SuX2CSR5' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content, image: 'url_da_imagem_4', link: 'url_do_link_4' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content, image: 'url_da_imagem_5', link: 'url_do_link_5' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content, image: 'url_da_imagem_6', link: 'url_do_link_6' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content, image: 'url_da_imagem_7', link: 'url_do_link_7' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content, image: 'url_da_imagem_8', link: 'url_do_link_8' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content, image: 'url_da_imagem_9', link: 'url_do_link_9' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content, image: 'url_da_imagem_10', link: 'url_do_link_10' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content, image: 'url_da_imagem_11', link: 'url_do_link_11' },
-  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content, image: 'url_da_imagem_12', link: 'url_do_link_12' },
+  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 1, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 2, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 3, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 4, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 5, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content },
+  { title: 'Coloque o título da aula aqui.....', module_id: 6, content: content },
 ]);
 // Inserir usuários com cursos
 const user1 = await UsersSequelize.create({
