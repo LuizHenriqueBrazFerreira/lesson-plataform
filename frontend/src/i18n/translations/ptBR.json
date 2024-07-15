@@ -28,12 +28,12 @@
         "Voltar": "Voltar",
         "Aula": "Aula",
         "Ja estudei": "Já estudei",
-        "ArquivosPdf": "Arquivos PDF",
+        "Arquivos Pdf": "Arquivos PDF",
         "Organizacao": "Organização",
-        "SemArquivos": "Não há arquivos PDF disponíveis para esta aula",
+        "Não há arquivos PDF disponíveis para esta aula": "Não há arquivos PDF disponíveis para esta aula",
         "ConfirmarSenha": "Confirmar senha",
         "Editar": "Editar",
         "Salvar": "Salvar",
-        "VoceNaoPossuiCursosSalvos": "Você não possui cursos salvos"
+        "Você não possui cursos salvos": "Você não possui cursos salvos"
     }
 }

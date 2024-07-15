@@ -58,7 +58,7 @@ function BookmarkedCourses() {
         className="text-xl md:text-4xl
            text-btn-orange font-bold"
       >
-        {t("CursosSalvos")}
+        {t("Cursos Salvos")}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 min-w-fit">
         <br />
@@ -79,7 +79,7 @@ function BookmarkedCourses() {
               className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
-              {t("VoceNaoPossuiCursosSalvos")}
+              {t("Você não possui cursos salvos")}
             </h2>
           )}
       </div>

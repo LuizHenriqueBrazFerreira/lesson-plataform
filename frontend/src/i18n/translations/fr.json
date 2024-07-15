@@ -28,12 +28,12 @@
         "Voltar": "Retour",
         "Aula": "Leçon",
         "Ja estudei": "J'ai déjà étudié",
-        "ArquivosPdf": "Fichiers PDF",
+        "Arquivos Pdf": "Fichiers PDF",
         "Organizacao": "Organisation",
-        "SemArquivos": "Il n'y a pas de fichiers PDF disponibles pour cette leçon",
+        "Não há arquivos PDF disponíveis para esta aula": "Il n'y a pas de fichiers PDF disponibles pour cette leçon",
         "ConfirmarSenha": "Confirmer le mot de passe",
         "Editar": "Éditer",
         "Salvar": "Sauvegarder",
-        "VoceNaoPossuiCursosSalvos": "Vous n'avez pas de cours sauvegardés"
+        "Você não possui cursos salvos": "Vous n'avez pas de cours sauvegardés"
     }
 }
