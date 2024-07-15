@@ -29,11 +29,11 @@
         "Aula": "Lesson",
         "Ja estudei": "I have studied",
         "Organizacao": "Organization",
-        "ArquivosPdf": "PDF files",
-        "SemArquivos": "There are no PDF files available for this lesson",
+        "Arquivos Pdf": "PDF files",
+        "Não há arquivos PDF disponíveis para esta aula": "There are no PDF files available for this lesson",
         "ConfirmarSenha": "Confirm password",
         "Editar": "Edit",
         "Salvar": "Save",
-        "VoceNaoPossuiCursosSalvos": "You don't have saved courses"
+        "Você não possui cursos salvos": "You don't have saved courses"
     }
 }

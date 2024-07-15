@@ -29,11 +29,11 @@
         "Aula": "Lección",
         "Ja estudei": "Ya he estudiado",
         "Organizacao": "Organización",
-        "ArquivosPdf": "Archivos PDF",
-        "SemArquivos": "No hay archivos PDF disponibles para esta lección",
+        "Arquivos Pdf": "Archivos PDF",
+        "Não há arquivos PDF disponíveis para esta aula": "No hay archivos PDF disponibles para esta lección",
         "ConfirmarSenha": "Confirmar contraseña",
         "Editar": "Editar",
         "Salvar": "Guardar",
-        "VoceNaoPossuiCursosSalvos": "No tiene cursos guardados"
+        "Você não possui cursos salvos": "No tiene cursos guardados"
     }
 }

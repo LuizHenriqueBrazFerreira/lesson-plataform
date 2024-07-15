@@ -119,7 +119,7 @@ function Profile() {
         className="text-2xl md:text-4xl
             text-btn-orange font-bold"
       >
-        {t("MeuPerfil")}
+        {t("Meu Perfil")}
       </h1>
       <div className="flex flex-col justify-evenly grow">
         <img
@@ -162,7 +162,7 @@ function Profile() {
           name="organization"
           size="lg"
           type="text"
-          label={t("OrganizacaoOpcional")}
+          label={t("Organizacao opcional")}
           value={ user.organization }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -200,7 +200,7 @@ function Profile() {
           name="confirmPassword"
           size="lg"
           type={ showPassword ? 'text' : 'password' }
-          label={t("ConfirmeSuaSenha")}
+          label={t("Confirme sua senha")}
           value={ user.confirmPassword }
           disabled={ isDisabled }
           onChange={ handleChange }

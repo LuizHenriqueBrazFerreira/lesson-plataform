@@ -43,7 +43,7 @@ function PdfPage() {
     <div>
       <CoursesBackground>
         <h1 className="text-xl md:text-4xl text-btn-orange font-bold mb-10">
-          {t("ArquivosPdf")}
+          {t("Arquivos Pdf")}
         </h1>
         {pdfs.length > 0 ? (
           <div className="flex flex-col flex-wrap gap-4 text-xl grow">
@@ -63,7 +63,7 @@ function PdfPage() {
             ))}
           </div>
         ) : (
-          <p className="text-red-500">{t("SemArquivos")}</p>
+          <p className="text-red-500">{t("Não há arquivos PDF disponíveis para esta aula")}</p>
         )}
         <OrangeButton
           onClick={ () => navigate(-1) }
