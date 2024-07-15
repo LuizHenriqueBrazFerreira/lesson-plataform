@@ -119,7 +119,7 @@ function CreateAccount() {
         <h1
           className="text-xl md:text-4xl text-btn-orange mb-3 font-semibold"
         >
-          {t("CadastreSe")}
+          {t("Cadastre-se")}
         </h1>
         <Input
           crossOrigin={ undefined }
@@ -128,7 +128,7 @@ function CreateAccount() {
           size="lg"
           type="text"
           onChange={ handleChange }
-          label={t("NomeCompleto")}
+          label={t("Nome Completo")}
         />
         <Input
           crossOrigin={ undefined }
@@ -155,7 +155,7 @@ function CreateAccount() {
           size="lg"
           type="text"
           onChange={ handleChange }
-          label={t("OrganizacaoOpcional")}
+          label={t("Organizacao opcional")}
         />
         <div>
           <Input
@@ -192,7 +192,7 @@ function CreateAccount() {
           size="lg"
           type={ showPassword ? 'text' : 'password' }
           onChange={ handleChange }
-          label={t("ConfirmeSuaSenha")}
+          label={t("Confirme sua senha")}
         />
         { message === 'E-mail reenviado com sucesso.'
         || message === 'Usuário criado com sucesso.'
@@ -204,7 +204,7 @@ function CreateAccount() {
         >
           {t("Cadastrar")}
         </OrangeButton>
-        <p className="self-center">{t("JaPossuiConta")}</p>
+        <p className="self-center">{t("Ja possui conta?")}</p>
         <WhiteButton
           type="button"
           onClick={ () => navigate('/login') }

@@ -66,7 +66,7 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
             {`${t("Aula")} ${index + 1}`}
           </h2>
           <div className="flex items-center text-xl font-semibold  text-btn-orange">
-            {t("JaEstudei")}
+            {t("Ja estudei")}
             <Checkbox
               crossOrigin={ undefined }
               color="orange"

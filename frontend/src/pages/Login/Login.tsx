@@ -137,14 +137,14 @@ function Login() {
           active:text-blue-500 hover:text-blue-700"
           onClick={ handleForgotPassword }
         >
-          {t("EsqueceuSuaSenha")}
+          {t("Esqueceu sua senha?")}
         </Button>
-        <p className="self-center">{t("AindaNaoTemUmaConta")}</p>
+        <p className="self-center">{t("Ainda não tem uma conta?")}</p>
         <WhiteButton
           type="button"
           onClick={ () => navigate('/create-account') }
         >
-          {t("CadastreSe")}
+          {t("Cadastre-se")}
         </WhiteButton>
       </FormBackground>
     </LoginBackground>

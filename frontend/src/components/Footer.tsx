@@ -38,7 +38,7 @@ function Footer() {
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
             >
-              {t("NossoSite")}
+              {t("Nosso Site")}
             </Typography>
           </li>
           <li className="flex gap-2 items-center">
@@ -63,7 +63,7 @@ function Footer() {
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
             >
-              {t("SuportePorEmail")}
+              {t("Suporte Por Email")}
             </Typography>
           </li>
           <li className="flex gap-2 items-center">

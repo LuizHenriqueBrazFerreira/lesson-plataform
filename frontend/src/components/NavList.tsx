@@ -19,7 +19,7 @@ export default function NavList() {
                   className="flex items-center justify-center
                  hover:text-blue-500 transition-colors"
                 >
-                  {t("MeusCursos")}
+                  {t("Meus Cursos")}
                 </a>
               </Typography>
               <Typography
@@ -32,7 +32,7 @@ export default function NavList() {
                   href="/bookmarked"
                   className="flex items-center justify-center hover:text-blue-500 transition-colors"
                 >
-                  {t("CursosSalvos")}
+                  {t("Cursos Salvos")}
                 </a>
               </Typography>
               <Typography
@@ -45,7 +45,7 @@ export default function NavList() {
                   href="/profile"
                   className="flex items-center justify-center hover:text-blue-500 transition-colors"
                 >
-                  {t("MeuPerfil")}
+                  {t("Meu Perfil")}
                 </a>
               </Typography>
               <Typography
