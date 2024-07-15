@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { Breadcrumbs } from '@material-tailwind/react';
+import { useTranslation } from "react-i18next";
 
 const extractPath = (path: string) => {
   const pathArray = path.split('/');
@@ -7,20 +8,6 @@ const extractPath = (path: string) => {
   return pathArray.filter((segment) => segment && !segment.match(/^\d+$/));
 };
 
-function translate(str: string, lessonTitle = ''): string {
-  switch (str) {
-    case 'courses':
-      return 'Cursos';
-    case 'modules':
-      return 'Módulos';
-    case 'lessons':
-      return 'Aulas';
-    case 'lesson':
-      return `Aula: ${lessonTitle}`;
-    default:
-      return str;
-  }
-}
 
 function truncatePathnameAtSegment(pathname: string, path: string): string {
   const segments = pathname.split('/');
@@ -39,6 +26,22 @@ function truncatePathnameAtSegment(pathname: string, path: string): string {
 function BreadCrumbs({ lesssonTitle = '' }) {
   const { pathname } = useLocation();
   const path = extractPath(pathname);
+  const { t } = useTranslation();
+
+  function translate(str: string, lessonTitle = ''): string {
+    switch (str) {
+      case 'courses':
+        return t("Curso");
+      case 'modules':
+        return t("Módulos");
+      case 'lessons':
+        return t("Aulas");
+      case 'lesson':
+        return `${t("Aula")}: ${lessonTitle}`;
+      default:
+        return str;
+    }
+  }
 
   if (lesssonTitle) path.push('lesson');
 
