@@ -4,10 +4,12 @@ import CoursesBackground from '../../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../../services/requests';
 import { UserCourses } from '../../types/courseType';
 import CourseCard from '../../components/CourseCard';
+import { useTranslation } from "react-i18next";
 
 function StudentCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
   const [hasCourses, setHasCourses] = useState(true);
+  const { t } = useTranslation();
 
   const userId = localStorage.getItem('userId');
 
@@ -53,7 +55,7 @@ function StudentCourses() {
   return (
     <CoursesBackground>
       <h1 className="text-xl md:text-4xl text-btn-orange font-bold">
-        Meus Cursos
+        {t("MeusCursos")}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2">
         { hasCourses ? (
@@ -71,7 +73,7 @@ function StudentCourses() {
               className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
-              Você ainda não possui cursos
+              {t("VoceNaoPossuiCursosSalvos")}
             </h2>
           )}
       </div>

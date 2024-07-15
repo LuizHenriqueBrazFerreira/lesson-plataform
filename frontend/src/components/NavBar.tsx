@@ -3,72 +3,12 @@ import { useState, useEffect } from 'react';
 import {
   Navbar,
   Collapse,
-  Typography,
   IconButton,
 } from '@material-tailwind/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import NavList from './NavList';
 
-const navList = (
-  <ul
-    className="mt-2 p-4 lg:p-0 bg-white border-2 lg:border-none
-    lg:flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6"
-  >
-    <Typography
-      as="li"
-      variant="small"
-      color="blue-gray"
-      className="p-1 font-medium text-xl"
-    >
-      <a
-        href="/courses"
-        className="flex items-center justify-center
-       hover:text-blue-500 transition-colors"
-      >
-        Meus Cursos
-      </a>
-    </Typography>
-    <Typography
-      as="li"
-      variant="small"
-      color="blue-gray"
-      className="p-1 font-medium text-xl"
-    >
-      <a
-        href="/bookmarked"
-        className="flex items-center justify-center hover:text-blue-500 transition-colors"
-      >
-        Cursos Salvos
-      </a>
-    </Typography>
-    <Typography
-      as="li"
-      variant="small"
-      color="blue-gray"
-      className="p-1 font-medium text-xl"
-    >
-      <a
-        href="/profile"
-        className="flex items-center justify-center hover:text-blue-500 transition-colors"
-      >
-        Meu Perfil
-      </a>
-    </Typography>
-    <Typography
-      as="li"
-      variant="small"
-      color="blue-gray"
-      className="p-1 font-medium text-xl"
-    >
-      <a
-        href="/"
-        className="flex items-center justify-center hover:text-blue-500 transition-colors"
-        onClick={ () => localStorage.clear() }
-      >
-        Sair
-      </a>
-    </Typography>
-  </ul>
-);
+
 
 function NavBar() {
   const [openNav, setOpenNav] = useState(false);
@@ -91,7 +31,7 @@ function NavBar() {
     >
       <div className="flex justify-end text-black">
         <div className="hidden md:block">
-          {navList}
+          <NavList />
         </div>
         <IconButton
           variant="text"
@@ -108,7 +48,7 @@ function NavBar() {
         </IconButton>
       </div>
       <Collapse open={ openNav }>
-        {navList}
+        <NavList />
       </Collapse>
     </Navbar>
   );

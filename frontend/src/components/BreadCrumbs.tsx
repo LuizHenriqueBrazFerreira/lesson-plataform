@@ -20,6 +20,7 @@ function translate(str: string, lessonTitle = ''): string {
     default:
       return str;
   }
+}
 
 function truncatePathnameAtSegment(pathname: string, path: string): string {
   const segments = pathname.split('/');
