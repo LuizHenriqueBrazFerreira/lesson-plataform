@@ -8,7 +8,6 @@ const extractPath = (path: string) => {
   return pathArray.filter((segment) => segment && !segment.match(/^\d+$/));
 };
 
-
 function truncatePathnameAtSegment(pathname: string, path: string): string {
   const segments = pathname.split('/');
 
