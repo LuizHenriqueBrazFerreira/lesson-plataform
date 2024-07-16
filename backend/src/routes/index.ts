@@ -6,6 +6,7 @@ import userCoursesRouter from './UserCourses.routes'
 import pdfLessonRouter from './PdfLesson.routes'
 import watchedLessonsRouter from "./WatchedLessons.routes";
 import modulesProgressRouter from './ModulesProgress.routes';
+import searchBarRouter from "./SearchBar.routes";
 
 export default {
   lessonRouter,
@@ -15,5 +16,6 @@ export default {
   userCoursesRouter,
   watchedLessonsRouter,
   pdfLessonRouter,
-  modulesProgressRouter
+  modulesProgressRouter,
+  searchBarRouter
 }

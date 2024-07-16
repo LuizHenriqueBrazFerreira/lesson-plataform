@@ -2,9 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 import AdminNavBar from './AdminNavBar';
 import NavBar from './NavBar';
+import SearchBar from './SearchBar';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useTranslation } from "react-i18next";
+
 
 function Header() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const token = localStorage.getItem('token');
 
@@ -13,7 +18,7 @@ function Header() {
   return (
     <header
       className="max-h-[6rem] md:max-h-[8rem]
-    px-5 py-6 md:px-14 flex justify-between font-['Nunito']"
+    px-5 py-6 md:px-14 flex justify-between font-['Nunito'] gap-4 items-center"
     >
       <button onClick={ () => navigate('/') }>
         <img
@@ -22,6 +27,7 @@ function Header() {
           className="w-36 md:w-full"
         />
       </button>
+      <LanguageSwitcher />
       { !token && (
         <div className="flex gap-4">
           <Button
@@ -30,7 +36,7 @@ function Header() {
             my-3 md:rounded-md font-semibold text-xs md:text-base
             flex items-center justify-center"
           >
-            Entrar
+            {t("Entrar")}
           </Button>
           <Button
             onClick={ () => navigate('/create-account') }
@@ -38,10 +44,11 @@ function Header() {
             w-34 h-6 md:h-12 my-3 md:rounded-md font-semibold text-xs
             md:text-base flex items-center justify-center"
           >
-            Cadastrar
+            {t("Cadastrar")}
           </Button>
         </div>
       )}
+      <SearchBar />
       { role === 'STUDENT' && (<NavBar />)}
 
       { role === 'ADMIN' && (<AdminNavBar />)}

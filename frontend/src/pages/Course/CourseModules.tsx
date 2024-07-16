@@ -7,10 +7,12 @@ import CoursesBackground from '../../components/CoursesBackground';
 import CourseContext from '../../context/CourseContext';
 import ModuleCard from '../../components/ModuleCard';
 import OrangeButton from '../../components/OrangeButton';
+import { useTranslation } from "react-i18next";
 
 function CourseModules() {
   const [modules, setModules] = useState([]);
   const [course, setCourse] = useState<Courses>(initialCourseState);
+  const { t } = useTranslation();
 
   const { changeForumURL } = useContext(CourseContext);
 
@@ -45,8 +47,7 @@ function CourseModules() {
   }, [courseId, navigate, changeForumURL]);
 
   return (
-    <CoursesBackground heading="Curso" title={ course.title }>
-      <p className="self-center text-xl">{ course.duration }</p>
+    <CoursesBackground heading={t("Curso")} title={ course.title }>
       <BreadCrumbs />
       <div className="grid grid-cols-1 md:grid-cols-2">
         {
@@ -62,7 +63,7 @@ function CourseModules() {
       <OrangeButton
         onClick={ () => navigate(-1) }
       >
-        Voltar
+        {t("Voltar")}
       </OrangeButton>
     </CoursesBackground>
   );

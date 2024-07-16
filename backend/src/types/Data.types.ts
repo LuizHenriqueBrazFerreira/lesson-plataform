@@ -29,6 +29,13 @@ export type Course = {
   title: string;
 }
 
+export type Module = {
+  id: number;
+  title: string;
+  courseId: number;
+
+}
+
 export type UserCourses = {
   courseId: number;
   userId: number;
