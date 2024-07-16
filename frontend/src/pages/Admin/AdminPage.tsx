@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setToken } from '../../services/requests';
 import AdminCard from '../../components/AdminCard';
 import CoursesBackground from '../../components/CoursesBackground';
-import { setToken } from '../../services/requests';
 
 export default function AdminPage() {
   const navigate = useNavigate();

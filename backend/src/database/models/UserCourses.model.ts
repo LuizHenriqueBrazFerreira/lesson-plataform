@@ -15,6 +15,7 @@ InferCreationAttributes<UserCoursesSequelize>> {
   declare courseId: number;
   declare progress: number;
   declare bookmarked: boolean;
+  declare subscribed: boolean;
 }
 
 UserCoursesSequelize.init({
@@ -42,6 +43,10 @@ UserCoursesSequelize.init({
   bookmarked: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    defaultValue: false,
+  },
+  subscribed: {
+    type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
 }, {

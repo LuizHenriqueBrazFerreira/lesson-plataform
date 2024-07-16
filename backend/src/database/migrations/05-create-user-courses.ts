@@ -41,6 +41,10 @@ export default {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
+      subscribed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }
     })
   },
   down(queryInterface: QueryInterface) {

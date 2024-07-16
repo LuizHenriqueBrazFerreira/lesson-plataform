@@ -6,8 +6,8 @@ class UserCoursesModel implements IUserCoursesModel {
   private model = UserCoursesSequelize;
   private coursesModel = CoursesSequelize;
 
-  async createUserCourse({ userId, courseTitle, courseId, progress = 0, bookmarked = false }: IUserCourses) {
-    const userCourse = await this.model.create({ userId, courseTitle, courseId, progress, bookmarked });
+  async createUserCourse({ userId, courseTitle, courseId, progress = 0, bookmarked = false, subscribed = false }: IUserCourses) {
+    const userCourse = await this.model.create({ userId, courseTitle, courseId, progress, bookmarked, subscribed });
 
     return userCourse;
   }

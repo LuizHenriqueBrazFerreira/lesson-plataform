@@ -59,6 +59,7 @@ export interface IUserCourses {
   courseId: number;
   progress?: number;
   bookmarked?: boolean;
+  subscribed?: boolean;
 }
 
 export interface IUserCoursesModel {
