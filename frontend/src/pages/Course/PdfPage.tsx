@@ -5,9 +5,11 @@ import { requestData, setToken } from '../../services/requests';
 import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
 import { PdfsType } from '../../types/lessons';
+import { useTranslation } from "react-i18next";
 
 function PdfPage() {
   const [pdfs, setPdfs] = useState<PdfsType[]>([]);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ function PdfPage() {
     <div>
       <CoursesBackground>
         <h1 className="text-xl md:text-4xl text-btn-orange font-bold mb-10">
-          Arquivos PDF
+          {t("Arquivos Pdf")}
         </h1>
         {pdfs.length > 0 ? (
           <div className="flex flex-col flex-wrap gap-4 text-xl grow">
@@ -61,12 +63,12 @@ function PdfPage() {
             ))}
           </div>
         ) : (
-          <p className="text-red-500">Não há arquivos PDF disponíveis para esta aula.</p>
+          <p className="text-red-500">{t("Não há arquivos PDF disponíveis para esta aula")}</p>
         )}
         <OrangeButton
           onClick={ () => navigate(-1) }
         >
-          Voltar
+          {t("Voltar")}
         </OrangeButton>
       </CoursesBackground>
     </div>

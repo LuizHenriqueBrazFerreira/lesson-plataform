@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { LessonsType } from '../types/lessons';
 import { requestUpdate, setToken, requestData } from '../services/requests';
+import { useTranslation } from "react-i18next";
 
 type LessonsCardProps = {
   lesson: LessonsType;
@@ -15,6 +16,7 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!token || !userId) {
@@ -61,10 +63,10 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
       <CardBody className="flex flex-col">
         <div className="flex justify-between mb-10">
           <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">
-            {`Aula ${index + 1}`}
+            {`${t("Aula")} ${index + 1}`}
           </h2>
           <div className="flex items-center text-xl font-semibold  text-btn-orange">
-            Já estudei
+            {t("Ja estudei")}
             <Checkbox
               crossOrigin={ undefined }
               color="orange"
@@ -75,7 +77,7 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
         </div>
         <div
           aria-hidden="true"
-          onClick={ () => navigate(`${lessonsUrl}/lesson/${lesson.id}`) }
+          onClick={ () => navigate(`${lessonsUrl}/${lesson.id}`) }
           className="lg:text-3xl font-semibold text-left
           grow h-[9rem]"
         >

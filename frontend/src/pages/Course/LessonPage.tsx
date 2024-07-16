@@ -9,10 +9,12 @@ import { LessonsType } from '../../types/lessons';
 import OrangeButton from '../../components/OrangeButton';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import ReadTextEditor from '../../components/ReadTextEditor';
+import { useTranslation } from "react-i18next";
 
 function LessonPage() {
   const [lesson, setLesson] = useState<LessonsType>({} as LessonsType);
   const [module, setModule] = useState<Module>(initialModuleState);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -47,7 +49,7 @@ function LessonPage() {
   return (
     <div>
       <CoursesBackground
-        heading="Módulo"
+        heading={t("Modulo")}
         title={ module.title }
         moreClasses="gap-10"
       >
@@ -65,7 +67,7 @@ function LessonPage() {
         <OrangeButton
           onClick={ () => navigate(-1) }
         >
-          Voltar
+          {t("Voltar")}
         </OrangeButton>
       </CoursesBackground>
     </div>
