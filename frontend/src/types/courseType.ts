@@ -1,8 +1,10 @@
 export type Lesson = {
   id: number;
+  moduleId:number,
   title: string;
   content: string;
   link: string;
+  courseId:number;
 };
 
 export type Module = {

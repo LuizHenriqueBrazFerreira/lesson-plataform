@@ -20,7 +20,7 @@ function translate(str: string, lessonTitle = ''): string {
     default:
       return str;
   }
-
+}
 function truncatePathnameAtSegment(pathname: string, path: string): string {
   const segments = pathname.split('/');
 
@@ -39,7 +39,7 @@ function BreadCrumbs({ lesssonTitle = '' }) {
   const { pathname } = useLocation();
   const path = extractPath(pathname);
 
- return (
+  return (
     <Breadcrumbs className="bg-white" separator=">">
       {path.map((segment, index) => (
         <a

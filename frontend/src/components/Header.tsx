@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 import AdminNavBar from './AdminNavBar';
 import NavBar from './NavBar';
+import SearchBar from './SearchBar';
 
 function Header() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function Header() {
   return (
     <header
       className="max-h-[6rem] md:max-h-[8rem]
-    px-5 py-6 md:px-14 flex justify-between font-['Nunito']"
+    px-5 py-6 md:px-14 flex justify-between font-['Nunito'] gap-4 items-center"
     >
       <button onClick={ () => navigate('/') }>
         <img
@@ -22,6 +23,7 @@ function Header() {
           className="w-36 md:w-full"
         />
       </button>
+
       { !token && (
         <div className="flex gap-4">
           <Button
@@ -42,6 +44,7 @@ function Header() {
           </Button>
         </div>
       )}
+      <SearchBar />
       { role === 'STUDENT' && (<NavBar />)}
 
       { role === 'ADMIN' && (<AdminNavBar />)}
