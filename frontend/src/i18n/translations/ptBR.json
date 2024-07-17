@@ -1,5 +1,15 @@
 {
     "translation": {
+        "Enviar": "Enviar",
+        "Suporte": "Suporte",
+        "Envie sua mensagem": "Envie sua mensagem",
+        "ou clique aqui para copiar o email:": "ou clique aqui para copiar o email:",
+        "Celular (opcional)": "Celular (opcional)",
+        "Assunto": "Assunto",
+        "Conteúdo": "Conteúdo",
+        "Página não encontrada": "Página não encontrada",
+        "Nova senha": "Nova senha",
+        "Crie uma nova senha": "Crie uma nova senha",
         "Idioma": "Selecione seu idioma",
         "Nosso Site": "Nosso site",
         "Instagram": "Instagram",
@@ -36,6 +46,12 @@
         "ConfirmarSenha": "Confirmar senha",
         "Editar": "Editar",
         "Salvar": "Salvar",
-        "Você não possui cursos salvos": "Você não possui cursos salvos"
+        "Você não possui cursos salvos": "Você não possui cursos salvos",
+        "Redefinir senha": "Redefinir senha",
+        "Insira o email cadastrado em sua conta e": "Insira o email cadastrado em sua conta e",
+        "enviaremos um link para redefinir sua senha.": "enviaremos um link para redefinir sua senha.",
+        "Copiado!": "Copiado!",
+        "Cancelar": "Cancelar",
+        "Copiar": "Copiar"
     }
 }
