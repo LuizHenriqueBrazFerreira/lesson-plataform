@@ -1,5 +1,8 @@
 {
     "translation": {
+        "Página não encontrada": "Page non trouvée",
+        "Nova senha": "Nouveau mot de passe",
+        "Crie uma nova senha": "Créez un nouveau mot de passe",
         "Idioma": "Sélectionnez votre langue",
         "Nosso Site": "Notre site",
         "Instagram": "Instagram",
@@ -36,6 +39,19 @@
         "ConfirmarSenha": "Confirmer le mot de passe",
         "Editar": "Éditer",
         "Salvar": "Sauvegarder",
-        "Você não possui cursos salvos": "Vous n'avez pas de cours sauvegardés"
+        "Você não possui cursos salvos": "Vous n'avez pas de cours sauvegardés",
+        "Suporte": "Soutien",
+        "Envie sua mensagem": "Envoyez votre message",
+        "ou clique aqui para copiar o email:": "ou cliquez ici pour copier l'e-mail:",
+        "Celular (opcional)": "Téléphone portable (facultatif)",
+        "Assunto": "Sujet",
+        "Conteúdo": "Contenu",
+        "Enviar": "Envoyer",
+        "Redefinir senha": "Réinitialiser le mot de passe",
+        "enviaremos um link para redefinir sua senha.": "nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+        "Insira o email cadastrado em sua conta e": "Entrez l'e-mail enregistré dans votre compte et",
+        "Copiado!": "Copié!",
+        "Cancelar": "Annuler",
+        "Copiar": "Copier"
     }
 }

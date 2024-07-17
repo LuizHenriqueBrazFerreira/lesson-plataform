@@ -75,21 +75,21 @@ function Login() {
 
     MySwal.fire({
       imageUrl: '/src/assets/reset-password.png',
-      title: 'Redefinir senha',
+      title: `${t("Redefinir senha")}`,
       html: (
         <p>
-          Insira o email cadastrado em sua conta e
+          {t("Insira o email cadastrado em sua conta e")}
           {' '}
-          enviaremos um link para redefinir sua senha.
+          {t("enviaremos um link para redefinir sua senha.")}
         </p>
       ),
       input: 'email',
       inputValue: '',
       inputAutoTrim: true,
       showCancelButton: true,
-      confirmButtonText: 'Enviar',
+      confirmButtonText: `${t("Enviar")}`,
       confirmButtonColor: '#e06915',
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: `${t("Cancelar")}`,
     }).then((result) => {
       if (result.isConfirmed) {
         requestPost('/forgot-password', { email: result.value });
