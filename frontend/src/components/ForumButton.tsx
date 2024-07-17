@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import CourseContext from '../context/CourseContext';
 
 export default function ForumButton() {
-  const { forumURL } = useContext(CourseContext);
+  const { forumURL } = useContext(CourseContext) ?? localStorage.getItem('forum');
   const { t } = useTranslation();
 
   const includesHTTPS = forumURL.includes('https://');

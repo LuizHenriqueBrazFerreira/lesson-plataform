@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import { Breadcrumbs } from '@material-tailwind/react';
 import { useTranslation } from 'react-i18next';
 
@@ -47,15 +47,15 @@ function BreadCrumbs({ lesssonTitle = '' }) {
   return (
     <Breadcrumbs className="bg-white" separator=">">
       {path.map((segment, index) => (
-        <a
+        <NavLink
           className={ `text-xl hover:text-bg-login 
           ${index === path.length - 1 ? 'text-black' : 'text-gray-600'}` }
           key={ index }
-          href={ index === path.length - 1 ? ''
+          to={ index === path.length - 1 ? ''
             : truncatePathnameAtSegment(pathname, segment) }
         >
           {translate(segment, lesssonTitle)}
-        </a>
+        </NavLink>
       ))}
     </Breadcrumbs>
   );

@@ -43,6 +43,7 @@ export default {
       },
       subscribed: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
         defaultValue: false
       }
     })

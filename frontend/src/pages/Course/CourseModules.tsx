@@ -36,6 +36,7 @@ function CourseModules() {
         setModules(data);
         setCourse(courseData);
         changeForumURL(courseData.forum);
+        localStorage.setItem('forum', courseData.forum);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data);

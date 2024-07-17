@@ -63,13 +63,13 @@ export interface IUserCourses {
 }
 
 export interface IUserCoursesModel {
-  createUserCourse({ userId, courseTitle, courseId, progress, bookmarked }: IUserCourses): Promise<UserCoursesSequelize>;
+  createUserCourse({ userId, courseTitle, courseId, progress, bookmarked, subscribed }: IUserCourses): Promise<UserCoursesSequelize>;
   findCoursesByUserId(userId: number): Promise<UserCoursesSequelize[] | CoursesSequelize[]>;
   updateUserCourse(key:string, value: string, userId: number, courseId: number): Promise<number>;
 }
 
 export interface IUserCoursesService {
-  createUserCourse({ userId, courseId, progress, bookmarked }: IUserCourses): Promise<ServiceResponse<UserCoursesSequelize>>;
+  createUserCourse({ userId, courseId, progress, bookmarked, subscribed }: IUserCourses): Promise<ServiceResponse<UserCoursesSequelize>>;
   findCoursesByUserId(userId: number): Promise<ServiceResponse<IUserCourses[] | CoursesSequelize[]>>;
   updateUserCourse(key:string, value: string, userId: number, courseId: number): Promise<ServiceResponse<number>>;
 }
