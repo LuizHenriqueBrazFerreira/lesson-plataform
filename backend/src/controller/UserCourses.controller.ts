@@ -7,9 +7,9 @@ class UserCoursesController implements IUserCoursesController {
   private userCoursesService = new UserCoursesService();
 
   async createUserCourse(req: Request, res: Response) {
-    const { userId, courseTitle, courseId, progress, bookmarked } = req.body;
+    const { userId, courseTitle, courseId, progress, bookmarked, subscribed } = req.body;
 
-    const { status, data } = await this.userCoursesService.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked });
+    const { status, data } = await this.userCoursesService.createUserCourse({ userId, courseTitle, courseId, progress, bookmarked, subscribed });
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
