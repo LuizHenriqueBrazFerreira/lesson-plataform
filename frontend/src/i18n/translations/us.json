@@ -1,5 +1,15 @@
 {
     "translation": {
+        "Suporte": "Support",
+        "Enviar": "Send",
+        "Envie sua mensagem": "Send your message",
+        "ou clique aqui para copiar o email:": "or click here to copy the email:",
+        "Celular (opcional)": "Cell phone (optional)",
+        "Assunto": "Subject",
+        "Conteúdo": "Content",
+        "Página não encontrada": "Page not found",
+        "Nova senha": "New password",
+        "Crie uma nova senha": "Create a new password",
         "Idioma": "Select your language",
         "Nosso Site": "Our site",
         "Instagram": "Instagram",
@@ -36,6 +46,12 @@
         "ConfirmarSenha": "Confirm password",
         "Editar": "Edit",
         "Salvar": "Save",
-        "Você não possui cursos salvos": "You don't have saved courses"
+        "Você não possui cursos salvos": "You don't have saved courses",
+        "Redefinir senha": "Reset password",
+        "enviaremos um link para redefinir sua senha.": "we will send you a link to reset your password.",
+        "Insira o email cadastrado em sua conta e": "Enter the email registered in your account and",
+        "Copiado!": "Copied!",
+        "Cancelar": "Cancel",
+        "Copiar": "Copy"
     }
 }
