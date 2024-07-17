@@ -1,7 +1,7 @@
 import { Typography } from '@material-tailwind/react';
 import { EnvelopeIcon, GlobeAltIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 function Footer() {
   const [showCopy, setShowCopy] = useState(false);
@@ -38,7 +38,7 @@ function Footer() {
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
             >
-              {t("Nosso Site")}
+              {t('Nosso Site')}
             </Typography>
           </li>
           <li className="flex gap-2 items-center">
@@ -51,7 +51,7 @@ function Footer() {
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
             >
-              {t("Instagram")}
+              {t('Instagram')}
             </Typography>
           </li>
           <li className="flex gap-2 items-center">
@@ -63,7 +63,7 @@ function Footer() {
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
             >
-              {t("Suporte Por Email")}
+              {t('Suporte Por Email')}
             </Typography>
           </li>
           <li className="flex gap-2 items-center">

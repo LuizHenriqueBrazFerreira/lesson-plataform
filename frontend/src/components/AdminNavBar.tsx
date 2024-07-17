@@ -7,6 +7,7 @@ import {
   IconButton,
 } from '@material-tailwind/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { NavLink } from 'react-router-dom';
 
 const navList = (
   <ul
@@ -19,13 +20,13 @@ const navList = (
       color="blue-gray"
       className="p-1 font-medium text-xl"
     >
-      <a
-        href="/admin"
+      <NavLink
+        to="/admin"
         className="flex items-center justify-center
        hover:text-blue-500 transition-colors"
       >
         Início
-      </a>
+      </NavLink>
     </Typography>
     <Typography
       as="li"
@@ -33,13 +34,13 @@ const navList = (
       color="blue-gray"
       className="p-1 font-medium text-xl"
     >
-      <a
-        href="/courses"
+      <NavLink
+        to="/courses"
         className="flex items-center justify-center
        hover:text-blue-500 transition-colors"
       >
         Cursos
-      </a>
+      </NavLink>
     </Typography>
     <Typography
       as="li"
@@ -47,13 +48,13 @@ const navList = (
       color="blue-gray"
       className="p-1 font-medium text-xl"
     >
-      <a
-        href="/admin/create"
+      <NavLink
+        to="/admin/create"
         className="flex items-center justify-center
        hover:text-blue-500 transition-colors"
       >
         Criar Cursos
-      </a>
+      </NavLink>
     </Typography>
     <Typography
       as="li"
@@ -61,12 +62,12 @@ const navList = (
       color="blue-gray"
       className="p-1 font-medium text-xl"
     >
-      <a
-        href="/admin/edit"
+      <NavLink
+        to="/admin/edit"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
         Editar Cursos
-      </a>
+      </NavLink>
     </Typography>
     <Typography
       as="li"
@@ -74,12 +75,12 @@ const navList = (
       color="blue-gray"
       className="p-1 font-medium text-xl"
     >
-      <a
-        href="/admin/students"
+      <NavLink
+        to="/admin/students"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
         Gerenciar Usuários
-      </a>
+      </NavLink>
     </Typography>
     <Typography
       as="li"
@@ -87,13 +88,13 @@ const navList = (
       color="blue-gray"
       className="p-1 font-medium text-xl"
     >
-      <a
-        href="/"
+      <NavLink
+        to="/"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
         onClick={ () => localStorage.clear() }
       >
         Sair
-      </a>
+      </NavLink>
     </Typography>
   </ul>
 );

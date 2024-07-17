@@ -1,8 +1,8 @@
 import { FormEvent, MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Input, Typography } from '@material-tailwind/react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { Input, Typography } from '@material-tailwind/react';
 import { requestPost } from '../../services/requests';
 import EyeButton from '../../components/EyeButton';
 import OrangeButton from '../../components/OrangeButton';

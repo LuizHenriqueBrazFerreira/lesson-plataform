@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Courses, initialCourseState } from '../../types/courseType';
 import { requestData, setToken } from '../../services/requests';
 import BreadCrumbs from '../../components/BreadCrumbs';
@@ -7,7 +8,6 @@ import CoursesBackground from '../../components/CoursesBackground';
 import CourseContext from '../../context/CourseContext';
 import ModuleCard from '../../components/ModuleCard';
 import OrangeButton from '../../components/OrangeButton';
-import { useTranslation } from "react-i18next";
 
 function CourseModules() {
   const [modules, setModules] = useState([]);
@@ -47,7 +47,8 @@ function CourseModules() {
   }, [courseId, navigate, changeForumURL]);
 
   return (
-    <CoursesBackground heading={t("Curso")} title={ course.title }>
+    <CoursesBackground heading={ t('Curso') } title={ course.title }>
+      <p className="self-center text-xl">{ course.duration }</p>
       <BreadCrumbs />
       <div className="grid grid-cols-1 md:grid-cols-2">
         {
@@ -63,7 +64,7 @@ function CourseModules() {
       <OrangeButton
         onClick={ () => navigate(-1) }
       >
-        {t("Voltar")}
+        {t('Voltar')}
       </OrangeButton>
     </CoursesBackground>
   );

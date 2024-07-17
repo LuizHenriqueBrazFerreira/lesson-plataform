@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { Breadcrumbs } from '@material-tailwind/react';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const extractPath = (path: string) => {
   const pathArray = path.split('/');
@@ -30,13 +30,13 @@ function BreadCrumbs({ lesssonTitle = '' }) {
   function translate(str: string, lessonTitle = ''): string {
     switch (str) {
       case 'courses':
-        return t("Curso");
+        return t('Curso');
       case 'modules':
-        return t("Módulos");
+        return t('Módulos');
       case 'lessons':
-        return t("Aulas");
+        return t('Aulas');
       case 'lesson':
-        return `${t("Aula")}: ${lessonTitle}`;
+        return `${t('Aula')}: ${lessonTitle}`;
       default:
         return str;
     }
