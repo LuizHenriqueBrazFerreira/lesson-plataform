@@ -18,6 +18,7 @@ export type Courses = {
   title: string;
   forum: string;
   duration: string;
+  subscribed?: boolean;
 };
 
 export type UserCourses = {
@@ -35,6 +36,7 @@ export const initialCourseState: Courses = {
   title: '',
   forum: '',
   duration: '',
+  subscribed: false,
 };
 
 export const initialModuleState: Module = {

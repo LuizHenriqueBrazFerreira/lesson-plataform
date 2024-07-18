@@ -64,7 +64,7 @@ function SearchBar() {
             <MenuItem
               key={ index }
               onClick={ () => {
-                navigate(`/courses/${courseId}/modules/${moduleId}/lessons/lesson/${id}`);
+                navigate(`/courses/${courseId}/modules/${moduleId}/lessons/${id}`);
               } }
             >
               {title}

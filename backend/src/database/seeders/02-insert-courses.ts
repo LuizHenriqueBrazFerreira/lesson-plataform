@@ -29,7 +29,7 @@ const content = `{
       "type": "image",
       "data": {
         "file": {
-          "url": "https://www.radiologiaclinicadecampinas.com.br/_libs/imgs/final/154.jpg"
+          "url": "https://conteudo.imguol.com.br/c/noticias/1c/2022/05/24/imagem-criada-no-imagen-prototipo-do-google-que-cria-imagens-baseadas-em-texto-neste-caso-um-cachorro-corgi-andando-de-bicicleta-na-times-square-usando-oculos-de-sol-e-chapeu-de-praia-1653397634334_v2_900x506.jpg"
         },
         "caption": "Imagem Exemplar",
         "withBorder": false,
@@ -143,10 +143,10 @@ const user2 = await UsersSequelize.create({
 });
 
 await UserCoursesSequelize.bulkCreate([
-  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 0, bookmarked: false, subscribed: false, subscribed: false },
-  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', courseId: 3, progress: 0, bookmarked: false, subscribed: false, subscribed: false },
-  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', courseId: 4, progress: 0, bookmarked: false, subscribed: false, subscribed: false },
-  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', courseId: 5, progress: 0, bookmarked: false, subscribed: false, subscribed: false },
+  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 0, bookmarked: false, subscribed: false },
+  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', courseId: 3, progress: 0, bookmarked: false, subscribed: false },
+  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', courseId: 4, progress: 0, bookmarked: false, subscribed: false },
+  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', courseId: 5, progress: 0, bookmarked: false, subscribed: false },
 ]);
 
 await PdfLessonSequelize.bulkCreate([
