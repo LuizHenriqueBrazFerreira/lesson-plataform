@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import { requestData, requestPost, requestUpdate } from '../services/requests';
 import { EditModule, Module } from '../types/courseType';
-import { LessonPropType, LessonsType, PdfsType } from '../types/lessons';
+import { LessonsType, PdfsType } from '../types/lessons';
 
 export const handleModuleEdit = async (
   courseId: number,
@@ -29,7 +29,7 @@ export const handleModuleEdit = async (
 };
 
 export const handleLessonEdit = async (
-  lessons: LessonPropType[],
+  lessons: LessonsType[],
 ) => {
   const lessonsData = await Promise.all(lessons.map(async (lesson) => {
     if (lesson.id === 0) {
@@ -40,8 +40,6 @@ export const handleLessonEdit = async (
           moduleTitle: lesson.moduleTitle,
           title: lesson.title,
           content: lesson.content,
-          image: lesson.image,
-          link: lesson.link,
         },
       );
       return lessonsCreated;
@@ -54,8 +52,6 @@ export const handleLessonEdit = async (
         moduleTitle: lesson.moduleTitle,
         title: lesson.title,
         content: lesson.content,
-        image: lesson.image,
-        link: lesson.link,
       },
     );
     return lessonsModified;
@@ -65,7 +61,7 @@ export const handleLessonEdit = async (
 };
 
 export const handlePdfEdit = async (
-  lessons: LessonPropType[],
+  lessons: LessonsType[],
 ) => {
   // Cria novos pdfs quando o id é 0
   const pdfData = await Promise.all(lessons.map(async ({ id, pdfs }) => {
@@ -134,8 +130,6 @@ export const requestLessons = async (modulesData: Module[]) => {
       moduleTitle: module.title,
       title: lesson.title,
       content: lesson.content,
-      image: lesson.image,
-      link: lesson.link,
     }));
   });
   const newLessons = (await Promise.all(lessonsPromises)).flat();

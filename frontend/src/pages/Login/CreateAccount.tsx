@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Input, Typography } from '@material-tailwind/react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { useTranslation } from 'react-i18next';
 import { requestPost } from '../../services/requests';
 import EyeButton from '../../components/EyeButton';
 import OrangeButton from '../../components/OrangeButton';
@@ -11,7 +12,6 @@ import WarnigIcon from '../../components/WarningIcon';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
 import { UserType, initialUserState } from '../../types/userTypes';
-import { useTranslation } from "react-i18next";
 
 function CreateAccount() {
   const [user, setUser] = useState<UserType>(initialUserState);
@@ -119,7 +119,7 @@ function CreateAccount() {
         <h1
           className="text-xl md:text-4xl text-btn-orange mb-3 font-semibold"
         >
-          {t("Cadastre-se")}
+          {t('Cadastre-se')}
         </h1>
         <Input
           crossOrigin={ undefined }
@@ -128,7 +128,7 @@ function CreateAccount() {
           size="lg"
           type="text"
           onChange={ handleChange }
-          label={t("Nome Completo")}
+          label={ t('Nome Completo') }
         />
         <Input
           crossOrigin={ undefined }
@@ -137,7 +137,7 @@ function CreateAccount() {
           size="lg"
           type="email"
           onChange={ handleChange }
-          label={t("Email")}
+          label={ t('Email') }
         />
         <Input
           crossOrigin={ undefined }
@@ -146,7 +146,7 @@ function CreateAccount() {
           size="lg"
           type="text"
           onChange={ handleChange }
-          label={t("Pais")}
+          label={ t('Pais') }
         />
         <Input
           crossOrigin={ undefined }
@@ -155,7 +155,7 @@ function CreateAccount() {
           size="lg"
           type="text"
           onChange={ handleChange }
-          label={t("Organizacao opcional")}
+          label={ t('Organizacao opcional') }
         />
         <div>
           <Input
@@ -166,7 +166,7 @@ function CreateAccount() {
             type={ showPassword ? 'text' : 'password' }
             onChange={ handleChange }
             onFocus={ () => setShowEye(true) }
-            label={t("Senha")}
+            label={ t('Senha') }
             icon={ <EyeButton
               type="button"
               onClick={ (event) => handleShowPassword(event) }
@@ -181,7 +181,7 @@ function CreateAccount() {
               className="mt-2 flex items-center gap-1 font-normal"
             >
               <WarnigIcon />
-              {t("MinDigitos")}
+              {t('MinDigitos')}
             </Typography>
           )}
         </div>
@@ -192,7 +192,7 @@ function CreateAccount() {
           size="lg"
           type={ showPassword ? 'text' : 'password' }
           onChange={ handleChange }
-          label={t("Confirme sua senha")}
+          label={ t('Confirme sua senha') }
         />
         { message === 'E-mail reenviado com sucesso.'
         || message === 'Usuário criado com sucesso.'
@@ -202,14 +202,14 @@ function CreateAccount() {
           type="submit"
           isLoading={ isLoading }
         >
-          {t("Cadastrar")}
+          {t('Cadastrar')}
         </OrangeButton>
-        <p className="self-center">{t("Ja possui conta?")}</p>
+        <p className="self-center">{t('Ja possui conta?')}</p>
         <WhiteButton
           type="button"
           onClick={ () => navigate('/login') }
         >
-          {t("Entrar")}
+          {t('Entrar')}
         </WhiteButton>
       </FormBackground>
     </LoginBackground>
