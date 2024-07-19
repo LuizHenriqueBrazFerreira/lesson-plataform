@@ -27,13 +27,15 @@ class UserCoursesService implements IUserCoursesService {
   }
 
   async updateUserCourse(key: string, value: string, userId: number, courseId: number) {
+    if (key === 'subscribed' && userId === 1) return { status: 'SUCCESSFUL', data: {message: 'Não é necessário inscrever o admin' }}
+
     try{
       const affectedCount = await this.userCoursesModel.updateUserCourse(key, value, userId, courseId);
 
-      return {status: 'SUCCESSFUL', data: affectedCount}
+      return { status: 'SUCCESSFUL', data: affectedCount }
     }
     catch (error) {
-      return {status: 'INTERNAL_SERVER_ERROR', data: {message: 'Falha ao atualizar o curso do usuário'}}
+      return { status: 'INTERNAL_SERVER_ERROR', data: {message: 'Falha ao atualizar o curso do usuário' }}
     }
   }
 }

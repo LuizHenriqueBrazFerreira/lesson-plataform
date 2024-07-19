@@ -4,12 +4,10 @@ import CoursesBackground from '../../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../../services/requests';
 import { UserCourses } from '../../types/courseType';
 import CourseCard from '../../components/CourseCard';
-import { useTranslation } from "react-i18next";
 
 function BookmarkedCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
   const [hasCourses, setHasCourses] = useState(true);
-  const { t } = useTranslation();
 
   const userId = localStorage.getItem('userId');
 
@@ -58,7 +56,7 @@ function BookmarkedCourses() {
         className="text-xl md:text-4xl
            text-btn-orange font-bold"
       >
-        {t("Cursos Salvos")}
+        Cursos Salvos
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 min-w-fit">
         <br />
@@ -79,7 +77,7 @@ function BookmarkedCourses() {
               className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
-              {t("Você não possui cursos salvos")}
+              Você não possui cursos salvos
             </h2>
           )}
       </div>

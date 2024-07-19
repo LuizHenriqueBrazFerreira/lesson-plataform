@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Input, Select, Option } from '@material-tailwind/react';
 import * as helpers from '../../utils/editCourseHelpers';
 import * as requests from '../../services/requests';
+import { showNoCourseSelectedMessage, showSuccessMessage } from '../../utils/sweetAlert';
 import { Courses, EditModule } from '../../types/courseType';
 import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
 import CreateLesson from '../../components/CreateLesson';
@@ -148,7 +149,7 @@ export default function EditCourse() {
   const handleUpdateCourse = async (event: React.FormEvent) => {
     event.preventDefault();
     if (lessons.length === 0 || modules.length === 0) {
-      return helpers.showNoCourseSelectedMessage();
+      return showNoCourseSelectedMessage();
     }
     const courseData = await requests.requestUpdate(
       `/courses/${courseId}`,
@@ -159,7 +160,7 @@ export default function EditCourse() {
     const pdfsData = await helpers.handlePdfEdit(lessons);
 
     if (courseData && modulesData && lessonsData && pdfsData) {
-      helpers.showSuccessMessage('Curso atualizado com sucesso');
+      showSuccessMessage('Curso atualizado com sucesso');
       setTimeout(() => { window.location.reload(); }, 1000);
     }
   };

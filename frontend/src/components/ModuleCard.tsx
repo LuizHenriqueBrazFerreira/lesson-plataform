@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Module } from '../types/courseType';
 import { requestData, setToken, requestUpdate } from '../services/requests';
-import { useTranslation } from "react-i18next";
 
 type ModuleCardProps = {
   module: Module;
@@ -16,7 +15,6 @@ function ModuleCard({ module, index }: ModuleCardProps) {
   const [totalLessons, setTotalLessons] = useState(0);
   const [lessonsWatched, setLessonsWatched] = useState([]);
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   const lessonsUrl = `/courses/${module.courseId}/modules/${module.id}/lessons`;
 
@@ -78,7 +76,7 @@ function ModuleCard({ module, index }: ModuleCardProps) {
           <h2
             className="text-xl md:text-2xl font-semibold text-btn-orange"
           >
-            {`${t("Modulo")} ${index + 1}`}
+            {`Módulo ${index + 1}`}
           </h2>
         </div>
         <div

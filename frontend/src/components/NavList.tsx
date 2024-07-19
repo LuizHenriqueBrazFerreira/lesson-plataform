@@ -1,9 +1,7 @@
 import { Typography } from '@material-tailwind/react';
-import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 
 export default function NavList() {
-  const { t } = useTranslation();
   return (
     <ul
       className="mt-2 p-4 lg:p-0 bg-white border-2 lg:border-none
@@ -20,7 +18,7 @@ export default function NavList() {
           className="flex items-center justify-center
                  hover:text-blue-500 transition-colors"
         >
-          {t('Meus Cursos')}
+          Meus Cursos
         </NavLink>
       </Typography>
       <Typography
@@ -34,7 +32,7 @@ export default function NavList() {
           className="flex items-center justify-center
           hover:text-blue-500 transition-colors"
         >
-          {t('Cursos Salvos')}
+          Cursos Salvos
         </NavLink>
       </Typography>
       <Typography
@@ -48,7 +46,7 @@ export default function NavList() {
           className="flex items-center justify-center
           hover:text-blue-500 transition-colors"
         >
-          {t('Meu Perfil')}
+          Meu Perfil
         </NavLink>
       </Typography>
       <Typography
@@ -63,7 +61,7 @@ export default function NavList() {
           hover:text-blue-500 transition-colors"
           onClick={ () => localStorage.clear() }
         >
-          {t('Sair')}
+          Sair
         </NavLink>
       </Typography>
     </ul>

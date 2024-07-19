@@ -6,7 +6,7 @@ import EditCourse from './pages/Admin/EditCourse';
 import Students from './pages/Admin/Students';
 import BookmarkedCourses from './pages/Course/BookmarkedCourses';
 import ConfirmEmail from './pages/Login/ConfirmEmail';
-import CourseContext, { SearchBarResponse } from './context/CourseContext';
+import CourseContext from './context/CourseContext';
 import CourseModules from './pages/Course/CourseModules';
 import CreateAccount from './pages/Login/CreateAccount';
 import ForgotPassword from './pages/Login/ResetPassword';
@@ -24,29 +24,14 @@ import Footer from './components/Footer';
 import './App.css';
 
 function App() {
-  const INITIAL_STATE = {
-    courses: [],
-    modules: [],
-    lessons: [],
-  };
   const [forumURL, setForumURL] = useState('');
-  const [searchBar, setSearchBar] = useState<SearchBarResponse>(INITIAL_STATE);
-
-  const changeSearchBar = (data: SearchBarResponse) => {
-    setSearchBar(data);
-  };
 
   const changeForumURL = (url: string) => {
     setForumURL(url);
   };
 
   return (
-    <CourseContext.Provider
-      value={ { forumURL,
-        changeForumURL,
-        changeSearchBar,
-        searchBar } }
-    >
+    <CourseContext.Provider value={ { forumURL, changeForumURL } }>
       <Header />
       <Routes>
         <Route path="/" element={ <Homepage /> } />

@@ -7,7 +7,6 @@ import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
 import { SupportFormType } from '../../types/supportType';
 import { requestPost } from '../../services/requests';
-import { useTranslation } from "react-i18next";
 
 const INITIAL_FORM = {
   name: '',
@@ -20,7 +19,6 @@ const INITIAL_FORM = {
 function SupportPage() {
   const [copied, setCopied] = useState(false);
   const [form, setForm] = useState<SupportFormType>(INITIAL_FORM);
-  const { t } = useTranslation();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement |
   HTMLTextAreaElement>) => {
@@ -66,7 +64,7 @@ function SupportPage() {
         className="text-xl md:text-4xl
             text-btn-orange font-bold mb-10"
       >
-        {t("Suporte")}
+        Suporte
       </h1>
       <form
         onSubmit={ (event) => handleSubmit(event) }
@@ -76,10 +74,10 @@ function SupportPage() {
           className="text-xl md:text-2xl
             text-btn-orange font-semibold"
         >
-          {t("Envie sua mensagem")}
+          Envie sua mensagem
         </h2>
         <div className="flex gap-3 font-semibold">
-          <p>{t("ou clique aqui para copiar o email:")}</p>
+          <p>ou clique aqui para copiar o email:</p>
           <button
             type="button"
             className={ `${copied ? 'text-black' : 'text-btn-orange'} 
@@ -88,7 +86,7 @@ function SupportPage() {
           >
             { copied ? <CheckIcon className="w-5 h-5" />
               : <ClipboardIcon className="w-5 h-5" />}
-            { copied ? `${t("Copiado!")}` : `${t("Copiar")}`}
+            { copied ? 'Copiado!' : 'Copiar'}
           </button>
         </div>
         <Input
@@ -97,7 +95,7 @@ function SupportPage() {
           type="text"
           name="name"
           value={ form.name }
-          label={t("Nome")}
+          label="Nome"
           onChange={ (event) => handleChange(event) }
         />
 
@@ -108,7 +106,7 @@ function SupportPage() {
           name="email"
           value={ form.email }
           id="email"
-          label={t("Email")}
+          label="Email"
           onChange={ (event) => handleChange(event) }
 
         />
@@ -120,7 +118,7 @@ function SupportPage() {
           name="contact"
           value={ form.contact }
           id="cellphone"
-          label={t("Celular (opcional)")}
+          label="Celular (opcional)"
           onChange={ (event) => handleChange(event) }
 
         />
@@ -132,7 +130,7 @@ function SupportPage() {
           name="topic"
           value={ form.topic }
           id="topic"
-          label={t("Assunto")}
+          label="Assunto"
           onChange={ (event) => handleChange(event) }
 
         />
@@ -142,13 +140,13 @@ function SupportPage() {
           name="content"
           value={ form.content }
           id="subtopic"
-          label={t("Conteúdo")}
+          label="Conteúdo"
           onChange={ (event) => handleChange(event) }
 
         />
 
         <OrangeButton onClick={ () => handleEmailToSupport(form) }>
-          {t("Enviar")}
+          Enviar
         </OrangeButton>
       </form>
     </CoursesBackground>

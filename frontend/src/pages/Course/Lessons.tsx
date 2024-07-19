@@ -7,12 +7,10 @@ import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
 import LessonsCard from '../../components/LessonsCard';
 import OrangeButton from '../../components/OrangeButton';
-import { useTranslation } from "react-i18next";
 
 function Lessons() {
   const [lessons, setLessons] = useState<LessonsType[]>([]);
   const [module, setModule] = useState<Module>(initialModuleState);
-  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -47,7 +45,7 @@ function Lessons() {
 
   return (
     <div>
-      <CoursesBackground heading={t("Modulo")} title={ module.title }>
+      <CoursesBackground heading="Modulo" title={ module.title }>
         <BreadCrumbs />
         <div className="grid grid-cols-1 md:grid-cols-2">
           {lessons.map((lesson, index) => (
@@ -62,7 +60,7 @@ function Lessons() {
         <OrangeButton
           onClick={ () => navigate(-1) }
         >
-          {t("Voltar")}
+          Voltar
         </OrangeButton>
       </CoursesBackground>
     </div>

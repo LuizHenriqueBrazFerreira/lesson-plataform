@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2';
 import { requestData, requestPost, requestUpdate } from '../services/requests';
 import { EditModule, Module } from '../types/courseType';
 import { LessonsType, PdfsType } from '../types/lessons';
@@ -89,24 +88,6 @@ export const handlePdfEdit = async (
     });
   }));
   return pdfData;
-};
-
-export const showSuccessMessage = (text: string) => {
-  Swal.fire({
-    icon: 'success',
-    title: text,
-    showConfirmButton: true,
-    confirmButtonColor: '#e06915',
-  });
-};
-
-export const showNoCourseSelectedMessage = () => {
-  Swal.fire({
-    icon: 'error',
-    title: 'Selecione um curso',
-    showConfirmButton: true,
-    confirmButtonColor: '#e06915',
-  });
 };
 
 export const requestModules = async (courseId: number) => {

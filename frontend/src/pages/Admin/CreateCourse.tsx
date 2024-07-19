@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
 import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
 import { requestPost, setToken } from '../../services/requests';
-import { showSuccessMessage } from '../../utils/editCourseHelpers';
+import { showSuccessMessage } from '../../utils/sweetAlert';
 import { handleCreateModule, handleCreateLessons, handleCreatePdf }
   from '../../utils/createCourseHelpers';
 import OrangeButton from '../../components/OrangeButton';

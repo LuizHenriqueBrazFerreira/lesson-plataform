@@ -8,8 +8,6 @@ import {
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import NavList from './NavList';
 
-
-
 function NavBar() {
   const [openNav, setOpenNav] = useState(false);
 
