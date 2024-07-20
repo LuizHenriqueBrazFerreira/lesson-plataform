@@ -33,8 +33,7 @@ function NavBar() {
         </div>
         <IconButton
           variant="text"
-          className="h-6 w-6 text-inherit hover:bg-transparent
-          focus:bg-transparent active:bg-transparent lg:hidden"
+          className="h-6 w-6 text-inherit md:hidden"
           ripple={ false }
           onClick={ () => setOpenNav(!openNav) }
         >

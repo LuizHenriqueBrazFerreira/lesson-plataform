@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 export default function NavList() {
   return (
     <ul
-      className="mt-2 p-4 lg:p-0 bg-white border-2 lg:border-none
-              lg:flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6"
+      className="mt-2 p-4 md:p-0 bg-white border-2 md:border-none
+      md:flex flex-col md:mb-0 md:mt-0 md:flex-row md:items-center md:gap-6"
     >
       <Typography
         as="li"
@@ -16,7 +16,7 @@ export default function NavList() {
         <NavLink
           to="/courses"
           className="flex items-center justify-center
-                 hover:text-blue-500 transition-colors"
+        hover:text-blue-500 transition-colors"
         >
           Meus Cursos
         </NavLink>

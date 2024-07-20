@@ -3,9 +3,10 @@ import ForumButton from './ForumButton';
 type HeaderSectionProps = {
   heading: string;
   title: string;
+  loading: boolean;
 };
 
-function HeaderSection({ heading, title }: HeaderSectionProps) {
+function HeaderSection({ heading, title, loading }: HeaderSectionProps) {
   return (
     <section
       className="md:w-[81rem] w-screen bg-white rounded-2xl mb-8 flex
@@ -16,9 +17,14 @@ function HeaderSection({ heading, title }: HeaderSectionProps) {
         <h1 className="text-2xl md:text-4xl text-btn-orange font-bold">
           {heading}
         </h1>
-        <h2 className="text-xl md:text-2xl font-semibold">
-          {title}
-        </h2>
+        {loading ? (
+          <div className="animate-pulse bg-gray-300 h-5 w-96 rounded-full" />
+        ) : (
+          <h2 className="text-xl md:text-2xl font-semibold">
+            {title}
+          </h2>
+        )}
+
       </div>
       <ForumButton />
     </section>
