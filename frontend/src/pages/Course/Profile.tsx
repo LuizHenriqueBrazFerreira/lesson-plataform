@@ -122,7 +122,7 @@ function Profile() {
       <div className="flex flex-col justify-evenly grow">
         <img
           className="w-12 md:w-20"
-          src="/src/assets/profile.png"
+          src="/assets/profile.png"
           alt="profile icon"
         />
         <Input

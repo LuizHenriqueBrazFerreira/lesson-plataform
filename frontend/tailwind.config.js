@@ -16,9 +16,9 @@ module.exports = withMT({
         'courses-gray': 'rgb(232, 232, 232)'
       },
       backgroundImage: {
-        'image-login': "url('/src/assets/background.png')",
-        'eye': "url('/src/assets/eye.png')",
-        'eye-slash': "url('/src/assets/eye-slash.png')",
+        'image-login': "url('/assets/background.png')",
+        'eye': "url('/assets/eye.png')",
+        'eye-slash': "url('/assets/eye-slash.png')",
       },
       fontSize: {
         '4xl': '2.5rem',
