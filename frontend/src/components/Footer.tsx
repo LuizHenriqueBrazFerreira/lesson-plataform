@@ -22,7 +22,7 @@ function Footer() {
       >
         <img
           className="w-28 md:w-80"
-          src="/src/assets/baudouin.png"
+          src="/assets/baudouin.png"
           alt="King Baudouin Foundation's Logo"
         />
         <ul className="flex flex-wrap items-center gap-y-2 gap-x-12">
@@ -40,7 +40,7 @@ function Footer() {
             </Typography>
           </li>
           <li className="flex gap-2 items-center">
-            <img className="w-5 h-5" src="/src/assets/insta.png" alt="instagram logo" />
+            <img className="w-5 h-5" src="/assets/insta.png" alt="instagram logo" />
             <Typography
               as="a"
               href="https://www.instagram.com/fsm_saudeeseguridadesocial/"

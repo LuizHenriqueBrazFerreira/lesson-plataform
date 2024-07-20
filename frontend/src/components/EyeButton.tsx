@@ -12,7 +12,7 @@ function EyeButton({ showEye = false, showPassword = false, ...rest }: ButtonPro
       {showEye && (
         <img
           className="opacity-40"
-          src={ `/src/assets/${showPassword ? 'eye' : 'eye-slash'}.svg` }
+          src={ `/assets/${showPassword ? 'eye' : 'eye-slash'}.svg` }
           alt="show password"
         />
       )}

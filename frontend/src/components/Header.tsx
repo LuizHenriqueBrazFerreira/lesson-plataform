@@ -17,7 +17,7 @@ function Header() {
     >
       <button onClick={ () => navigate('/') }>
         <img
-          src="/src/assets/logo.png"
+          src="/assets/logo.png"
           alt="FSMSSS logo"
           className="w-36 md:w-full"
         />
