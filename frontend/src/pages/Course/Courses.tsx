@@ -4,10 +4,12 @@ import CoursesBackground from '../../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../../services/requests';
 import { UserCourses } from '../../types/courseType';
 import CourseCard from '../../components/CourseCard';
+import LoadingCard from '../../components/LoadingCard';
 
 function StudentCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
   const [hasCourses, setHasCourses] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const userId = localStorage.getItem('userId');
 
@@ -23,13 +25,16 @@ function StudentCourses() {
     setToken(token);
 
     async function fetchData() {
+      setLoading(true);
       try {
         const data = await requestData(`/user-courses/${userId}`);
         setCourses(data);
         setHasCourses(data.length > 0);
+        setLoading(false);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error);
+          setLoading(false);
         }
       }
     }
@@ -56,6 +61,14 @@ function StudentCourses() {
         Meus Cursos
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2">
+        { loading && (
+          <>
+            <LoadingCard />
+            <LoadingCard />
+            <LoadingCard />
+            <LoadingCard />
+          </>
+        ) }
         { hasCourses ? (
           courses.map((course, index) => (
             <CourseCard

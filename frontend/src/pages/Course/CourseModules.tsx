@@ -8,10 +8,12 @@ import CourseContext from '../../context/CourseContext';
 import ModuleCard from '../../components/ModuleCard';
 import OrangeButton from '../../components/OrangeButton';
 import { showSubscriptionMessage } from '../../utils/sweetAlert';
+import LoadingCard from '../../components/LoadingCard';
 
 function CourseModules() {
   const [modules, setModules] = useState([]);
   const [course, setCourse] = useState<Courses>(initialCourseState);
+  const [loading, setLoading] = useState(true);
   const userId = localStorage.getItem('userId');
   const subscribed = JSON.parse(localStorage.getItem('subscribedCourses') ?? '{}');
   const { changeForumURL } = useContext(CourseContext);
@@ -36,6 +38,7 @@ function CourseModules() {
     setToken(token);
 
     async function fetchData() {
+      setLoading(true);
       try {
         const data = await requestData(`/modules/${courseId}`);
         const courseData = await requestData(`/courses/${courseId}`);
@@ -44,9 +47,11 @@ function CourseModules() {
         changeForumURL(courseData.forum);
         handleSubscribed();
         localStorage.setItem('forum', courseData.forum);
+        setLoading(false);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data);
+          setLoading(false);
         }
       }
     }
@@ -59,6 +64,14 @@ function CourseModules() {
       <p className="self-center text-xl">{ course.duration }</p>
       <BreadCrumbs />
       <div className="grid grid-cols-1 md:grid-cols-2">
+        { loading && (
+          <>
+            <LoadingCard />
+            <LoadingCard />
+            <LoadingCard />
+            <LoadingCard />
+          </>
+        ) }
         {
           modules.map((module, index) => (
             <ModuleCard

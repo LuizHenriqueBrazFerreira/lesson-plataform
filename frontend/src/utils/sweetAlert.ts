@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
-import { requestUpdate } from '../services/requests';
+import { requestDelete, requestUpdate } from '../services/requests';
+import { UserType } from '../types/userTypes';
 
 export const showSuccessMessage = (text: string) => {
   Swal.fire({
@@ -51,5 +52,56 @@ export const showSubscriptionMessage = (
           }
         });
     }
+  });
+};
+
+export const deleteUser = (
+  id: number,
+  index: number,
+  setStudents: React.Dispatch<React.SetStateAction<UserType[]>>,
+) => {
+  Swal.fire({
+    title: 'Você tem certeza?',
+    text: 'Você não poderá reverter isso!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#e06915',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sim, excluir',
+    cancelButtonText: 'Cancelar',
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      await requestDelete(`/profile/${id}`).then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Usuário excluído com sucesso',
+          showConfirmButton: true,
+          confirmButtonColor: '#e06915',
+        });
+      });
+      setStudents((prevStudents) => {
+        const newStudents = [...prevStudents];
+        newStudents.splice(index, 1);
+        return newStudents;
+      });
+    }
+  });
+};
+
+export const userEditedSuccessfully = () => {
+  return Swal.fire({
+    icon: 'success',
+    title: 'Usuário atualizado com sucesso',
+    showConfirmButton: true,
+    confirmButtonColor: '#e06915',
+  });
+};
+
+export const cantDeleteAdmin = () => {
+  Swal.fire({
+    icon: 'error',
+    title: 'Não é possível excluir o ADMIN',
+    showConfirmButton: true,
+    confirmButtonColor: '#e06915',
   });
 };
