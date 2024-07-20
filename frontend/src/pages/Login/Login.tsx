@@ -10,7 +10,6 @@ import OrangeButton from '../../components/OrangeButton';
 import WhiteButton from '../../components/WhiteButton';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
-import { useTranslation } from "react-i18next";
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -19,8 +18,6 @@ function Login() {
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
-  const { t } = useTranslation();
 
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
@@ -75,21 +72,20 @@ function Login() {
 
     MySwal.fire({
       imageUrl: '/src/assets/reset-password.png',
-      title: `${t("Redefinir senha")}`,
+      title: 'Redefinir senha',
       html: (
         <p>
-          {t("Insira o email cadastrado em sua conta e")}
-          {' '}
-          {t("enviaremos um link para redefinir sua senha.")}
+          Insira o email cadastrado em sua conta e
+          enviaremos um link para redefinir sua senha.
         </p>
       ),
       input: 'email',
       inputValue: '',
       inputAutoTrim: true,
       showCancelButton: true,
-      confirmButtonText: `${t("Enviar")}`,
+      confirmButtonText: 'Enviar',
       confirmButtonColor: '#e06915',
-      cancelButtonText: `${t("Cancelar")}`,
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         requestPost('/forgot-password', { email: result.value });
@@ -107,7 +103,7 @@ function Login() {
           size="lg"
           type="email"
           onChange={ (e) => setEmail(e.target.value) }
-          label={t("Email")}
+          label="Email"
         />
         <Input
           value={ password }
@@ -115,7 +111,7 @@ function Login() {
           type={ showPassword ? 'text' : 'password' }
           onChange={ (e) => setPassword(e.target.value) }
           onFocus={ () => setShowEye(true) }
-          label={t("Senha")}
+          label="Senha"
           crossOrigin={ undefined }
           icon={ <EyeButton
             type="button"
@@ -129,7 +125,7 @@ function Login() {
           type="submit"
           isLoading={ isLoading }
         >
-          {t("Entrar")}
+          Entrar
         </OrangeButton>
         <Button
           type="button"
@@ -137,14 +133,14 @@ function Login() {
           active:text-blue-500 hover:text-blue-700"
           onClick={ handleForgotPassword }
         >
-          {t("Esqueceu sua senha?")}
+          Esqueceu sua senha?
         </Button>
-        <p className="self-center">{t("Ainda não tem uma conta?")}</p>
+        <p className="self-center">Ainda não tem uma conta?</p>
         <WhiteButton
           type="button"
           onClick={ () => navigate('/create-account') }
         >
-          {t("Cadastre-se")}
+          Cadastre-se
         </WhiteButton>
       </FormBackground>
     </LoginBackground>
