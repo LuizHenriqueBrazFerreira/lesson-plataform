@@ -4,6 +4,12 @@ import { UserCoursesDB } from '../../interfaces/Database'
 export default {
   up(queryInterface:QueryInterface) {
     return queryInterface.createTable<Model<UserCoursesDB>>('UserCourses', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+      },
       userId: {
         allowNull:false,
         type: DataTypes.INTEGER,

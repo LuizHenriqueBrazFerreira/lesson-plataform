@@ -2,6 +2,7 @@ import { DataTypes,
   Model,
   InferAttributes,
   InferCreationAttributes,
+  CreationOptional,
 } from 'sequelize';
 import db from './index';
 import CoursesSequelize from './Courses.model';
@@ -10,6 +11,7 @@ import UsersSequelize from './Users.model';
 
 class UserCoursesSequelize extends Model<InferAttributes<UserCoursesSequelize>,
 InferCreationAttributes<UserCoursesSequelize>> {
+  declare id: CreationOptional<number>;
   declare userId: number;
   declare courseTitle: string;
   declare courseId: number;
@@ -19,6 +21,12 @@ InferCreationAttributes<UserCoursesSequelize>> {
 }
 
 UserCoursesSequelize.init({
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,

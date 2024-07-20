@@ -30,6 +30,7 @@ export interface LessonsDB {
 };
 
 export interface UserCoursesDB {
+  id: number,
   userId: number,
   courseTitle: string,
   courseId: number,
