@@ -1,11 +1,11 @@
 import { Options } from 'sequelize';
 
 const config: Options = {
-  username: process.env.MYSQL_ROOT_USER || 'root',
-  password: process.env.MYSQL_ROOT_PASSWORD || 'fsmsss_password',
-  database: process.env.MYSQL_DATABASE || 'fsmsss_database',
-  host: process.env.MYSQL_HOST || 'db',
-  port: Number(process.env.MYSQL_PORT) || 3306,
+  username: process.env.MYSQL_ROOT_USER,
+  password: process.env.MYSQL_ROOT_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  host: process.env.MYSQL_HOST,
+  port: Number(process.env.MYSQL_PORT),
   dialect: 'mysql',
 };
 
