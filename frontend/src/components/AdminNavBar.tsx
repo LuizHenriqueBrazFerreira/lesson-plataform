@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom';
 const navList = (
   <ul
     className="mt-2 p-4 lg:p-0 bg-white border-2 lg:border-none
-    lg:flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6"
+    lg:flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 "
   >
     <Typography
       as="li"

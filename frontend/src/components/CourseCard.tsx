@@ -74,7 +74,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
   return (
     <Card
       key={ index }
-      className="w-80 md:w-[37rem] md:h-[17rem] m-4 select-none
+      className="w-96 md:w-[37rem] md:h-[17rem] m-4 select-none
       cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
     >
       <CardBody className="flex flex-col">

@@ -26,7 +26,7 @@ export default function AdminPage() {
       >
         Administrador
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
         <AdminCard
           heading="Gerenciar Usuários"
           to="students"
