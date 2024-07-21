@@ -60,8 +60,12 @@ function CourseModules() {
   }, []);
 
   return (
-    <CoursesBackground heading="Curso" title={ course.title } loading={ loading }>
-      <p className="self-center text-xl">{ course.duration }</p>
+    <CoursesBackground
+      heading="Curso"
+      title={ course.title }
+      loading={ loading }
+      duration={ course.duration }
+    >
       <BreadCrumbs />
       <div className="grid grid-cols-1 md:grid-cols-2">
         { loading && (
