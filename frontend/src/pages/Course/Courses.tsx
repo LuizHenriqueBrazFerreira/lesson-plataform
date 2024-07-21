@@ -60,7 +60,7 @@ function StudentCourses() {
       <h1 className="text-xl md:text-4xl text-btn-orange font-bold">
         Meus Cursos
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
         { loading && (
           <>
             <LoadingCard />

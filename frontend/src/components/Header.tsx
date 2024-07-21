@@ -19,7 +19,6 @@ function Header() {
         <img
           src="/assets/logo.png"
           alt="FSMSSS logo"
-          className="w-36 md:w-full"
         />
       </button>
       { !token && (

@@ -25,8 +25,9 @@ function HeaderSection({ heading, title, loading }: HeaderSectionProps) {
           </h2>
         )}
 
+        <ForumButton moreClasses="md:hidden" />
       </div>
-      <ForumButton />
+      <ForumButton moreClasses="hidden md:flex" />
     </section>
   );
 }

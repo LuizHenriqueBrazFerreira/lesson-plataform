@@ -30,7 +30,7 @@ function BreadCrumbs({ lesssonTitle = '' }) {
       courses: 'Curso',
       modules: 'Módulos',
       lessons: 'Aulas',
-      lesson: `Aula: ${lessonTitle}`,
+      lesson: lessonTitle,
     };
 
     return translateUrl[str] ?? '';

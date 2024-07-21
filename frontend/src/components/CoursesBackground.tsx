@@ -36,7 +36,7 @@ function CoursesBackground({ children, heading = '', title = '',
       )}
       <section
         className={ `md:w-[81rem] w-screen bg-white flex 
-        flex-col grow px-[2rem] py-[3rem] rounded-2xl ${moreClasses}` }
+        flex-col grow md:px-12 p-5 py-12 rounded-2xl ${moreClasses}` }
       >
         {children}
       </section>

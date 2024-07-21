@@ -16,7 +16,10 @@ function SearchInput({ value, handle, setValue }: SearchInputProps) {
         type="search"
         label="Pesquisar"
         value={ value }
-        icon={ <MagnifyingGlassIcon className="text-gray-400" /> }
+        icon={ <MagnifyingGlassIcon
+          onClick={ (event) => handle(event) }
+          className="text-gray-400 cursor-pointer hover:text-gray-600"
+        /> }
         onChange={ (event) => setValue(event.target.value) }
       />
     </form>

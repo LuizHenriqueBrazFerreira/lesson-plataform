@@ -5,7 +5,7 @@ function Homepage() {
     <main>
       <HomeBackground>
         <div
-          className="w-[60%] h-[70%] opacity-50 bg-white
+          className="md:w-[60%] h-[70%] opacity-50 bg-white
         flex flex-col px-[2rem] py-[3rem] rounded-2xl"
         >
           <h1 className="text-4xl font-bold text-center">
