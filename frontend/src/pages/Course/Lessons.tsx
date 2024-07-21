@@ -50,7 +50,7 @@ function Lessons() {
 
   return (
     <div>
-      <CoursesBackground heading="Modulo" title={ module.title }>
+      <CoursesBackground heading="Modulo" title={ module.title } loading={ loading }>
         <BreadCrumbs />
         <div className="grid grid-cols-1 md:grid-cols-2">
           { loading && (
