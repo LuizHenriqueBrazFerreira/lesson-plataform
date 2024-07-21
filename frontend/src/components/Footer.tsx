@@ -56,7 +56,7 @@ function Footer() {
             <EnvelopeIcon className="w-6 h-6" />
             <Typography
               as="a"
-              href="/support"
+              href="support"
               color="blue-gray"
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
