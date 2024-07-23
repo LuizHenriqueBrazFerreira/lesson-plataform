@@ -62,7 +62,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
       }
     }
     updateCourseProgress();
-  }, [modulesProgress, course]);
+  }, []);
 
   const handleNavigate = () => {
     const subscribed = JSON.parse(localStorage.getItem('subscribedCourses') ?? '{}');

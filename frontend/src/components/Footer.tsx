@@ -56,7 +56,7 @@ function Footer() {
             <EnvelopeIcon className="w-6 h-6" />
             <Typography
               as="a"
-              href="support"
+              href="/support"
               color="blue-gray"
               className="font-normal transition-colors
               hover:text-blue-500 focus:text-blue-500"
@@ -91,7 +91,8 @@ function Footer() {
       <Typography color="blue-gray" className="text-center font-normal">
         &copy;
         {' '}
-        {`${new Date().getFullYear()} - King Baudouin Foundation`}
+        {`${new Date().getFullYear()} - Fórum Social Mundial da Saúde`}
+        {' e Seguridade Social'}
       </Typography>
     </footer>
   );

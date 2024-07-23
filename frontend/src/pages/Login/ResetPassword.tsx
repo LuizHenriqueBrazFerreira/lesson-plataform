@@ -1,7 +1,6 @@
 import { useState, MouseEvent, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
-import { useTranslation } from 'react-i18next';
 import { validatePassword } from '../../utils/validations';
 import { requestUpdate } from '../../services/requests';
 import LoginBackground from '../../components/LoginBackground';
@@ -16,7 +15,6 @@ function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
   const [message, setMessage] = useState('');
-  const { t } = useTranslation();
 
   const { token } = useParams();
   const navigate = useNavigate();
@@ -52,7 +50,7 @@ function ResetPassword() {
           className="text-xl md:text-4xl
           text-btn-orange mb-3 font-semibold"
         >
-          {t('Crie uma nova senha')}
+          Crie uma nova senha
         </h1>
         <Input
           crossOrigin={ undefined }
@@ -62,7 +60,7 @@ function ResetPassword() {
           onChange={ (e) => setPassword(e.target.value) }
           onFocus={ () => setShowEye(true) }
           onBlur={ () => setShowEye(false) }
-          label={ t('Nova senha') }
+          label="Nova senha"
           icon={ <EyeButton
             type="button"
             onClick={ (event) => handleShowPassword(event) }
@@ -73,7 +71,7 @@ function ResetPassword() {
         <Input
           crossOrigin={ undefined }
           size="lg"
-          label={ t('Confirme sua senha') }
+          label="Confirme sua senha"
           type={ showPassword ? 'text' : 'password' }
           value={ confirmPassword }
           onChange={ (e) => setConfirmPassword(e.target.value) }
@@ -84,13 +82,13 @@ function ResetPassword() {
         <OrangeButton
           type="submit"
         >
-          {t('Cadastrar')}
+          Cadastrar
         </OrangeButton>
         <WhiteButton
           type="button"
           onClick={ () => navigate('/login') }
         >
-          {t('Entrar')}
+          Entrar
         </WhiteButton>
       </FormBackground>
     </LoginBackground>

@@ -154,7 +154,7 @@ function Students() {
               className="flex flex-col gap-4 md:w-96 p-4 bg-white rounded-lg shadow-md"
             >
               <h2 className="text-center text-xl md:text-2xl text-btn-orange font-bold">
-                { index === 0 ? 'Administrador' : 'Estudante' }
+                { student.id === 1 ? 'Administrador' : 'Estudante' }
               </h2>
               <Input
                 crossOrigin={ undefined }

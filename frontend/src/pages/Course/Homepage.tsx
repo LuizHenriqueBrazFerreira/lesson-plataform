@@ -13,7 +13,7 @@ function Homepage() {
           </h1>
         </div>
       </HomeBackground>
-      <section className="flex flex-col py-4 h-screen">
+      <section className="flex flex-col py-4">
         <img
           className="self-center"
           src="/assets/infografico.png"

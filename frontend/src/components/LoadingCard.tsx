@@ -3,7 +3,7 @@ import { Card, CardBody } from '@material-tailwind/react';
 function LoadingCard() {
   return (
     <Card
-      className="w-80 md:w-[37rem] md:h-[17rem] m-4 bg-neutral-200 animate-pulse"
+      className="w-96 md:w-[37rem] md:h-[17rem] m-4 bg-neutral-200 animate-pulse"
     >
       <CardBody className="flex flex-col">
         <div className="flex justify-between mb-10">
