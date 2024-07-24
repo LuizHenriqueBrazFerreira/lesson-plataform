@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     environment:
-      - API_PORT=${API_PORT}
+      - PORT=${PORT}
       - JWT_SECRET=${JWT_SECRET}
       - SALT_ROUNDS=${SALT_ROUNDS}
       - NODE_ENV=${NODE_ENV}

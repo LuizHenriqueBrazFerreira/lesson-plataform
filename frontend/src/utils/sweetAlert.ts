@@ -11,6 +11,15 @@ export const showSuccessMessage = (text: string) => {
   });
 };
 
+export const showErrorMessage = (text: string) => {
+  Swal.fire({
+    icon: 'error',
+    title: text,
+    showConfirmButton: true,
+    confirmButtonColor: '#e06915',
+  });
+};
+
 export const showNoCourseSelectedMessage = () => {
   Swal.fire({
     icon: 'error',

@@ -30,6 +30,13 @@ class UserCoursesModel implements IUserCoursesModel {
 
     return affectedCount;
   }
+
+  async getAllSubscribedUsers() {
+    const subscribedUsers = await this.model.findAll({ where: { subscribed: true } });
+
+    return subscribedUsers;
+  }
+
 }
 
 export default UserCoursesModel;

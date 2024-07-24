@@ -38,6 +38,16 @@ class UserCoursesService implements IUserCoursesService {
       return { status: 'INTERNAL_SERVER_ERROR', data: {message: 'Falha ao atualizar o curso do usuário' }}
     }
   }
+
+  async getAllSubscribedUsers() {
+    try {
+      const subscribedUsers = await this.userCoursesModel.getAllSubscribedUsers();
+
+      return { status: 'SUCCESSFUL', data: subscribedUsers }
+    } catch (error) {
+      return { status: 'INTERNAL_SERVER_ERROR', data: {message: 'Falha ao buscar os usuários inscritos' }}
+    }
+  }
 }
 
 export default UserCoursesService;

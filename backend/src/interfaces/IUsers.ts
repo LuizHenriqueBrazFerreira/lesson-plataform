@@ -21,8 +21,8 @@ export interface IUserModel {
   createUser({ name, email, password, role }: UserData): Promise<UsersSequelize>;
   getAllUsers(): Promise<UsersSequelize[]>;
   findByEmail(email: string): Promise<UsersSequelize | null>;
-  updateUser(key:string, value: string, email: string): Promise<[affectedCount: number]>;
-  deleteUser(id:number): Promise<number>;
+  updateUser(key: string, value: string, email: string): Promise<[affectedCount: number]>;
+  deleteUser(id: number): Promise<number>;
 }
 
 export interface IUserService {

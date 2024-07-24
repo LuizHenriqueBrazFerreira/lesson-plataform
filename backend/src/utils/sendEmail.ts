@@ -1,3 +1,4 @@
+import CreateReport from './createReport';
 import nodemailer from 'nodemailer';
 
 const userEmail = process.env.EMAIL_USER || 'ensinofsmsss@gmail.com';
@@ -71,7 +72,7 @@ export const sendForgotPasswordEmail = async (email: string, token: string, name
   }
 };
 
-  export const sendSupportEmail = async (email: string, name: string, topic:string, content: string, contact = '') => {
+export const sendSupportEmail = async (email: string, name: string, topic:string, content: string, contact = '') => {
     try {
       await smtpTransport.sendMail({
         from: {
@@ -96,5 +97,34 @@ export const sendForgotPasswordEmail = async (email: string, token: string, name
     } catch (error) {
       console.log(error);
     }
+};
+
+export const sendReportEmail = async () => {
+  const report = new CreateReport();
+  const html = await report.transformReport();
+
+  try {
+    await smtpTransport.sendMail({
+      from: {
+        name: 'Ensino - FSMSSS',
+        address: userEmail
+      },
+      to: userEmail,
+      subject: 'RELATÓRIO DE USUÁRIOS INSCRITOS',
+      html: `
+      <div style="margin: 0 auto; width: 40vw; background-color:#faf9f8; padding: 20px; min-height: 70vh; font-family: Graphik, Roboto, Helvetica, Calibri, Arial, sans-serif;"">
+        <img src="https://storage.googleapis.com/atados-v3/user-uploaded/images/32c816d9-4f08-463e-8676-200895084434.png" alt="Logo" style="display: block; margin: 0 auto; width: 202px; height: 68px;">
+        <div style="background-color: rgba(224, 105, 21, 0.1); padding: 20px; border-radius: 5px;">
+          <h1 style="font-size: 20px;">Relatório de Usuários Inscritos</h1>
+        </div>
+        <div style="padding: 20px; background-color: white;"">
+          <p style="font-size: 20px;">Os seguintes usuários estão inscritos nos cursos:</p>
+          <div style="margin-top: 50px; font-size: 14px;">${html}</div>
+        </div>
+      </div>`
+    });
+  } catch (error) {
+    console.log(error);
   }
+};
 

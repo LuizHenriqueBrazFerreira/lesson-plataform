@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setToken } from '../../services/requests';
+import { setToken, requestData } from '../../services/requests';
+import { showSuccessMessage, showErrorMessage } from '../../utils/sweetAlert';
 import AdminCard from '../../components/AdminCard';
 import CoursesBackground from '../../components/CoursesBackground';
+import OrangeButton from '../../components/OrangeButton';
 
 export default function AdminPage() {
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +21,20 @@ export default function AdminPage() {
 
     setToken(token);
   }, []);
+
+  const handleSendReport = async () => {
+    setLoading(true);
+    try {
+      const { message } = await requestData('/report');
+      showSuccessMessage(message);
+      setLoading(false);
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        showErrorMessage(error.response.data.message);
+        setLoading(false);
+      }
+    }
+  };
 
   return (
     <CoursesBackground>
@@ -48,6 +66,9 @@ export default function AdminPage() {
           description="Ver todos os cursos cadastrados no sistema"
         />
       </div>
+      <OrangeButton onClick={ handleSendReport } isLoading={ loading }>
+        Gerar Relatório
+      </OrangeButton>
     </CoursesBackground>
   );
 }

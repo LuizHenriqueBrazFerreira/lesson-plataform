@@ -41,7 +41,8 @@ UsersSequelize.init({
   },
   country: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    defaultValue: '',
   },
   organization: {
     type: DataTypes.STRING,
