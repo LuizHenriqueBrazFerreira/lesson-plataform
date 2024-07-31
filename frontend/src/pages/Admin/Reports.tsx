@@ -8,7 +8,6 @@ import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
 import ReportTable from '../../components/ReportTable';
 import headers from '../../utils/reportHelpers';
-import { SubscribredUsers } from '../../types/userTypes';
 
 function Reports() {
   const [courses, setCourses] = useState<Courses[]>([]);
