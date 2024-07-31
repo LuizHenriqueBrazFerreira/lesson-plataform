@@ -14,52 +14,62 @@ class CreateReport {
 
   async createReport() {
     const subscribedUsers = await this.#userCourseModel.findAll({ where: { subscribed: true } });
-
-    if (!subscribedUsers.length) return '<strong>Nenhum usuário inscrito encontrado</strong>';
-
-    const courses: { [key: string]: Array<UserInfo> } = {};
-
+  
+    if (!subscribedUsers.length) return [];
+  
+    const courses: Array<{ course: string, users: UserInfo[] }> = [];
+  
     for (const user of subscribedUsers) {
       const userData = await this.#usersModel.findOne({ where: { id: user.userId } });
-
-      const userInfo = {
+  
+      const userInfo: UserInfo = {
         name: userData?.name ?? '',
         email: userData?.email ?? '',
-        country: userData?.country ? userData?.country :  'Não informado',
-        organization: userData?.organization ? userData?.organization :'Não informado' ,
+        country: userData?.country ? userData?.country : 'Não informado',
+        organization: userData?.organization ? userData?.organization : 'Não informado',
       };
-
-      if (!courses[user.courseTitle]) {
-        courses[user.courseTitle] = [];
+  
+      let course = courses.find(course => course.course === user.courseTitle);
+  
+      if (!course) {
+        course = { course: user.courseTitle, users: [] };
+        courses.push(course);
       }
-
-      courses[user.courseTitle].push(userInfo);
+  
+      course.users.push(userInfo);
     }
-
+  
     return courses;
   }
 
-  async transformReport() {
-    const courses = await this.createReport();
-
-    if (typeof courses === 'string') return courses;
-
-    let html = '';
-
-    for (const [courseTitle, students] of Object.entries(courses)) {
-      html += `<h2 style="font-size: 20px;">Curso: ${courseTitle}</h2><ul>`;
-      for (const student of students) {
-        html += `<li>
-               <strong>Nome:</strong> ${student.name}<br>
-               <strong>Email:</strong> ${student.email}<br>
-               <strong>País:</strong> ${student.country}<br>
-               <strong>Organização:</strong> ${student.organization}
-             </li>`;
+  async createReportByCourse(courseTitle: string) {
+    const subscribedUsers = await this.#userCourseModel.findAll({ where: { subscribed: true, courseTitle } });
+  
+    if (!subscribedUsers.length) return [];
+  
+    const courseData: Array<{ course: string, users: UserInfo[] }> = [];
+  
+    for (const user of subscribedUsers) {
+      const userData = await this.#usersModel.findOne({ where: { id: user.userId } });
+  
+      const userInfo: UserInfo = {
+        name: userData?.name ?? '',
+        email: userData?.email ?? '',
+        country: userData?.country ? userData?.country : 'Não informado',
+        organization: userData?.organization ? userData?.organization : 'Não informado',
+      };
+  
+      let course = courseData.find(course => course.course === courseTitle);
+  
+      if (!course) {
+        course = { course: courseTitle, users: [] };
+        courseData.push(course);
       }
-      html += '</ul>';
+  
+      course.users.push(userInfo);
     }
-
-    return html;
+  
+    return courseData;
   }
 }
 

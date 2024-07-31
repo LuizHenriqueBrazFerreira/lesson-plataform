@@ -65,6 +65,11 @@ export default function AdminPage() {
           to="courses"
           description="Ver todos os cursos cadastrados no sistema"
         />
+        <AdminCard
+          heading="Relatórios"
+          to="reports"
+          description="Gerar relatórios de usuários e cursos"
+        />
       </div>
       <OrangeButton onClick={ handleSendReport } isLoading={ loading }>
         Gerar Relatório

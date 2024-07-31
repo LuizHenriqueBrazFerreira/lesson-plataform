@@ -16,6 +16,7 @@ function Students() {
   const role = localStorage.getItem('role');
   const [oldEmail, setOldEmail] = useState<string[]>([]);
   const [students, setStudents] = useState<UserType[]>([]);
+  const [backupStudents, setBackupStudents] = useState<UserType[]>([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
@@ -37,6 +38,7 @@ function Students() {
       const studentsOldEmail = data.map((student: UserType) => student.email);
       setOldEmail(studentsOldEmail);
       setStudents(newStudents);
+      setBackupStudents(newStudents);
     } catch (error: any) {
       if (error.isAxiosError) {
         console.error(error);
@@ -54,8 +56,7 @@ function Students() {
 
   const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
-    await fetchStudents();
-    const filteredStudents = students.filter((student) => {
+    const filteredStudents = backupStudents.filter((student) => {
       return student.name.toLowerCase().includes(search.toLowerCase())
         || student.email.toLowerCase().includes(search.toLowerCase())
         || student.country.toLowerCase().includes(search.toLowerCase())

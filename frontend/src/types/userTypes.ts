@@ -19,3 +19,15 @@ export const initialUserState: UserType = {
   organization: '',
   isDisabled: true,
 };
+
+export type SubscribredUsers = {
+  name: string;
+  email: string;
+  country: string;
+  organization: string;
+};
+
+export type ReportType = {
+  course: string;
+  users: SubscribredUsers[];
+};

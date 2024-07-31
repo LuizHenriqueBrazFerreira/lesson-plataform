@@ -62,20 +62,32 @@ export interface IUserCourses {
   subscribed?: boolean;
 }
 
+type UserInfo = {
+  name?: string;
+  email?: string;
+  country?: string;
+  organization?: string;
+};
+
 export interface IUserCoursesModel {
   createUserCourse({ userId, courseTitle, courseId, progress, bookmarked, subscribed }: IUserCourses): Promise<UserCoursesSequelize>;
   findCoursesByUserId(userId: number): Promise<UserCoursesSequelize[] | CoursesSequelize[]>;
-  updateUserCourse(key:string, value: string, userId: number, courseId: number): Promise<number>;
+  updateUserCourse(key: string, value: string, userId: number, courseId: number): Promise<number>;
+  getAllSubscribedUsers(): Promise<{ course: string; users: UserInfo[] }[]>;
+  getSubscribedUsersByCourse(courseTitle: string): Promise<{ course: string; users: UserInfo[] }[]>;
 }
-
 export interface IUserCoursesService {
   createUserCourse({ userId, courseId, progress, bookmarked, subscribed }: IUserCourses): Promise<ServiceResponse<UserCoursesSequelize>>;
   findCoursesByUserId(userId: number): Promise<ServiceResponse<IUserCourses[] | CoursesSequelize[]>>;
-  updateUserCourse(key:string, value: string, userId: number, courseId: number): Promise<ServiceResponse<number>>;
+  updateUserCourse(key: string, value: string, userId: number, courseId: number): Promise<ServiceResponse<number>>;
+  getAllSubscribedUsers(): Promise<ServiceResponse<{ course: string; users: UserInfo[] }[]>>;
+  getSubscribedUsersByCourse(courseTitle: string): Promise<ServiceResponse<{ course: string; users: UserInfo[] }[]>>;
 }
 
 export interface IUserCoursesController {
   createUserCourse(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   requestUserCoursesByUserId(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
   updateUserCourse(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  requestAllSubscribedUsers(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+  requestSubscribedUsersByCourse(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
 }

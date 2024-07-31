@@ -101,7 +101,6 @@ export const sendSupportEmail = async (email: string, name: string, topic:string
 
 export const sendReportEmail = async () => {
   const report = new CreateReport();
-  const html = await report.transformReport();
 
   try {
     await smtpTransport.sendMail({
@@ -119,7 +118,7 @@ export const sendReportEmail = async () => {
         </div>
         <div style="padding: 20px; background-color: white;"">
           <p style="font-size: 20px;">Os seguintes usuários estão inscritos nos cursos:</p>
-          <div style="margin-top: 50px; font-size: 14px;">${html}</div>
+          <div style="margin-top: 50px; font-size: 14px;">${'html arrumar aqui depois'}</div>
         </div>
       </div>`
     });

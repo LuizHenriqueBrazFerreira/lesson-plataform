@@ -21,6 +21,7 @@ import Profile from './pages/Course/Profile';
 import StudentCourses from './pages/Course/Courses';
 import SupportPage from './pages/Course/SupportPage';
 import Footer from './components/Footer';
+import Reports from './pages/Admin/Reports';
 import './App.css';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/admin/courses" element="Cursos" />
         <Route path="/admin/create" element={ <CreateCourse /> } />
         <Route path="/admin/edit" element={ <EditCourse /> } />
+        <Route path="/admin/reports" element={ <Reports /> } />
         <Route path="/admin/students" element={ <Students /> } />
         <Route path="/bookmarked" element={ <BookmarkedCourses /> } />
         <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
