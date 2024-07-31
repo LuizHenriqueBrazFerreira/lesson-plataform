@@ -15,6 +15,7 @@ function Reports() {
   const [allCourses, setAllCourses] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subscribedUsers, setSubscribedUsers] = useState([]);
+  const [message, setMessage] = useState('');
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const navigate = useNavigate();
@@ -49,34 +50,50 @@ function Reports() {
     }
   };
 
+  const generateReportForAllCourses = async () => {
+    try {
+      const data = await requests.requestData('/report');
+
+      setSubscribedUsers(data);
+      setLoading(false);
+
+      if (data.length === 0) {
+        setMessage('Não há alunos inscritos em nenhum curso');
+      }
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+        setLoading(false);
+      }
+    }
+  };
+
+  const generateReportForCourse = async () => {
+    try {
+      const data = await requests.requestData(`/report/${courseTitle}`);
+
+      setSubscribedUsers(data);
+      setLoading(false);
+
+      if (data.length === 0) {
+        setMessage('Não há alunos inscritos neste curso');
+      }
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+        setLoading(false);
+      }
+    }
+  };
+
   const handleGenerateReport = async () => {
     setLoading(true);
     if (allCourses) {
-      try {
-        const data = await requests.requestData('/report');
-
-        setSubscribedUsers(data);
-        setLoading(false);
-      } catch (error: any) {
-        if (error.isAxiosError) {
-          console.error(error);
-          setLoading(false);
-        }
-      }
+      await generateReportForAllCourses();
     }
 
     if (courseTitle) {
-      try {
-        const data = await requests.requestData(`/report/${courseTitle}`);
-
-        setSubscribedUsers(data);
-        setLoading(false);
-      } catch (error: any) {
-        if (error.isAxiosError) {
-          console.error(error);
-          setLoading(false);
-        }
-      }
+      await generateReportForCourse();
     }
   };
 
@@ -128,6 +145,11 @@ function Reports() {
       </div>
       {subscribedUsers.length > 0 && (
         <ReportTable reports={ subscribedUsers } />
+      )}
+      {message && (
+        <p className="text-red-500 text-center text-lg font-bold mt-10">
+          {message}
+        </p>
       )}
       <div className="flex gap-4 self-center">
         <OrangeButton
