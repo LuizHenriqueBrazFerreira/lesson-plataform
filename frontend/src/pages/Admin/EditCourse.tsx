@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { ChangeEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Select, Option } from '@material-tailwind/react';
@@ -8,6 +9,7 @@ import { Courses, EditModule } from '../../types/courseType';
 import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
 import CreateLesson from '../../components/CreateLesson';
 import CoursesBackground from '../../components/CoursesBackground';
+import Date from '../../components/Date';
 import OrangeButton from '../../components/OrangeButton';
 import PlusButton from '../../components/PlusButton';
 import TrashButton from '../../components/TrashButton';
@@ -23,6 +25,8 @@ export default function EditCourse() {
   const [forumURL, setForumURL] = useState('');
   const [duration, setDuration] = useState('');
   const [courseId, setCourseId] = useState(0);
+  const [createdAt, setCreatedAt] = useState<Date>();
+  const [updatedAt, setUpdatedAt] = useState<Date>();
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const navigate = useNavigate();
@@ -52,6 +56,8 @@ export default function EditCourse() {
       setCourseId(selectedCourse.id);
       setForumURL(selectedCourse.forum);
       setDuration(selectedCourse.duration);
+      setCreatedAt(selectedCourse.createdAt);
+      setUpdatedAt(selectedCourse.updatedAt);
       setModules([]);
       setLessons([]);
       const { modulesData, newModules } = await helpers.requestModules(selectedCourse.id);
@@ -195,6 +201,8 @@ export default function EditCourse() {
             onClick={ handleRemoveCourse }
           /> }
         />
+        {createdAt && <Date date={ createdAt } label="Criado em" />}
+        {updatedAt && <Date date={ updatedAt } label="Atualizado em" />}
         <Input
           crossOrigin={ undefined }
           size="lg"

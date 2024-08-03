@@ -23,6 +23,16 @@ export default {
         allowNull: false,
         type: DataTypes.STRING,
         defaultValue: ''
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
       }
     })
   },

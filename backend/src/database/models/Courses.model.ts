@@ -12,6 +12,8 @@ InferCreationAttributes<CoursesSequelize>> {
   declare title: string;
   declare forum: string;
   declare duration: string;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 
 CoursesSequelize.init({
@@ -35,10 +37,20 @@ CoursesSequelize.init({
     allowNull: false,
     defaultValue: '',
   },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  }
 }, {
   sequelize: db,
   modelName: 'Courses',
-  timestamps: false,
+  timestamps: true,
 });
 
 export default CoursesSequelize;

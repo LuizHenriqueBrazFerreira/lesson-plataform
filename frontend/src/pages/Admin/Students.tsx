@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { useState, useEffect, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
@@ -10,6 +11,7 @@ import WhiteButton from '../../components/WhiteButton';
 import CoursesBackground from '../../components/CoursesBackground';
 import EyeButton from '../../components/EyeButton';
 import SearchInput from '../../components/SearchInput';
+import Date from '../../components/Date';
 
 function Students() {
   const token = localStorage.getItem('token');
@@ -213,6 +215,14 @@ function Students() {
                   showPassword={ showPassword }
                 /> }
               />
+              {student.createdAt && <Date
+                date={ student.createdAt }
+                label="Criado em"
+              />}
+              {student.updatedAt && <Date
+                date={ student.updatedAt }
+                label="Atualizado em"
+              />}
               <div className="flex justify-between gap-2">
                 {student.isDisabled ? (
                   <OrangeButton onClick={ () => handleIsDisabled(student, index) }>

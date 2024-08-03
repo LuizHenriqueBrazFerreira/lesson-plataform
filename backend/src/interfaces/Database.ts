@@ -6,7 +6,9 @@ export interface UserDB {
   country: string,
   organization?: string,
   role: 'ADMIN' | 'STUDENT',
-  confirmEmailToken: string | null
+  confirmEmailToken: string | null,
+  createdAt: Date,
+  updatedAt: Date,
 };
 
 export interface CoursesDB {
@@ -14,6 +16,8 @@ export interface CoursesDB {
   title: string,
   forum: string,
   duration: string,
+  createdAt: Date,
+  updatedAt: Date,
 }
 
 export interface ModulesDB {

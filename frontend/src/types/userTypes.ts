@@ -7,6 +7,8 @@ export type UserType = {
   country: string;
   organization: string;
   isDisabled?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export const initialUserState: UserType = {

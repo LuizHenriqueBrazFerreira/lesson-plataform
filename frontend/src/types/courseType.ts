@@ -18,6 +18,8 @@ export type Courses = {
   title: string;
   forum: string;
   duration: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type UserCourses = {
