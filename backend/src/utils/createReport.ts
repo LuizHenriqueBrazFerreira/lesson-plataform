@@ -6,6 +6,8 @@ type UserInfo = {
   email?: string;
   country?: string;
   organization?: string;
+  since?: Date | string;
+  subscribedAt?: Date | string;
 };
 
 class CreateReport {
@@ -27,6 +29,8 @@ class CreateReport {
         email: userData?.email ?? '',
         country: userData?.country ? userData?.country : 'Não informado',
         organization: userData?.organization ? userData?.organization : 'Não informado',
+        since: userData?.createdAt ?? 'Não informado',
+        subscribedAt: user.subscribedAt ?? 'Não informado',
       };
   
       let course = courses.find(course => course.course === user.courseTitle);
@@ -57,6 +61,8 @@ class CreateReport {
         email: userData?.email ?? '',
         country: userData?.country ? userData?.country : 'Não informado',
         organization: userData?.organization ? userData?.organization : 'Não informado',
+        since: userData?.createdAt ?? 'Não informado',
+        subscribedAt: user.subscribedAt ?? 'Não informado',
       };
   
       let course = courseData.find(course => course.course === courseTitle);

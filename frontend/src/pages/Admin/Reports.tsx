@@ -1,4 +1,4 @@
-import { Select, Option, Checkbox } from '@material-tailwind/react';
+import { Select, Option } from '@material-tailwind/react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CSVLink } from 'react-csv';
@@ -7,13 +7,12 @@ import * as requests from '../../services/requests';
 import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
 import ReportTable from '../../components/ReportTable';
-import headers from '../../utils/reportHelpers';
+import headers, { formatDate } from '../../utils/reportHelpers';
 import { SubscribredUsers, ReportType } from '../../types/userTypes';
 
 function Reports() {
   const [courses, setCourses] = useState<Courses[]>([]);
   const [courseTitle, setCourseTitle] = useState('');
-  const [allCourses, setAllCourses] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subscribedUsers, setSubscribedUsers] = useState([]);
   const [message, setMessage] = useState('');
@@ -38,17 +37,7 @@ function Reports() {
   }, [navigate, role, token]);
 
   const handleChooseCourse = (value: string) => {
-    setAllCourses(false);
     setCourseTitle(value);
-  };
-
-  const handleAllCourses = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target;
-    setAllCourses(checked);
-
-    if (checked) {
-      setCourseTitle('');
-    }
   };
 
   const generateReportForAllCourses = async () => {
@@ -88,14 +77,13 @@ function Reports() {
   };
 
   const handleGenerateReport = async () => {
+    setMessage('');
     setLoading(true);
-    if (allCourses) {
-      await generateReportForAllCourses();
+    if (courseTitle === 'Todos os cursos') {
+      return generateReportForAllCourses();
     }
 
-    if (courseTitle) {
-      await generateReportForCourse();
-    }
+    return generateReportForCourse();
   };
 
   const formatData = () => {
@@ -106,45 +94,32 @@ function Reports() {
         email: user.email,
         country: user.country,
         organization: user.organization,
+        since: formatDate(user.since),
+        subscribedAt: formatDate(user.subscribedAt),
       })));
   };
 
   return (
     <CoursesBackground>
       <h1
-        className="text-xl md:text-4xl
+        className="text-xl md:text-4xl mb-10
            text-btn-orange font-bold"
       >
         Gerar Relatórios
       </h1>
-      <div className="flex gap-5 mt-10">
-        <div className="w-1/2">
-          <Select
-            size="lg"
-            label="Selecione um curso"
-            onChange={ (value) => handleChooseCourse(value as string) }
-            value={ courseTitle }
-          >
-            {courses.map((course) => (
-              <Option key={ course.id } value={ course.title }>
-                {course.title}
-              </Option>
-            ))}
-          </Select>
-        </div>
-        <div className="flex items-center">
-          <p className="text-lg font-bold">
-            ou
-          </p>
-          <Checkbox
-            crossOrigin={ undefined }
-            label="Todos os cursos"
-            id="allCourses"
-            checked={ allCourses }
-            onChange={ handleAllCourses }
-          />
-        </div>
-      </div>
+      <Select
+        size="lg"
+        label="Selecione um curso"
+        onChange={ (value) => handleChooseCourse(value as string) }
+        value={ courseTitle }
+      >
+        {courses.map((course) => (
+          <Option key={ course.id } value={ course.title }>
+            {course.title}
+          </Option>
+        ))}
+        <Option value="Todos os cursos">Todos os cursos</Option>
+      </Select>
       {subscribedUsers.length > 0 && (
         <ReportTable reports={ subscribedUsers } />
       )}

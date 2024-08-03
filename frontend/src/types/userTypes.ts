@@ -27,6 +27,8 @@ export type SubscribredUsers = {
   email: string;
   country: string;
   organization: string;
+  since: Date | string;
+  subscribedAt: Date | string;
 };
 
 export type ReportType = {

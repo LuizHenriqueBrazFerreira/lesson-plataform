@@ -41,6 +41,7 @@ export interface UserCoursesDB {
   progress?: number,
   bookmarked?: boolean,
   subscribed?: boolean,
+  subscribedAt?: Date,
 };
 
 export interface PdfLessonDB {

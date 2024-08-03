@@ -9,8 +9,8 @@ type ReportTableProps = {
 function ReportTable({ reports }: ReportTableProps) {
   return (
     <table
-      className="[&>tbody>*:nth-child(odd)]:bg-neutral-200
-    [&>tbody>*:nth-child(even)]: bg-neutral-300 mt-10"
+      className="[&>tbody>*:nth-child(odd)]:bg-neutral-100
+    [&>tbody>*:nth-child(even)]: bg-neutral-200 mt-10"
     >
       <ReportTableHead />
       <tbody>

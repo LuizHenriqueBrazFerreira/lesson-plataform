@@ -51,7 +51,13 @@ export default {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
-      }
+      },
+      subscribedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'subscribed_at',
+        defaultValue: null
+      },
     })
   },
   down(queryInterface: QueryInterface) {

@@ -18,6 +18,7 @@ InferCreationAttributes<UserCoursesSequelize>> {
   declare progress: number;
   declare bookmarked: boolean;
   declare subscribed: boolean;
+  declare subscribedAt: CreationOptional<Date>;;
 }
 
 UserCoursesSequelize.init({
@@ -57,6 +58,12 @@ UserCoursesSequelize.init({
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false,
+  },
+  subscribedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    field: 'subscribed_at',
+    defaultValue: null,
   },
 }, {
   sequelize: db,

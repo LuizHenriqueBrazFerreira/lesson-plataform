@@ -30,6 +30,10 @@ class UserCoursesModel implements IUserCoursesModel {
   async updateUserCourse(key: string, value: string, userId: number, courseId: number) {
     const [affectedCount] = await this.#model.update({ [key]: value }, { where: { userId, courseId } });
 
+    if (key === 'subscribed' && value === 'true') {
+      await this.#model.update({ subscribedAt: new Date() }, { where: { userId, courseId } });
+    }
+
     return affectedCount;
   }
 

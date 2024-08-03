@@ -45,7 +45,7 @@ class UserCoursesService implements IUserCoursesService {
 
       return { status: 'SUCCESSFUL', data: subscribedUsers }
     } catch (error) {
-      return { status: 'INTERNAL_SERVER_ERROR', data: {message: 'Falha ao buscar os usuários inscritos' }}
+      return { status: 'INTERNAL_SERVER_ERROR', data: {message: `Falha ao buscar os usuários inscritos, ${error}` }}
     }
   }
 
