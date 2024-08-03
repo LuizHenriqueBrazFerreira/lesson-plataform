@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 type PdfBarProps = {
   path: string
 };
-
+// teste
 export default function PdfBar({ path }: PdfBarProps) {
   const navigate = useNavigate();
 
