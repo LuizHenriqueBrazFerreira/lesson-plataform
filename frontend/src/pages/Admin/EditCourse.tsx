@@ -207,7 +207,7 @@ export default function EditCourse() {
           crossOrigin={ undefined }
           size="lg"
           type="text"
-          label="Duração do curso"
+          label="Direcionamentos para o curso"
           value={ duration }
           onChange={ (event) => setDuration(event.target.value) }
         />

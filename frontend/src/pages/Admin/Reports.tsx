@@ -8,6 +8,7 @@ import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
 import ReportTable from '../../components/ReportTable';
 import headers from '../../utils/reportHelpers';
+import { SubscribredUsers, ReportType } from '../../types/userTypes';
 
 function Reports() {
   const [courses, setCourses] = useState<Courses[]>([]);
@@ -98,13 +99,14 @@ function Reports() {
   };
 
   const formatData = () => {
-    return subscribedUsers.flatMap((report: any) => report.users.map((user: any) => ({
-      course: report.course,
-      name: user.name,
-      email: user.email,
-      country: user.country,
-      organization: user.organization,
-    })));
+    return subscribedUsers.flatMap((report: ReportType) => report.users
+      .map((user: SubscribredUsers) => ({
+        course: report.course,
+        name: user.name,
+        email: user.email,
+        country: user.country,
+        organization: user.organization,
+      })));
   };
 
   return (

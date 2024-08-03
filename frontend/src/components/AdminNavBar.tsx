@@ -89,6 +89,19 @@ const navList = (
       className="p-1 font-medium text-xl"
     >
       <NavLink
+        to="/admin/reports"
+        className="flex items-center justify-center hover:text-blue-500 transition-colors"
+      >
+        Relatórios
+      </NavLink>
+    </Typography>
+    <Typography
+      as="li"
+      variant="small"
+      color="blue-gray"
+      className="p-1 font-medium text-xl"
+    >
+      <NavLink
         to="/"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
         onClick={ () => localStorage.clear() }

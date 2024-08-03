@@ -7,7 +7,6 @@ class LessonsService implements ILessonsService {
   private _moduleModel = new ModulesModel()
 
   async createLesson(moduleTitle: string, title: string, content: string) {
-    console.log(moduleTitle)
     const updateTable = new UpdateTables()
     try {
       const moduleExists = await this._moduleModel.getModuleByTitle(moduleTitle);
@@ -18,7 +17,6 @@ class LessonsService implements ILessonsService {
       
       
       const moduleId = moduleExists.id;
-      const courseId = moduleExists.courseId;
       const lesson = await this.model.createLesson(moduleId, title, content);
 
       updateTable.updateLessonWatched(lesson.id, moduleId);
@@ -26,8 +24,6 @@ class LessonsService implements ILessonsService {
       return { status: 'SUCCESSFUL', data: lesson };
     }
     catch (error) {
-      console.log(error);
-      
       return { status: 'INTERNAL_SERVER_ERROR', data: { message: 'Falha ao criar Lições' } };
     }
   }
