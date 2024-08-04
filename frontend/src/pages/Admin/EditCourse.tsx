@@ -21,12 +21,10 @@ export default function EditCourse() {
   const [lessons, setLessons] = useState<LessonsType[]>([]);
   const [lessonsBackup, setLessonsBackup] = useState<LessonsType[]>([]);
   const [courses, setCourses] = useState<Courses[]>([]);
+  const [selected, setSelected] = useState<Courses>();
   const [courseTitle, setCourseTitle] = useState('');
   const [forumURL, setForumURL] = useState('');
   const [duration, setDuration] = useState('');
-  const [courseId, setCourseId] = useState(0);
-  const [createdAt, setCreatedAt] = useState<Date>();
-  const [updatedAt, setUpdatedAt] = useState<Date>();
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const navigate = useNavigate();
@@ -53,13 +51,9 @@ export default function EditCourse() {
       setCourseTitle(value);
       const selectedCourse = courses.find((course) => course.title === value);
       if (!selectedCourse) return;
-      setCourseId(selectedCourse.id);
+      setSelected(selectedCourse);
       setForumURL(selectedCourse.forum);
       setDuration(selectedCourse.duration);
-      setCreatedAt(selectedCourse.createdAt);
-      setUpdatedAt(selectedCourse.updatedAt);
-      setModules([]);
-      setLessons([]);
       const { modulesData, newModules } = await helpers.requestModules(selectedCourse.id);
       setModules(newModules);
       setModulesBackup(newModules);
@@ -114,7 +108,7 @@ export default function EditCourse() {
 
   const handleRemoveCourse = async () => {
     try {
-      await requests.requestDelete(`/courses/${courseId}`);
+      await requests.requestDelete(`/courses/${selected?.id}`);
       window.location.reload();
     } catch (error: any) {
       if (error.isAxiosError) {
@@ -158,10 +152,14 @@ export default function EditCourse() {
       return showNoCourseSelectedMessage();
     }
     const courseData = await requests.requestUpdate(
-      `/courses/${courseId}`,
-      { id: courseId, title: courseTitle, forum: forumURL, duration },
+      `/courses/${selected?.id}`,
+      { id: selected?.id, title: courseTitle, forum: forumURL, duration },
     );
-    const modulesData = await helpers.handleModuleEdit(courseId, courseTitle, modules);
+    const modulesData = await helpers.handleModuleEdit(
+      selected?.id ?? 0,
+      courseTitle,
+      modules,
+    );
     const lessonsData = await helpers.handleLessonEdit(lessons);
     const pdfsData = await helpers.handlePdfEdit(lessons);
 
@@ -201,8 +199,11 @@ export default function EditCourse() {
             onClick={ handleRemoveCourse }
           /> }
         />
-        {createdAt && <Date date={ createdAt } label="Criado em" />}
-        {updatedAt && <Date date={ updatedAt } label="Atualizado em" />}
+        {selected?.createdAt && <Date date={ selected.createdAt } label="Criado em" />}
+        {selected?.updatedAt && <Date
+          date={ selected.updatedAt }
+          label="Atualizado em"
+        />}
         <Input
           crossOrigin={ undefined }
           size="lg"

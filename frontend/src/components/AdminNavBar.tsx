@@ -79,7 +79,7 @@ const navList = (
         to="/admin/students"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
-        Gerenciar Usuários
+        Usuários
       </NavLink>
     </Typography>
     <Typography

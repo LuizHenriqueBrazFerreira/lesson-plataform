@@ -127,7 +127,6 @@ function Students() {
         setDeleteLoading(false);
         return;
       }
-
       deleteUser(student.id ?? 0, index, setStudents);
       setDeleteLoading(false);
     } catch (error: any) {

@@ -1,15 +1,13 @@
 function ReportTableHead() {
   return (
-    <thead>
-      <tr className="flex w-full border gap-4 p-3 bg-neutral-200">
-        <th className="w-2/5 text-left">Curso</th>
-        <th className="w-2/5">Estudante</th>
-        <th className="w-72 text-center">Email</th>
-        <th className="w-[15%] text-center">País</th>
-        <th className="w-1/5 text-center">Inscrição no curso</th>
-        <th className="w-1/5 text-center">Inscrição na plataforma</th>
-        <th className="w-1/5 text-right">Organização</th>
-      </tr>
+    <thead className="flex w-full border gap-1 p-2 bg-neutral-200">
+      <th className="w-2/5 text-left">Curso</th>
+      <th className="w-[35%] text-left">Estudante</th>
+      <th className="w-[25%] text-left">Email</th>
+      <th className="w-[10%]">País</th>
+      <th className="w-[15%]">Inscrição no curso</th>
+      <th className="w-[15%]">Inscrição na plataforma</th>
+      <th className="w-[10%] text-right">Organização</th>
     </thead>
   );
 }

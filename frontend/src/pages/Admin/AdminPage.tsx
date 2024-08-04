@@ -30,7 +30,7 @@ export default function AdminPage() {
         <AdminCard
           heading="Gerenciar Usuários"
           to="students"
-          description="Ver todas as pessoas cadastradas no sistema"
+          description="Ver todas as pessoas cadastradas"
         />
         <AdminCard
           heading="Criar Curso"
@@ -45,7 +45,7 @@ export default function AdminPage() {
         <AdminCard
           heading="Cursos"
           to="courses"
-          description="Ver todos os cursos cadastrados no sistema"
+          description="Ver todos os cursos cadastrados"
         />
         <AdminCard
           heading="Relatórios"
