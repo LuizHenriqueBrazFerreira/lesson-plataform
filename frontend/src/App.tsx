@@ -6,7 +6,7 @@ import EditCourse from './pages/Admin/EditCourse';
 import Students from './pages/Admin/Students';
 import BookmarkedCourses from './pages/Course/BookmarkedCourses';
 import ConfirmEmail from './pages/Login/ConfirmEmail';
-import CourseContext from './context/CourseContext';
+import CourseContext, { SearchBarResponse } from './context/CourseContext';
 import CourseModules from './pages/Course/CourseModules';
 import CreateAccount from './pages/Login/CreateAccount';
 import ForgotPassword from './pages/Login/ResetPassword';
@@ -21,18 +21,32 @@ import Profile from './pages/Course/Profile';
 import StudentCourses from './pages/Course/Courses';
 import SupportPage from './pages/Course/SupportPage';
 import Footer from './components/Footer';
-import Reports from './pages/Admin/Reports';
 import './App.css';
 
 function App() {
+  const INITIAL_STATE = {
+    courses: [],
+    modules: [],
+    lessons: [],
+  };
   const [forumURL, setForumURL] = useState('');
+  const [searchBar, setSearchBar] = useState<SearchBarResponse>(INITIAL_STATE);
+
+  const changeSearchBar = (data: SearchBarResponse) => {
+    setSearchBar(data);
+  };
 
   const changeForumURL = (url: string) => {
     setForumURL(url);
   };
 
   return (
-    <CourseContext.Provider value={ { forumURL, changeForumURL } }>
+    <CourseContext.Provider
+      value={ { forumURL,
+        changeForumURL,
+        changeSearchBar,
+        searchBar } }
+    >
       <Header />
       <Routes>
         <Route path="/" element={ <Homepage /> } />
@@ -40,7 +54,6 @@ function App() {
         <Route path="/admin/courses" element="Cursos" />
         <Route path="/admin/create" element={ <CreateCourse /> } />
         <Route path="/admin/edit" element={ <EditCourse /> } />
-        <Route path="/admin/reports" element={ <Reports /> } />
         <Route path="/admin/students" element={ <Students /> } />
         <Route path="/bookmarked" element={ <BookmarkedCourses /> } />
         <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
@@ -51,7 +64,7 @@ function App() {
           element={ <Lessons /> }
         />
         <Route
-          path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
+          path="/courses/:courseId/modules/:moduleId/lessons/lesson/:lessonId"
           element={ <LessonPage /> }
         />
         <Route
