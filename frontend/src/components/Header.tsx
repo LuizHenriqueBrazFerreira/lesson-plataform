@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 import AdminNavBar from './AdminNavBar';
 import NavBar from './NavBar';
+import SearchBar from './SearchBar';
 
 function Header() {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ function Header() {
           </Button>
         </div>
       )}
+      <SearchBar />
       { role === 'STUDENT' && (<NavBar />)}
 
       { role === 'ADMIN' && (<AdminNavBar />)}
