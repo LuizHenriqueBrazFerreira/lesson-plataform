@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export default function NavList() {
+  const { t } = useTranslation();
+  
   return (
     <ul
       className="mt-2 p-4 md:p-0 bg-white border-2 md:border-none
