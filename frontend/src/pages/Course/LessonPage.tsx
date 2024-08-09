@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 function LessonPage() {
   const [lesson, setLesson] = useState<LessonsType>({} as LessonsType);
   const [module, setModule] = useState<Module>(initialModuleState);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
