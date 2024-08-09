@@ -75,11 +75,11 @@ export default {
   up: async (queryInterface: QueryInterface) => {
     // Inserir cursos
     await queryInterface.bulkInsert('Courses', [
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', forum: 'www.google.com', duration: 'Duração estimada: 2 horas', createdAt: new Date(), updatedAt: new Date() },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2', forum: 'https://linkedin.com.br', duration: 'Duração estimada: 3 horas', createdAt: new Date(), updatedAt: new Date() },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', forum: 'https://youtube.com/', duration: 'Duração estimada: 1 hora', createdAt: new Date(), updatedAt: new Date() },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', forum: 'www.google.com', duration: 'Duração estimada: 5 horas', createdAt: new Date(), updatedAt: new Date() },
-      { title: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', forum: 'www.google.com', duration: 'Duração estimada: 2 horas', createdAt: new Date(), updatedAt: new Date() },
+      { title: 'Proteções Sociais no Âmbito do Direito ao Desenvolvimento', forum: 'www.google.com', duration: 'Duração estimada: 2 horas', createdAt: new Date(), updatedAt: new Date() },
+      { title: 'Economia Sustentável', forum: 'https://linkedin.com.br', duration: 'Duração estimada: 3 horas', createdAt: new Date(), updatedAt: new Date() },
+      { title: 'Direito e Saúde', forum: 'https://youtube.com/', duration: 'Duração estimada: 1 hora', createdAt: new Date(), updatedAt: new Date() },
+      { title: 'Políticas Públicas Universalistas', forum: 'www.google.com', duration: 'Duração estimada: 5 horas', createdAt: new Date(), updatedAt: new Date() },
+      { title: 'Seguridade ambiental', forum: 'www.google.com', duration: 'Duração estimada: 2 horas', createdAt: new Date(), updatedAt: new Date() },
     ]);
 
     // Inserir módulos
@@ -130,8 +130,11 @@ const user1 = await UsersSequelize.create({
 });
 
 await UserCoursesSequelize.bulkCreate([
-  { userId: user1.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
-  { userId: user1.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 2', courseId: 2, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user1.id, courseTitle: 'Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user1.id, courseTitle: 'Economia Sustentável', courseId: 2, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user1.id, courseTitle: 'Direito e Saúde', courseId: 3, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user1.id, courseTitle: 'Políticas Públicas Universalistas', courseId: 4, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user1.id, courseTitle: 'Seguridade ambiental', courseId: 5, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
 ]);
 
 const user2 = await UsersSequelize.create({
@@ -147,10 +150,11 @@ const user2 = await UsersSequelize.create({
 });
 
 await UserCoursesSequelize.bulkCreate([
-  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
-  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 3', courseId: 3, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
-  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 4', courseId: 4, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
-  { userId: user2.id, courseTitle: 'Sistemas Universais das Proteções Sociais no Âmbito do Direito ao Desenvolvimento 5', courseId: 5, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user2.id, courseTitle: 'Proteções Sociais no Âmbito do Direito ao Desenvolvimento', courseId: 1, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user2.id, courseTitle: 'Economia Sustentável', courseId: 2, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user2.id, courseTitle: 'Direito e Saúde', courseId: 3, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user2.id, courseTitle: 'Políticas Públicas Universalistas', courseId: 4, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
+  { userId: user2.id, courseTitle: 'Seguridade ambiental', courseId: 5, progress: 0, bookmarked: false, subscribed: true, subscribedAt: new Date() },
 ]);
 
 await PdfLessonSequelize.bulkCreate([
