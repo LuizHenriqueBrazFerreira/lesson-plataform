@@ -4,6 +4,7 @@ import { Input, Typography } from '@material-tailwind/react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { requestPost } from '../../services/requests';
+import { useTranslation } from 'react-i18next';
 import EyeButton from '../../components/EyeButton';
 import OrangeButton from '../../components/OrangeButton';
 import WhiteButton from '../../components/WhiteButton';
@@ -21,6 +22,7 @@ function CreateAccount() {
 
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -117,7 +119,7 @@ function CreateAccount() {
         <h1
           className="text-xl md:text-4xl text-btn-orange mb-3 font-semibold"
         >
-          Cadastre-se
+          {t('Cadastre-se')}
         </h1>
         <Input
           crossOrigin={ undefined }
@@ -126,7 +128,7 @@ function CreateAccount() {
           size="lg"
           type="text"
           onChange={ handleChange }
-          label="Nome Completo"
+          label={ t('Nome Completo') }
         />
         <Input
           crossOrigin={ undefined }
@@ -135,7 +137,7 @@ function CreateAccount() {
           size="lg"
           type="email"
           onChange={ handleChange }
-          label="Email"
+          label={ t('Email') }
         />
         <Input
           crossOrigin={ undefined }
@@ -144,7 +146,7 @@ function CreateAccount() {
           size="lg"
           type="text"
           onChange={ handleChange }
-          label="País"
+          label={ t('Pais') }
         />
         <Input
           crossOrigin={ undefined }
@@ -153,7 +155,7 @@ function CreateAccount() {
           size="lg"
           type="text"
           onChange={ handleChange }
-          label="Organização (opcional)"
+          label={ t('Organizacao opcional') }
         />
         <div>
           <Input
@@ -164,7 +166,7 @@ function CreateAccount() {
             type={ showPassword ? 'text' : 'password' }
             onChange={ handleChange }
             onFocus={ () => setShowEye(true) }
-            label="Senha"
+            label={ t('Senha') }
             icon={ <EyeButton
               type="button"
               onClick={ (event) => handleShowPassword(event) }
@@ -179,7 +181,7 @@ function CreateAccount() {
               className="mt-2 flex items-center gap-1 font-normal"
             >
               <WarnigIcon />
-              A senha deve ter no mínimo 8 caracteres
+              {t('MinDigitos')}
             </Typography>
           )}
         </div>
@@ -190,7 +192,7 @@ function CreateAccount() {
           size="lg"
           type={ showPassword ? 'text' : 'password' }
           onChange={ handleChange }
-          label="Confirme sua senha"
+          label={ t('Confirme sua senha') }
         />
         { message === 'E-mail reenviado com sucesso.'
         || message === 'Usuário criado com sucesso.'
@@ -202,12 +204,12 @@ function CreateAccount() {
         >
           Cadastrar
         </OrangeButton>
-        <p className="self-center">Ja possui conta?</p>
+        <p className="self-center">{t('Ja possui conta?')}</p>
         <WhiteButton
           type="button"
           onClick={ () => navigate('/login') }
         >
-          Entrar
+          {t('Entrar')}
         </WhiteButton>
       </FormBackground>
     </LoginBackground>
