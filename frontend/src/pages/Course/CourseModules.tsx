@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Courses, initialCourseState } from '../../types/courseType';
 import { requestData, setToken } from '../../services/requests';
+import { useTranslation } from 'react-i18next';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
 import CourseContext from '../../context/CourseContext';
@@ -17,6 +18,7 @@ function CourseModules() {
   const userId = localStorage.getItem('userId');
   const subscribed = JSON.parse(localStorage.getItem('subscribedCourses') ?? '{}');
   const { changeForumURL } = useContext(CourseContext);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -61,7 +63,7 @@ function CourseModules() {
 
   return (
     <CoursesBackground
-      heading="Curso"
+      heading={ t('Curso') }
       title={ course.title }
       loading={ loading }
       duration={ course.duration }
@@ -89,7 +91,7 @@ function CourseModules() {
       <OrangeButton
         onClick={ () => navigate(-1) }
       >
-        Voltar
+        {t('Voltar')}
       </OrangeButton>
     </CoursesBackground>
   );
