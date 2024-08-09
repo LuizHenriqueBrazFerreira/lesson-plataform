@@ -18,7 +18,8 @@ export type Courses = {
   title: string;
   forum: string;
   duration: string;
-  subscribed?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type UserCourses = {
@@ -29,6 +30,7 @@ export type UserCourses = {
   userId: number;
   progress: number;
   bookmarked: boolean;
+  subscribed: boolean;
 };
 
 export const initialCourseState: Courses = {
@@ -36,7 +38,6 @@ export const initialCourseState: Courses = {
   title: '',
   forum: '',
   duration: '',
-  subscribed: false,
 };
 
 export const initialModuleState: Module = {

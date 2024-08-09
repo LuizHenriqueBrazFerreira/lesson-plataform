@@ -12,8 +12,8 @@ export default function PdfBar({ path }: PdfBarProps) {
     <button
       onClick={ () => navigate(`${path}/pdfs`) }
       className="border-2 border-btn-orange rounded-md
-      md:py-3 md:px-10 py-2 text-sm flex flex-col items-center w-16
-      text-btn-orange font-bold"
+      md:py-3 md:px-10 px-1 py-2 md:text-sm flex md:flex-col items-center w-24 md:w-16
+      text-btn-orange font-bold gap-2 md:gap-0"
     >
       <DocumentTextIcon className="size-8 md:size-10" />
       PDFs

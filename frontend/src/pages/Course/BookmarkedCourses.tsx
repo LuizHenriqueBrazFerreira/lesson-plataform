@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 
 function BookmarkedCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
-  const [hasCourses, setHasCourses] = useState(true);
   const { t } = useTranslation();
 
   const userId = localStorage.getItem('userId');
@@ -27,8 +26,7 @@ function BookmarkedCourses() {
     async function fetchData() {
       try {
         const data = await requestData(`/user-courses/${userId}`);
-        setCourses(data);
-        setHasCourses(data.some((course: UserCourses) => course.bookmarked));
+        setCourses(data.filter((course: UserCourses) => course.bookmarked));
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data.message);
@@ -61,17 +59,14 @@ function BookmarkedCourses() {
         {t("Cursos Salvos")}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 min-w-fit">
-        <br />
-        { hasCourses ? (
+        { courses.length ? (
           courses.map((course, index) => (
-            course.bookmarked ? (
-              <CourseCard
-                key={ index }
-                course={ course }
-                index={ index }
-                handleBookmark={ handleBookmark }
-              />
-            ) : (null)
+            <CourseCard
+              key={ index }
+              course={ course }
+              index={ index }
+              handleBookmark={ handleBookmark }
+            />
           ))
         )
           : (

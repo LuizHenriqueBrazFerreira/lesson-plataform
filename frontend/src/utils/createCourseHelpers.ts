@@ -1,5 +1,5 @@
 import { requestPost } from '../services/requests';
-import { LessonPropType } from '../types/lessons';
+import { LessonsType } from '../types/lessons';
 
 export const handleCreateModule = async (
   courseTitle: string,
@@ -15,7 +15,7 @@ export const handleCreateModule = async (
 };
 
 export const handleCreateLessons = async (
-  lessons: LessonPropType[],
+  lessons: LessonsType[],
 ) => {
   const lessonsData = await Promise.all(lessons.map(async (lesson) => {
     return requestPost(
@@ -24,8 +24,6 @@ export const handleCreateLessons = async (
         moduleTitle: lesson.moduleTitle,
         title: lesson.title,
         content: lesson.content,
-        image: lesson.image,
-        link: lesson.link,
       },
     );
   }));
@@ -33,7 +31,7 @@ export const handleCreateLessons = async (
 };
 
 export const handleCreatePdf = async (
-  lessons: LessonPropType[],
+  lessons: LessonsType[],
 ) => {
   const pdfData = await Promise.all(lessons.map(async ({ title, pdfs }) => {
     pdfs.map(async (pdf) => {

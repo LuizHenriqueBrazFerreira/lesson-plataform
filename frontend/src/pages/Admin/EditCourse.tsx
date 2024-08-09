@@ -1,12 +1,15 @@
+/* eslint-disable max-lines */
 import { ChangeEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Select, Option } from '@material-tailwind/react';
 import * as helpers from '../../utils/editCourseHelpers';
 import * as requests from '../../services/requests';
+import { showNoCourseSelectedMessage, showSuccessMessage } from '../../utils/sweetAlert';
 import { Courses, EditModule } from '../../types/courseType';
 import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
 import CreateLesson from '../../components/CreateLesson';
 import CoursesBackground from '../../components/CoursesBackground';
+import Date from '../../components/Date';
 import OrangeButton from '../../components/OrangeButton';
 import PlusButton from '../../components/PlusButton';
 import TrashButton from '../../components/TrashButton';
@@ -18,10 +21,10 @@ export default function EditCourse() {
   const [lessons, setLessons] = useState<LessonsType[]>([]);
   const [lessonsBackup, setLessonsBackup] = useState<LessonsType[]>([]);
   const [courses, setCourses] = useState<Courses[]>([]);
+  const [selected, setSelected] = useState<Courses>();
   const [courseTitle, setCourseTitle] = useState('');
   const [forumURL, setForumURL] = useState('');
   const [duration, setDuration] = useState('');
-  const [courseId, setCourseId] = useState(0);
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const navigate = useNavigate();
@@ -48,11 +51,9 @@ export default function EditCourse() {
       setCourseTitle(value);
       const selectedCourse = courses.find((course) => course.title === value);
       if (!selectedCourse) return;
-      setCourseId(selectedCourse.id);
+      setSelected(selectedCourse);
       setForumURL(selectedCourse.forum);
       setDuration(selectedCourse.duration);
-      setModules([]);
-      setLessons([]);
       const { modulesData, newModules } = await helpers.requestModules(selectedCourse.id);
       setModules(newModules);
       setModulesBackup(newModules);
@@ -107,7 +108,7 @@ export default function EditCourse() {
 
   const handleRemoveCourse = async () => {
     try {
-      await requests.requestDelete(`/courses/${courseId}`);
+      await requests.requestDelete(`/courses/${selected?.id}`);
       window.location.reload();
     } catch (error: any) {
       if (error.isAxiosError) {
@@ -148,18 +149,22 @@ export default function EditCourse() {
   const handleUpdateCourse = async (event: React.FormEvent) => {
     event.preventDefault();
     if (lessons.length === 0 || modules.length === 0) {
-      return helpers.showNoCourseSelectedMessage();
+      return showNoCourseSelectedMessage();
     }
     const courseData = await requests.requestUpdate(
-      `/courses/${courseId}`,
-      { id: courseId, title: courseTitle, forum: forumURL, duration },
+      `/courses/${selected?.id}`,
+      { id: selected?.id, title: courseTitle, forum: forumURL, duration },
     );
-    const modulesData = await helpers.handleModuleEdit(courseId, courseTitle, modules);
+    const modulesData = await helpers.handleModuleEdit(
+      selected?.id ?? 0,
+      courseTitle,
+      modules,
+    );
     const lessonsData = await helpers.handleLessonEdit(lessons);
     const pdfsData = await helpers.handlePdfEdit(lessons);
 
     if (courseData && modulesData && lessonsData && pdfsData) {
-      helpers.showSuccessMessage('Curso atualizado com sucesso');
+      showSuccessMessage('Curso atualizado com sucesso');
       setTimeout(() => { window.location.reload(); }, 1000);
     }
   };
@@ -194,6 +199,11 @@ export default function EditCourse() {
             onClick={ handleRemoveCourse }
           /> }
         />
+        {selected?.createdAt && <Date date={ selected.createdAt } label="Criado em" />}
+        {selected?.updatedAt && <Date
+          date={ selected.updatedAt }
+          label="Atualizado em"
+        />}
         <Input
           crossOrigin={ undefined }
           size="lg"
@@ -206,7 +216,7 @@ export default function EditCourse() {
           crossOrigin={ undefined }
           size="lg"
           type="text"
-          label="Duração do curso"
+          label="Direcionamentos para o curso"
           value={ duration }
           onChange={ (event) => setDuration(event.target.value) }
         />

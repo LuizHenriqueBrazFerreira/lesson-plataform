@@ -63,7 +63,7 @@ function App() {
           path="/courses/:courseId/modules/:moduleId/lessons"
           element={ <Lessons /> }
         />
-        <Route
+       <Route
           path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
           element={ <LessonPage /> }
         />

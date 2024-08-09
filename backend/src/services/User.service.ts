@@ -7,7 +7,6 @@ import { IUserService } from '../interfaces/IUsers';
 import UsersModel from '../models/UsersModel';
 import { giveAccessToAll, giveAcessToOne } from '../utils/giveAccess';
 import bcrypt from 'bcryptjs';
-import { ServiceResponse } from '../types/Service.response';
 
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 

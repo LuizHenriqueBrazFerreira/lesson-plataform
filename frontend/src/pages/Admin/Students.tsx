@@ -1,52 +1,75 @@
+/* eslint-disable max-lines */
 import { useState, useEffect, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
-import Swal from 'sweetalert2';
+import { cantDeleteAdmin, deleteUser,
+  userEditedSuccessfully } from '../../utils/sweetAlert';
 import { UserType } from '../../types/userTypes';
-import { requestData, requestUpdate,
-  requestDelete, setToken } from '../../services/requests';
+import { requestData, requestUpdate, setToken } from '../../services/requests';
 import OrangeButton from '../../components/OrangeButton';
 import WhiteButton from '../../components/WhiteButton';
 import CoursesBackground from '../../components/CoursesBackground';
 import EyeButton from '../../components/EyeButton';
+import SearchInput from '../../components/SearchInput';
+import Date from '../../components/Date';
 
 function Students() {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const [oldEmail, setOldEmail] = useState<string[]>([]);
   const [students, setStudents] = useState<UserType[]>([]);
+  const [backupStudents, setBackupStudents] = useState<UserType[]>([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showEye, setShowEye] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [search, setSearch] = useState('');
 
   const navigate = useNavigate();
+
+  async function fetchStudents() {
+    try {
+      const data = await requestData('/students');
+      const newStudents = data.map((student: UserType) => {
+        return {
+          ...student,
+          password: '',
+          isDisabled: true,
+        };
+      });
+      const studentsOldEmail = data.map((student: UserType) => student.email);
+      setOldEmail(studentsOldEmail);
+      setStudents(newStudents);
+      setBackupStudents(newStudents);
+    } catch (error: any) {
+      if (error.isAxiosError) {
+        console.error(error);
+      }
+    }
+  }
 
   useEffect(() => {
     if (!token || role !== 'ADMIN') {
       return navigate('/login');
     }
     setToken(token);
-
-    async function fetchStudents() {
-      try {
-        const data = await requestData('/students');
-        const newStudents = data.map((student: UserType) => {
-          return {
-            ...student,
-            password: '',
-            isDisabled: true,
-          };
-        });
-        const studentsOldEmail = data.map((student: UserType) => student.email);
-        setOldEmail(studentsOldEmail);
-        setStudents(newStudents);
-      } catch (error: any) {
-        if (error.isAxiosError) {
-          console.error(error);
-        }
-      }
-    }
     fetchStudents();
   }, []);
+
+  const handleSearch = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const filteredStudents = backupStudents.filter((student) => {
+      return student.name.toLowerCase().includes(search.toLowerCase())
+        || student.email.toLowerCase().includes(search.toLowerCase())
+        || student.country.toLowerCase().includes(search.toLowerCase())
+        || student.organization.toLowerCase().includes(search.toLowerCase());
+    });
+    if (!search) {
+      return fetchStudents();
+    }
+
+    setStudents(filteredStudents);
+  };
 
   const handleShowPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -76,6 +99,7 @@ function Students() {
   };
 
   const handleUpdateProfile = async (index:number) => {
+    setEditLoading(true);
     const student = students[index];
     const oldEmailStudent = oldEmail[index];
 
@@ -84,53 +108,46 @@ function Students() {
     try {
       await requestUpdate('/profile', data);
       handleIsDisabled(students[index], index);
-      Swal.fire({
-        icon: 'success',
-        title: 'Usuário atualizado com sucesso',
-        showConfirmButton: true,
-        confirmButtonColor: '#e06915',
-      });
+      userEditedSuccessfully();
+      setEditLoading(false);
     } catch (error: any) {
       if (error.isAxiosError) {
         console.error(error);
+        setEditLoading(false);
       }
     }
   };
 
-  const handleDeleteStudent = async (index:number) => {
+  const handleDeleteStudent = async (index: number) => {
+    setDeleteLoading(true);
     const student = students[index];
-
     try {
       if (index === 0) {
-        return await Swal.fire({
-          icon: 'error',
-          title: 'Não é possível excluir o ADMIN',
-          showConfirmButton: true,
-          confirmButtonColor: '#e06915',
-        });
+        cantDeleteAdmin();
+        setDeleteLoading(false);
+        return;
       }
-
-      setStudents((prevStudents) => {
-        const newStudents = [...prevStudents];
-        newStudents.splice(index, 1);
-        return newStudents;
-      });
-      await requestDelete(`/profile/${student.id}`);
+      deleteUser(student.id ?? 0, index, setStudents);
+      setDeleteLoading(false);
     } catch (error: any) {
       if (error.isAxiosError) {
         console.error(error);
+        setDeleteLoading(false);
       }
     }
   };
 
   return (
     <CoursesBackground>
-      <h1
-        className="text-xl md:text-4xl
-      text-btn-orange font-bold mb-10"
-      >
-        Administrar Usuários
-      </h1>
+      <div className="flex justify-between ">
+        <h1
+          className="text-xl md:text-4xl
+        text-btn-orange font-bold mb-10"
+        >
+          Administrar Usuários
+        </h1>
+        <SearchInput value={ search } handle={ handleSearch } setValue={ setSearch } />
+      </div>
       {students.length ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {students.map((student: UserType, index) => (
@@ -138,15 +155,9 @@ function Students() {
               key={ student.id }
               className="flex flex-col gap-4 md:w-96 p-4 bg-white rounded-lg shadow-md"
             >
-              {index === 0 ? (
-                <h2 className="text-center text-xl md:text-2xl text-btn-orange font-bold">
-                  Administrador
-                </h2>
-              ) : (
-                <h2 className="text-center text-xl md:text-2xl text-btn-orange font-bold">
-                  Estudante
-                </h2>
-              )}
+              <h2 className="text-center text-xl md:text-2xl text-btn-orange font-bold">
+                { student.id === 1 ? 'Administrador' : 'Estudante' }
+              </h2>
               <Input
                 crossOrigin={ undefined }
                 size="lg"
@@ -203,17 +214,31 @@ function Students() {
                   showPassword={ showPassword }
                 /> }
               />
+              {student.createdAt && <Date
+                date={ student.createdAt }
+                label="Criado em"
+              />}
+              {student.updatedAt && <Date
+                date={ student.updatedAt }
+                label="Atualizado em"
+              />}
               <div className="flex justify-between gap-2">
                 {student.isDisabled ? (
                   <OrangeButton onClick={ () => handleIsDisabled(student, index) }>
                     Editar
                   </OrangeButton>
                 ) : (
-                  <OrangeButton onClick={ () => handleUpdateProfile(index) }>
+                  <OrangeButton
+                    isLoading={ editLoading }
+                    onClick={ () => handleUpdateProfile(index) }
+                  >
                     Salvar
                   </OrangeButton>
                 )}
-                <WhiteButton onClick={ () => handleDeleteStudent(index) }>
+                <WhiteButton
+                  isLoading={ deleteLoading }
+                  onClick={ () => handleDeleteStudent(index) }
+                >
                   Excluir
                 </WhiteButton>
               </div>

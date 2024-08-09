@@ -3,15 +3,17 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { requestData, setToken } from '../../services/requests';
 import { LessonsType } from '../../types/lessons';
 import { Module, initialModuleState } from '../../types/courseType';
+import { useTranslation } from "react-i18next";
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
 import LessonsCard from '../../components/LessonsCard';
 import OrangeButton from '../../components/OrangeButton';
-import { useTranslation } from "react-i18next";
+import LoadingCard from '../../components/LoadingCard';
 
 function Lessons() {
   const [lessons, setLessons] = useState<LessonsType[]>([]);
   const [module, setModule] = useState<Module>(initialModuleState);
+  const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -29,15 +31,18 @@ function Lessons() {
     setToken(token);
 
     async function fetchData() {
+      setLoading(true);
       try {
         const moduleData = await requestData(`module/${moduleId}`);
         const lessonsData = await requestData(`lessons/${moduleId}`);
 
         setModule(moduleData);
         setLessons(lessonsData);
+        setLoading(false);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data);
+          setLoading(false);
         }
       }
     }
@@ -47,9 +52,17 @@ function Lessons() {
 
   return (
     <div>
-      <CoursesBackground heading={t("Modulo")} title={ module.title }>
+      <CoursesBackground heading={t("Modulo")} title={ module.title } loading={ loading }>
         <BreadCrumbs />
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
+          { loading && (
+            <>
+              <LoadingCard />
+              <LoadingCard />
+              <LoadingCard />
+              <LoadingCard />
+            </>
+          ) }
           {lessons.map((lesson, index) => (
             <LessonsCard
               lessonsUrl={ pathname }

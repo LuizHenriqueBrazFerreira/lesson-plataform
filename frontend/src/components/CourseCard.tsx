@@ -64,12 +64,19 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
       }
     }
     updateCourseProgress();
-  }, [modulesProgress, course]);
+  }, []);
+
+  const handleNavigate = () => {
+    const subscribed = JSON.parse(localStorage.getItem('subscribedCourses') ?? '{}');
+    subscribed[course.courseId] = course.subscribed;
+    localStorage.setItem('subscribedCourses', JSON.stringify(subscribed));
+    navigate(`/courses/${course.courseId ?? course.id}/modules`);
+  };
 
   return (
     <Card
       key={ index }
-      className="w-80 md:w-[37rem] md:h-[17rem] m-4 select-none
+      className="w-96 md:w-[37rem] md:h-[17rem] m-4 select-none
       cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
     >
       <CardBody className="flex flex-col">
@@ -88,7 +95,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
             />}
         </div>
         <div
-          onClick={ () => navigate(`/courses/${course.courseId ?? course.id}/modules`) }
+          onClick={ handleNavigate }
           aria-hidden="true"
           className="md:text-3xl font-semibold"
         >

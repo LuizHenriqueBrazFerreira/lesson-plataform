@@ -4,6 +4,12 @@ import { UserCoursesDB } from '../../interfaces/Database'
 export default {
   up(queryInterface:QueryInterface) {
     return queryInterface.createTable<Model<UserCoursesDB>>('UserCourses', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+      },
       userId: {
         allowNull:false,
         type: DataTypes.INTEGER,
@@ -45,7 +51,13 @@ export default {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
-      }
+      },
+      subscribedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'subscribed_at',
+        defaultValue: null
+      },
     })
   },
   down(queryInterface: QueryInterface) {

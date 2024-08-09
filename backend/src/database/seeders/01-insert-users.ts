@@ -17,7 +17,9 @@ export default {
       country: 'Brasil',
       organization: 'FSMSSS',
       role: 'ADMIN',
-      confirm_email_token: createEmailToken({ email: ADMIN_EMAIL })
+      confirm_email_token: createEmailToken({ email: ADMIN_EMAIL }),
+      createdAt: new Date(),
+      updatedAt: new Date()
     }])
   },
   down: async (queryInterface: QueryInterface) => {

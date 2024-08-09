@@ -148,7 +148,7 @@ function SupportPage() {
         />
 
         <OrangeButton onClick={ () => handleEmailToSupport(form) }>
-          {t("Enviar")}
+         {t("Enviar")}
         </OrangeButton>
       </form>
     </CoursesBackground>

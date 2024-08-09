@@ -5,7 +5,6 @@ import { DataTypes,
   CreationOptional,
 } from 'sequelize';
 import db from './index';
-import UserCoursesSequelize from './UserCourses.model';
 
 class UsersSequelize extends Model<InferAttributes<UsersSequelize>,
 InferCreationAttributes<UsersSequelize>> {
@@ -17,6 +16,8 @@ InferCreationAttributes<UsersSequelize>> {
   declare organization: string;
   declare role: 'ADMIN' | 'STUDENT';
   declare confirmEmailToken: string | null;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 
 UsersSequelize.init({
@@ -41,7 +42,8 @@ UsersSequelize.init({
   },
   country: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    defaultValue: '',
   },
   organization: {
     type: DataTypes.STRING,
@@ -58,10 +60,20 @@ UsersSequelize.init({
     allowNull: true,
     field: 'confirm_email_token'
   },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  }
 }, {
   sequelize: db,
   modelName: 'Users',
-  timestamps: false,
+  timestamps: true,
 });
 
 export default UsersSequelize;

@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom';
 const navList = (
   <ul
     className="mt-2 p-4 lg:p-0 bg-white border-2 lg:border-none
-    lg:flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6"
+    lg:flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 "
   >
     <Typography
       as="li"
@@ -79,7 +79,20 @@ const navList = (
         to="/admin/students"
         className="flex items-center justify-center hover:text-blue-500 transition-colors"
       >
-        Gerenciar Usuários
+        Usuários
+      </NavLink>
+    </Typography>
+    <Typography
+      as="li"
+      variant="small"
+      color="blue-gray"
+      className="p-1 font-medium text-xl"
+    >
+      <NavLink
+        to="/admin/reports"
+        className="flex items-center justify-center hover:text-blue-500 transition-colors"
+      >
+        Relatórios
       </NavLink>
     </Typography>
     <Typography

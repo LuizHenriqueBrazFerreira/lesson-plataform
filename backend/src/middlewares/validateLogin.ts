@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import * as bcrypt from 'bcryptjs';
 import { verifyToken } from '../utils/jwt';
 import UsersModel from '../models/UsersModel';
-import LessonsModel from '../models/LessonsModel';
-import ModulesModel from '../models/ModulesModel';
 import UserCoursesModel from '../models/UserCoursesModel';
 
 const validatePassword = (password: string, dbPassword: string): boolean => bcrypt
@@ -12,8 +10,6 @@ const validatePassword = (password: string, dbPassword: string): boolean => bcry
 const validateToken = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
   const userModel = new UsersModel();
-  const lessonsModel = new LessonsModel();
-  const modulesModel = new ModulesModel();
   const userCoursesModel = new UserCoursesModel();
 
   if (!authorization) {

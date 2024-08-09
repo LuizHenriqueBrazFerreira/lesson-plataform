@@ -26,11 +26,11 @@ export default function AdminPage() {
       >
         Administrador
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
         <AdminCard
           heading="Gerenciar Usuários"
           to="students"
-          description="Ver todas as pessoas cadastradas no sistema"
+          description="Ver todas as pessoas cadastradas"
         />
         <AdminCard
           heading="Criar Curso"
@@ -45,7 +45,12 @@ export default function AdminPage() {
         <AdminCard
           heading="Cursos"
           to="courses"
-          description="Ver todos os cursos cadastrados no sistema"
+          description="Ver todos os cursos cadastrados"
+        />
+        <AdminCard
+          heading="Relatórios"
+          to="reports"
+          description="Gerar relatórios de usuários e cursos"
         />
       </div>
     </CoursesBackground>

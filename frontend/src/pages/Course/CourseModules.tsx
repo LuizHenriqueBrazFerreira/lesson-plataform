@@ -1,25 +1,34 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import Swal from 'sweetalert2';
 import { Courses, initialCourseState } from '../../types/courseType';
-import { requestData, setToken, requestUpdate } from '../../services/requests';
+import { requestData, setToken } from '../../services/requests';
+import { useTranslation } from 'react-i18next';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
 import CourseContext from '../../context/CourseContext';
 import ModuleCard from '../../components/ModuleCard';
 import OrangeButton from '../../components/OrangeButton';
+import { showSubscriptionMessage } from '../../utils/sweetAlert';
+import LoadingCard from '../../components/LoadingCard';
 
 function CourseModules() {
   const [modules, setModules] = useState([]);
   const [course, setCourse] = useState<Courses>(initialCourseState);
-  const { t } = useTranslation();
-
+  const [loading, setLoading] = useState(true);
+  const userId = localStorage.getItem('userId');
+  const subscribed = JSON.parse(localStorage.getItem('subscribedCourses') ?? '{}');
   const { changeForumURL } = useContext(CourseContext);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
   const { courseId } = useParams();
+
+  const handleSubscribed = () => {
+    if (!subscribed[courseId ?? 0] && userId !== '1') {
+      showSubscriptionMessage(userId ?? '', courseId ?? '', subscribed);
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -31,54 +40,44 @@ function CourseModules() {
     setToken(token);
 
     async function fetchData() {
+      setLoading(true);
       try {
         const data = await requestData(`/modules/${courseId}`);
         const courseData = await requestData(`/courses/${courseId}`);
         setModules(data);
         setCourse(courseData);
         changeForumURL(courseData.forum);
+        handleSubscribed();
         localStorage.setItem('forum', courseData.forum);
+        setLoading(false);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data);
+          setLoading(false);
         }
       }
     }
 
     fetchData();
-  }, [courseId, navigate, changeForumURL]);
-
-  useEffect(() => {
-    if (!course.subscribed) {
-      Swal.fire({
-        title: t('Você não está inscrito neste curso'),
-        text: t('Deseja se inscrever e receber emails sobre o curso?'),
-        showCancelButton: true,
-        confirmButtonText: t('Sim'),
-        cancelButtonText: t('Não'),
-        confirmButtonColor: '#e06915',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          requestUpdate(`/courses/${courseId}/subscribe`, {})
-            .then(() => {
-              Swal.fire(t('Inscrição realizada com sucesso'));
-              setCourse({ ...course, subscribed: true });
-            })
-            .catch((error: any) => {
-              if (error.isAxiosError) {
-                console.error(error.response.data);
-              }
-            });
-        }
-      });
-    }
   }, []);
 
   return (
-    <CoursesBackground heading={ t('Curso') } title={ course.title }>
-      <p className="self-center text-xl">{ course.duration }</p>
+    <CoursesBackground
+      heading={ t('Curso') }
+      title={ course.title }
+      loading={ loading }
+      duration={ course.duration }
+    >
       <BreadCrumbs />
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
+        { loading && (
+          <>
+            <LoadingCard />
+            <LoadingCard />
+            <LoadingCard />
+            <LoadingCard />
+          </>
+        ) }
         {
           modules.map((module, index) => (
             <ModuleCard

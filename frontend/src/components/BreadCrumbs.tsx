@@ -27,19 +27,15 @@ function BreadCrumbs({ lesssonTitle = '' }) {
   const path = extractPath(pathname);
   const { t } = useTranslation();
 
-  function translate(str: string, lessonTitle = ''): string {
-    switch (str) {
-      case 'courses':
-        return t('Curso');
-      case 'modules':
-        return t('Módulos');
-      case 'lessons':
-        return t('Aulas');
-      case 'lesson':
-        return `${t('Aula')}: ${lessonTitle}`;
-      default:
-        return str;
-    }
+  function translate(str: string, lessonTitle = '') {
+    const translateUrl: { [key: string]: string } = {
+      courses: t('Curso'),
+      modules: t('Módulos'),
+      lessons: t('Aulas'),
+      lesson: lessonTitle,
+    };
+
+    return translateUrl[str] ?? '';
   }
 
   if (lesssonTitle) path.push('lesson');

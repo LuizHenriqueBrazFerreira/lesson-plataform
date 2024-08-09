@@ -29,6 +29,20 @@ class UserCoursesController implements IUserCoursesController {
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  async requestAllSubscribedUsers(req: Request, res: Response) {
+    const { status, data } = await this.userCoursesService.getAllSubscribedUsers();
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
+  async requestSubscribedUsersByCourse(req: Request, res: Response) {
+    const { courseTitle } = req.params;
+
+    const { status, data } = await this.userCoursesService.getSubscribedUsersByCourse(courseTitle as string);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }               
 
 export default UserCoursesController;

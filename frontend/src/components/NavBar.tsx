@@ -8,8 +8,6 @@ import {
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import NavList from './NavList';
 
-
-
 function NavBar() {
   const [openNav, setOpenNav] = useState(false);
 
@@ -35,8 +33,7 @@ function NavBar() {
         </div>
         <IconButton
           variant="text"
-          className="h-6 w-6 text-inherit hover:bg-transparent
-          focus:bg-transparent active:bg-transparent lg:hidden"
+          className="h-6 w-6 text-inherit md:hidden"
           ripple={ false }
           onClick={ () => setOpenNav(!openNav) }
         >

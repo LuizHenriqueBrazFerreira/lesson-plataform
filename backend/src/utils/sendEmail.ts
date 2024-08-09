@@ -33,8 +33,8 @@ export const sendConfirmEmail = async (email: string, token: string, name: strin
         </div>
         <div style="padding: 20px; background-color: white;"">
           <p style="font-size: 20px;">Seja bem-vindo à plataforma de ensino do FSMSSS. Clique no botão abaixo para verificar o seu email e concluir a configuração da sua conta.</p>
-          <a href="${baseurl}/confirm/${token}" style="background-color: #e06915; padding: 10px 20px; border-radius: 5px; color: white; text-decoration: none; display: inline-block;">Confirmar seu cadastro</a>
-          <p style="margin-top: 50px;">Caso o botão acima não funcione você pode copiar e colar o seguinte link em seu navegador: <a href="${baseurl}/confirm/${token}">${baseurl}/confirm/${token}</a></p>
+          <a href="${baseurl}confirm/${token}" style="background-color: #e06915; padding: 10px 20px; border-radius: 5px; color: white; text-decoration: none; display: inline-block;">Confirmar seu cadastro</a>
+          <p style="margin-top: 50px;">Caso o botão acima não funcione você pode copiar e colar o seguinte link em seu navegador: <a href="${baseurl}confirm/${token}">${baseurl}confirm/${token}</a></p>
         </div>
       </div>`
     });
@@ -61,7 +61,7 @@ export const sendForgotPasswordEmail = async (email: string, token: string, name
         </div>
         <div style="padding: 20px; background-color: white;"">
           <p style="font-size: 20px;">Clique no botão abaixo para criar uma nova senha.</p>
-          <a href="${baseurl}/reset-password/${token}" style="background-color: #e06915; padding: 10px 20px; border-radius: 5px; color: white; text-decoration: none; display: inline-block;">Redefinir sua senha</a>
+          <a href="${baseurl}reset-password/${token}" style="background-color: #e06915; padding: 10px 20px; border-radius: 5px; color: white; text-decoration: none; display: inline-block;">Redefinir sua senha</a>
           <p style="margin-top: 50px;">Se você não solicitou a redefinição de senha, ignore este e-mail.</p>
         </div>
       </div>`
@@ -71,7 +71,7 @@ export const sendForgotPasswordEmail = async (email: string, token: string, name
   }
 };
 
-  export const sendSupportEmail = async (email: string, name: string, topic:string, content: string, contact = '') => {
+export const sendSupportEmail = async (email: string, name: string, topic:string, content: string, contact = '') => {
     try {
       await smtpTransport.sendMail({
         from: {
@@ -96,5 +96,7 @@ export const sendForgotPasswordEmail = async (email: string, token: string, name
     } catch (error) {
       console.log(error);
     }
-  }
+};
+
+
 

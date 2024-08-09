@@ -52,6 +52,7 @@ function LessonPage() {
         heading={t("Modulo")}
         title={ module.title }
         moreClasses="gap-10"
+        loading={ !lesson.title }
       >
         <BreadCrumbs lesssonTitle={ lesson.title } />
         <div className="flex md:flex-row flex-col md:justify-between md:items-center">

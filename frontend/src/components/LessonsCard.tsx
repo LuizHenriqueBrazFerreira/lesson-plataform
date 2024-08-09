@@ -57,8 +57,8 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
 
   return (
     <Card
-      className="w-80 md:w-[37rem] md:h-[17rem] m-4 select-none
-                cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
+      className="w-96 md:w-[37rem] md:h-[17rem] m-4 select-none
+      cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
     >
       <CardBody className="flex flex-col">
         <div className="flex justify-between mb-10">

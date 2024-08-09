@@ -17,13 +17,12 @@ function Header() {
   return (
     <header
       className="max-h-[6rem] md:max-h-[8rem]
-    px-5 py-6 md:px-14 flex justify-between font-['Nunito'] gap-4 items-center"
+    px-5 py-6 md:px-14 flex justify-between font-['Nunito']"
     >
       <button onClick={ () => navigate('/') }>
         <img
-          src="/src/assets/logo.png"
+          src="/assets/logo.png"
           alt="FSMSSS logo"
-          className="w-36 md:w-full"
         />
       </button>
       <LanguageSwitcher />

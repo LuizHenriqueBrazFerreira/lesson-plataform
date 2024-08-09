@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
-import {
-  Button,
+import { Button,
   Input,
   MenuList,
   MenuItem,
@@ -31,14 +30,20 @@ function SearchBar() {
   return (
     <div className="Flex inline-flex h-[40px]">
       <Menu placement="bottom-start" open={ openMenu }>
-        <MenuHandler>
+        <div className="flex flex-col">
           <Input
             crossOrigin={ false }
             label="Faça sua busca"
             value={ search }
             onChange={ (e) => setSearch(e.target.value) }
           />
-        </MenuHandler>
+          <MenuHandler>
+            <Input
+              crossOrigin={ false }
+              className="opacity-0"
+            />
+          </MenuHandler>
+        </div>
 
         <Button color="white" size="sm" onClick={ handleClick }>Pesquisar</Button>
 
