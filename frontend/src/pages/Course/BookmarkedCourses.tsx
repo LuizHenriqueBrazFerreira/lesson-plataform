@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import CoursesBackground from '../../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../../services/requests';
 import { UserCourses } from '../../types/courseType';
 import CourseCard from '../../components/CourseCard';
-import { useTranslation } from "react-i18next";
 
 function BookmarkedCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
@@ -56,7 +56,7 @@ function BookmarkedCourses() {
         className="text-xl md:text-4xl
            text-btn-orange font-bold"
       >
-        {t("Cursos Salvos")}
+        {t('Cursos Salvos')}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 min-w-fit">
         { courses.length ? (
@@ -74,7 +74,7 @@ function BookmarkedCourses() {
               className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
-              {t("Você não possui cursos salvos")}
+              {t('Você não possui cursos salvos')}
             </h2>
           )}
       </div>

@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Courses, initialCourseState } from '../../types/courseType';
 import { requestData, setToken } from '../../services/requests';
-import { useTranslation } from 'react-i18next';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
 import CourseContext from '../../context/CourseContext';

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { requestData, setToken } from '../../services/requests';
 import { LessonsType } from '../../types/lessons';
 import { Module, initialModuleState } from '../../types/courseType';
-import { useTranslation } from "react-i18next";
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
 import LessonsCard from '../../components/LessonsCard';
@@ -52,7 +52,11 @@ function Lessons() {
 
   return (
     <div>
-      <CoursesBackground heading={t("Modulo")} title={ module.title } loading={ loading }>
+      <CoursesBackground
+        heading={ t('Modulo') }
+        title={ module.title }
+        loading={ loading }
+      >
         <BreadCrumbs />
         <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
           { loading && (
@@ -75,7 +79,7 @@ function Lessons() {
         <OrangeButton
           onClick={ () => navigate(-1) }
         >
-          {t("Voltar")}
+          {t('Voltar')}
         </OrangeButton>
       </CoursesBackground>
     </div>

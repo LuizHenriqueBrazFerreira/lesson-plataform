@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import CoursesBackground from '../../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../../services/requests';
 import { UserCourses } from '../../types/courseType';
 import CourseCard from '../../components/CourseCard';
 import LoadingCard from '../../components/LoadingCard';
-import { useTranslation } from "react-i18next";
 
 function StudentCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
@@ -60,7 +60,7 @@ function StudentCourses() {
   return (
     <CoursesBackground>
       <h1 className="text-xl md:text-4xl text-btn-orange font-bold">
-        {t("Meus Cursos")}
+        {t('Meus Cursos')}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
         { loading && (
@@ -86,7 +86,7 @@ function StudentCourses() {
               className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
-              {t("Você não possui cursos")}
+              {t('Você não possui cursos')}
             </h2>
           )}
       </div>

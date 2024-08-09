@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import PdfBar from '../../components/PdfButton';
 import { requestData, setToken } from '../../services/requests';
 import CoursesBackground from '../../components/CoursesBackground';
@@ -9,7 +10,6 @@ import { LessonsType } from '../../types/lessons';
 import OrangeButton from '../../components/OrangeButton';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import ReadTextEditor from '../../components/ReadTextEditor';
-import { useTranslation } from "react-i18next";
 
 function LessonPage() {
   const [lesson, setLesson] = useState<LessonsType>({} as LessonsType);
@@ -49,7 +49,7 @@ function LessonPage() {
   return (
     <div>
       <CoursesBackground
-        heading={t("Modulo")}
+        heading={ t('Modulo') }
         title={ module.title }
         moreClasses="gap-10"
         loading={ !lesson.title }
@@ -68,7 +68,7 @@ function LessonPage() {
         <OrangeButton
           onClick={ () => navigate(-1) }
         >
-          {t("Voltar")}
+          {t('Voltar')}
         </OrangeButton>
       </CoursesBackground>
     </div>

@@ -1,9 +1,9 @@
 import { useState, MouseEvent, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
+import { useTranslation } from 'react-i18next';
 import { validatePassword } from '../../utils/validations';
 import { requestUpdate } from '../../services/requests';
-import { useTranslation } from 'react-i18next';
 import LoginBackground from '../../components/LoginBackground';
 import FormBackground from '../../components/FormBackground';
 import OrangeButton from '../../components/OrangeButton';

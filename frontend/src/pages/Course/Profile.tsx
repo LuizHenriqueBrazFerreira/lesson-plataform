@@ -1,13 +1,13 @@
 import { Input, Typography } from '@material-tailwind/react';
 import { useEffect, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
 import EyeButton from '../../components/EyeButton';
 import { requestPost, requestUpdate, setToken } from '../../services/requests';
 import WarnigIcon from '../../components/WarningIcon';
 import { UserType, initialUserState } from '../../types/userTypes';
-import { useTranslation } from "react-i18next";
 
 function Profile() {
   const [user, setUser] = useState<UserType>(initialUserState);
@@ -119,7 +119,7 @@ function Profile() {
         className="text-2xl md:text-4xl
             text-btn-orange font-bold"
       >
-        {t("Meu Perfil")}
+        {t('Meu Perfil')}
       </h1>
       <div className="flex flex-col justify-evenly grow">
         <img
@@ -132,7 +132,7 @@ function Profile() {
           name="name"
           size="lg"
           type="text"
-          label={t("Nome")}
+          label={ t('Nome') }
           value={ user.name }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -142,7 +142,7 @@ function Profile() {
           name="email"
           size="lg"
           type="email"
-          label={t("Email")}
+          label={ t('Email') }
           value={ user.email }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -152,7 +152,7 @@ function Profile() {
           name="country"
           size="lg"
           type="text"
-          label={t("Pais")}
+          label={ t('Pais') }
           value={ user.country }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -162,7 +162,7 @@ function Profile() {
           name="organization"
           size="lg"
           type="text"
-          label={t("Organizacao opcional")}
+          label={ t('Organizacao opcional') }
           value={ user.organization }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -173,7 +173,7 @@ function Profile() {
             name="password"
             size="lg"
             type={ showPassword ? 'text' : 'password' }
-            label={t("Senha")}
+            label={ t('Senha') }
             value={ user.password }
             disabled={ isDisabled }
             onChange={ handleChange }
@@ -191,7 +191,7 @@ function Profile() {
               className="mt-2 flex items-center gap-1 font-normal"
             >
               <WarnigIcon />
-              {t("MinDigitos")}
+              {t('MinDigitos')}
             </Typography>
           )}
         </div>
@@ -200,7 +200,7 @@ function Profile() {
           name="confirmPassword"
           size="lg"
           type={ showPassword ? 'text' : 'password' }
-          label={t("Confirme sua senha")}
+          label={ t('Confirme sua senha') }
           value={ user.confirmPassword }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -219,7 +219,7 @@ function Profile() {
         <OrangeButton
           onClick={ () => setIsDisabled(false) }
         >
-         {t("Editar")}
+          {t('Editar')}
         </OrangeButton>
       )}
       { !isDisabled && (
@@ -227,7 +227,7 @@ function Profile() {
           isLoading={ isLoading }
           onClick={ handleUpdateProfile }
         >
-          {t("Salvar")}
+          {t('Salvar')}
         </OrangeButton>
       ) }
     </CoursesBackground>
