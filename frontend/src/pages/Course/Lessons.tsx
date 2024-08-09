@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { requestData, setToken } from '../../services/requests';
 import { LessonsType } from '../../types/lessons';
 import { Module, initialModuleState } from '../../types/courseType';
+import { useTranslation } from "react-i18next";
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
 import LessonsCard from '../../components/LessonsCard';
@@ -13,6 +14,7 @@ function Lessons() {
   const [lessons, setLessons] = useState<LessonsType[]>([]);
   const [module, setModule] = useState<Module>(initialModuleState);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -50,7 +52,7 @@ function Lessons() {
 
   return (
     <div>
-      <CoursesBackground heading="Modulo" title={ module.title } loading={ loading }>
+      <CoursesBackground heading={t("Modulo")} title={ module.title } loading={ loading }>
         <BreadCrumbs />
         <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
           { loading && (
@@ -73,7 +75,7 @@ function Lessons() {
         <OrangeButton
           onClick={ () => navigate(-1) }
         >
-          Voltar
+          {t("Voltar")}
         </OrangeButton>
       </CoursesBackground>
     </div>
