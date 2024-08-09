@@ -202,7 +202,7 @@ function CreateAccount() {
           type="submit"
           isLoading={ isLoading }
         >
-          Cadastrar
+          {t('Cadastrar')}
         </OrangeButton>
         <p className="self-center">{t('Ja possui conta?')}</p>
         <WhiteButton
