@@ -113,12 +113,13 @@ function Reports() {
         onChange={ (value) => handleChooseCourse(value as string) }
         value={ courseTitle }
       >
+        <Option value="Todos os cursos">Todos os cursos</Option>
         {courses.map((course) => (
           <Option key={ course.id } value={ course.title }>
-            {course.title}
+            { course.title }
           </Option>
         ))}
-        <Option value="Todos os cursos">Todos os cursos</Option>
+
       </Select>
       {subscribedUsers.length > 0 && (
         <ReportTable reports={ subscribedUsers } />
