@@ -5,6 +5,7 @@ import { BookmarkIcon } from '@heroicons/react/24/outline';
 import { Card, CardBody, Progress, Typography } from '@material-tailwind/react';
 import { ModulesProgress, UserCourses } from '../types/courseType';
 import { requestData, requestUpdate } from '../services/requests';
+import { useTranslation } from "react-i18next";
 
 type CourseCardProps = {
   course: UserCourses;
@@ -17,6 +18,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
   const [courseProgress, setCourseProgress] = useState(course.progress);
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchProgress() {
@@ -79,7 +81,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
     >
       <CardBody className="flex flex-col">
         <div className="flex justify-between mb-10">
-          <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">Curso</h2>
+          <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">{t("Curso")}</h2>
           {course.bookmarked ? <BookmarkSolid
             className="size-6 lg:size-7 text-btn-orange"
             onClick={ () => handleBookmark(course.courseId, course.bookmarked) }
