@@ -2,8 +2,6 @@ import { ISearchBarService } from "../interfaces/ISearchBar";
 import CoursesModel from "../models/CoursesModel";
 import LessonsModel from "../models/LessonsModel";
 import ModulesModel from "../models/ModulesModel";
-import lessonRouter from "../routes/lessons.routes";
-import { Course, Module, Lesson } from "../types/Data.types";
 
 export class SearchBarService implements ISearchBarService {
   constructor(private _courseModel = new CoursesModel(), 
@@ -18,17 +16,23 @@ export class SearchBarService implements ISearchBarService {
       const lessons = await this._lessonsModel.getLessons();
 
       if (filterData !== '')  {
+        const filteredLessons = lessons.map((lesson) => {
+          const content = JSON.parse(lesson.content).blocks
+            .filter((block:any) => block.type === 'header' || block.type === 'paragraph')
+            .filter((block:any) => block.data.text.toLowerCase().includes(filterData.toLowerCase()))
+            return content;
+        }) as any;
 
         const searchResult = {
           courses: courses.filter((course) => course.title.toLowerCase().includes(filterData.toLowerCase())),
           modules: modules.filter((module) => module.title.toLowerCase().includes(filterData.toLowerCase())),
-          lessons: lessons.filter((lesson) => lesson.title.toLowerCase().includes(filterData.toLowerCase()))
-          || lessons.filter((lesson) => lesson.content.toLowerCase().includes(filterData.toLowerCase())),
+          lessons: lessons.map((lesson) => ({...lesson.dataValues, content: filteredLessons})) 
+            || lessons.filter((lesson) => lesson.title.toLowerCase().includes(filterData.toLowerCase()))
         };
 
         const modifiedLessons = await Promise.all(searchResult.lessons.map(async (lesson) => {
           const {dataValues} = await this._modulesModel.getModuleById(lesson.moduleId) as any;
-          return { courseId: dataValues.courseId, ...lesson.dataValues };
+          return { courseId: dataValues.courseId, ...lesson };
         })) as any;
         
         searchResult.lessons = modifiedLessons;
