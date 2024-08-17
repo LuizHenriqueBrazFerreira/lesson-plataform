@@ -8,23 +8,61 @@ import { Button,
 import { useNavigate } from 'react-router-dom';
 import { requestData } from '../services/requests';
 import CourseContext from '../context/CourseContext';
+import { useTranslation } from 'react-i18next';
+import { translatePortuguese } from '../services/translationReverse';
+// import { Courses, Module, Lesson } from '../types/courseType';
 
 function SearchBar() {
   const [search, setSearch] = useState('');
-  const { searchBar, changeSearchBar } = useContext(CourseContext);
+  const { searchBar, changeSearchBar, translateDynamicContent } = useContext(CourseContext);
   const [openMenu, setOpenMenu] = useState(false);
+  const [coursesTitles, setCoursesTitles] = useState<string[]>([]);
+  const [modulesTitles, setModulesTitles] = useState<string[]>([]);
+  const [lessonsTitles, setLessonsTitles] = useState<string[]>([]);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const { courses, modules, lessons } = searchBar;
 
-  console.log(searchBar);
+  async function translateSearch() {
+    try {
+      
+      const translatedCourseTitles = await Promise.all(
+        searchBar.courses.map(({title}) => translateDynamicContent(title ?? title))
+      );
+      setCoursesTitles(translatedCourseTitles);
+      
+      const translatedModuleTitles = await Promise.all(
+        searchBar.modules.map(({title}) => translateDynamicContent(title ?? title))
+      );
+      setModulesTitles(translatedModuleTitles);
+      
+      const translatedLessonTitles = await Promise.all(
+        searchBar.lessons.map(({title}) => translateDynamicContent(title ?? title))
+      );
+      setLessonsTitles(translatedLessonTitles);
+      
+      console.log(translatedCourseTitles, translatedModuleTitles, translatedLessonTitles);
+      if (translatedCourseTitles.length > 0 || translatedModuleTitles.length > 0 || translatedLessonTitles.length > 0) {
+        return true;
+      }
+
+    } catch (error: any) {
+      console.error(error.response?.data || error.message);
+    }
+  }
 
   const handleClick = async () => {
-    if (search === '') setOpenMenu(!openMenu);
-    const data = await requestData(`/search?filter=${search}`);
+    if (search === '') {
+      return;
+    }
+    const toPortuguese = await translatePortuguese(search, i18n.language);
+    const data = await requestData(`/search?filter=${toPortuguese}`);
     changeSearchBar(data);
-    setOpenMenu(!openMenu);
-    console.log('chamou o handleClick');
+    const menu = await translateSearch();
+    if (menu) {
+      setOpenMenu(true);
+    }
   };
 
   return (
@@ -32,47 +70,47 @@ function SearchBar() {
       <Menu placement="bottom-start" open={ openMenu }>
         <div className="flex flex-col">
           <Input
-            crossOrigin={ false }
-            label="Faça sua busca"
+            crossOrigin={ undefined }
+            label={t("Faça sua busca")}
             value={ search }
             onChange={ (e) => setSearch(e.target.value) }
           />
           <MenuHandler>
             <Input
-              crossOrigin={ false }
+              crossOrigin={ undefined }
               className="opacity-0"
             />
           </MenuHandler>
         </div>
 
-        <Button color="white" size="sm" onClick={ handleClick }>Pesquisar</Button>
+        <Button color="white" size="sm" onClick={ handleClick }>{t("Pesquisar")}</Button>
 
         <MenuList className="max-h-72">
-          {courses.map((course, index) => (
+          {coursesTitles.map((course, index) => (
             <MenuItem
               key={ index }
-              onClick={ () => navigate(`/courses/${course.id}/modules`) }
+              onClick={ () => navigate(`/courses/${courses[index].id}/modules`) }
             >
-              {course.title}
+              {course}
             </MenuItem>
           ))}
-          {modules.map(({ courseId, id, title }, index) => (
+          {modulesTitles.map((module, index) => (
             <MenuItem
               key={ index }
-              onClick={ () => navigate(`/courses/${courseId}/modules/${id}/lessons`) }
+              onClick={ () => navigate(`/courses/${modules[index].courseId}/modules/${modules[index].id}/lessons`) }
             >
-              {title}
+              {module}
             </MenuItem>
           ))}
 
-          {lessons.map(({ moduleId, title, courseId, id }, index) => (
+          {lessonsTitles.map((lesson, index) => (
             <MenuItem
               key={ index }
               onClick={ () => {
-                navigate(`/courses/${courseId}/modules/${moduleId}/lessons/${id}`);
+                navigate(`/courses/${lessons[index].courseId}/modules/${lessons[index].moduleId}/lessons/${lessons[index].id}`);
               } }
             >
-              {title}
+              {lesson}
             </MenuItem>
           ))}
         </MenuList>

@@ -12,6 +12,7 @@ type CourseContextType = {
   changeForumURL: (url: string) => void;
   searchBar: SearchBarResponse;
   changeSearchBar: (data: SearchBarResponse) => void;
+  translateDynamicContent: (content: string) => Promise<string>;
 };
 
 const CourseContext = createContext({} as CourseContextType);

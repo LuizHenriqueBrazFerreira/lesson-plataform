@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookmarkIcon as BookmarkSolid } from '@heroicons/react/24/solid';
 import { BookmarkIcon } from '@heroicons/react/24/outline';
@@ -6,6 +6,7 @@ import { Card, CardBody, Progress, Typography } from '@material-tailwind/react';
 import { ModulesProgress, UserCourses } from '../types/courseType';
 import { requestData, requestUpdate } from '../services/requests';
 import { useTranslation } from "react-i18next";
+import CourseContext from '../context/CourseContext';
 
 type CourseCardProps = {
   course: UserCourses;
@@ -16,6 +17,8 @@ type CourseCardProps = {
 function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProps) {
   const [modulesProgress, setModulesProgress] = useState<ModulesProgress[]>([]);
   const [courseProgress, setCourseProgress] = useState(course.progress);
+  const [translatedTitle, setTranslatedTitle] = useState(course.courseTitle);
+  const { translateDynamicContent } = useContext(CourseContext);
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -24,6 +27,8 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
     async function fetchProgress() {
       if (userId === '1') return;
       try {
+        const translatedTitle = await translateDynamicContent(course.courseTitle ?? course.title);
+        setTranslatedTitle(translatedTitle);
         const data = await requestData(
           `/modulesProgress/${course.userId}/${course.courseId}`,
         );
@@ -36,7 +41,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
     }
 
     fetchProgress();
-  }, [course.userId, course.courseId, userId]);
+  }, [course.userId, course.courseId, userId, translateDynamicContent]);
 
   useEffect(() => {
     let courseP = 0;
@@ -99,7 +104,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
           aria-hidden="true"
           className="md:text-3xl font-semibold"
         >
-          {course.courseTitle ?? course.title}
+          {translatedTitle}
           <div className="mt-8 flex items-center gap-4">
             <Progress
               size="sm"

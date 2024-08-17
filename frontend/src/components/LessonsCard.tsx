@@ -1,9 +1,10 @@
 import { Card, CardBody, Checkbox } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { LessonsType } from '../types/lessons';
 import { requestUpdate, setToken, requestData } from '../services/requests';
 import { useTranslation } from "react-i18next";
+import CourseContext from '../context/CourseContext';
 
 type LessonsCardProps = {
   lesson: LessonsType;
@@ -12,6 +13,8 @@ type LessonsCardProps = {
 };
 
 function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
+  const { translateDynamicContent } = useContext(CourseContext);
+  const [translatedTitle, setTranslatedTitle] = useState('');
   const [isWatched, setIsWatched] = useState(false);
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
@@ -31,6 +34,8 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
         if (data) {
           setIsWatched(data.watched);
         }
+        const translatedTitle = await translateDynamicContent(lesson.title ?? lesson.title);
+        setTranslatedTitle(translatedTitle);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error);
@@ -38,7 +43,7 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
       }
     }
     fetchData();
-  }, []);
+  }, [translateDynamicContent]);
 
   const updateWatched = async () => {
     try {
@@ -81,7 +86,7 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
           className="lg:text-3xl font-semibold text-left
           grow h-[9rem]"
         >
-          {lesson.title}
+          {translatedTitle}
         </div>
       </CardBody>
     </Card>

@@ -21,6 +21,8 @@ import Profile from './pages/Course/Profile';
 import StudentCourses from './pages/Course/Courses';
 import SupportPage from './pages/Course/SupportPage';
 import Footer from './components/Footer';
+import { translateText } from './services/translationService';
+import { useTranslation } from 'react-i18next';
 import './App.css';
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
     modules: [],
     lessons: [],
   };
+  const { i18n } = useTranslation();
   const [forumURL, setForumURL] = useState('');
   const [searchBar, setSearchBar] = useState<SearchBarResponse>(INITIAL_STATE);
 
@@ -40,12 +43,17 @@ function App() {
     setForumURL(url);
   };
 
+  const translateDynamicContent = async (content: string): Promise<string> => {
+    return await translateText(content, i18n.language);
+  };
+
   return (
     <CourseContext.Provider
       value={ { forumURL,
         changeForumURL,
         changeSearchBar,
-        searchBar } }
+        searchBar,
+        translateDynamicContent } }
     >
       <Header />
       <Routes>

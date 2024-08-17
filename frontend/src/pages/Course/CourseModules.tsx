@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Courses, initialCourseState } from '../../types/courseType';
 import { requestData, setToken } from '../../services/requests';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
@@ -11,13 +10,15 @@ import OrangeButton from '../../components/OrangeButton';
 import { showSubscriptionMessage } from '../../utils/sweetAlert';
 import LoadingCard from '../../components/LoadingCard';
 
+
 function CourseModules() {
   const [modules, setModules] = useState([]);
-  const [course, setCourse] = useState<Courses>(initialCourseState);
+  const [translatedTitle, setTranslatedTitle] = useState('');
+  const [translatedDuration, setTranslatedDuration] = useState('');
   const [loading, setLoading] = useState(true);
   const userId = localStorage.getItem('userId');
   const subscribed = JSON.parse(localStorage.getItem('subscribedCourses') ?? '{}');
-  const { changeForumURL } = useContext(CourseContext);
+  const { changeForumURL, translateDynamicContent } = useContext(CourseContext);
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -44,8 +45,11 @@ function CourseModules() {
       try {
         const data = await requestData(`/modules/${courseId}`);
         const courseData = await requestData(`/courses/${courseId}`);
+        const translatedTitle = await translateDynamicContent(courseData.title);
+        const translatedDuration = await translateDynamicContent(courseData.duration);
+        setTranslatedDuration(translatedDuration);
+        setTranslatedTitle(translatedTitle);
         setModules(data);
-        setCourse(courseData);
         changeForumURL(courseData.forum);
         handleSubscribed();
         localStorage.setItem('forum', courseData.forum);
@@ -59,14 +63,14 @@ function CourseModules() {
     }
 
     fetchData();
-  }, []);
+  }, [translateDynamicContent]);
 
   return (
     <CoursesBackground
       heading={ t('Curso') }
-      title={ course.title }
+      title={ translatedTitle }
       loading={ loading }
-      duration={ course.duration }
+      duration={ translatedDuration }
     >
       <BreadCrumbs />
       <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
