@@ -3,32 +3,42 @@ services:
   frontend:
     container_name: app_frontend
     build: ./frontend
-    ports:
-      - 3000:3000
     working_dir: /frontend
-    # Os `healthcheck` devem garantir que a aplicação
-    # está operacional, antes de liberar o container
+    command: npm run build
+    volumes:
+      - ./frontend/build:/frontend/build
     healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3000"]  # Caso utilize outra porta interna para o front, altere ela aqui também
+      test: ["CMD", "lsof", "-t", "-i:3000"]  # Alterar caso necessário
       timeout: 10s
       retries: 5
+
+  nginx:
+    container_name: app_nginx
+    image: nginx:alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./frontend/build:/usr/share/nginx/html:ro  # Serve os arquivos estáticos do React
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro      # Configuração customizada do Nginx
+    depends_on:
+      - frontend
+      - backend
+
   backend:
     container_name: app_backend
     build: ./backend
-    ports:
-      - 3001:3001
-    # Caso queira que o container esteja atualizado durante o desenvolvimento, sem que você precise ficar fazendo down e up dos containers, descomente as 3 linhas abaixo
-    command: dev 
-    volumes: 
+    expose:
+      - 3001
+    command: npm start
+    volumes:
       - ./backend:/backend/
     depends_on:
       db:
         condition: service_healthy
-
     env_file:
       - .env
     environment:
-      - PORT=${PORT}
+      - PORT=3001
       - JWT_SECRET=${JWT_SECRET}
       - SALT_ROUNDS=${SALT_ROUNDS}
       - NODE_ENV=${NODE_ENV}
@@ -43,9 +53,10 @@ services:
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - FRONTEND_URL=${FRONTEND_URL}
     healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"] # Caso utilize outra porta interna para o back, altere ela aqui também
+      test: ["CMD", "lsof", "-t", "-i:3001"]
       timeout: 10s
       retries: 5
+
   db:
     image: mysql:8.0.23
     container_name: db
@@ -56,8 +67,8 @@ services:
       - MYSQL_ROOT_PASSWORD=fsmsss_password
     restart: 'always'
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"] # Deve aguardar o banco ficar operacional
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 10s
       retries: 5
     cap_add:
-      - SYS_NICE # Deve omitir alertas menores
+      - SYS_NICE
