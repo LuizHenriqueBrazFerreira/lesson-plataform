@@ -6,16 +6,18 @@ import { Button,
   Menu,
   MenuHandler } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { requestData } from '../services/requests';
 import CourseContext from '../context/CourseContext';
-import { useTranslation } from 'react-i18next';
 import { translatePortuguese } from '../services/translationReverse';
 // import { Courses, Module, Lesson } from '../types/courseType';
 
 function SearchBar() {
   const [search, setSearch] = useState('');
-  const { searchBar, changeSearchBar, translateDynamicContent } = useContext(CourseContext);
+  const { searchBar, changeSearchBar,
+    translateDynamicContent } = useContext(CourseContext);
   const [openMenu, setOpenMenu] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [coursesTitles, setCoursesTitles] = useState<string[]>([]);
   const [modulesTitles, setModulesTitles] = useState<string[]>([]);
   const [lessonsTitles, setLessonsTitles] = useState<string[]>([]);
@@ -25,28 +27,26 @@ function SearchBar() {
   const { courses, modules, lessons } = searchBar;
 
   async function translateSearch() {
+    setIsLoading(true);
+    setOpenMenu(!openMenu);
+
     try {
-      
       const translatedCourseTitles = await Promise.all(
-        searchBar.courses.map(({title}) => translateDynamicContent(title ?? title))
+        searchBar.courses.map(({ title }) => translateDynamicContent(title ?? title)),
       );
       setCoursesTitles(translatedCourseTitles);
-      
+
       const translatedModuleTitles = await Promise.all(
-        searchBar.modules.map(({title}) => translateDynamicContent(title ?? title))
+        searchBar.modules.map(({ title }) => translateDynamicContent(title ?? title)),
       );
       setModulesTitles(translatedModuleTitles);
-      
+
       const translatedLessonTitles = await Promise.all(
-        searchBar.lessons.map(({title}) => translateDynamicContent(title ?? title))
+        searchBar.lessons.map(({ title }) => translateDynamicContent(title ?? title)),
       );
       setLessonsTitles(translatedLessonTitles);
-      
-      console.log(translatedCourseTitles, translatedModuleTitles, translatedLessonTitles);
-      if (translatedCourseTitles.length > 0 || translatedModuleTitles.length > 0 || translatedLessonTitles.length > 0) {
-        return true;
-      }
 
+      setIsLoading(false);
     } catch (error: any) {
       console.error(error.response?.data || error.message);
     }
@@ -56,22 +56,55 @@ function SearchBar() {
     if (search === '') {
       return;
     }
+
     const toPortuguese = await translatePortuguese(search, i18n.language);
     const data = await requestData(`/search?filter=${toPortuguese}`);
     changeSearchBar(data);
-    const menu = await translateSearch();
-    if (menu) {
-      setOpenMenu(true);
-    }
+    await translateSearch();
+    // setOpenMenu(!openMenu);
   };
 
   return (
     <div className="Flex inline-flex h-[40px]">
       <Menu placement="bottom-start" open={ openMenu }>
+
+        {isLoading ? <MenuList className="max-h-72"><Button variant="text" loading>Carregando</Button></MenuList>
+          : (
+            <MenuList className="max-h-72">
+              {coursesTitles.map((course, index) => (
+                <MenuItem
+                  key={ index }
+                  onClick={ () => navigate(`/courses/${courses[index].id}/modules`) }
+                >
+                  {course}
+                </MenuItem>
+              ))}
+              {modulesTitles.map((module, index) => (
+                <MenuItem
+                  key={ index }
+                  onClick={
+                () => navigate(`/courses/${modules[index].courseId}/modules/${modules[index].id}/lessons`)
+              }
+                >
+                  {module}
+                </MenuItem>
+              ))}
+
+              {lessonsTitles.map((lesson, index) => (
+                <MenuItem
+                  key={ index }
+                  onClick={ () => {
+                    navigate(`/courses/${lessons[index].courseId}/modules/${lessons[index].moduleId}/lessons/${lessons[index].id}`);
+                  } }
+                >
+                  {lesson}
+                </MenuItem>
+              ))}
+            </MenuList>)}
         <div className="flex flex-col">
           <Input
             crossOrigin={ undefined }
-            label={t("Faça sua busca")}
+            label={ t('Faça sua busca') }
             value={ search }
             onChange={ (e) => setSearch(e.target.value) }
           />
@@ -83,37 +116,8 @@ function SearchBar() {
           </MenuHandler>
         </div>
 
-        <Button color="white" size="sm" onClick={ handleClick }>{t("Pesquisar")}</Button>
+        <Button color="white" size="sm" onClick={ handleClick }>{t('Pesquisar')}</Button>
 
-        <MenuList className="max-h-72">
-          {coursesTitles.map((course, index) => (
-            <MenuItem
-              key={ index }
-              onClick={ () => navigate(`/courses/${courses[index].id}/modules`) }
-            >
-              {course}
-            </MenuItem>
-          ))}
-          {modulesTitles.map((module, index) => (
-            <MenuItem
-              key={ index }
-              onClick={ () => navigate(`/courses/${modules[index].courseId}/modules/${modules[index].id}/lessons`) }
-            >
-              {module}
-            </MenuItem>
-          ))}
-
-          {lessonsTitles.map((lesson, index) => (
-            <MenuItem
-              key={ index }
-              onClick={ () => {
-                navigate(`/courses/${lessons[index].courseId}/modules/${lessons[index].moduleId}/lessons/${lessons[index].id}`);
-              } }
-            >
-              {lesson}
-            </MenuItem>
-          ))}
-        </MenuList>
       </Menu>
     </div>
   );
