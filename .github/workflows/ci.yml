@@ -19,7 +19,7 @@ jobs:
             ARGS: "-rltgoDzvO --delete"
             SOURCE: "/"
             REMOTE_HOST: ${{ secrets.HOST }}
-            REMOTE_USER: ${{ secrets.USER }}
-            REMOTE_PORT: ${{ secrets.PORT }}
+            REMOTE_USER: ${{ secrets.USERNAME }}
             REMOTE_PASSWORD: ${{ secrets.PASSWORD }}
+            REMOTE_PORT: ${{ secrets.PORT }}
             TARGET: ./lessons_app
