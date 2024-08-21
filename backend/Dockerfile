@@ -6,7 +6,7 @@ WORKDIR /backend
 
 COPY package*.json .
 
-RUN npm install --only=production
+RUN npm install
 ## Copia os demais arquivos para o container
 
 COPY . .
