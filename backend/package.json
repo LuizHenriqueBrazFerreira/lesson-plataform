@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start:dev": "ts-node src/server.ts",
-    "dev": "nodemon --watch \"./src/**\" --ext \"ts,js\" --ignore \"src/**/*.spec.ts,src/**/*.json\" --exec \"ts-node src/server.ts\"",
+    "start": "nodemon --watch \"./src/**\" --ext \"ts,js\" --ignore \"src/**/*.spec.ts,src/**/*.json\" --exec \"ts-node src/server.ts\"",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
     "test": "mocha -r ts-node/register tests/**/**/*.test.ts --exit -t 60000 --exit",
     "build": "npx -y tsc",
