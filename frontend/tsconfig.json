@@ -12,8 +12,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "allowSyntheticDefaultImports":true,
-    "noEmit": true,
     "jsx": "react-jsx",
+
+    /* Emit options */
+    "outDir": "./build",
+    "rootDir": "./src",
 
     /* Linting */
     "strict": true,
@@ -22,11 +25,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-
     "src",
-
     "types/types.d.ts"
-
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
