@@ -10,7 +10,8 @@
     "lint:styles": "npx stylelint '**/*.css'",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "start": "vite preview --port 3000"
   },
   "dependencies": {
     "@editorjs/delimiter": "^1.4.0",
