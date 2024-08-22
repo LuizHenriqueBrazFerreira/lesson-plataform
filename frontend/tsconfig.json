@@ -14,17 +14,11 @@
     "allowSyntheticDefaultImports":true,
     "jsx": "react-jsx",
 
-    /* Emit options */
-    "outDir": "./build",
-    "rootDir": "./",
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "declaration": true,
-    "declarationMap": true
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src",
