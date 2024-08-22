@@ -2,6 +2,8 @@ services:
   frontend:
     container_name: app_frontend
     build: ./frontend
+    expose:
+      - 3000
     working_dir: /frontend
     command: npm run build
     volumes:
