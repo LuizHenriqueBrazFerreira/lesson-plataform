@@ -16,7 +16,7 @@
 
     /* Emit options */
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": "./",
 
     /* Linting */
     "strict": true,
