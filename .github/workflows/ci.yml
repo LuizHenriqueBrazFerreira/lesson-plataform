@@ -12,14 +12,40 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v2
 
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Substitua pela versão do Node.js que você está usando
+
+      - name: Instalar dependências e construir o backend
+        run: |
+          cd backend
+          npm install
+          npm run build
+
+      - name: Instalar dependências e construir o frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
       - name: Deploy para a Hostinger
         uses: easingthemes/ssh-deploy@main
         env: 
             SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
             ARGS: "-rltgoDzvO --delete"
-            SOURCE: "/"
+            SOURCE: "."
             REMOTE_HOST: ${{ secrets.HOST }}
             REMOTE_USER: ${{ secrets.USERNAME }}
             REMOTE_PASSWORD: ${{ secrets.PASSWORD }}
             REMOTE_PORT: ${{ secrets.PORT }}
             TARGET: ./lessons_app
+
+      - name: Restartar PM2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+          pm2 install pm2-logrotate || true
+          pm2 restart backend || pm2 start /root/lessons_app/backend/dist/src/server.js --name backend
+          pm2 restart frontend || pm2 start /root/lessons_app/frontend/dist/index.html --name frontend
+          pm2 save
+          EOF
