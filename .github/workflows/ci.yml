@@ -43,20 +43,22 @@ jobs:
 
       - name: Criar script PM2
         run: |
-          echo '#!/bin/bash' > /home/deployuser/lessons_app/pm2_runner.sh
-          echo 'if ! type pm2 > /dev/null' >> /home/deployuser/lessons_app/pm2_runner.sh
-          echo 'then' >> /home/deployuser/lessons_app/pm2_runner.sh
-          echo '    sudo npm install -g pm2 && pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> /home/deployuser/lessons_app/pm2_runner.sh
-          echo '    pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          rm -rf pm2_runner.sh
+          touch 
+          echo '#!/bin/bash' > pm2_runner.sh
+          echo 'if ! type pm2 > /dev/null' >> pm2_runner.sh
+          echo 'then' >> pm2_runner.sh
+          echo '    sudo npm install -g pm2 && pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> pm2_runner.sh
+          echo '    pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> pm2_runner.sh
           echo 'else' >> /home/deployuser/lessons_app/pm2_runner.sh
-          echo '    pm2 restart backend || pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> /home/deployuser/lessons_app/pm2_runner.sh
-          echo '    pm2 restart frontend || pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    pm2 restart backend || pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> pm2_runner.sh
+          echo '    pm2 restart frontend || pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> pm2_runner.sh
           echo 'fi' >> /home/deployuser/lessons_app/pm2_runner.sh
-          chmod +x /home/deployuser/lessons_app/pm2_runner.sh
+          chmod +x pm2_runner.sh
 
       - name: Executar script PM2
         run: |
-          bash /home/deployuser/lessons_app/pm2_runner.sh
+          bash pm2_runner.sh
     
       - name: Reiniciar Nginx
         run: |
