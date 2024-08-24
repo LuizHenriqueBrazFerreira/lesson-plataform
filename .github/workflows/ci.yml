@@ -41,10 +41,17 @@ jobs:
             REMOTE_PORT: ${{ secrets.PORT }}
             TARGET: /home/deployuser/lessons_app
 
+      - name: Configurar chave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/github_hostinger
+          chmod 600 ~/.ssh/github_hostinger
+          ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
       - name: Criar script PM2 no servidor
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash -s' << 'EOF'
-          rm -rf /home/deployuser/lessons_app/pm2_runner.sh
+          ssh -i ~/.ssh/github_hostinger -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash -s' << 'EOF'
+          rm -f /home/deployuser/lessons_app/pm2_runner.sh
           echo '#!/bin/bash' > /home/deployuser/lessons_app/pm2_runner.sh
           echo 'if ! type pm2 > /dev/null' >> /home/deployuser/lessons_app/pm2_runner.sh
           echo 'then' >> /home/deployuser/lessons_app/pm2_runner.sh
@@ -59,8 +66,8 @@ jobs:
 
       - name: Executar script PM2 no servidor
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash /home/deployuser/lessons_app/pm2_runner.sh'
+          ssh -i ~/.ssh/github_hostinger -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash /home/deployuser/lessons_app/pm2_runner.sh'
     
       - name: Reiniciar Nginx no servidor
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'sudo systemctl restart nginx'
+          ssh -i ~/.ssh/github_hostinger -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'sudo systemctl restart nginx'
