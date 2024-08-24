@@ -44,7 +44,7 @@ jobs:
       - name: Criar script PM2
         run: |
           rm -rf pm2_runner.sh
-          touch 
+          touch pm2_runner.sh
           echo '#!/bin/bash' > pm2_runner.sh
           echo 'if ! type pm2 > /dev/null' >> pm2_runner.sh
           echo 'then' >> pm2_runner.sh
