@@ -43,6 +43,8 @@ jobs:
 
       - name: Restartar PM2
         run: |
+          echo 'export PATH="$PATH:/root/.nvm/versions/node/v20.16.0/bin"' >> ~/.bashrc
+          source ~/.bashrc
           pm2 install pm2-logrotate || true
           pm2 restart backend || pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend
           pm2 restart frontend || pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend
