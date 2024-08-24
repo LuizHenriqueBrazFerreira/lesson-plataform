@@ -41,9 +41,21 @@ jobs:
             REMOTE_PORT: ${{ secrets.PORT }}
             TARGET: /home/deployuser/lessons_app
 
+      - name: Criar script PM2
+        run: |
+          echo '#!/bin/bash' > /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'if ! type pm2 > /dev/null' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'then' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    sudo npm install -g pm2 && pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'else' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    pm2 restart backend || pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    pm2 restart frontend || pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'fi' >> /home/deployuser/lessons_app/pm2_runner.sh
+          chmod +x /home/deployuser/lessons_app/pm2_runner.sh
+
       - name: Executar script PM2
         run: |
-          chmod +x /home/deployuser/lessons_app/pm2_runner.sh
           bash /home/deployuser/lessons_app/pm2_runner.sh
     
       - name: Reiniciar Nginx
