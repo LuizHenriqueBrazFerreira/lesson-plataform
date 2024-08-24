@@ -45,7 +45,7 @@ jobs:
         run: |
           cd ~
           chmod +x /home/deployuser/lessons_app/pm2_runner.sh
-          chmod +x /home/deployuser/lessons_app/pm2_runner.sh
+          bash /home/deployuser/lessons_app/pm2_runner.sh
     
       - name: Reiniciar Nginx
         run: |
