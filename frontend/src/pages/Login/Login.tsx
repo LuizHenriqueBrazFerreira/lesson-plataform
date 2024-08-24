@@ -57,7 +57,10 @@ function Login() {
       if (error.isAxiosError) {
         console.log(error);
         setIsLoading(false);
-        setMessage(error?.response?.data?.message ?? 'Erro inesperado');
+        const rawMessage = error?.response?.data?.message;
+        const errMessage = typeof rawMessage === 'object'
+        && rawMessage !== null ? rawMessage.name : (rawMessage ?? 'Erro inesperado');
+        setMessage(errMessage);
       }
     }
   };
