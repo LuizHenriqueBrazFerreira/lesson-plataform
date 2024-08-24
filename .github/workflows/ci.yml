@@ -44,8 +44,8 @@ jobs:
       - name: Executar script PM2
         run: |
           cd ~
-          chmod +x ./pm2_runner.sh
-          bash ./pm2_runner.sh
+          chmod +x pm2_runner.sh
+          bash pm2_runner.sh
     
       - name: Reiniciar Nginx
         run: |
