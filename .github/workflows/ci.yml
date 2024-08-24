@@ -41,16 +41,11 @@ jobs:
             REMOTE_PORT: ${{ secrets.PORT }}
             TARGET: /home/deployuser/lessons_app
 
-      - name: Configure PATH for PM2
-        run: echo "/home/deployuser/.nvm/versions/node/v18.20.4/bin" >> $GITHUB_PATH
-
-      - name: Restartar PM2
+      - name: Executar script PM2
         run: |
-          pm2 install pm2-logrotate || true
-          pm2 restart backend || pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend
-          pm2 restart frontend || pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend
-          pm2 save
-
+          chmod +x ./pm2_runner.sh
+          bash ./pm2_runner.sh
+    
       - name: Reiniciar Nginx
         run: |
           sudo systemctl restart nginx
