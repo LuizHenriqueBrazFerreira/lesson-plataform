@@ -43,7 +43,6 @@ jobs:
 
       - name: Executar script PM2
         run: |
-          cd ~
           chmod +x /home/deployuser/lessons_app/pm2_runner.sh
           bash /home/deployuser/lessons_app/pm2_runner.sh
     
