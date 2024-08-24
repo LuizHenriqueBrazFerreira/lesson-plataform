@@ -47,3 +47,7 @@ jobs:
           pm2 restart backend || pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend
           pm2 restart frontend || pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend
           pm2 save
+
+      - name: Reiniciar Nginx
+        run: |
+          sudo systemctl restart nginx

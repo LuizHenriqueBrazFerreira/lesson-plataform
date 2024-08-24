@@ -1,46 +1,4 @@
 services:
-  frontend:
-    container_name: app_frontend
-    build: ./frontend
-    expose:
-      - 3000
-    working_dir: /frontend
-    command: npm run build
-    volumes:
-      - ./frontend/build:/frontend/build
-    healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3000"]  # Alterar caso necessário
-      timeout: 10s
-      retries: 5
-
-  nginx:
-    container_name: app_nginx
-    image: nginx:alpine
-    ports:
-      - 80:80
-    volumes:
-      - ./frontend/build:/usr/share/nginx/html:ro  # Serve os arquivos estáticos do React
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro      # Configuração customizada do Nginx
-    depends_on:
-      - frontend
-      - backend
-
-  backend:
-    container_name: app_backend
-    build: ./backend
-    expose:
-      - 3001
-    command: npm start
-    volumes:
-      - ./backend:/backend/
-    depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"]
-      timeout: 10s
-      retries: 5
-
   db:
     image: mysql:8.0.23
     container_name: db
