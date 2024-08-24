@@ -50,15 +50,16 @@ jobs:
           echo 'then' >> pm2_runner.sh
           echo '    sudo npm install -g pm2 && pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> pm2_runner.sh
           echo '    pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> pm2_runner.sh
-          echo 'else' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'else' >> pm2_runner.sh
           echo '    pm2 restart backend || pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> pm2_runner.sh
           echo '    pm2 restart frontend || pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> pm2_runner.sh
-          echo 'fi' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'fi' >> pm2_runner.sh
           chmod +x pm2_runner.sh
-
+          
       - name: Executar script PM2
         run: |
           bash pm2_runner.sh
+          
     
       - name: Reiniciar Nginx
         run: |
