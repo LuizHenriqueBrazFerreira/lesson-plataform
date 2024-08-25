@@ -23,6 +23,7 @@ function CreateAccount() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = 'EduActiva - Cadastro';
     const token = localStorage.getItem('token');
 
     if (token) {

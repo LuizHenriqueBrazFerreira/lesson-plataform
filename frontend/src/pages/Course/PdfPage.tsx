@@ -14,6 +14,7 @@ function PdfPage() {
   const { lessonId } = useParams();
 
   useEffect(() => {
+    document.title = 'EduActiva - PDFs';
     const token = localStorage.getItem('token');
 
     if (!token) {

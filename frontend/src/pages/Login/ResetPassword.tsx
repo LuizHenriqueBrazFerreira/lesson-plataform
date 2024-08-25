@@ -1,4 +1,4 @@
-import { useState, MouseEvent, FormEvent } from 'react';
+import { useState, MouseEvent, FormEvent, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Input } from '@material-tailwind/react';
 import { validatePassword } from '../../utils/validations';
@@ -18,6 +18,10 @@ function ResetPassword() {
 
   const { token } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'EduActiva - Resetar senha';
+  }, []);
 
   const handleShowPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

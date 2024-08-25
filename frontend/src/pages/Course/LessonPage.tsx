@@ -20,6 +20,7 @@ function LessonPage() {
   const { moduleId, lessonId } = useParams();
 
   useEffect(() => {
+    document.title = 'EduActiva - Aula';
     const token = localStorage.getItem('token');
 
     if (!token) {

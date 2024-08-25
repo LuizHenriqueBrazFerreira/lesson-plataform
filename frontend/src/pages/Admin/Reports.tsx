@@ -21,6 +21,7 @@ function Reports() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = 'EduActiva - Relatórios';
     if (!token || role !== 'ADMIN') return navigate('/login');
     requests.setToken(token);
     async function fetchData() {

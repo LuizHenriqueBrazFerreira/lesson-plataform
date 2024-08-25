@@ -30,6 +30,7 @@ export default function EditCourse() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = 'EduActiva - Editar Curso';
     if (!token || role !== 'ADMIN') return navigate('/login');
     requests.setToken(token);
     async function fetchData() {

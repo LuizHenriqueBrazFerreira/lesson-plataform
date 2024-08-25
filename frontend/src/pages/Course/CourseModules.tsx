@@ -29,6 +29,7 @@ function CourseModules() {
   };
 
   useEffect(() => {
+    document.title = 'EduActiva - Curso';
     const token = localStorage.getItem('token');
 
     if (!token) {

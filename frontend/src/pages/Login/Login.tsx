@@ -23,6 +23,7 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = 'EduActiva - Login';
     const token = localStorage.getItem('token');
 
     if (token) {

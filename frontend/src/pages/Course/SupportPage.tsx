@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { Input, Textarea } from '@material-tailwind/react';
 import { ClipboardIcon } from '@heroicons/react/24/outline';
@@ -19,6 +19,10 @@ const INITIAL_FORM = {
 function SupportPage() {
   const [copied, setCopied] = useState(false);
   const [form, setForm] = useState<SupportFormType>(INITIAL_FORM);
+
+  useEffect(() => {
+    document.title = 'EduActiva - Suporte';
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement |
   HTMLTextAreaElement>) => {

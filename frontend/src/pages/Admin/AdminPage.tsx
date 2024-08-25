@@ -8,6 +8,7 @@ export default function AdminPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = 'EduActiva - Administrador';
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
 

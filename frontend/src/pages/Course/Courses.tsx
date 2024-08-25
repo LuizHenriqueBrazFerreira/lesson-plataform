@@ -16,6 +16,7 @@ function StudentCourses() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = 'EduActiva - Meus Cursos';
     const token = localStorage.getItem('token');
 
     if (!token) {

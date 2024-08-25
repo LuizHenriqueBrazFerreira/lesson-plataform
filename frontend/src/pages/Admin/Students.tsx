@@ -49,6 +49,7 @@ function Students() {
   }
 
   useEffect(() => {
+    document.title = 'EduActiva - Usuários';
     if (!token || role !== 'ADMIN') {
       return navigate('/login');
     }
