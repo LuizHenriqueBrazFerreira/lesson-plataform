@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
 import HomeBackground from '../../components/HomeBackground';
 
 function Homepage() {
+  useEffect(() => {
+    document.title = 'EduActiva - FSMSSS';
+  }, []);
+
   return (
     <main>
       <HomeBackground>
