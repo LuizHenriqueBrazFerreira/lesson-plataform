@@ -1,3 +1,11 @@
+export type ContentType = {
+  type: string,
+  data: {
+    text: string,
+    level?: number,
+  },
+}
+
 export type PdfsType = {
   id: number,
   lessonId: number,

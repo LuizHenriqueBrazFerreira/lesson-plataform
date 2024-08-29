@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PdfBar from '../../components/PdfButton';
-import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
+import { LessonsType, INITIAL_LESSON, ContentType } from '../../types/lessons';
 import { requestData, setToken } from '../../services/requests';
 import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
@@ -15,8 +15,9 @@ function LessonPage() {
   const { translateDynamicContent } = useContext(CourseContext);
   const [translatedModuleTitle, setTranslatedModuleTitle] = useState('');
   const [translatedLessonTitle, setTranslatedLessonTitle] = useState('');
+  const [translatedContent, setTranslatedContent] = useState('');
   const [lessons, setLessons] = useState<LessonsType>(INITIAL_LESSON);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -25,39 +26,21 @@ function LessonPage() {
 
   async function translateObject() {
     try {
-      const { content } = await requestData(`lesson/${lessonId}`);
-      const lessonData = JSON.parse(content);
-      const header1 = lessonData.blocks[0].data.text;
-      const paragraph1 = lessonData.blocks[1].data.text;
-      const paragraph2 = lessonData.blocks[3].data.text;
-      const paragraph3 = lessonData.blocks[6].data.text;
-      const header2 = lessonData.blocks[5].data.text;
-      const textList = [header1, paragraph1, paragraph2, paragraph3, header2];
-      const translatedLessonContent = await Promise.all(textList.map(async (text) => {
-        return await translateDynamicContent(text);
-      }));
-      setLessons({
-        ...lessonData,
-        content: {
-          ...lessonData.content,
-          blocks: lessonData.content.blocks.map((block: any, index: number) => {
-            switch (index) {
-              case 0: // header1
-                return { ...block, data: { ...block.data, text: translatedLessonContent[0] } };
-              case 1: // paragraph1
-                return { ...block, data: { ...block.data, text: translatedLessonContent[1] } };
-              case 3: // paragraph2
-                return { ...block, data: { ...block.data, text: translatedLessonContent[2] } };
-              case 6: // paragraph3
-                return { ...block, data: { ...block.data, text: translatedLessonContent[3] } };
-              case 5: // header2
-                return { ...block, data: { ...block.data, text: translatedLessonContent[4] } };
-              default:
-                return block;
-            }
-          }),
-        },
+      const { content } = lessons;
+      const contentObject = JSON.parse(content);
+      const filteredTexts = contentObject.blocks.map(async (block: any) => {
+        if (block.type === 'paragraph' || block.type === 'header') {
+          if (block.data.text) {
+            const translatedText = await translateDynamicContent(block.data.text);
+            return { ...block, data: { ...block.data, text: translatedText } };
+          }
+        }
+        return block;
       });
+      const translatedBlocks = await Promise.all(filteredTexts);
+      const newContent = { ...contentObject, blocks: translatedBlocks };
+      const stringContent = JSON.stringify(newContent);
+      setTranslatedContent(stringContent);
     } catch (error: any) {
       if (error.isAxiosError) {
         console.error(error);
@@ -81,9 +64,11 @@ function LessonPage() {
         const translatedModuleTitle = await translateDynamicContent(moduleData.title ?? moduleData.title);
         const translatedLessonTitle = await translateDynamicContent(lessonData.title ?? lessonData.title);
         setLessons(lessonData);
-        await translateObject();
         setTranslatedModuleTitle(translatedModuleTitle);
         setTranslatedLessonTitle(translatedLessonTitle);
+        if (i18n.language !== 'pt-BR') {
+          await translateObject();
+        }
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error.response.data);
@@ -112,7 +97,7 @@ function LessonPage() {
           </h1>
           <PdfBar path={ pathname } />
         </div>
-        <ReadTextEditor content={ lessons.content } />
+        <ReadTextEditor content={ translatedContent ? translatedContent : lessons.content } />
         <OrangeButton
           onClick={ () => navigate(-1) }
         >

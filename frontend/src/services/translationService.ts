@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = 'AIzaSyCPdiX1LhQpGqfpMKMyKdEMvXU1HKtBA0w';
+const API_KEY = process.env.API_KEY;
 
 export const translateText = async (text: string, targetLanguage: string): Promise<string> => {
   try {
