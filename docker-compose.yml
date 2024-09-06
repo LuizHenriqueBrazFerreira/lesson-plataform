@@ -1,4 +1,55 @@
 services:
+  frontend:
+    container_name: app_frontend
+    build:
+      context: ./frontend
+      args:
+        NODE_ENV: ${NODE_ENV}  
+    ports:
+      - 3000:3000
+    working_dir: /frontend
+    environment:
+      - NODE_ENV=${NODE_ENV}  
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3000"] 
+      timeout: 10s
+      retries: 5
+
+  backend:
+    container_name: app_backend
+    build:
+      context: ./backend
+      args:
+        NODE_ENV: ${NODE_ENV} 
+    ports:
+      - 3001:3001
+    volumes: 
+      - ./backend:/backend/
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - PORT=${PORT}
+      - JWT_SECRET=${JWT_SECRET}
+      - SALT_ROUNDS=${SALT_ROUNDS}
+      - NODE_ENV=${NODE_ENV} 
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - FRONTEND_URL=${FRONTEND_URL}
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3001"]
+      timeout: 10s
+      retries: 5
+
   db:
     image: mysql:8.0.23
     container_name: db
