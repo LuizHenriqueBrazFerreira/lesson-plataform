@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
+    "start": "node dist/server.js",
     "start:dev": "ts-node src/server.ts",
     "dev": "nodemon --watch \"./src/**\" --ext \"ts,js\" --ignore \"src/**/*.spec.ts,src/**/*.json\" --exec \"ts-node src/server.ts\"",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
@@ -12,6 +13,8 @@
     "prestart": "npm run db:reset",
     "predev": "npm run db:reset",
     "db:create": "npx sequelize-cli db:create",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed:all": "npx sequelize-cli db:seed:all",
     "db:reset": "npx -y tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "keywords": [],
@@ -25,9 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.2",
     "nodemailer": "^6.9.13",
-    "nodemon": "^3.1.0",
-    "sequelize": "^6.37.1",
-    "sequelize-cli": "^6.6.2"
+    "sequelize": "^6.37.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "2.4.2",
@@ -47,10 +48,11 @@
     "eslint-config-trybe-backend": "1.0.1",
     "mocha": "9.2.1",
     "nyc": "15.1.0",
-    "path": "^0.12.7",
     "sinon": "13.0.1",
     "sinon-chai": "3.7.0",
     "ts-node": "^10.9.1",
+    "nodemon": "^3.1.0",
+    "sequelize-cli": "^6.6.2",
     "typescript": "^4.9.5"
   }
 }

@@ -25,6 +25,7 @@ function CreateAccount() {
   const { t } = useTranslation();
 
   useEffect(() => {
+    document.title = 'EduActiva - Cadastro';
     const token = localStorage.getItem('token');
 
     if (token) {

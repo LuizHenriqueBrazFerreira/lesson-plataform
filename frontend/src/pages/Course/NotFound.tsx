@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrangeButton from '../../components/OrangeButton';
 
 function NotFound() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'EduActiva - 404';
+  }, []);
 
   return (
     <div

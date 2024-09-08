@@ -10,7 +10,8 @@
     "lint:styles": "npx stylelint '**/*.css'",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "start": "vite preview --port 3000"
   },
   "dependencies": {
     "@editorjs/delimiter": "^1.4.0",
@@ -28,9 +29,12 @@
     "date-fns-tz": "^3.1.3",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
+    "editorjs-change-case": "^0.0.3",
     "editorjs-header-with-alignment": "^1.0.1",
     "editorjs-html": "^3.4.3",
     "editorjs-paragraph-with-alignment": "^3.0.0",
+    "editorjs-text-color-plugin": "^2.0.4",
+    "framer-motion": "^11.5.4",
     "html-to-draftjs": "^1.5.0",
     "i18next": "^23.12.1",
     "immutable": "^4.3.6",
@@ -59,8 +63,6 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-v8": "^1.2.0",
     "autoprefixer": "^10.4.19",
-    "editorjs-change-case": "^0.0.3",
-    "editorjs-text-color-plugin": "^2.0.4",
     "eslint": "^8.55.0",
     "jsdom": "^23.2.0",
     "postcss": "^8.4.38",

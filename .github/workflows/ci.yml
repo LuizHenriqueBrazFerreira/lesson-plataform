@@ -12,24 +12,62 @@ jobs:
       - name: Checkout do repositório
         uses: actions/checkout@v2
 
-      - name: Configurar chave SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/github-actions
-          chmod 600 ~/.ssh/github-actions
-          ssh-keyscan -p ${{ secrets.REMOTE_PORT }} ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' 
 
-      - name: Testar Conexão SSH
+      - name: Instalar dependências e construir o backend
         run: |
-          ssh -v -i ~/.ssh/github-actions -p ${{ secrets.REMOTE_PORT }} ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "echo Conexão SSH Bem-sucedida"
+          cd backend
+          npm install
+          npm run build
+
+      - name: Instalar dependências e construir o frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
 
       - name: Deploy para a Hostinger
         uses: easingthemes/ssh-deploy@main
         env: 
-            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
             ARGS: "-rltgoDzvO --delete"
-            SOURCE: "/"
-            REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-            REMOTE_USER: ${{ secrets.REMOTE_USER }}
-            REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-            TARGET: ${{ secrets.REMOTE_TARGET }}
+            SOURCE: "."
+            REMOTE_HOST: ${{ secrets.HOST }}
+            REMOTE_USER: ${{ secrets.USERNAME }}
+            REMOTE_PASSWORD: ${{ secrets.PASSWORD }}
+            REMOTE_PORT: ${{ secrets.PORT }}
+            TARGET: /home/deployuser/lessons_app
+
+      - name: Configurar chave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/github_hostinger
+          chmod 600 ~/.ssh/github_hostinger
+          ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Criar script PM2 no servidor
+        run: |
+          ssh -i ~/.ssh/github_hostinger -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash -s' << 'EOF'
+          rm -f /home/deployuser/lessons_app/pm2_runner.sh
+          echo '#!/bin/bash' > /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'if ! type pm2 > /dev/null' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'then' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    sudo npm install -g pm2 && pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'else' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    pm2 restart backend || pm2 start /home/deployuser/lessons_app/backend/dist/src/server.js --name backend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo '    pm2 restart frontend || pm2 start /home/deployuser/lessons_app/frontend/dist/index.html --name frontend' >> /home/deployuser/lessons_app/pm2_runner.sh
+          echo 'fi' >> /home/deployuser/lessons_app/pm2_runner.sh
+          chmod +x /home/deployuser/lessons_app/pm2_runner.sh
+          EOF
+
+      - name: Executar script PM2 no servidor
+        run: |
+          ssh -i ~/.ssh/github_hostinger -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash /home/deployuser/lessons_app/pm2_runner.sh'
+    
+      - name: Reiniciar Nginx no servidor
+        run: |
+          ssh -i ~/.ssh/github_hostinger -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'sudo systemctl restart nginx'

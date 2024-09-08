@@ -1,7 +1,6 @@
 import {QueryInterface} from 'sequelize'
 import bcrypt from 'bcryptjs'
 import { createEmailToken } from '../../utils/jwt';
-import { count } from 'console';
 
 const SALT_ROUNDS = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';

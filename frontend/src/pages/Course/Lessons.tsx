@@ -23,6 +23,7 @@ function Lessons() {
   const { moduleId } = useParams();
 
   useEffect(() => {
+    document.title = 'EduActiva - Aulas';
     const token = localStorage.getItem('token');
 
     if (!token) {

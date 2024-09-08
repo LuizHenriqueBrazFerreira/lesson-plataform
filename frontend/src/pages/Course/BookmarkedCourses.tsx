@@ -15,6 +15,7 @@ function BookmarkedCourses() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = 'EduActiva - Cursos Salvos';
     const token = localStorage.getItem('token');
 
     if (!token) {

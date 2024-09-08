@@ -25,6 +25,7 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = 'EduActiva - Login';
     const token = localStorage.getItem('token');
 
     if (token) {
@@ -59,7 +60,10 @@ function Login() {
       if (error.isAxiosError) {
         console.log(error);
         setIsLoading(false);
-        setMessage(error.response.data.message);
+        const rawMessage = error?.response?.data?.message;
+        const errMessage = typeof rawMessage === 'object'
+        && rawMessage !== null ? rawMessage.name : (rawMessage ?? 'Erro inesperado');
+        setMessage(errMessage);
       }
     }
   };

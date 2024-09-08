@@ -30,7 +30,7 @@ class CreateReport {
         country: userData?.country ? userData?.country : 'Não informado',
         organization: userData?.organization ? userData?.organization : 'Não informado',
         since: userData?.createdAt ?? 'Não informado',
-        subscribedAt: user.subscribedAt ?? 'Não informado',
+        subscribedAt: user?.subscribedAt ?? 'Não informado',
       };
   
       let course = courses.find(course => course.course === user.courseTitle);
@@ -62,7 +62,7 @@ class CreateReport {
         country: userData?.country ? userData?.country : 'Não informado',
         organization: userData?.organization ? userData?.organization : 'Não informado',
         since: userData?.createdAt ?? 'Não informado',
-        subscribedAt: user.subscribedAt ?? 'Não informado',
+        subscribedAt: user?.subscribedAt ?? 'Não informado',
       };
   
       let course = courseData.find(course => course.course === courseTitle);

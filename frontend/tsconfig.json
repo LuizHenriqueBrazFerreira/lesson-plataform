@@ -12,7 +12,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "allowSyntheticDefaultImports":true,
-    "noEmit": true,
     "jsx": "react-jsx",
 
     /* Linting */
@@ -22,9 +21,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-
     "src",
-
     "types/types.d.ts"
 , "src/services/translateSearch.ts"
   ],
