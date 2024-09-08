@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import AdminPage from './pages/Admin/AdminPage';
 import CreateCourse from './pages/Admin/CreateCourse';
 import EditCourse from './pages/Admin/EditCourse';
@@ -22,7 +23,6 @@ import StudentCourses from './pages/Course/Courses';
 import SupportPage from './pages/Course/SupportPage';
 import Footer from './components/Footer';
 import { translateText } from './services/translationService';
-import { useTranslation } from 'react-i18next';
 import './App.css';
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
   };
 
   const translateDynamicContent = async (content: string): Promise<string> => {
-    return await translateText(content, i18n.language);
+    return translateText(content, i18n.language);
   };
 
   return (
@@ -71,7 +71,7 @@ function App() {
           path="/courses/:courseId/modules/:moduleId/lessons"
           element={ <Lessons /> }
         />
-       <Route
+        <Route
           path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
           element={ <LessonPage /> }
         />
