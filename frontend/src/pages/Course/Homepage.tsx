@@ -37,29 +37,29 @@ function Homepage() {
           className="md:w-[60%] w-4/5 h-auto min-h-[70%] opacity-80 bg-white
           flex flex-col justify-start items-center px-[2rem] py-[3rem]
           rounded-2xl shadow-lg space-y-8"
-          initial={ { opacity: 1, y: -20 } }
+          initial={ { opacity: 1, y: -40 } }
           animate={ { opacity: 0.9, y: 0 } }
           transition={ { duration: 0.5 } }
         >
-          <motion.div
-            className="text-5xl font-extrabold text-center text-gray-800"
+          <motion.h1
+            className="text-5xl md:text-6xl font-extrabold text-center text-gray-800"
             initial={ { opacity: 0, y: -20 } }
             animate={ { opacity: 1, y: 0 } }
             transition={ { duration: 0.5, delay: 0.2 } }
           >
             Seja bem-vindo(a)
-          </motion.div>
-          <motion.div
-            className="text-2xl font-medium text-center
-            text-gray-600 leading-relaxed space-y-4"
+          </motion.h1>
+          <motion.p
+            className="text-center text-gray-600 leading-relaxed space-y-4 text-2xl
+            md:text-3xl font-bold w-10/12"
             initial={ { opacity: 0, y: -20 } }
             animate={ { opacity: 1, y: 0 } }
             transition={ { duration: 0.5, delay: 0.4 } }
           >
-            <p>ao Centro Horizontal de Formação,</p>
-            <p>Ensino e Aprendizagem Político-Social do</p>
-            <p>Fórum Social Mundial da Saúde e da Seguridade Social</p>
-          </motion.div>
+            ao Centro Horizontal de Formação, Ensino e
+            Aprendizagem Político-Social do
+            Fórum Social Mundial da Saúde e da Seguridade Social
+          </motion.p>
         </motion.div>
       </HomeBackground>
       <div ref={ sectionRef }>
@@ -67,7 +67,7 @@ function Homepage() {
           {isSectionVisible && (
             <motion.section
               className="flex flex-col py-4"
-              initial={ { opacity: 0, y: 20 } }
+              initial={ { opacity: 0, y: 50 } }
               animate={ { opacity: 1, y: 0 } }
               exit={ { opacity: 0, y: 20 } }
               transition={ { duration: 0.5 } }
