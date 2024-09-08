@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = import.meta.env.VITE_REACT_API_KEY;
 
-export const translateText = async (text: string, targetLanguage: string): Promise<string> => {
+const translateText = async (text: string, targetLanguage: string) => {
   try {
     if (targetLanguage === 'ptBR') {
       return text;
-    };
+    }
     const response = await axios.post(
-      `https://translation.googleapis.com/language/translate/v2`,
+      'https://translation.googleapis.com/language/translate/v2',
       {},
       {
         params: {
@@ -16,7 +16,7 @@ export const translateText = async (text: string, targetLanguage: string): Promi
           target: targetLanguage,
           key: API_KEY,
         },
-      }
+      },
     );
 
     return response.data.data.translations[0].translatedText;
@@ -25,3 +25,5 @@ export const translateText = async (text: string, targetLanguage: string): Promi
     throw error;
   }
 };
+
+export default translateText;
