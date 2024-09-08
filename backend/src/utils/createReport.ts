@@ -32,7 +32,7 @@ class CreateReport {
         since: userData?.createdAt ?? 'Não informado',
         subscribedAt: user?.subscribedAt ?? 'Não informado',
       };
-  
+
       let course = courses.find(course => course.course === user.courseTitle);
   
       if (!course) {

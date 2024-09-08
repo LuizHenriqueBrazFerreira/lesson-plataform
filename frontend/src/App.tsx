@@ -24,6 +24,7 @@ import SupportPage from './pages/Course/SupportPage';
 import Footer from './components/Footer';
 import { translateText } from './services/translationService';
 import './App.css';
+import Reports from './pages/Admin/Reports';
 
 function App() {
   const { i18n } = useTranslation();
@@ -54,10 +55,11 @@ function App() {
       <Routes>
         <Route path="/" element={ <Homepage /> } />
         <Route path="/admin" element={ <AdminPage /> } />
-        <Route path="/admin/courses" element="Cursos" />
+        <Route path="/admin/courses" element={ <StudentCourses /> } />
         <Route path="/admin/create" element={ <CreateCourse /> } />
         <Route path="/admin/edit" element={ <EditCourse /> } />
         <Route path="/admin/students" element={ <Students /> } />
+        <Route path="/admin/reports" element={ <Reports /> } />
         <Route path="/bookmarked" element={ <BookmarkedCourses /> } />
         <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
         <Route path="/courses" element={ <StudentCourses /> } />
