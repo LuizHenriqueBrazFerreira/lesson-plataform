@@ -4,7 +4,7 @@ export type ContentType = {
     text: string,
     level?: number,
   },
-}
+};
 
 export type PdfsType = {
   id: number,

@@ -27,16 +27,11 @@ import './App.css';
 import Reports from './pages/Admin/Reports';
 
 function App() {
-  const INITIAL_STATE = {
-    courses: [],
-    modules: [],
-    lessons: [],
-  };
   const { i18n } = useTranslation();
   const [forumURL, setForumURL] = useState('');
-  const [searchBar, setSearchBar] = useState<SearchBarResponse>(INITIAL_STATE);
+  const [searchBar, setSearchBar] = useState<SearchBarResponse[]>([]);
 
-  const changeSearchBar = (data: SearchBarResponse) => {
+  const changeSearchBar = (data: SearchBarResponse[]) => {
     setSearchBar(data);
   };
 

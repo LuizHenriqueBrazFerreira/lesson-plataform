@@ -16,6 +16,7 @@ export class SearchBarService implements ISearchBarService {
       const lessons = await this._lessonsModel.getLessons();
 
       if (filterData !== '')  {
+        const result = [];
         const filteredLessons = lessons.map((lesson) => {
           const content = JSON.parse(lesson.content).blocks
             .filter((block:any) => block.type === 'header' || block.type === 'paragraph')
@@ -23,35 +24,26 @@ export class SearchBarService implements ISearchBarService {
             return content;
         }) as any;
 
-        const searchResult = {
-          courses: courses.filter((course) => course.title.toLowerCase().includes(filterData.toLowerCase())),
-          modules: modules.filter((module) => module.title.toLowerCase().includes(filterData.toLowerCase())),
-          lessons: lessons.map((lesson) => ({...lesson.dataValues, content: filteredLessons})) 
-            || lessons.filter((lesson) => lesson.title.toLowerCase().includes(filterData.toLowerCase()))
-        };
+        const searchResult =  filteredLessons.map((lesson:any, index:number) => ({...lessons[index].dataValues}));
 
-        const modifiedLessons = await Promise.all(searchResult.lessons.map(async (lesson) => {
+        const modifiedLessons = await Promise.all(searchResult.map(async (lesson:any) => {
           const {dataValues} = await this._modulesModel.getModuleById(lesson.moduleId) as any;
           return { courseId: dataValues.courseId, ...lesson };
         })) as any;
         
-        searchResult.lessons = modifiedLessons;
-        return {status: 'SUCCESSFUL', data: searchResult};
+
+        const filteredCourses = modifiedLessons.map((lesson: any) => ({
+          id: lesson.id,
+          title: lesson.title,
+          moduleId: lesson.moduleId,
+          courseId: lesson.courseId,
+        }))
+            
+
+        result.push(...filteredCourses);
+        return {status: 'SUCCESSFUL', data: result};
       }
       
-      // const searchResult = {
-      //   courses,
-      //   modules,
-      //   lessons
-      // }
-      // const modifiedLessons = await Promise.all(searchResult.lessons.map(async (lesson) => {
-        
-      //   const {dataValues} = await this._modulesModel.getModuleById(lesson.moduleId) as any;
-        
-      //   return { courseId: dataValues.courseId, ...lesson.dataValues };
-      // })) as any;
-      
-      // searchResult.lessons = modifiedLessons;
       return {status: 'BAD_REQUEST', data: {message: 'Digite algo para pesquisar'}};
 
     } catch (error:any) {
