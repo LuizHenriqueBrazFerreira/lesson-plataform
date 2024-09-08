@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import AdminPage from './pages/Admin/AdminPage';
 import CreateCourse from './pages/Admin/CreateCourse';
 import EditCourse from './pages/Admin/EditCourse';
@@ -22,20 +23,14 @@ import StudentCourses from './pages/Course/Courses';
 import SupportPage from './pages/Course/SupportPage';
 import Footer from './components/Footer';
 import { translateText } from './services/translationService';
-import { useTranslation } from 'react-i18next';
 import './App.css';
 
 function App() {
-  const INITIAL_STATE = {
-    courses: [],
-    modules: [],
-    lessons: [],
-  };
   const { i18n } = useTranslation();
   const [forumURL, setForumURL] = useState('');
-  const [searchBar, setSearchBar] = useState<SearchBarResponse>(INITIAL_STATE);
+  const [searchBar, setSearchBar] = useState<SearchBarResponse[]>([]);
 
-  const changeSearchBar = (data: SearchBarResponse) => {
+  const changeSearchBar = (data: SearchBarResponse[]) => {
     setSearchBar(data);
   };
 
@@ -44,7 +39,7 @@ function App() {
   };
 
   const translateDynamicContent = async (content: string): Promise<string> => {
-    return await translateText(content, i18n.language);
+    return translateText(content, i18n.language);
   };
 
   return (
@@ -71,7 +66,7 @@ function App() {
           path="/courses/:courseId/modules/:moduleId/lessons"
           element={ <Lessons /> }
         />
-       <Route
+        <Route
           path="/courses/:courseId/modules/:moduleId/lessons/:lessonId"
           element={ <LessonPage /> }
         />

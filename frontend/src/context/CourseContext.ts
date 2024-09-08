@@ -1,17 +1,17 @@
 import { createContext } from 'react';
-import { Courses, Lesson, Module } from '../types/courseType';
 
 export type SearchBarResponse = {
-  courses: Courses[] | [],
-  modules: Module[] | [],
-  lessons: Lesson[] | []
+  id: number,
+  courseId: number,
+  moduleId: number,
+  title: string,
 };
 
 type CourseContextType = {
   forumURL: string;
   changeForumURL: (url: string) => void;
-  searchBar: SearchBarResponse;
-  changeSearchBar: (data: SearchBarResponse) => void;
+  searchBar: SearchBarResponse[];
+  changeSearchBar: (data: SearchBarResponse[]) => void;
   translateDynamicContent: (content: string) => Promise<string>;
 };
 
