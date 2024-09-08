@@ -13,8 +13,7 @@ import { translatePortuguese } from '../services/translationReverse';
 
 function SearchBar() {
   const [search, setSearch] = useState('');
-  const {
-    translateDynamicContent } = useContext(CourseContext);
+  const { translateDynamicContent } = useContext(CourseContext);
   const [openMenu, setOpenMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [lessonsTitles, setLessonsTitles] = useState<string[]>([]);
@@ -22,15 +21,15 @@ function SearchBar() {
   const { t, i18n } = useTranslation();
   const [dbResult, setDbResult] = useState<SearchBarResponse[]>([]);
 
-  async function translateSearch() {
+  const translateSearch = async (data: SearchBarResponse[]) => {
     try {
       if (i18n.language === 'pt') {
-        setLessonsTitles(dbResult.map(({ title }) => title ?? title));
+        setLessonsTitles(data.map(({ title }) => title));
         setIsLoading(false);
         return;
       }
       const translatedLessonTitles = await Promise.all(
-        dbResult.map(({ title }) => translateDynamicContent(title ?? title)),
+        data.map(({ title }) => translateDynamicContent(title)),
       );
       setLessonsTitles(translatedLessonTitles);
 
@@ -38,22 +37,29 @@ function SearchBar() {
     } catch (error: any) {
       console.error(error.response?.data || error.message);
     }
-  }
+  };
 
-  const handleClick = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (search === '') {
       return;
     }
 
     const toPortuguese = await translatePortuguese(search, i18n.language);
     const data = await requestData(`/search?filter=${toPortuguese}`);
+    console.log(data);
 
     setDbResult(data);
-    await translateSearch();
+    await translateSearch(data);
+  };
+
+  const buildRoute = (index: number) => {
+    const result = dbResult[index];
+    return `/courses/${result.courseId}/modules/${result.moduleId}/lessons/${result.id}`;
   };
 
   return (
-    <div className="Flex inline-flex h-[40px]">
+    <form className="flex h-[40px]" onSubmit={ handleSubmit }>
       <Menu placement="bottom-start" open={ openMenu } handler={ setOpenMenu }>
 
         {isLoading ? (
@@ -66,7 +72,7 @@ function SearchBar() {
                 <MenuItem
                   key={ index }
                   onClick={ () => {
-                    navigate(`/courses/${dbResult[index].courseId}/modules/${dbResult[index].moduleId}/lessons/${dbResult[index].id}`);
+                    navigate(buildRoute(index));
                   } }
                 >
                   {lesson}
@@ -88,10 +94,16 @@ function SearchBar() {
           </MenuHandler>
         </div>
 
-        <Button color="white" size="sm" onClick={ handleClick }>{t('Pesquisar')}</Button>
+        <Button
+          color="white"
+          size="sm"
+          type="submit"
+        >
+          {t('Pesquisar')}
+        </Button>
 
       </Menu>
-    </div>
+    </form>
   );
 }
 
