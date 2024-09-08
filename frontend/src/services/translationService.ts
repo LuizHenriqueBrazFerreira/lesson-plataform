@@ -26,4 +26,4 @@ const translateText = async (text: string, targetLanguage: string) => {
   }
 };
 
-export default translateText;
+export { translateText };
