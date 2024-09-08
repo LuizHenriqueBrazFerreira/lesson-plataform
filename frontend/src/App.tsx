@@ -37,7 +37,7 @@ function App() {
       <Routes>
         <Route path="/" element={ <Homepage /> } />
         <Route path="/admin" element={ <AdminPage /> } />
-        <Route path="/admin/courses" element="Cursos" />
+        <Route path="/admin/courses" element={ <StudentCourses /> } />
         <Route path="/admin/create" element={ <CreateCourse /> } />
         <Route path="/admin/edit" element={ <EditCourse /> } />
         <Route path="/admin/reports" element={ <Reports /> } />
