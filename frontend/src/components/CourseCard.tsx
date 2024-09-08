@@ -74,40 +74,41 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
   return (
     <Card
       key={ index }
-      className="w-96 md:w-[37rem] md:h-[17rem] m-4 select-none
-      cursor-pointer hover:shadow-xl transition duration-300 ease-in-out"
+      className="w-96 md:w-[37rem] md:h-[17rem] m-4 select-none cursor-pointer
+      hover:shadow-xl transition duration-300 ease-in-out"
+      onClick={ handleNavigate }
     >
-      <CardBody className="flex flex-col">
+      <CardBody className="relative flex flex-col h-full">
         <div className="flex justify-between mb-10">
           <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">Curso</h2>
-          {course.bookmarked ? <BookmarkSolid
-            className="size-6 lg:size-7 text-btn-orange"
-            onClick={ () => handleBookmark(course.courseId, course.bookmarked) }
-          />
-            : <BookmarkIcon
-                className="size-6 lg:size-7"
-                onClick={ () => handleBookmark(
-                  course.courseId,
-                  course.bookmarked,
-                ) }
-            />}
-        </div>
-        <div
-          onClick={ handleNavigate }
-          aria-hidden="true"
-          className="md:text-3xl font-semibold"
-        >
-          {course.courseTitle ?? course.title}
-          <div className="mt-8 flex items-center gap-4">
-            <Progress
-              size="sm"
-              color="orange"
-              value={ courseProgress }
+          {course.bookmarked ? (
+            <BookmarkSolid
+              className="size-6 lg:size-7 text-btn-orange"
+              onClick={ (e) => {
+                e.stopPropagation();
+                handleBookmark(course.courseId, course.bookmarked);
+              } }
             />
-            <Typography className="font-semibold">
-              { `${courseProgress ?? 0}%`}
-            </Typography>
-          </div>
+          ) : (
+            <BookmarkIcon
+              className="size-6 lg:size-7"
+              onClick={ (e) => {
+                e.stopPropagation();
+                handleBookmark(course.courseId, course.bookmarked);
+              } }
+            />
+          )}
+        </div>
+        <div aria-hidden="true">
+          <h3 className="md:text-3xl font-semibold">
+            {course.courseTitle ?? course.title}
+          </h3>
+        </div>
+        <div className="absolute bottom-4 left-4 right-4 flex items-center gap-4">
+          <Progress size="sm" color="orange" value={ courseProgress ?? 0 } />
+          <Typography className="font-semibold">
+            {`${courseProgress ?? 0}%`}
+          </Typography>
         </div>
       </CardBody>
     </Card>
