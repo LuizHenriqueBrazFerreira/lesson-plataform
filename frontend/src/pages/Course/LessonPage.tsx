@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PdfBar from '../../components/PdfButton';
-import { LessonsType, INITIAL_LESSON, ContentType } from '../../types/lessons';
+import { LessonsType, INITIAL_LESSON } from '../../types/lessons';
 import { requestData, setToken } from '../../services/requests';
 import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
@@ -49,7 +49,7 @@ function LessonPage() {
   }
 
   useEffect(() => {
-    document.title = 'EduActiva - Aula';
+    document.title = `EduActiva - ${t("Aula")}`;
     const token = localStorage.getItem('token');
 
     if (!token) {

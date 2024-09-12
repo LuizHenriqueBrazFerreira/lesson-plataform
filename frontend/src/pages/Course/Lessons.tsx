@@ -23,7 +23,7 @@ function Lessons() {
   const { moduleId } = useParams();
 
   useEffect(() => {
-    document.title = 'EduActiva - Aulas';
+    document.title = `EduActiva - ${t("Aulas")}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -51,7 +51,7 @@ function Lessons() {
     }
 
     fetchData();
-  }, [translateDynamicContent]);
+  }, [translateDynamicContent, t]);
 
   return (
     <div>

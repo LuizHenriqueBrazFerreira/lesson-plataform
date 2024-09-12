@@ -32,7 +32,7 @@ function CourseModules() {
   };
 
   useEffect(() => {
-    document.title = 'EduActiva - Curso';
+    document.title = `EduActiva - ${t("Curso")}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -64,7 +64,7 @@ function CourseModules() {
     }
 
     fetchData();
-  }, [translateDynamicContent]);
+  }, [translateDynamicContent, t]);
 
   return (
     <CoursesBackground

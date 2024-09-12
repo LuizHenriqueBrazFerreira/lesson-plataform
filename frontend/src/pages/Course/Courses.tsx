@@ -18,7 +18,7 @@ function StudentCourses() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'EduActiva - Meus Cursos';
+    document.title = `EduActiva - ${t("Meus Cursos")}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -43,7 +43,7 @@ function StudentCourses() {
     }
 
     fetchData();
-  }, []);
+  }, [t]);
 
   const handleBookmark = (id: number, bookmarked: boolean) => {
     setCourses((prevCourses) => prevCourses.map((course) => {

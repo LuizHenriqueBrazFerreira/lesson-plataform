@@ -25,13 +25,13 @@ function CreateAccount() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = 'EduActiva - Cadastro';
+    document.title = `EduActiva - ${t("Cadastro")}`;
     const token = localStorage.getItem('token');
 
     if (token) {
       navigate('/courses');
     }
-  }, [navigate]);
+  }, [navigate, t]);
 
   const handleChange = (event: any) => {
     event.preventDefault();

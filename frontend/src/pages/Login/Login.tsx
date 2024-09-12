@@ -25,13 +25,13 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'EduActiva - Login';
+    document.title = `EduActiva - ${t('Entrar')}`;
     const token = localStorage.getItem('token');
 
     if (token) {
       navigate('/courses');
     }
-  }, [navigate]);
+  }, [navigate, t]);
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import HomeBackground from '../../components/HomeBackground';
+import { useTranslation } from 'react-i18next';
 
 function Homepage() {
   const [isSectionVisible, setIsSectionVisible] = useState(false);
   const sectionRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.title = 'EduActiva - FSMSSS';
@@ -47,7 +49,7 @@ function Homepage() {
             animate={ { opacity: 1, y: 0 } }
             transition={ { duration: 0.5, delay: 0.2 } }
           >
-            Seja bem-vindo(a)
+            {t("Seja bem-vindo(a)")}
           </motion.div>
           <motion.div
             className="text-2xl font-medium text-center
@@ -56,9 +58,9 @@ function Homepage() {
             animate={ { opacity: 1, y: 0 } }
             transition={ { duration: 0.5, delay: 0.4 } }
           >
-            <p>ao Centro Horizontal de Formação,</p>
-            <p>Ensino e Aprendizagem Político-Social do</p>
-            <p>Fórum Social Mundial da Saúde e da Seguridade Social</p>
+            <p>{t("ao Centro Horizontal de Formação,")}</p>
+            <p>{t("Ensino e Aprendizagem Político-Social do")}</p>
+            <p>{t("Fórum Social Mundial da Saúde e Seguridade Social")}</p>
           </motion.div>
         </motion.div>
       </HomeBackground>

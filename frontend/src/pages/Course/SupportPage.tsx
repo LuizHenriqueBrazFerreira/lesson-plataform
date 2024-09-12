@@ -23,7 +23,7 @@ function SupportPage() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = 'EduActiva - Suporte';
+    document.title = `EduActiva - ${t("Suporte")}`;
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement |

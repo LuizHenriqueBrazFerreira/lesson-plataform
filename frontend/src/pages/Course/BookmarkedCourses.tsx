@@ -15,7 +15,7 @@ function BookmarkedCourses() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'EduActiva - Cursos Salvos';
+    document.title = `EduActiva - ${t("Cursos Salvos")}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -36,7 +36,7 @@ function BookmarkedCourses() {
     }
 
     fetchData();
-  }, []);
+  }, [t]);
 
   const handleBookmark = (id: number, bookmarked: boolean) => {
     setCourses((prevCourses) => prevCourses.map((course) => {

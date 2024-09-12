@@ -22,7 +22,7 @@ function ResetPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'EduActiva - Resetar senha';
+    document.title = `EduActiva - ${t("Redefinir senha")}`;
   }, []);
 
   const handleShowPassword = (event: MouseEvent<HTMLButtonElement>) => {

@@ -22,7 +22,7 @@ function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'EduActiva - Perfil';
+    document.title = `EduActiva - ${t('Meu Perfil')}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
