@@ -29,11 +29,9 @@ function LessonPage() {
       const { content } = lessons;
       const contentObject = JSON.parse(content);
       const filteredTexts = contentObject.blocks.map(async (block: any) => {
-        if (block.type === 'paragraph' || block.type === 'header') {
-          if (block.data.text) {
-            const translatedText = await translateDynamicContent(block.data.text);
-            return { ...block, data: { ...block.data, text: translatedText } };
-          }
+        if ((block.type === 'paragraph' || block.type === 'header') && block.data.text) {
+          const translatedText = await translateDynamicContent(block.data.text);
+          return { ...block, data: { ...block.data, text: translatedText } };
         }
         return block;
       });
@@ -62,11 +60,11 @@ function LessonPage() {
       try {
         const moduleData = await requestData(`module/${moduleId}`);
         const lessonData = await requestData(`lesson/${lessonId}`);
-        const translatedModuleTitle = await translateDynamicContent(moduleData.title ?? moduleData.title);
-        const translatedLessonTitle = await translateDynamicContent(lessonData.title ?? lessonData.title);
+        const translatedModule = await translateDynamicContent(moduleData.title);
+        const translatedLesson = await translateDynamicContent(lessonData.title);
         setLessons(lessonData);
-        setTranslatedModuleTitle(translatedModuleTitle);
-        setTranslatedLessonTitle(translatedLessonTitle);
+        setTranslatedModuleTitle(translatedModule);
+        setTranslatedLessonTitle(translatedLesson);
         if (i18n.language !== 'pt-BR') {
           await translateObject();
         }

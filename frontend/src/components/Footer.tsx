@@ -93,7 +93,8 @@ function Footer() {
       <Typography color="blue-gray" className="text-center font-normal">
         &copy;
         {' '}
-        {`${new Date().getFullYear()} - ${t('Fórum Social Mundial da Saúde e Seguridade Social')}`}
+        {`${new Date().getFullYear()} - `}
+        {t('Fórum Social Mundial da Saúde e Seguridade Social')}
       </Typography>
     </footer>
   );

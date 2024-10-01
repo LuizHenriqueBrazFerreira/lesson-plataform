@@ -45,10 +45,10 @@ function CourseModules() {
       try {
         const data = await requestData(`/modules/${courseId}`);
         const courseData = await requestData(`/courses/${courseId}`);
-        const translatedTitle = await translateDynamicContent(courseData.title);
-        const translatedDuration = await translateDynamicContent(courseData.duration);
-        setTranslatedDuration(translatedDuration);
-        setTranslatedTitle(translatedTitle);
+        const title = await translateDynamicContent(courseData.title);
+        const duration = await translateDynamicContent(courseData.duration);
+        setTranslatedDuration(duration);
+        setTranslatedTitle(title);
         setModules(data);
         changeForumURL(courseData.forum);
         handleSubscribed();

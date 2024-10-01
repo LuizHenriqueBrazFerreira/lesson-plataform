@@ -25,10 +25,13 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
 
   useEffect(() => {
     async function fetchProgress() {
+      const translated = await translateDynamicContent(course.courseTitle
+        ?? course.title);
+      setTranslatedTitle(translated);
+
       if (userId === '1') return;
+
       try {
-        const translatedTitle = await translateDynamicContent(course.courseTitle ?? course.title);
-        setTranslatedTitle(translatedTitle);
         const data = await requestData(
           `/modulesProgress/${course.userId}/${course.courseId}`,
         );
@@ -41,7 +44,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
     }
 
     fetchProgress();
-  }, [course.userId, course.courseId, userId, translateDynamicContent]);
+  }, []);
 
   useEffect(() => {
     let courseP = 0;
@@ -90,34 +93,34 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
           <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">
             {t('Curso')}
           </h2>
-          {course.bookmarked ? <BookmarkSolid
-            className="size-6 lg:size-7 text-btn-orange"
-            onClick={ () => handleBookmark(course.courseId, course.bookmarked) }
-          />
-            : <BookmarkIcon
-                className="size-6 lg:size-7"
-                onClick={ () => handleBookmark(
-                  course.courseId,
-                  course.bookmarked,
-                ) }
-            />}
-        </div>
-        <div
-          onClick={ handleNavigate }
-          aria-hidden="true"
-          className="md:text-3xl font-semibold"
-        >
-          {translatedTitle}
-          <div className="mt-8 flex items-center gap-4">
-            <Progress
-              size="sm"
-              color="orange"
-              value={ courseProgress }
+          {course.bookmarked ? (
+            <BookmarkSolid
+              className="size-6 lg:size-7 text-btn-orange"
+              onClick={ (e) => {
+                e.stopPropagation();
+                handleBookmark(course.courseId, course.bookmarked);
+              } }
             />
-            <Typography className="font-semibold">
-              { `${courseProgress ?? 0}%`}
-            </Typography>
-          </div>
+          ) : (
+            <BookmarkIcon
+              className="size-6 lg:size-7"
+              onClick={ (e) => {
+                e.stopPropagation();
+                handleBookmark(course.courseId, course.bookmarked);
+              } }
+            />
+          )}
+        </div>
+        <div aria-hidden="true">
+          <h3 className="md:text-3xl font-semibold">
+            { translatedTitle }
+          </h3>
+        </div>
+        <div className="absolute bottom-4 left-4 right-4 flex items-center gap-4">
+          <Progress size="sm" color="orange" value={ courseProgress ?? 0 } />
+          <Typography className="font-semibold">
+            {`${courseProgress ?? 0}%`}
+          </Typography>
         </div>
       </CardBody>
     </Card>

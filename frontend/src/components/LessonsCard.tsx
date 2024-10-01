@@ -29,13 +29,14 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
     setToken(token);
 
     async function fetchData() {
+      const translated = await translateDynamicContent(lesson.title ?? lesson.title);
+      setTranslatedTitle(translated);
+
       try {
         const data = await requestData(`/watchedLesson/${userId}/${lesson.id}`);
         if (data) {
           setIsWatched(data.watched);
         }
-        const translatedTitle = await translateDynamicContent(lesson.title ?? lesson.title);
-        setTranslatedTitle(translatedTitle);
       } catch (error: any) {
         if (error.isAxiosError) {
           console.error(error);
@@ -43,7 +44,7 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
       }
     }
     fetchData();
-  }, [translateDynamicContent]);
+  }, []);
 
   const updateWatched = async () => {
     try {
@@ -86,7 +87,7 @@ function LessonsCard({ lesson, lessonsUrl, index }: LessonsCardProps) {
           className="lg:text-3xl font-semibold text-left
           grow h-[9rem]"
         >
-          {translatedTitle}
+          { translatedTitle }
         </div>
       </CardBody>
     </Card>

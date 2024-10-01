@@ -37,8 +37,8 @@ function Lessons() {
       try {
         const moduleData = await requestData(`module/${moduleId}`);
         const lessonsData = await requestData(`lessons/${moduleId}`);
-        const translatedTitle = await translateDynamicContent(moduleData.title ?? moduleData.title);
-        setTranslatedModuleTitle(translatedTitle);
+        const translated = await translateDynamicContent(moduleData.title);
+        setTranslatedModuleTitle(translated);
 
         setLessons(lessonsData);
         setLoading(false);

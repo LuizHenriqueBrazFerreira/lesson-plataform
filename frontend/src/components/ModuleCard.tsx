@@ -36,8 +36,8 @@ function ModuleCard({ module, index }: ModuleCardProps) {
       try {
         const watched = await requestData(`/watchedLessons/${userId}/${module.id}`);
         const total = await requestData(`/lessons/${module.id}`);
-        const translatedTitle = await translateDynamicContent(module.title ?? module.title);
-        setTranslatedTitle(translatedTitle);
+        const translated = await translateDynamicContent(module.title);
+        setTranslatedTitle(translated);
 
         setLessonsWatched(watched);
         setTotalLessons(total.length);

@@ -31,10 +31,9 @@ function PdfPage() {
     async function fetchData() {
       try {
         const pdfData = await requestData(`pdfs/${lessonId}`);
-        const translatedTitles = await Promise.all(pdfData.map(async (pdf: any) => {
-          return await translateDynamicContent(pdf.title);
-        }));
-        console.log(translatedTitles);
+        const translated = await Promise
+          .all(pdfData.map((pdf: any) => translateDynamicContent(pdf.title)));
+        console.log(translated);
         setTranslatedTitles(translatedTitles);
         console.log(pdfData);
         setPdfs(pdfData);
