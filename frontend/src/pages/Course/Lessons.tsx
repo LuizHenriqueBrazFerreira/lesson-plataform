@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { requestData, setToken } from '../../services/requests';
 import { LessonsType } from '../../types/lessons';
-import { Module, initialModuleState } from '../../types/courseType';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CoursesBackground from '../../components/CoursesBackground';
 import LessonsCard from '../../components/LessonsCard';
 import OrangeButton from '../../components/OrangeButton';
 import LoadingCard from '../../components/LoadingCard';
+import CourseContext from '../../context/CourseContext';
 
 function Lessons() {
   const [lessons, setLessons] = useState<LessonsType[]>([]);
-  const [module, setModule] = useState<Module>(initialModuleState);
+  const [translatedModuleTitle, setTranslatedModuleTitle] = useState('');
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
+  const { translateDynamicContent } = useContext(CourseContext);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -20,7 +23,7 @@ function Lessons() {
   const { moduleId } = useParams();
 
   useEffect(() => {
-    document.title = 'EduActiva - Aulas';
+    document.title = `EduActiva - ${t('Aulas')}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -34,8 +37,9 @@ function Lessons() {
       try {
         const moduleData = await requestData(`module/${moduleId}`);
         const lessonsData = await requestData(`lessons/${moduleId}`);
+        const translatedTitle = await translateDynamicContent(moduleData.title ?? moduleData.title);
+        setTranslatedModuleTitle(translatedTitle);
 
-        setModule(moduleData);
         setLessons(lessonsData);
         setLoading(false);
       } catch (error: any) {
@@ -47,11 +51,15 @@ function Lessons() {
     }
 
     fetchData();
-  }, []);
+  }, [translateDynamicContent, t]);
 
   return (
     <div>
-      <CoursesBackground heading="Modulo" title={ module.title } loading={ loading }>
+      <CoursesBackground
+        heading={ t('Modulo') }
+        title={ translatedModuleTitle }
+        loading={ loading }
+      >
         <BreadCrumbs />
         <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
           { loading && (
@@ -74,7 +82,7 @@ function Lessons() {
         <OrangeButton
           onClick={ () => navigate(-1) }
         >
-          Voltar
+          {t('Voltar')}
         </OrangeButton>
       </CoursesBackground>
     </div>

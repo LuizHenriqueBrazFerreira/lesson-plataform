@@ -1,10 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
+import { useTranslation } from 'react-i18next';
 import AdminNavBar from './AdminNavBar';
 import NavBar from './NavBar';
+import SearchBar from './SearchBar';
+import LanguageSwitcher from './LanguageSwitcher';
 
 function Header() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const token = localStorage.getItem('token');
 
@@ -21,6 +25,7 @@ function Header() {
           alt="FSMSSS logo"
         />
       </button>
+      <LanguageSwitcher />
       { !token && (
         <div className="flex gap-4">
           <Button
@@ -29,7 +34,7 @@ function Header() {
             my-3 md:rounded-md font-semibold text-xs md:text-base
             flex items-center justify-center"
           >
-            Entrar
+            {t('Entrar')}
           </Button>
           <Button
             onClick={ () => navigate('/create-account') }
@@ -37,10 +42,11 @@ function Header() {
             w-34 h-6 md:h-12 my-3 md:rounded-md font-semibold text-xs
             md:text-base flex items-center justify-center"
           >
-            Cadastrar
+            {t('Cadastrar')}
           </Button>
         </div>
       )}
+      { token && <SearchBar /> }
       { role === 'STUDENT' && (<NavBar />)}
 
       { role === 'ADMIN' && (<AdminNavBar />)}

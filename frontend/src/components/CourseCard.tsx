@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookmarkIcon as BookmarkSolid } from '@heroicons/react/24/solid';
 import { BookmarkIcon } from '@heroicons/react/24/outline';
 import { Card, CardBody, Progress, Typography } from '@material-tailwind/react';
+import { useTranslation } from 'react-i18next';
 import { ModulesProgress, UserCourses } from '../types/courseType';
 import { requestData, requestUpdate } from '../services/requests';
+import CourseContext from '../context/CourseContext';
 
 type CourseCardProps = {
   course: UserCourses;
@@ -15,13 +17,18 @@ type CourseCardProps = {
 function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProps) {
   const [modulesProgress, setModulesProgress] = useState<ModulesProgress[]>([]);
   const [courseProgress, setCourseProgress] = useState(course.progress);
+  const [translatedTitle, setTranslatedTitle] = useState(course.courseTitle);
+  const { translateDynamicContent } = useContext(CourseContext);
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchProgress() {
       if (userId === '1') return;
       try {
+        const translatedTitle = await translateDynamicContent(course.courseTitle ?? course.title);
+        setTranslatedTitle(translatedTitle);
         const data = await requestData(
           `/modulesProgress/${course.userId}/${course.courseId}`,
         );
@@ -34,7 +41,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
     }
 
     fetchProgress();
-  }, [course.userId, course.courseId, userId]);
+  }, [course.userId, course.courseId, userId, translateDynamicContent]);
 
   useEffect(() => {
     let courseP = 0;
@@ -80,35 +87,37 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
     >
       <CardBody className="relative flex flex-col h-full">
         <div className="flex justify-between mb-10">
-          <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">Curso</h2>
-          {course.bookmarked ? (
-            <BookmarkSolid
-              className="size-6 lg:size-7 text-btn-orange"
-              onClick={ (e) => {
-                e.stopPropagation();
-                handleBookmark(course.courseId, course.bookmarked);
-              } }
-            />
-          ) : (
-            <BookmarkIcon
-              className="size-6 lg:size-7"
-              onClick={ (e) => {
-                e.stopPropagation();
-                handleBookmark(course.courseId, course.bookmarked);
-              } }
-            />
-          )}
+          <h2 className="text-xl md:text-2xl font-semibold text-btn-orange">
+            {t('Curso')}
+          </h2>
+          {course.bookmarked ? <BookmarkSolid
+            className="size-6 lg:size-7 text-btn-orange"
+            onClick={ () => handleBookmark(course.courseId, course.bookmarked) }
+          />
+            : <BookmarkIcon
+                className="size-6 lg:size-7"
+                onClick={ () => handleBookmark(
+                  course.courseId,
+                  course.bookmarked,
+                ) }
+            />}
         </div>
-        <div aria-hidden="true">
-          <h3 className="md:text-3xl font-semibold">
-            {course.courseTitle ?? course.title}
-          </h3>
-        </div>
-        <div className="absolute bottom-4 left-4 right-4 flex items-center gap-4">
-          <Progress size="sm" color="orange" value={ courseProgress ?? 0 } />
-          <Typography className="font-semibold">
-            {`${courseProgress ?? 0}%`}
-          </Typography>
+        <div
+          onClick={ handleNavigate }
+          aria-hidden="true"
+          className="md:text-3xl font-semibold"
+        >
+          {translatedTitle}
+          <div className="mt-8 flex items-center gap-4">
+            <Progress
+              size="sm"
+              color="orange"
+              value={ courseProgress }
+            />
+            <Typography className="font-semibold">
+              { `${courseProgress ?? 0}%`}
+            </Typography>
+          </div>
         </div>
       </CardBody>
     </Card>

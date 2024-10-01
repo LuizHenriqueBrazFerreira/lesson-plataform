@@ -1,12 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import AdminPage from './pages/Admin/AdminPage';
 import CreateCourse from './pages/Admin/CreateCourse';
 import EditCourse from './pages/Admin/EditCourse';
 import Students from './pages/Admin/Students';
 import BookmarkedCourses from './pages/Course/BookmarkedCourses';
 import ConfirmEmail from './pages/Login/ConfirmEmail';
-import CourseContext from './context/CourseContext';
+import CourseContext, { SearchBarResponse } from './context/CourseContext';
 import CourseModules from './pages/Course/CourseModules';
 import CreateAccount from './pages/Login/CreateAccount';
 import ForgotPassword from './pages/Login/ResetPassword';
@@ -21,18 +22,35 @@ import Profile from './pages/Course/Profile';
 import StudentCourses from './pages/Course/Courses';
 import SupportPage from './pages/Course/SupportPage';
 import Footer from './components/Footer';
-import Reports from './pages/Admin/Reports';
+import { translateText } from './services/translationService';
 import './App.css';
+import Reports from './pages/Admin/Reports';
 
 function App() {
+  const { i18n } = useTranslation();
   const [forumURL, setForumURL] = useState('');
+  const [searchBar, setSearchBar] = useState<SearchBarResponse[]>([]);
+
+  const changeSearchBar = (data: SearchBarResponse[]) => {
+    setSearchBar(data);
+  };
 
   const changeForumURL = (url: string) => {
     setForumURL(url);
   };
 
+  const translateDynamicContent = async (content: string): Promise<string> => {
+    return translateText(content, i18n.language);
+  };
+
   return (
-    <CourseContext.Provider value={ { forumURL, changeForumURL } }>
+    <CourseContext.Provider
+      value={ { forumURL,
+        changeForumURL,
+        changeSearchBar,
+        searchBar,
+        translateDynamicContent } }
+    >
       <Header />
       <Routes>
         <Route path="/" element={ <Homepage /> } />
@@ -40,8 +58,8 @@ function App() {
         <Route path="/admin/courses" element={ <StudentCourses /> } />
         <Route path="/admin/create" element={ <CreateCourse /> } />
         <Route path="/admin/edit" element={ <EditCourse /> } />
-        <Route path="/admin/reports" element={ <Reports /> } />
         <Route path="/admin/students" element={ <Students /> } />
+        <Route path="/admin/reports" element={ <Reports /> } />
         <Route path="/bookmarked" element={ <BookmarkedCourses /> } />
         <Route path="/confirm/:token" element={ <ConfirmEmail /> } />
         <Route path="/courses" element={ <StudentCourses /> } />

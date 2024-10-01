@@ -1,6 +1,8 @@
 import { Card, CardBody, Progress, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import CourseContext from '../context/CourseContext';
 import { Module } from '../types/courseType';
 import { requestData, setToken, requestUpdate } from '../services/requests';
 
@@ -14,7 +16,10 @@ function ModuleCard({ module, index }: ModuleCardProps) {
   const [progress, setProgress] = useState(0);
   const [totalLessons, setTotalLessons] = useState(0);
   const [lessonsWatched, setLessonsWatched] = useState([]);
+  const [translatedTitle, setTranslatedTitle] = useState('');
+  const { translateDynamicContent } = useContext(CourseContext);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const lessonsUrl = `/courses/${module.courseId}/modules/${module.id}/lessons`;
 
@@ -31,6 +36,8 @@ function ModuleCard({ module, index }: ModuleCardProps) {
       try {
         const watched = await requestData(`/watchedLessons/${userId}/${module.id}`);
         const total = await requestData(`/lessons/${module.id}`);
+        const translatedTitle = await translateDynamicContent(module.title ?? module.title);
+        setTranslatedTitle(translatedTitle);
 
         setLessonsWatched(watched);
         setTotalLessons(total.length);
@@ -41,7 +48,7 @@ function ModuleCard({ module, index }: ModuleCardProps) {
       }
     }
     fetchData();
-  }, []);
+  }, [translateDynamicContent, i18n.language]);
 
   useEffect(() => {
     if (lessonsWatched.length > 0) {
@@ -76,7 +83,7 @@ function ModuleCard({ module, index }: ModuleCardProps) {
           <h2
             className="text-xl md:text-2xl font-semibold text-btn-orange"
           >
-            {`Módulo ${index + 1}`}
+            {`${t('Modulo')} ${index + 1}`}
           </h2>
         </div>
         <div
@@ -84,7 +91,7 @@ function ModuleCard({ module, index }: ModuleCardProps) {
           aria-hidden="true"
           className="md:text-3xl font-semibold"
         >
-          {module.title}
+          {i18n.language === 'ptBR' ? module.title : translatedTitle}
           <div className="mt-20 flex items-center gap-4">
             <Progress
               size="sm"

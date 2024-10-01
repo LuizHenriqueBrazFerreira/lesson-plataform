@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import CoursesBackground from '../../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../../services/requests';
 import { UserCourses } from '../../types/courseType';
@@ -10,13 +11,14 @@ function StudentCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
   const [hasCourses, setHasCourses] = useState(true);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   const userId = localStorage.getItem('userId');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'EduActiva - Meus Cursos';
+    document.title = `EduActiva - ${t('Meus Cursos')}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -41,7 +43,7 @@ function StudentCourses() {
     }
 
     fetchData();
-  }, []);
+  }, [t]);
 
   const handleBookmark = (id: number, bookmarked: boolean) => {
     setCourses((prevCourses) => prevCourses.map((course) => {
@@ -59,7 +61,7 @@ function StudentCourses() {
   return (
     <CoursesBackground>
       <h1 className="text-xl md:text-4xl text-btn-orange font-bold">
-        Meus Cursos
+        {t('Meus Cursos')}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
         { loading && (
@@ -85,7 +87,7 @@ function StudentCourses() {
               className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
-              Você não possui cursos
+              {t('Você não possui cursos')}
             </h2>
           )}
       </div>

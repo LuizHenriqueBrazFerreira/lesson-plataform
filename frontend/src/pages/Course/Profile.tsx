@@ -1,6 +1,7 @@
 import { Input, Typography } from '@material-tailwind/react';
 import { useEffect, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import CoursesBackground from '../../components/CoursesBackground';
 import OrangeButton from '../../components/OrangeButton';
 import EyeButton from '../../components/EyeButton';
@@ -16,11 +17,12 @@ function Profile() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'EduActiva - Perfil';
+    document.title = `EduActiva - ${t('Meu Perfil')}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -118,7 +120,7 @@ function Profile() {
         className="text-2xl md:text-4xl
             text-btn-orange font-bold"
       >
-        Meu Perfil
+        {t('Meu Perfil')}
       </h1>
       <div className="flex flex-col justify-evenly grow">
         <img
@@ -131,7 +133,7 @@ function Profile() {
           name="name"
           size="lg"
           type="text"
-          label="Nome"
+          label={ t('Nome') }
           value={ user.name }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -141,7 +143,7 @@ function Profile() {
           name="email"
           size="lg"
           type="email"
-          label="Email"
+          label={ t('Email') }
           value={ user.email }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -151,7 +153,7 @@ function Profile() {
           name="country"
           size="lg"
           type="text"
-          label="País"
+          label={ t('Pais') }
           value={ user.country }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -161,7 +163,7 @@ function Profile() {
           name="organization"
           size="lg"
           type="text"
-          label="Organização (opcional)"
+          label={ t('Organizacao opcional') }
           value={ user.organization }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -172,7 +174,7 @@ function Profile() {
             name="password"
             size="lg"
             type={ showPassword ? 'text' : 'password' }
-            label="Senha"
+            label={ t('Senha') }
             value={ user.password }
             disabled={ isDisabled }
             onChange={ handleChange }
@@ -190,7 +192,7 @@ function Profile() {
               className="mt-2 flex items-center gap-1 font-normal"
             >
               <WarnigIcon />
-              A senha deve ter no mínimo 8 caracteres
+              {t('MinDigitos')}
             </Typography>
           )}
         </div>
@@ -199,7 +201,7 @@ function Profile() {
           name="confirmPassword"
           size="lg"
           type={ showPassword ? 'text' : 'password' }
-          label="Confirme sua senha"
+          label={ t('Confirme sua senha') }
           value={ user.confirmPassword }
           disabled={ isDisabled }
           onChange={ handleChange }
@@ -218,7 +220,7 @@ function Profile() {
         <OrangeButton
           onClick={ () => setIsDisabled(false) }
         >
-          Editar
+          {t('Editar')}
         </OrangeButton>
       )}
       { !isDisabled && (
@@ -226,7 +228,7 @@ function Profile() {
           isLoading={ isLoading }
           onClick={ handleUpdateProfile }
         >
-          Salvar
+          {t('Salvar')}
         </OrangeButton>
       ) }
     </CoursesBackground>

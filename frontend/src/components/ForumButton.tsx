@@ -1,9 +1,11 @@
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import CourseContext from '../context/CourseContext';
 
 export default function ForumButton({ moreClasses = '' }: { moreClasses?: string }) {
   const { forumURL } = useContext(CourseContext) ?? localStorage.getItem('forum');
+  const { t } = useTranslation();
 
   const includesHTTPS = forumURL.includes('https://');
 
@@ -15,7 +17,7 @@ export default function ForumButton({ moreClasses = '' }: { moreClasses?: string
         ont-bold gap-2 md:gap-0 ${moreClasses}` }
       >
         <ChatBubbleBottomCenterTextIcon className="size-8 md:size-10" />
-        Fórum
+        {t('Forum')}
       </button>
     </a>
   );

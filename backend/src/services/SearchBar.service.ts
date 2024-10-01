@@ -2,8 +2,6 @@ import { ISearchBarService } from "../interfaces/ISearchBar";
 import CoursesModel from "../models/CoursesModel";
 import LessonsModel from "../models/LessonsModel";
 import ModulesModel from "../models/ModulesModel";
-import lessonRouter from "../routes/lessons.routes";
-import { Course, Module, Lesson } from "../types/Data.types";
 
 export class SearchBarService implements ISearchBarService {
   constructor(private _courseModel = new CoursesModel(), 
@@ -11,44 +9,42 @@ export class SearchBarService implements ISearchBarService {
     private _lessonsModel = new LessonsModel()) {}
 
 
-  async search(filterData:string = '') {
+  async search(filterData:string) {
     try {
       const courses = await this._courseModel.getCourses();
       const modules = await this._modulesModel.getModules();
       const lessons = await this._lessonsModel.getLessons();
 
       if (filterData !== '')  {
+        const result = [];
+        const filteredLessons = lessons.map((lesson) => {
+          const content = JSON.parse(lesson.content).blocks
+            .filter((block:any) => block.type === 'header' || block.type === 'paragraph')
+            .filter((block:any) => block.data.text.toLowerCase().includes(filterData.toLowerCase()))
+            return content;
+        }) as any;
 
-        const searchResult = {
-          courses: courses.filter((course) => course.title.toLowerCase().includes(filterData.toLowerCase())),
-          modules: modules.filter((module) => module.title.toLowerCase().includes(filterData.toLowerCase())),
-          lessons: lessons.filter((lesson) => lesson.title.toLowerCase().includes(filterData.toLowerCase()))
-          || lessons.filter((lesson) => lesson.content.toLowerCase().includes(filterData.toLowerCase())),
-        };
+        const searchResult =  filteredLessons.map((lesson:any, index:number) => ({...lessons[index].dataValues}));
 
-        const modifiedLessons = await Promise.all(searchResult.lessons.map(async (lesson) => {
+        const modifiedLessons = await Promise.all(searchResult.map(async (lesson:any) => {
           const {dataValues} = await this._modulesModel.getModuleById(lesson.moduleId) as any;
-          return { courseId: dataValues.courseId, ...lesson.dataValues };
+          return { courseId: dataValues.courseId, ...lesson };
         })) as any;
         
-        searchResult.lessons = modifiedLessons;
-        return {status: 'SUCCESSFUL', data: searchResult};
+
+        const filteredCourses = modifiedLessons.map((lesson: any) => ({
+          id: lesson.id,
+          title: lesson.title,
+          moduleId: lesson.moduleId,
+          courseId: lesson.courseId,
+        }))
+            
+
+        result.push(...filteredCourses);
+        return {status: 'SUCCESSFUL', data: result};
       }
       
-      const searchResult = {
-        courses,
-        modules,
-        lessons
-      }
-      const modifiedLessons = await Promise.all(searchResult.lessons.map(async (lesson) => {
-        
-        const {dataValues} = await this._modulesModel.getModuleById(lesson.moduleId) as any;
-        
-        return { courseId: dataValues.courseId, ...lesson.dataValues };
-      })) as any;
-      
-      searchResult.lessons = modifiedLessons;
-      return {status: 'SUCCESSFUL', data: searchResult};
+      return {status: 'BAD_REQUEST', data: {message: 'Digite algo para pesquisar'}};
 
     } catch (error:any) {
       return {status: 'INTERNAL_SERVER_ERROR', data: {message: error.message}};

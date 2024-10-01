@@ -15,6 +15,6 @@
       "./types"
     ]
   },
-  "include": ["src/**/*", "src/database/**/*", "types/express/index.d.ts"],
+  "include": ["src/**/*", "src/database/**/*", "types/express/index.d.ts", "../frontend/src/services/translateSearch.ts"],
   "exclude": ["node_modules"]
 }

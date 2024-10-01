@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import CoursesBackground from '../../components/CoursesBackground';
 import { requestData, requestUpdate, setToken } from '../../services/requests';
 import { UserCourses } from '../../types/courseType';
@@ -7,13 +8,14 @@ import CourseCard from '../../components/CourseCard';
 
 function BookmarkedCourses() {
   const [courses, setCourses] = useState<UserCourses[]>([]);
+  const { t } = useTranslation();
 
   const userId = localStorage.getItem('userId');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'EduActiva - Cursos Salvos';
+    document.title = `EduActiva - ${t('Cursos Salvos')}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -34,7 +36,7 @@ function BookmarkedCourses() {
     }
 
     fetchData();
-  }, []);
+  }, [t]);
 
   const handleBookmark = (id: number, bookmarked: boolean) => {
     setCourses((prevCourses) => prevCourses.map((course) => {
@@ -55,7 +57,7 @@ function BookmarkedCourses() {
         className="text-xl md:text-4xl
            text-btn-orange font-bold"
       >
-        Cursos Salvos
+        {t('Cursos Salvos')}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 min-w-fit">
         { courses.length ? (
@@ -73,7 +75,7 @@ function BookmarkedCourses() {
               className="text-xl md:text-4xl font-bold
               col-span-2 row-start-2 text-center"
             >
-              Você não possui cursos salvos
+              {t('Você não possui cursos salvos')}
             </h2>
           )}
       </div>

@@ -1,5 +1,6 @@
 import { useLocation, NavLink } from 'react-router-dom';
 import { Breadcrumbs } from '@material-tailwind/react';
+import { useTranslation } from 'react-i18next';
 
 const extractPath = (path: string) => {
   const pathArray = path.split('/');
@@ -24,12 +25,13 @@ function truncatePathnameAtSegment(pathname: string, path: string): string {
 function BreadCrumbs({ lesssonTitle = '' }) {
   const { pathname } = useLocation();
   const path = extractPath(pathname);
+  const { t } = useTranslation();
 
   function translate(str: string, lessonTitle = '') {
     const translateUrl: { [key: string]: string } = {
-      courses: 'Curso',
-      modules: 'Módulos',
-      lessons: 'Aulas',
+      courses: t('Curso'),
+      modules: t('Módulos'),
+      lessons: t('Aulas'),
       lesson: lessonTitle,
     };
 
