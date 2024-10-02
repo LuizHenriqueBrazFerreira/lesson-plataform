@@ -67,7 +67,6 @@ jobs:
       - name: Executar script PM2 no servidor
         run: |
           ssh -i ~/.ssh/github_hostinger -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'bash /home/deployuser/lessons_app/pm2_runner.sh'
-          pm2 restart all
     
       - name: Reiniciar Nginx no servidor
         run: |
