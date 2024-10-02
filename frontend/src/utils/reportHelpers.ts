@@ -3,9 +3,11 @@ import { format, toZonedTime } from 'date-fns-tz';
 const timeZone = 'America/Sao_Paulo';
 
 const formatDate = (date: Date | string) => {
+  if (date === 'Não informado') return date;
+
   const zonedDate = toZonedTime(date, timeZone);
   const result = format(zonedDate, 'dd/MM/yyyy', { timeZone });
-  return result;
+  return result ?? '';
 };
 
 const headers = [

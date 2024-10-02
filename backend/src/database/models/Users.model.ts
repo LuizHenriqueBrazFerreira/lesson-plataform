@@ -74,6 +74,8 @@ UsersSequelize.init({
   sequelize: db,
   modelName: 'Users',
   timestamps: true,
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
 });
 
 export default UsersSequelize;
