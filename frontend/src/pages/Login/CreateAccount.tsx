@@ -182,7 +182,7 @@ function CreateAccount() {
               className="mt-2 flex items-center gap-1 font-normal"
             >
               <WarnigIcon />
-              {t('MinDigitos')}
+              {t('A senha deve ter no mínimo 8 caracteres')}
             </Typography>
           )}
         </div>
