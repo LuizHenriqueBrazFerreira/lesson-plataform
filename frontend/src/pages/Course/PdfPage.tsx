@@ -33,9 +33,7 @@ function PdfPage() {
         const pdfData = await requestData(`pdfs/${lessonId}`);
         const translated = await Promise
           .all(pdfData.map((pdf: any) => translateDynamicContent(pdf.title)));
-        console.log(translated);
-        setTranslatedTitles(translatedTitles);
-        console.log(pdfData);
+        setTranslatedTitles(translated);
         setPdfs(pdfData);
       } catch (error: any) {
         if (error.isAxiosError) {
