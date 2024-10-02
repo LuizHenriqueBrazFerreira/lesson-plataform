@@ -28,9 +28,7 @@ function CourseCard({ course, index, handleBookmark = () => '' }: CourseCardProp
       const translated = await translateDynamicContent(course.courseTitle
         ?? course.title);
       setTranslatedTitle(translated);
-
       if (userId === '1') return;
-
       try {
         const data = await requestData(
           `/modulesProgress/${course.userId}/${course.courseId}`,
